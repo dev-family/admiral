@@ -1,12 +1,19 @@
 import React from 'react'
-import styles from './Menu.module.scss'
 import * as Icons from 'react-icons/fi'
-import cln from 'classnames'
 import { NavLink } from 'react-router-dom'
+import { useTheme } from '../../theme'
+import cn from 'classnames'
 
 export const Menu: React.FC = ({ children }) => {
+    const { themeName } = useTheme()
+
     return (
-        <aside className="navbar navbar-vertical navbar-expand-lg navbar-dark">
+        <aside
+            className={cn('navbar', 'navbar-vertical', 'navbar-expand-lg', {
+                'navbar-light': themeName === 'light',
+                'navbar-dark': themeName === 'dark',
+            })}
+        >
             <div className="container-fluid">
                 <div className="collapse navbar-collapse" id="navbar-menu">
                     <ul className="navbar-nav pt-lg-3">{children}</ul>

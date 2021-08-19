@@ -1,5 +1,5 @@
-import { createCRUD } from '../../admiral/crud'
-import { Input } from '../../admiral/form'
+import { createCRUD } from '@/admiral/crud'
+import { Input } from '@/admiral/form'
 import React from 'react'
 
 export const UsersCRUD = createCRUD({

@@ -1,12 +1,11 @@
-import { Page } from '../admiral/ui/Page'
-import { Card } from '../admiral/ui/Card'
+import { Page } from '@/admiral/ui/Page'
 import React from 'react'
 
 const Table: React.FC = ({ children }) => {
     return <div>{children}</div>
 }
 
-const Home: React.FC = ({ children }) => {
+const Home: React.FC = () => {
     return <Page title="Главная"></Page>
 }
 

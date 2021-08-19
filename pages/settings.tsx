@@ -1,5 +1,5 @@
-import { Button, Page, Card, Form, Input, FormGroup } from '../admiral/ui'
-import React, { useCallback, useState } from 'react'
+import { Button, Page, Card, Form, Input, FormGroup } from '@/admiral/ui'
+import React, { useState } from 'react'
 
 const Settings: React.FC = ({ children }) => {
     const [state, setState] = useState({

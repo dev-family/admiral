@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Icons from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
-import { useTheme } from '../../theme'
+import { useTheme } from '@/admiral/theme'
 import cn from 'classnames'
 
 export const Menu: React.FC = ({ children }) => {

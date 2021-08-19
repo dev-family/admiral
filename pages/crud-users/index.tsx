@@ -1,3 +1,3 @@
-import { UsersCRUD } from '../../src/crud/users'
+import { UsersCRUD } from '@/src/crud/users'
 
 export default UsersCRUD.IndexPage

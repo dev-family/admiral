@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch } from '@consta/uikit/Switch'
-import { useTheme } from '../../theme'
+import { useTheme } from '@/admiral/theme'
 
 export const ThemeSwitch: React.FC = () => {
     const { themeName, setTheme } = useTheme()

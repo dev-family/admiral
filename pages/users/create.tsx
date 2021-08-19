@@ -1,5 +1,5 @@
-import { Form, Input, Submit } from '../../admiral/form'
-import { Card, CardBody, Page } from '../../admiral/ui'
+import { Form, Input, Submit } from '@/admiral/form'
+import { Card, CardBody, Page } from '@/admiral/ui'
 import React from 'react'
 
 export default () => (

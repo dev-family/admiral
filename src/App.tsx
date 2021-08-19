@@ -1,8 +1,8 @@
 import React from 'react'
-import { Menu, MenuItem, Layout, ThemeSwitch } from '../admiral/ui'
-import { createRoutesFrom } from '../admiral/router'
+import { Menu, MenuItem, Layout, ThemeSwitch } from '@/admiral/ui'
+import { createRoutesFrom } from '@/admiral/router'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { ThemeProvider } from '../admiral/theme'
+import { ThemeProvider } from '@/admiral/theme'
 
 const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
 

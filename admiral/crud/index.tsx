@@ -1,6 +1,6 @@
-import { DataTable, DataTableProps } from '../../admiral/datatable'
-import { Form, Input, Submit } from '../../admiral/form'
-import { Page, Card, CardBody } from '../../admiral/ui'
+import { DataTable, DataTableProps } from '@/admiral/datatable'
+import { Form, Submit } from '@/admiral/form'
+import { Page, Card, CardBody } from '@/admiral/ui'
 import { Link } from 'react-router-dom'
 import React from 'react'
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Card, CardFooter, Paginator } from '../ui'
+import { Card, CardFooter, Paginator } from '@/admiral/ui'
 
 export type DataTableProps = {
     url: string

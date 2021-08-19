@@ -1,5 +1,5 @@
-import { DataTable } from '../../admiral/datatable'
-import { Page } from '../../admiral/ui'
+import { DataTable } from '@/admiral/datatable'
+import { Page } from '@/admiral/ui'
 import { Link } from 'react-router-dom'
 import React from 'react'
 

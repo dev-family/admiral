@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
-import React, { useState, useCallback, createContext } from 'react'
+import React, { useState, useCallback, createContext, FormEvent } from 'react'
 import { useContext } from 'react'
-import { Button } from '../ui'
+import { Button } from '@/admiral/ui'
 import cln from 'classnames'
 import { useHistory } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 type FormContextValue = {
     values: Record<string, any>
     errors: Record<string, string[]>
-    setValues: (any) => void
+    setValues: (values: any) => void
     isSubmitting: boolean
 }
 
@@ -37,7 +37,7 @@ export const Form: React.FC<FormProps> = ({
     const [isSubmitting, setIsSubmitting] = useState(false)
     const history = useHistory()
 
-    async function fetchInitialData(url) {
+    async function fetchInitialData(url: string) {
         const response = await axios.get(url)
         setValues(response.data)
     }
@@ -48,7 +48,7 @@ export const Form: React.FC<FormProps> = ({
         }
     }, [action, hasInitialData])
 
-    async function handleSubmit(e) {
+    async function handleSubmit(e: FormEvent) {
         e.preventDefault()
 
         setIsSubmitting(true)
@@ -94,7 +94,7 @@ export const Input: React.FC<InputProps> = ({
 }) => {
     const form = useContext(FormContext)
     const onChange = useCallback((e) => {
-        form.setValues((values) => ({ ...values, [name]: e.target.value }))
+        form.setValues((values: any) => ({ ...values, [name]: e.target.value }))
     }, [])
     const error = form.errors[name]?.[0]
 

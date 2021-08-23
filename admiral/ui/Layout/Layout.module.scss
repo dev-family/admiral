@@ -1,65 +1,111 @@
 @use '@/assets/scss-variables' as *;
 @use '@/assets/mixins' as *;
 
-:root {
+.wrap {
     --layout-header-height: 70px;
     --layout-aside-width: 220px;
-}
 
-.wrap {
     display: flex;
     flex-direction: column;
     height: 100vh;
     min-width: 320px;
+
+    &__Collapsed {
+        --layout-aside-width: 90px;
+    }
 }
 
 .content {
     display: flex;
     flex-direction: column;
     flex: 1 0 auto;
-    padding-left: var(--layout-aside-width);
-    padding-top: var(--layout-header-height);
+    padding-left: calc(var(--layout-aside-width) + var(--space-xl));
+    padding-top: var(--space-xl);
     background: var(--color-bg-default);
+    transition: padding-left 0.2s;
 
     @include maxWidth($bp-tablet - 1) {
-        padding-left: 0;
+        padding-left: var(--space-xl);
+        padding-top: calc(var(--layout-header-height) + var(--space-xl));
     }
 }
 
-.header {
-    --header-height: var(--layout-header-height) !important;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    flex-shrink: 0;
-    width: 100%;
-}
-
-.aside {
+.panel {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 9;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: max-content minmax(0, 1fr) max-content;
     width: var(--layout-aside-width);
     height: 100%;
-    padding-top: var(--layout-header-height);
     background: var(--color-bg-secondary);
+    color: var(--color-typo-primary);
+    box-shadow: var(--shadow-layer);
+    transition: width 0.2s;
+
+    @include maxWidth($bp-tablet - 1) {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.panel_Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    width: 100%;
+    height: var(--layout-header-height);
+    padding: var(--space-s) var(--space-xl);
+    border-bottom: 1px solid var(--color-bg-border);
+
+    &__Collapsed {
+        justify-content: center;
+
+        .logo {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .collapseToggle {
+            width: 100%;
+            margin-right: 0;
+        }
+    }
+}
+
+.panel_Content {
+    height: 100%;
+    padding: var(--space-xs) 0;
+    overflow-y: auto;
 
     @include maxWidth($bp-tablet - 1) {
         display: none;
     }
 }
 
-.aside_Content {
-    height: 100%;
-    overflow-y: auto;
+.panel_Footer {
+    padding: var(--space-m) var(--space-xl);
+    border-top: 1px solid var(--color-bg-border);
+
+    @include maxWidth($bp-tablet - 1) {
+        display: none;
+    }
 }
 
 .logo {
     display: flex;
     flex-shrink: 0;
-    transition: opacity 0.2s;
+    height: 100%;
+    transition: opacity 0.2s, width 0.2s, height 0.2s;
+
+    svg {
+        max-height: 100%;
+        width: auto;
+    }
 
     &:hover {
         opacity: 0.9;
@@ -71,31 +117,31 @@
     }
 }
 
-.toggle {
-    position: fixed;
-    bottom: var(--space-xl);
-    right: var(--space-xl);
-    z-index: 101;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.collapseToggle {
     width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    height: 100%;
+    margin-right: -4px;
     color: var(--color-control-typo-clear);
-    box-shadow: 0 2px 2px rgba(0, 32, 51, 0.02), 0 2px 8px rgba(0, 32, 51, 0.16);
 
-    &__Inverted {
-        box-shadow: 0 2px 2px rgba(255, 223, 204, 0.02), 0 2px 8px rgba(255, 223, 204, 0.16);
+    @include noTouchHover() {
+        color: var(--color-control-typo-clear-hover);
     }
 
     svg {
-        width: 20px;
+        width: 32px;
         height: auto;
     }
 
-    @include minWidth($bp-tablet) {
-        display: none;
+    &__Desktop {
+        @include maxWidth($bp-tablet - 1) {
+            display: none;
+        }
+    }
+
+    &__Mobile {
+        @include minWidth($bp-tablet) {
+            display: none;
+        }
     }
 }
 
@@ -152,4 +198,44 @@
     overflow-y: auto;
     background-color: var(--color-bg-secondary);
     pointer-events: all;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__Collapsed {
+        justify-content: center;
+
+        .user_Info {
+            width: 0;
+            height: 0;
+            margin-right: 0;
+            overflow: hidden;
+        }
+    }
+}
+
+.user_Info {
+    margin-right: 10px;
+}
+
+.user_Name {
+    font-weight: var(--font-weight-text-semibold);
+}
+
+.user_Email {
+    font-size: var(--size-text-s);
+}
+
+.user_Settings {
+    width: 24px;
+    height: 24px;
+    color: inherit;
+
+    svg {
+        width: 20px;
+        height: auto;
+    }
 }

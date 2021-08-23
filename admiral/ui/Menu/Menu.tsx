@@ -30,7 +30,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
     exact = false,
     children,
 }) => {
-    const { close } = useNav()
+    const { close, collapsed } = useNav()
 
     const Icon = Icons[icon]
 
@@ -39,7 +39,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
             <NavLink
                 to={to}
                 activeClassName={styles.link__Active}
-                className={styles.link}
+                className={cn(styles.link, { [styles.link__Collapsed]: collapsed })}
                 exact={exact}
                 onClick={close}
             >

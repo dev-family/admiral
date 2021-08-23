@@ -8,11 +8,13 @@
   },
   "dependencies": {
     "@consta/uikit": "^2.2.1",
+    "@types/no-scroll": "^2.1.0",
     "@types/react-bootstrap": "^0.32.26",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-ultimate-pagination": "^1.2.1",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
+    "no-scroll": "^2.1.1",
     "postcss": "^8.3.6",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",

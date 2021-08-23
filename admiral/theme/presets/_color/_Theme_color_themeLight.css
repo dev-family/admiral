@@ -1,10 +1,10 @@
 :root {
     /* Базовые цвета, от которых выстраивается вся палитра */
-    --color-base-base: #002033; /* Базовый цвет содержимого, от которого выстраиваются цвета текста, иконок, ... */
+    --color-base-base: #333333; /* Базовый цвет содержимого, от которого выстраиваются цвета текста, иконок, ... */
     --color-base-essential: #fff; /* Базовый цвет поверхностей */
-    --color-base-project: #0071b2; /* Проектный цвет, от которого выстраивают акцентные состояния */
-    --color-base-phantom: #004269; /* Тонирующий цвет, от которого выстраиватся бордеры, оверлей под модальными окнами, ... */
-    --color-base-path: #0078d2; /* Цвет ссылок и контролов, от которого выстраиваются все их состояния */
+    --color-base-project: #472f92; /* Проектный цвет, от которого выстраивают акцентные состояния */
+    --color-base-phantom: #472f92; /* Тонирующий цвет, от которого выстраиватся бордеры, оверлей под модальными окнами, ... */
+    --color-base-path: #62bb46; /* Цвет ссылок и контролов, от которого выстраиваются все их состояния */
     --color-base-system: #ced8de; /* Цвет системнный */
 
     --color-base-success: #22c38e; /* Цвет успеха */
@@ -37,11 +37,12 @@
     --color-bg-warning: color-mod(var(--color-base-warning) a(100%)); /* Цвет фона предупреждения */
     --color-bg-alert: color-mod(var(--color-base-alert) a(100%)); /* Цвет фона ошибки */
     --color-bg-critical: color-mod(var(--color-base-critical) a(100%)); /* Цвет фона системнный */
+    --color-bg-selection: color-mod(var(--color-base-project) a(10%)); /* Цвет выделения */
 
     /* Цвета текста */
     --color-typo-primary: color-mod(var(--color-base-base) a(100%)); /* Цвет основного текста */
     --color-typo-secondary: color-mod(
-        var(--color-base-base) a(60%)
+        var(--color-base-base) a(70%)
     ); /* Цвет второстепенного текста */
     --color-typo-ghost: color-mod(var(--color-base-base) a(30%)); /* Цвет дополнительного текста */
     --color-typo-brand: color-mod(var(--color-base-project) a(100%)); /* Цвет брендового текста */

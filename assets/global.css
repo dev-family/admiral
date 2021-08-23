@@ -1,0 +1,272 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+
+div,
+input,
+textarea,
+select,
+button,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+span {
+    outline: none;
+}
+
+sup {
+    vertical-align: super;
+}
+
+sub {
+    vertical-align: sub;
+}
+
+strong,
+b {
+    font-weight: bold;
+}
+
+textarea {
+    overflow: auto;
+    resize: none;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style-type: none;
+}
+
+html {
+    box-sizing: border-box;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+img,
+fieldset,
+a img {
+    border: none;
+}
+
+input,
+button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border: none;
+    border-radius: 0;
+}
+
+input,
+textarea,
+select,
+button {
+    font-family: inherit;
+    line-height: inherit;
+}
+
+input {
+    box-shadow: none;
+    font-size: inherit;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+input[type='search'],
+input[type='number'],
+textarea,
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type='submit'],
+button {
+    background-color: transparent;
+    cursor: pointer;
+}
+
+input::-webkit-contacts-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+input[type='submit'] {
+    appearance: none;
+}
+
+input::-webkit-clear-button,
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+svg {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: visible;
+}
+
+button {
+    background: 0 0;
+}
+
+ul li > a {
+    display: inline-block;
+    width: 100%;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+template {
+    display: none !important;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    -webkit-text-size-adjust: none;
+    -webkit-overflow-scrolling: touch;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 100%;
+    line-height: 1.375;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+}
+
+*::selection {
+    background-color: var(--color-bg-selection);
+    opacity: 1;
+}
+
+body {
+    width: 100%;
+    min-height: 100%;
+    font-weight: 400;
+    -webkit-overflow-scrolling: touch;
+}

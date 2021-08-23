@@ -1,0 +1,155 @@
+@use '@/assets/scss-variables' as *;
+@use '@/assets/mixins' as *;
+
+:root {
+    --layout-header-height: 70px;
+    --layout-aside-width: 220px;
+}
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-width: 320px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    padding-left: var(--layout-aside-width);
+    padding-top: var(--layout-header-height);
+    background: var(--color-bg-default);
+
+    @include maxWidth($bp-tablet - 1) {
+        padding-left: 0;
+    }
+}
+
+.header {
+    --header-height: var(--layout-header-height) !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    width: var(--layout-aside-width);
+    height: 100%;
+    padding-top: var(--layout-header-height);
+    background: var(--color-bg-secondary);
+
+    @include maxWidth($bp-tablet - 1) {
+        display: none;
+    }
+}
+
+.aside_Content {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.logo {
+    display: flex;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &__Active {
+        cursor: default;
+        pointer-events: none;
+    }
+}
+
+.toggle {
+    position: fixed;
+    bottom: var(--space-xl);
+    right: var(--space-xl);
+    z-index: 101;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: var(--color-control-typo-clear);
+    box-shadow: 0 2px 2px rgba(0, 32, 51, 0.02), 0 2px 8px rgba(0, 32, 51, 0.16);
+
+    &__Inverted {
+        box-shadow: 0 2px 2px rgba(255, 223, 204, 0.02), 0 2px 8px rgba(255, 223, 204, 0.16);
+    }
+
+    svg {
+        width: 20px;
+        height: auto;
+    }
+
+    @include minWidth($bp-tablet) {
+        display: none;
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    overflow: hidden;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    cursor: pointer;
+    background: 0 0;
+    transition: visibility 0s 0.15s, opacity 0.15s ease;
+    -ms-scroll-chaining: none;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    pointer-events: none;
+
+    @include maxWidth($bp-tablet - 1) {
+        &__Visible {
+            opacity: 1;
+            visibility: visible;
+            transition: none;
+            transition: visibility 0s, opacity 0.15s ease;
+
+            .modal_Layout {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.modal_Layout {
+    position: relative;
+    height: 100%;
+    min-width: 250px;
+    width: 100%;
+    padding-top: var(--layout-header-height);
+    background: 0 0;
+    opacity: 0;
+    overflow: hidden;
+    cursor: default;
+    pointer-events: none;
+    transition: opacity 0.2s linear;
+}
+
+.modal_Inner {
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--color-bg-secondary);
+    pointer-events: all;
+}

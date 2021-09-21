@@ -7,7 +7,7 @@ export interface ContextState {
     setTheme: (name: ThemeName) => void
 }
 export interface ProviderProps {
-    presetName: ThemeName
+    presetName?: ThemeName
 }
 
 export type ThemeName = 'light' | 'dark'

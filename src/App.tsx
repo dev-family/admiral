@@ -12,7 +12,7 @@ const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
 function App() {
     return (
         <Router>
-            <ThemeProvider presetName="light">
+            <ThemeProvider>
                 <NavProvider>
                     <Layout>
                         <Routes />

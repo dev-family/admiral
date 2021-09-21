@@ -1,4 +1,5 @@
 import React, { useContext, useState, createContext, useCallback } from 'react'
+import { useLocalStorage } from '@/src/hooks'
 import noScroll from 'no-scroll'
 
 export interface ContextState {
@@ -17,8 +18,8 @@ type NavProviderProps = {
 }
 
 export function NavProvider({ children }: NavProviderProps) {
+    const [collapsed, setCollapsed] = useLocalStorage('admiral-menu-collapsed', false)
     const [visible, setVisible] = useState(false)
-    const [collapsed, setCollapsed] = useState(false)
 
     const toggleCollapsed = useCallback(() => {
         setCollapsed((prev) => !prev)

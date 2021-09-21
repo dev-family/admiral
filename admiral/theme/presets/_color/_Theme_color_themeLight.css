@@ -1,13 +1,13 @@
 :root {
     /* Базовые цвета, от которых выстраивается вся палитра */
-    --color-base-base: #333333; /* Базовый цвет содержимого, от которого выстраиваются цвета текста, иконок, ... */
+    --color-base-base: #171a22; /* Базовый цвет содержимого, от которого выстраиваются цвета текста, иконок, ... */
     --color-base-essential: #fff; /* Базовый цвет поверхностей */
     --color-base-project: #472f92; /* Проектный цвет, от которого выстраивают акцентные состояния */
     --color-base-phantom: #472f92; /* Тонирующий цвет, от которого выстраиватся бордеры, оверлей под модальными окнами, ... */
-    --color-base-path: #62bb46; /* Цвет ссылок и контролов, от которого выстраиваются все их состояния */
+    --color-base-path: #472f92; /* Цвет ссылок и контролов, от которого выстраиваются все их состояния */
     --color-base-system: #ced8de; /* Цвет системнный */
 
-    --color-base-success: #22c38e; /* Цвет успеха */
+    --color-base-success: #62bb46; /* Цвет успеха */
     --color-base-alert: #eb5757; /* Цвет ошибки */
     --color-base-warning: #f38b00; /* Цвет предупреждения */
     --color-base-caution: #f2c94c; /* Цвет осторожности */
@@ -18,9 +18,9 @@
 /* stylelint-disable */
 .Theme_color_themeLight {
     /* Цвета фонов */
-    --color-bg-default: color-mod(var(--color-base-essential) a(100%)); /* Цвет дефолта */
-    --color-bg-secondary: color-mod(var(--color-base-project) s(-75%) l(+59%)); /* Цвет дефолта */
-    --color-bg-brand: color-mod(var(--color-base-project) a(100%)); /* Цвет фона брендированый */
+    --color-bg-default: var(--color-base-essential); /* Цвет дефолта */
+    --color-bg-secondary: #f2f5f8; /* Цвет дефолта */
+    --color-bg-brand: var(--color-base-project); /* Цвет фона брендированый */
     --color-bg-link: color-mod(var(--color-base-path) a(100%)); /* Цвет фона ссылки */
     --color-bg-border: color-mod(var(--color-base-phantom) a(20%) l(+10%)); /* Цвет границ */
     --color-bg-stripe: color-mod(
@@ -40,7 +40,7 @@
     --color-bg-selection: color-mod(var(--color-base-project) a(10%)); /* Цвет выделения */
 
     /* Цвета текста */
-    --color-typo-primary: color-mod(var(--color-base-base) a(100%)); /* Цвет основного текста */
+    --color-typo-primary: var(--color-base-base); /* Цвет основного текста */
     --color-typo-secondary: color-mod(
         var(--color-base-base) a(70%)
     ); /* Цвет второстепенного текста */
@@ -70,7 +70,7 @@
         var(--color-base-path) s(-35%) l(-10%)
     ); /* Цвет второстепенной ссылки */
     --color-typo-link-hover: color-mod(var(--color-base-path) l(+8%)); /* Цвет ховера ссылки */
-    --color-nums-shadow: 0, 32, 51; /* Значения RGB для указания теней в конструкции rgba(R,G,B, alpha) */
+    --color-nums-shadow: 0, 0, 0; /* Значения RGB для указания теней в конструкции rgba(R,G,B, alpha) */
 
     /* Цвета скроллбара */
     --color-scroll-bg: color-mod(var(--color-base-phantom) a(6%));

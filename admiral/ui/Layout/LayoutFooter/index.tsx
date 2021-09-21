@@ -2,11 +2,14 @@ import React from 'react'
 import styles from '../Layout.module.scss'
 import { useNav } from '@/src/context/NavContext'
 import { FiSettings } from 'react-icons/fi'
-import Icon from '@/assets/icons'
+import { ThemeSwitch, Tooltip } from '@/admiral/ui'
+import { useTheme } from '@/admiral/theme'
 import cn from 'classnames'
 
 const LayoutFooter: React.FC = () => {
     const { collapsed } = useNav()
+    const { themeName } = useTheme()
+    const mode = themeName === 'dark' ? 'Light' : 'Dark'
 
     return (
         <footer className={styles.panel_Footer}>
@@ -16,9 +19,31 @@ const LayoutFooter: React.FC = () => {
                     <div className={styles.user_Email}>info@websecret.by</div>
                 </div>
 
-                <button type="button" className={styles.user_Settings}>
-                    <FiSettings />
-                </button>
+                <Tooltip
+                    trigger="mouseenter"
+                    placement="right"
+                    content={
+                        <div className={styles.themeSwitch}>
+                            <div className={styles.themeSwitch_Text}>Switch to {mode} Mode</div>
+                            <ThemeSwitch />
+                        </div>
+                    }
+                    interactive
+                    popperOptions={{
+                        modifiers: [
+                            {
+                                name: 'offset',
+                                options: {
+                                    offset: [0, 34],
+                                },
+                            },
+                        ],
+                    }}
+                >
+                    <button type="button" className={styles.user_Settings}>
+                        <FiSettings />
+                    </button>
+                </Tooltip>
             </div>
         </footer>
     )

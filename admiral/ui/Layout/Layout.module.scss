@@ -21,7 +21,7 @@
     flex: 1 0 auto;
     padding-left: calc(var(--layout-aside-width) + var(--space-xl));
     padding-top: var(--space-xl);
-    background: var(--color-bg-default);
+    background: var(--color-bg-secondary);
     transition: padding-left 0.2s;
 
     @include maxWidth($bp-tablet - 1) {
@@ -40,7 +40,7 @@
     grid-template-rows: max-content minmax(0, 1fr) max-content;
     width: var(--layout-aside-width);
     height: 100%;
-    background: var(--color-bg-secondary);
+    background: var(--color-bg-default);
     color: var(--color-typo-primary);
     box-shadow: var(--shadow-layer);
     transition: width 0.2s;
@@ -61,18 +61,20 @@
     padding: var(--space-s) var(--space-xl);
     border-bottom: 1px solid var(--color-bg-border);
 
-    &__Collapsed {
-        justify-content: center;
+    @include minWidth($bp-tablet) {
+        &__Collapsed {
+            justify-content: center;
 
-        .logo {
-            width: 0;
-            height: 0;
-            overflow: hidden;
-        }
+            .logo {
+                width: 0;
+                height: 0;
+                overflow: hidden;
+            }
 
-        .collapseToggle {
-            width: 100%;
-            margin-right: 0;
+            .collapseToggle {
+                width: 100%;
+                margin-right: 0;
+            }
         }
     }
 }
@@ -214,6 +216,10 @@
             margin-right: 0;
             overflow: hidden;
         }
+
+        .user_Settings {
+            width: 100%;
+        }
     }
 }
 
@@ -238,4 +244,13 @@
         width: 20px;
         height: auto;
     }
+}
+
+.themeSwitch {
+    display: flex;
+    align-items: center;
+}
+
+.themeSwitch_Text {
+    margin-right: 6px;
 }

@@ -9,31 +9,24 @@
         }
 
         .link {
-            grid-template-columns: minmax(0, 1fr);
+            grid-template-columns: 16px minmax(0, 1fr);
+            grid-gap: 0 8px;
             height: 40px;
-            padding-left: calc(var(--space-3xl) + 16px);
+            padding-left: calc(var(--space-2xl));
             font-size: var(--size-text-s);
 
-            &::before {
-                content: '';
-                position: absolute;
-                top: calc(50% - 3px);
-                left: var(--space-3xl);
-                display: block;
-                width: 6px;
-                height: 6px;
-                border-radius: 50%;
-                background-color: currentColor;
+            &::after {
+                left: 12px;
+                width: calc(100% - 24px);
             }
 
             &__Active {
-                color: var(--color-typo-brand);
-                background-color: var(--color-bg-stripe);
-            }
-        }
+                color: var(--color-base-essential);
 
-        .link_Icon {
-            display: none;
+                &::after {
+                    background-color: var(--color-control-bg-active);
+                }
+            }
         }
     }
 
@@ -42,8 +35,30 @@
             .link {
                 &__Active {
                     color: var(--color-typo-primary);
-                    background-color: var(--color-bg-ghost);
                 }
+            }
+        }
+    }
+
+    &__Tooltip {
+        .link {
+            $this: &;
+            grid-template-columns: 16px minmax(0, 1fr);
+            grid-gap: 0 8px;
+            height: 42px;
+            padding: 0 var(--space-m);
+            font-size: var(--size-text-s);
+            font-weight: normal;
+            color: var(--color-typo-primary);
+
+            &__Active {
+                &::after {
+                    background-color: var(--color-bg-tone);
+                }
+            }
+
+            &:hover:not(.link__Active) {
+                color: var(--color-typo-secondary);
             }
         }
     }
@@ -51,12 +66,34 @@
 
 .item {
     position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: 8px;
+        width: calc(100% - 16px);
+        height: calc(100% - 4px);
+        z-index: -1;
+        background: var(--color-bg-secondary);
+        border-radius: var(--control-radius);
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+
+    &__Open {
+        &::after {
+            opacity: 1;
+        }
+    }
 }
 
 .link {
+    $this: &;
+
     position: relative;
     display: grid;
-    grid-template-columns: 20px minmax(0, 1fr);
+    grid-template-columns: 18px minmax(0, 1fr);
     grid-gap: 0 10px;
     align-items: center;
     height: 48px;
@@ -64,6 +101,8 @@
     font-weight: var(--font-weight-text-semibold);
     color: var(--color-typo-secondary);
     overflow: hidden;
+    cursor: pointer;
+    user-select: none;
     transition: color 0.2s, background-color 0.2s;
 
     &::after {
@@ -76,26 +115,42 @@
         height: calc(100% - 6px);
         display: block;
         border-radius: var(--control-radius);
-        background-color: var(--color-bg-brand);
+        background-color: var(--color-bg-secondary);
         opacity: 0;
         transition: opacity 0.2s, transform 0.2s;
     }
 
     &__Active {
-        color: var(--color-base-essential);
-
         &::after {
             opacity: 1;
             transform: none;
         }
     }
 
-    &__Collapsed {
-        grid-template-columns: 20px;
-        justify-content: center;
+    &__Collapsible {
+        &#{$this}__Collapsed {
+            grid-template-columns: 20px;
+            justify-content: center;
 
-        .link_Title {
-            display: none;
+            .link_Title {
+                display: none;
+            }
+
+            .link_Arrow {
+                display: none;
+            }
+        }
+    }
+
+    &__Toggle {
+        &::after {
+            content: none;
+        }
+    }
+
+    &__ToggleOpen {
+        .link_Arrow {
+            transform: rotate(180deg);
         }
     }
 
@@ -117,4 +172,22 @@
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
+}
+
+.link_Arrow {
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    transform-origin: 50% 50%;
+    transition: transform 0.16s;
+
+    svg {
+        width: 100%;
+        height: auto;
+    }
 }

@@ -23,9 +23,7 @@
     --color-bg-brand: var(--color-base-project); /* Цвет фона брендированый */
     --color-bg-link: color-mod(var(--color-base-path) a(100%)); /* Цвет фона ссылки */
     --color-bg-border: color-mod(var(--color-base-phantom) a(20%) l(+10%)); /* Цвет границ */
-    --color-bg-stripe: color-mod(
-        var(--color-base-phantom) l(-11%) a(5%)
-    ); /* Цвет зебры (например, при окрашивании фона строк таблицы через одну) */
+    --color-bg-stripe: #eff2f6; /* Цвет зебры (например, при окрашивании фона строк таблицы через одну) */
 
     --color-bg-ghost: color-mod(var(--color-base-phantom) l(-11%) a(8%)); /* Цвет затенения */
     --color-bg-tone: color-mod(var(--color-base-phantom) l(-11%) a(85%)); /* Цвет паранджи */

@@ -1,0 +1,15 @@
+@use '@/assets/scss-variables' as *;
+@use '@/assets/mixins' as *;
+
+.page {
+    padding: var(--space-xl);
+    color: var(--color-typo-primary);
+}
+
+.title {
+    margin-bottom: var(--space-m);
+}
+
+.btnList {
+    margin-bottom: var(--space-xl);
+}

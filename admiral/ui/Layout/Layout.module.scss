@@ -19,14 +19,13 @@
     display: flex;
     flex-direction: column;
     flex: 1 0 auto;
-    padding-left: calc(var(--layout-aside-width) + var(--space-xl));
-    padding-top: var(--space-xl);
+    padding-left: calc(var(--layout-aside-width));
     background: var(--color-bg-secondary);
     transition: padding-left 0.2s;
 
     @include maxWidth($bp-tablet - 1) {
-        padding-left: var(--space-xl);
-        padding-top: calc(var(--layout-header-height) + var(--space-xl));
+        padding-left: 0;
+        padding-top: calc(var(--layout-header-height));
     }
 }
 

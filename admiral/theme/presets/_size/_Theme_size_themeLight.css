@@ -26,4 +26,13 @@
     --font-weight-text-semibold: 600;
     --font-weight-text-bold: bold;
     --font-weight-text-black: 900;
+
+    /* Радиусы */
+    --radius-s: 4px;
+    --radius-m: 8px;
+    --radius-l: 16px;
+
+    /* z-index */
+    --z-index-table-fixed: 2;
+    --z-index-table-sticky: 3;
 }

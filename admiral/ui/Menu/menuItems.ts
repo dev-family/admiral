@@ -17,8 +17,12 @@ const menu: IMenuItem[] = [
     {
         icon: 'FiUsers',
         name: 'Users',
-        to: '/users',
         children: [
+            {
+                icon: 'FiUsers',
+                name: 'All Users',
+                to: '/users',
+            },
             {
                 icon: 'FiUsers',
                 name: 'Create User',

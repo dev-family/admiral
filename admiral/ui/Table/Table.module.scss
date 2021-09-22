@@ -1,0 +1,263 @@
+@use '@/assets/scss-variables' as *;
+@use '@/assets/mixins' as *;
+
+$table-class: 'admiral-table';
+
+.wrapper {
+    max-width: 100%;
+    color: var(--color-typo-primary);
+
+    --table-padding-vertical: 16px;
+    --table-padding-horizontal: 16px;
+
+    &__SizeMiddle {
+        --table-padding-vertical: 12px;
+        --table-padding-horizontal: 8px;
+    }
+
+    &__SizeSmall {
+        --table-padding-vertical: 8px;
+        --table-padding-horizontal: 8px;
+    }
+
+    :global {
+        .#{$table-class} {
+            position: relative;
+            background: var(--color-bg-default);
+            border-radius: var(--radius-m);
+            font-size: var(--size-text-m);
+
+            table {
+                width: 100%;
+                text-align: left;
+                border-radius: var(--radius-m) var(--radius-m) 0 0;
+                border-collapse: separate;
+                border-spacing: 0;
+            }
+
+            // ============================= Cell =============================
+            &-thead > tr > th,
+            &-tbody > tr > td,
+            tfoot > tr > th,
+            tfoot > tr > td {
+                position: relative;
+                padding: var(--table-padding-vertical) var(--table-padding-horizontal);
+                vertical-align: middle;
+                overflow-wrap: break-word;
+            }
+
+            &-cell-ellipsis {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                word-break: keep-all;
+
+                &.#{$table-class}-cell-fix-right-first,
+                &.#{$table-class}-cell-fix-left-last {
+                    overflow: visible;
+
+                    .#{$table-class}-cell-content {
+                        display: block;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                .#{$table-class}-column-title {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    word-break: keep-all;
+                }
+            }
+
+            // ============================ Title =============================
+            &-title {
+                padding: var(--table-padding-vertical) var(--table-padding-horizontal);
+                border-bottom: 1px solid var(--color-bg-border);
+            }
+
+            // ============================ Footer ============================
+            &-footer {
+                padding: var(--table-padding-vertical) var(--table-padding-horizontal);
+            }
+
+            // ============================ Header ============================
+            &-thead {
+                > tr {
+                    > th {
+                        position: relative;
+                        font-weight: var(--font-weight-text-bold);
+                        text-align: left;
+                        border-bottom: 1px solid var(--color-bg-border);
+                        transition: background 0.2s ease;
+
+                        &[colspan]:not([colspan='1']) {
+                            text-align: center;
+                        }
+                    }
+                }
+
+                > tr:not(:last-child) > th {
+                    &[colspan] {
+                        border-bottom: 0;
+                    }
+                }
+            }
+
+            // ============================= Body =============================
+            &-tbody {
+                > tr {
+                    > td {
+                        border-bottom: 1px solid var(--color-bg-border);
+                        transition: background 0.3s;
+                    }
+
+                    &.#{$table-class}-row:hover {
+                        > td {
+                            background: var(--color-bg-stripe);
+                        }
+                    }
+
+                    &.#{$table-class}-row-selected {
+                        > td {
+                            background: var(--color-bg-stripe);
+                            border-color: rgba(0, 0, 0, 0.03);
+                        }
+
+                        &:hover {
+                            > td {
+                                background: var(--color-bg-stripe);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ============================ Fixed =============================
+            &-cell-fix-left,
+            &-cell-fix-right {
+                position: sticky !important;
+                z-index: var(--z-index-table-fixed);
+                background: var(--color-bg-default);
+            }
+
+            &-cell-fix-left-first::after,
+            &-cell-fix-left-last::after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: -1px;
+                width: 30px;
+                transform: translateX(100%);
+                transition: box-shadow 0.3s;
+                content: '';
+                pointer-events: none;
+            }
+
+            &-cell-fix-right-first::after,
+            &-cell-fix-right-last::after {
+                position: absolute;
+                top: 0;
+                bottom: -1px;
+                left: 0;
+                width: 30px;
+                transform: translateX(-100%);
+                transition: box-shadow 0.3s;
+                content: '';
+                pointer-events: none;
+            }
+
+            .#{$table-class}-container {
+                &::before,
+                &::after {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    z-index: 1;
+                    width: 30px;
+                    transition: box-shadow 0.2s;
+                    content: '';
+                    pointer-events: none;
+                }
+
+                &::before {
+                    left: 0;
+                }
+                &::after {
+                    right: 0;
+                }
+            }
+
+            &-ping-left {
+                &:not(.#{$table-class}-has-fix-left) .#{$table-class}-container {
+                    position: relative;
+
+                    &::before {
+                        box-shadow: inset 10px 0 8px -8px rgba(var(--color-nums-shadow), 0.14);
+                    }
+                }
+
+                .#{$table-class}-cell-fix-left-first::after,
+                .#{$table-class}-cell-fix-left-last::after {
+                    box-shadow: inset 10px 0 8px -8px rgba(var(--color-nums-shadow), 0.14);
+                }
+
+                .#{$table-class}-cell-fix-left-last::before {
+                    background-color: transparent !important;
+                }
+            }
+
+            &-ping-right {
+                &:not(.#{$table-class}-has-fix-right) .#{$table-class}-container {
+                    position: relative;
+
+                    &::after {
+                        box-shadow: inset -10px 0 8px -8px rgba(var(--color-nums-shadow), 0.14);
+                    }
+                }
+
+                .#{$table-class}-cell-fix-right-first::after,
+                .#{$table-class}-cell-fix-right-last::after {
+                    box-shadow: inset -10px 0 8px -8px rgba(var(--color-nums-shadow), 0.14);
+                }
+            }
+
+            &-sticky {
+                &-holder {
+                    position: sticky;
+                    z-index: var(--z-index-table-sticky);
+                    background: var(--color-bg-default);
+                }
+
+                &-scroll {
+                    position: sticky;
+                    bottom: 0;
+                    z-index: var(--z-index-table-sticky);
+                    display: flex;
+                    align-items: center;
+                    background: var(--color-scroll-bg);
+                    border-top: 1px solid var(--color-bg-border);
+                    opacity: 1;
+
+                    &:hover {
+                        transform-origin: center bottom;
+                    }
+
+                    &-bar {
+                        height: 8px;
+                        background-color: var(--color-scroll-thumb);
+                        border-radius: 8px;
+
+                        &:hover {
+                            background-color: var(--color-scroll-thumb-hover);
+                        }
+
+                        &-active {
+                            background-color: var(--color-scroll-thumb-hover);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

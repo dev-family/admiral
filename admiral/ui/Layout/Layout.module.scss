@@ -21,7 +21,6 @@
     flex: 1 0 auto;
     padding-left: calc(var(--layout-aside-width));
     background: var(--color-bg-secondary);
-    transition: padding-left 0.2s;
 
     @include maxWidth($bp-tablet - 1) {
         padding-left: 0;
@@ -119,10 +118,12 @@
 }
 
 .collapseToggle {
+    $this: &;
     width: 40px;
     height: 100%;
-    margin-right: -4px;
     color: var(--color-control-typo-clear);
+    transform: translate3d(10px, 0, 0);
+    transition: transform 0.2s;
 
     @include noTouchHover() {
         color: var(--color-control-typo-clear-hover);
@@ -134,12 +135,18 @@
     }
 
     &__Desktop {
+        &#{$this}__Collapsed {
+            transform: translate3d(0, 0, 0) rotate(180deg);
+        }
+
         @include maxWidth($bp-tablet - 1) {
             display: none;
         }
     }
 
     &__Mobile {
+        transform: translateX(4px);
+
         @include minWidth($bp-tablet) {
             display: none;
         }

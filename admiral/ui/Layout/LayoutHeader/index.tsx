@@ -2,7 +2,7 @@ import React from 'react'
 import styles from '../Layout.module.scss'
 import { useNav } from '@/src/context/NavContext'
 import { useTheme } from '@/admiral/theme'
-import { FiMenu, FiX } from 'react-icons/fi'
+import { FiArrowLeft, FiArrowRight, FiX, FiMenu } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
 import Icon from '@/assets/icons'
 import cn from 'classnames'
@@ -29,10 +29,12 @@ const LayoutHeader: React.FC = () => {
             </NavLink>
 
             <button
-                className={cn(styles.collapseToggle, styles.collapseToggle__Desktop)}
+                className={cn(styles.collapseToggle, styles.collapseToggle__Desktop, {
+                    [styles.collapseToggle__Collapsed]: collapsed,
+                })}
                 onClick={toggleCollapsed}
             >
-                {collapsed ? <FiX /> : <FiMenu />}
+                <FiArrowLeft />
             </button>
 
             <button

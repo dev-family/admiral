@@ -1,10 +1,8 @@
 .menu {
     .menu {
         .item {
-            &:not(:last-child) {
-                .link {
-                    border-bottom: none;
-                }
+            &:last-child {
+                padding-bottom: 7px;
             }
         }
 
@@ -16,8 +14,8 @@
             font-size: var(--size-text-s);
 
             &::after {
-                left: 12px;
-                width: calc(100% - 24px);
+                left: 18px;
+                width: calc(100% - 36px);
             }
 
             &__Active {
@@ -98,8 +96,6 @@
     align-items: center;
     height: 48px;
     padding: 0 var(--space-xl);
-    font-weight: var(--font-weight-text-semibold);
-    color: var(--color-typo-secondary);
     overflow: hidden;
     cursor: pointer;
     user-select: none;

@@ -92,6 +92,7 @@ export default () => {
                     x: 0,
                 }}
                 sticky
+                bordered
             />
         </Page>
     )

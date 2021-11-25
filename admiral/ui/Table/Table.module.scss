@@ -20,12 +20,17 @@ $table-class: 'admiral-table';
         --table-padding-horizontal: 8px;
     }
 
+    &__Bordered {
+        --table-border: 1px solid var(--color-bg-border);
+    }
+
     :global {
         .#{$table-class} {
             position: relative;
             background: var(--color-bg-default);
             border-radius: var(--radius-m);
             font-size: var(--size-text-m);
+            border: var(--table-border, none);
 
             table {
                 width: 100%;
@@ -91,6 +96,10 @@ $table-class: 'admiral-table';
                         border-bottom: 1px solid var(--color-bg-border);
                         transition: background 0.2s ease;
 
+                        &:not(:last-child) {
+                            border-right: var(--table-border, none);
+                        }
+
                         &[colspan]:not([colspan='1']) {
                             text-align: center;
                         }
@@ -110,6 +119,10 @@ $table-class: 'admiral-table';
                     > td {
                         border-bottom: 1px solid var(--color-bg-border);
                         transition: background 0.3s;
+
+                        &:not(:last-child) {
+                            border-right: var(--table-border, none);
+                        }
                     }
 
                     &.#{$table-class}-row:hover {

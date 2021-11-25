@@ -27,12 +27,7 @@ export interface TableProps<RecordType>
     // pagination?: false | TablePaginationConfig;
     // loading?: boolean | SpinProps;
     size?: SizeType
-    // bordered?: boolean;
-    // locale?: TableLocale;
-
-    // onChange?: (
-    //   pagination: TablePaginationConfig,
-    //   filters: Record<string, FilterValue | null>,
+    bordered?: boolean
     //   sorter: SorterResult<RecordType> | SorterResult<RecordType>[],
     //   extra: TableCurrentDataSource<RecordType>,
     // ) => void;
@@ -58,6 +53,7 @@ function InternalTable<RecordType extends object = any>(
         dataSource,
         columns,
         size = 'large',
+        bordered = false,
         ...tableProps
     } = props
 
@@ -81,7 +77,8 @@ function InternalTable<RecordType extends object = any>(
             ref={wrapperRef}
             className={cn(styles.wrapper, wrapperClassName, {
                 [styles.wrapper__SizeMiddle]: size === 'middle',
-                [styles.wrapper__Small]: size === 'small',
+                [styles.wrapper__SizeSmall]: size === 'small',
+                [styles.wrapper__Bordered]: bordered,
             })}
             style={style}
         >

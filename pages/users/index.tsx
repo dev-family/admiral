@@ -94,6 +94,20 @@ export default () => {
                 sticky
                 bordered
             />
+            <br />
+            <Table
+                dataSource={data}
+                title={title}
+                footer={footer}
+                scroll={{
+                    x: 0,
+                }}
+                sticky
+            >
+                <Table.Column title="Full Name" dataIndex="name" key="name" width={200} />
+                <Table.Column title="Age" dataIndex="age" key="age" width={200} />
+                <Table.Column title="Address 2" dataIndex="address" key="address 2" width={150} />
+            </Table>
         </Page>
     )
 }

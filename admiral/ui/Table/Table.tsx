@@ -1,9 +1,10 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useMemo } from 'react'
 import cn from 'classnames'
 import RcTable, { Summary } from 'rc-table'
 import { TableProps as RcTableProps, INTERNAL_HOOKS } from 'rc-table/lib/Table'
+import { convertChildrenToColumns } from 'rc-table/lib/hooks/useColumns'
 import styles from './Table.module.scss'
-import { ColumnsType } from './interfaces'
+import { ColumnsType, ColumnType } from './interfaces'
 
 // TODO: loading spinner
 // TODO: pagination
@@ -43,6 +44,10 @@ export interface TableProps<RecordType>
 
 const EMPTY_LIST: any[] = []
 
+function Column<RecordType>(_: ColumnType<RecordType>) {
+    return null
+}
+
 function InternalTable<RecordType extends object = any>(
     props: TableProps<RecordType>,
     wrapperRef: React.ForwardedRef<HTMLDivElement>,
@@ -54,6 +59,7 @@ function InternalTable<RecordType extends object = any>(
         columns,
         size = 'large',
         bordered = false,
+        children,
         ...tableProps
     } = props
 
@@ -71,6 +77,10 @@ function InternalTable<RecordType extends object = any>(
     //     ...loading,
     //   };
     // }
+    // To merge columns used as children (<Table.Column />)
+    const mergedColumns = useMemo(() => {
+        return columns || (convertChildrenToColumns(children) as ColumnsType<RecordType>)
+    }, [children, columns])
 
     return (
         <div
@@ -86,7 +96,7 @@ function InternalTable<RecordType extends object = any>(
             <RcTable<RecordType>
                 {...tableProps}
                 prefixCls="admiral-table"
-                columns={columns}
+                columns={mergedColumns}
                 data={data}
                 // direction={direction}
                 // expandable={mergedExpandable}
@@ -110,6 +120,14 @@ function InternalTable<RecordType extends object = any>(
     )
 }
 
-export const Table = forwardRef(InternalTable) as <T>(
+const ForwardTable = forwardRef(InternalTable) as <T>(
     props: TableProps<T> & { ref?: React.ForwardedRef<HTMLDivElement> },
 ) => ReturnType<typeof InternalTable>
+
+type ForwardTableType = typeof ForwardTable
+interface TableInterface extends ForwardTableType {
+    Column: typeof Column
+}
+
+export const Table = ForwardTable as TableInterface
+Table.Column = Column

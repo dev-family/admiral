@@ -28,6 +28,7 @@
     --color-bg-link: color-mod(var(--color-base-dark-path) a(100%)); /* Цвет фона ссылки */
     --color-bg-border: color-mod(var(--color-base-dark-phantom) a(20%) l(+10%)); /* Цвет границ */
     --color-bg-stripe: #2e3337; /* Цвет зебры (например, при окрашивании фона строк таблицы через одну) */
+    --color-bg-stripe-active: color-mod(#2e3337 l(+2%));
 
     --color-bg-ghost: color-mod(var(--color-base-dark-phantom) a(10%)); /* Цвет затенения */
     --color-bg-tone: color-mod(var(--color-base-dark-phantom) l(-92%) a(85%)); /* Цвет паранджи */

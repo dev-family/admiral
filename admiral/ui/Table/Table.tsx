@@ -5,11 +5,19 @@ import { TableProps as RcTableProps, INTERNAL_HOOKS } from 'rc-table/lib/Table'
 import { convertChildrenToColumns } from 'rc-table/lib/hooks/useColumns'
 import styles from './Table.module.scss'
 import { ColumnsType, ColumnType } from './interfaces'
+import useSorter, { SorterResult, SortState, SortOrder, getSortData } from './hooks/useSorter'
 
 // TODO: loading spinner
 // TODO: pagination
+// TODO: controlled sorter
+// TODO: sorter tooltip
 
 export type SizeType = 'small' | 'middle' | 'large'
+
+export interface ChangeEventInfo<RecordType> {
+    sorter: SorterResult<RecordType> | SorterResult<RecordType>[]
+    sorterStates: SortState<RecordType>[]
+}
 
 export interface TableProps<RecordType>
     extends Omit<
@@ -29,16 +37,14 @@ export interface TableProps<RecordType>
     // loading?: boolean | SpinProps;
     size?: SizeType
     bordered?: boolean
-    //   sorter: SorterResult<RecordType> | SorterResult<RecordType>[],
-    //   extra: TableCurrentDataSource<RecordType>,
-    // ) => void;
+    onChange?: (sorter: SorterResult<RecordType> | SorterResult<RecordType>[]) => void
     // rowSelection?: TableRowSelection<RecordType>;
 
     // getPopupContainer?: GetPopupContainer;
     // scroll?: RcTableProps<RecordType>['scroll'] & {
     //   scrollToFirstRowOnChange?: boolean;
     // };
-    // sortDirections?: SortOrder[];
+    sortDirections?: SortOrder[]
     // showSorterTooltip?: boolean | TooltipProps;
 }
 
@@ -59,6 +65,8 @@ function InternalTable<RecordType extends object = any>(
         columns,
         size = 'large',
         bordered = false,
+        sortDirections,
+        onChange,
         children,
         ...tableProps
     } = props
@@ -82,6 +90,41 @@ function InternalTable<RecordType extends object = any>(
         return columns || (convertChildrenToColumns(children) as ColumnsType<RecordType>)
     }, [children, columns])
 
+    const changeEventInfo: Partial<ChangeEventInfo<RecordType>> = {}
+
+    const _onChange = (info: Partial<ChangeEventInfo<RecordType>>) => {
+        const changeInfo = {
+            ...changeEventInfo,
+            ...info,
+        }
+
+        if (onChange) {
+            onChange(changeInfo.sorter!)
+        }
+    }
+
+    const onSorterChange = (
+        sorter: SorterResult<RecordType> | SorterResult<RecordType>[],
+        sorterStates: SortState<RecordType>[],
+    ) => {
+        _onChange({
+            sorter,
+            sorterStates,
+        })
+    }
+
+    const [transformSorterColumns, sortStates, sorterTitleProps, getSorters] =
+        useSorter<RecordType>({
+            mergedColumns,
+            onSorterChange,
+            sortDirections: sortDirections || ['ascend', 'descend'],
+        })
+    const sortedData = React.useMemo(() => getSortData(data, sortStates), [data, sortStates])
+
+    changeEventInfo.sorter = getSorters()
+    changeEventInfo.sorterStates = sortStates
+    const transformedColumns = transformSorterColumns(mergedColumns)
+
     return (
         <div
             ref={wrapperRef}
@@ -96,8 +139,8 @@ function InternalTable<RecordType extends object = any>(
             <RcTable<RecordType>
                 {...tableProps}
                 prefixCls="admiral-table"
-                columns={mergedColumns}
-                data={data}
+                columns={transformedColumns}
+                data={sortedData}
                 // direction={direction}
                 // expandable={mergedExpandable}
                 // className={classNames({

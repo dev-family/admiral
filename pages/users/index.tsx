@@ -16,7 +16,7 @@ for (let i = 0; i < 25; i++) {
     data.push({
         key: i,
         name: `User ${i}`,
-        age: 32,
+        age: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
         address: `London Park no. ${i}`,
         email: 'test@test.com',
     })
@@ -34,6 +34,8 @@ const columns: ColumnsType<IUser> = [
         dataIndex: 'age',
         key: 'age',
         width: 200,
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => a.age - b.age,
     },
     {
         title: 'Email',
@@ -104,9 +106,22 @@ export default () => {
                 }}
                 sticky
             >
-                <Table.Column title="Full Name" dataIndex="name" key="name" width={200} />
-                <Table.Column title="Age" dataIndex="age" key="age" width={200} />
-                <Table.Column title="Address 2" dataIndex="address" key="address 2" width={150} />
+                <Table.Column<IUser> title="Full Name" dataIndex="name" key="name" width={200} />
+                <Table.Column<IUser>
+                    title="Age"
+                    dataIndex="age"
+                    key="age"
+                    width={200}
+                    sortDirections={['descend', 'ascend', 'descend']}
+                    defaultSortOrder="descend"
+                    sorter={(a, b) => a.age - b.age}
+                />
+                <Table.Column<IUser>
+                    title="Address 2"
+                    dataIndex="address"
+                    key="address 2"
+                    width={150}
+                />
             </Table>
         </Page>
     )

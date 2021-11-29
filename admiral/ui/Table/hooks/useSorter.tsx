@@ -1,17 +1,14 @@
-import React, { useState } from 'react'
-import {
-    ColumnsType,
-    ColumnType,
-    Key,
-    ColumnTitleProps,
-    TransformColumns,
-    CompareFn,
-} from '../interfaces'
+import React, { useState, useMemo, useEffect } from 'react'
+import { ColumnsType, ColumnType, Key, CompareFn } from '../interfaces'
 import { getColumnKey, getColumnPos } from '../util'
 import classNames from 'classnames'
 
 export type SortOrder = 'descend' | 'ascend' | null
 
+export interface ControlledSorter {
+    columnKey: Key
+    order: SortOrder
+}
 export interface SortState<RecordType> {
     column: ColumnType<RecordType>
     key: Key
@@ -26,87 +23,75 @@ export interface SorterResult<RecordType> {
 
 interface SorterConfig<RecordType> {
     mergedColumns: ColumnsType<RecordType>
-    onSorterChange: (
-        sorterResult: SorterResult<RecordType> | SorterResult<RecordType>[],
-        sortStates: SortState<RecordType>[],
-    ) => void
+    onSorterChange: (sorterResult: SorterResult<RecordType>) => void
     sortDirections: SortOrder[]
+    controlledSorter?: ControlledSorter | null
 }
 
-function collectSortStates<RecordType>(
+function collectSortState<RecordType>(
     columns: ColumnsType<RecordType>,
-    init: boolean,
-): SortState<RecordType>[] {
-    let sortStates: SortState<RecordType>[] = []
+    controlledSorter?: ControlledSorter | null,
+): SortState<RecordType> | null {
+    let sortState: SortState<RecordType> | null = null
 
     ;(columns || []).forEach((column, index) => {
         const columnPos = getColumnPos(index)
 
-        if (column.sorter) {
-            if (init && column.defaultSortOrder && sortStates.length === 0) {
-                sortStates.push({
+        if (controlledSorter) {
+            if (column.sorter && column.key === controlledSorter.columnKey) {
+                sortState = {
                     column,
                     key: getColumnKey(column, columnPos),
-                    sortOrder: column.defaultSortOrder!,
-                })
+                    sortOrder: controlledSorter.order,
+                }
+            }
+        } else if (column.sorter && column.defaultSortOrder) {
+            sortState = {
+                column,
+                key: getColumnKey(column, columnPos),
+                sortOrder: column.defaultSortOrder!,
             }
         }
     })
 
-    return sortStates
+    return sortState
 }
 
 export default function useSorter<RecordType>({
     mergedColumns,
     onSorterChange,
     sortDirections,
+    controlledSorter,
 }: SorterConfig<RecordType>): [
-    TransformColumns<RecordType>,
-    SortState<RecordType>[],
-    ColumnTitleProps<RecordType>,
-    () => SorterResult<RecordType> | SorterResult<RecordType>[],
+    ColumnsType<RecordType>,
+    SortState<RecordType> | null,
+    () => SorterResult<RecordType>,
 ] {
-    const [sortStates, setSortStates] = useState<SortState<RecordType>[]>(
-        collectSortStates(mergedColumns, true),
+    const [sortState, setSortState] = useState<SortState<RecordType> | null>(
+        collectSortState(mergedColumns, controlledSorter),
     )
 
-    const mergedSorterStates = React.useMemo(() => {
-        const collectedStates = collectSortStates(mergedColumns, false)
-
-        // Return if not controlled
-        if (!collectedStates.length) {
-            return sortStates
+    useEffect(() => {
+        const { columnKey, order } = controlledSorter || {}
+        if (columnKey !== sortState?.key || order !== sortState?.sortOrder) {
+            setSortState(collectSortState(mergedColumns, controlledSorter))
         }
-
-        return collectedStates
-    }, [mergedColumns, sortStates])
-
-    // Get render columns title required props
-    const columnTitleSorterProps = React.useMemo<ColumnTitleProps<RecordType>>(() => {
-        const sortColumns = mergedSorterStates.map(({ column, sortOrder }) => ({
-            column,
-            order: sortOrder,
-        }))
-
-        return {
-            sortColumns,
-        }
-    }, [mergedSorterStates])
+    }, [controlledSorter])
+    console.log('sortState: ', sortState)
 
     function triggerSorter(sortState: SortState<RecordType>) {
-        let newSorterStates = [sortState]
-
-        setSortStates(newSorterStates)
-        onSorterChange(generateSorterInfo(newSorterStates), newSorterStates)
+        setSortState(sortState)
+        onSorterChange(generateSorterInfo(sortState))
     }
 
-    const transformColumns = (innerColumns: ColumnsType<RecordType>) => {
-        return injectSorter(innerColumns, mergedSorterStates, triggerSorter, sortDirections)
-    }
+    const transformedColumns = useMemo(
+        () => injectSorter(mergedColumns, sortState, triggerSorter, sortDirections),
+        [sortState, triggerSorter],
+    )
 
-    const getSorters = () => generateSorterInfo(mergedSorterStates)
+    const getSorters = () => generateSorterInfo(sortState)
 
-    return [transformColumns, mergedSorterStates, columnTitleSorterProps, getSorters]
+    return [transformedColumns, sortState, getSorters]
 }
 
 function nextSortDirection(sortDirections: SortOrder[], current: SortOrder | null) {
@@ -122,8 +107,8 @@ const DESCEND = 'descend'
 
 function injectSorter<RecordType>(
     columns: ColumnsType<RecordType>,
-    sorterSates: SortState<RecordType>[],
-    triggerSorter: (sorterSates: SortState<RecordType>) => void,
+    sorterState: SortState<RecordType> | null,
+    triggerSorter: (sorterState: SortState<RecordType>) => void,
     defaultSortDirections: SortOrder[],
     pos?: string,
 ): ColumnsType<RecordType> {
@@ -134,8 +119,8 @@ function injectSorter<RecordType>(
         if (newColumn.sorter) {
             const sortDirections: SortOrder[] = newColumn.sortDirections || defaultSortDirections
             const columnKey = getColumnKey(newColumn, columnPos)
-            const sorterState = sorterSates.find(({ key }) => key === columnKey)
-            const sorterOrder = sorterState ? sorterState.sortOrder : null
+            const columnSorterState = sorterState?.key === columnKey ? sorterState : null
+            const sorterOrder = columnSorterState ? columnSorterState.sortOrder : null
             const nextSortOrder = nextSortDirection(sortDirections, sorterOrder)
             const upNode: React.ReactNode = sortDirections.includes(ASCEND) && (
                 <span
@@ -178,7 +163,6 @@ function injectSorter<RecordType>(
                         (column.onHeaderCell && column.onHeaderCell(col)) || {}
                     const originOnClick = cell.onClick
                     cell.onClick = (event: React.MouseEvent<HTMLElement>) => {
-                        console.log('click header cell: ')
                         triggerSorter({
                             column,
                             key: columnKey,
@@ -201,21 +185,17 @@ function injectSorter<RecordType>(
     })
 }
 
-function stateToInfo<RecordType>(sorterStates: SortState<RecordType>) {
-    const { column, sortOrder } = sorterStates
+function stateToInfo<RecordType>(sorterState: SortState<RecordType>) {
+    const { column, sortOrder } = sorterState
     return { column, order: sortOrder, field: column.dataIndex, columnKey: column.key }
 }
 
 function generateSorterInfo<RecordType>(
-    sorterStates: SortState<RecordType>[],
-): SorterResult<RecordType> | SorterResult<RecordType>[] {
-    const list = sorterStates.filter(({ sortOrder }) => sortOrder).map(stateToInfo)
+    sorterState: SortState<RecordType> | null,
+): SorterResult<RecordType> {
+    if (sorterState && sorterState.sortOrder) return stateToInfo(sorterState)
 
-    if (list.length <= 1) {
-        return list[0] || {}
-    }
-
-    return list
+    return {}
 }
 
 function getSortFunction<RecordType>(
@@ -230,35 +210,29 @@ function getSortFunction<RecordType>(
 
 export function getSortData<RecordType>(
     data: readonly RecordType[],
-    sortStates: SortState<RecordType>[],
+    sortState: SortState<RecordType> | null,
 ): RecordType[] {
     const cloneData = data.slice()
-
-    const runningSorters = sortStates.filter(
-        ({ column: { sorter }, sortOrder }) => getSortFunction(sorter) && sortOrder,
-    )
+    const runningSorter = sortState
 
     // Skip if no sorter needed
-    if (!runningSorters.length) {
+    if (!runningSorter) {
         return cloneData
     }
 
     return cloneData.sort((record1, record2) => {
-        for (let i = 0; i < runningSorters.length; i += 1) {
-            const sorterState = runningSorters[i]
-            const {
-                column: { sorter },
-                sortOrder,
-            } = sorterState
+        const {
+            column: { sorter },
+            sortOrder,
+        } = runningSorter
 
-            const compareFn = getSortFunction(sorter)
+        const compareFn = getSortFunction(sorter)
 
-            if (compareFn && sortOrder) {
-                const compareResult = compareFn(record1, record2, sortOrder)
+        if (compareFn && sortOrder) {
+            const compareResult = compareFn(record1, record2, sortOrder)
 
-                if (compareResult !== 0) {
-                    return sortOrder === ASCEND ? compareResult : -compareResult
-                }
+            if (compareResult !== 0) {
+                return sortOrder === ASCEND ? compareResult : -compareResult
             }
         }
 

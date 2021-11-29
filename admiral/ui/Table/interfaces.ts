@@ -1,10 +1,7 @@
-import {
-    GetRowKey,
-    ColumnType as RcColumnType,
-    RenderedCell as RcRenderedCell,
-    ExpandableConfig,
-} from 'rc-table/lib/interface'
-import { SortOrder } from './hooks/useSorter'
+import { TableProps as RcTableProps } from 'rc-table/lib/Table'
+import { ColumnType as RcColumnType } from 'rc-table/lib/interface'
+import { SorterResult, SortOrder, ControlledSorter } from './hooks/useSorter'
+import { tuple } from '@/admiral/utils/type'
 
 export type Key = React.Key
 export type CompareFn<T> = (a: T, b: T, sortOrder?: SortOrder) => number
@@ -17,14 +14,29 @@ export interface ColumnType<RecordType> extends RcColumnType<RecordType> {
 
 export type ColumnsType<RecordType = unknown> = ColumnType<RecordType>[]
 
-export interface ColumnTitleProps<RecordType> {
-    sortColumns?: { column: ColumnType<RecordType>; order: SortOrder }[]
+export type SizeType = 'small' | 'middle' | 'large'
+
+export interface ChangeEventInfo<RecordType> {
+    sorter: SorterResult<RecordType>
 }
 
-export type ColumnTitle<RecordType> =
-    | React.ReactNode
-    | ((props: ColumnTitleProps<RecordType>) => React.ReactNode)
+const TableActions = tuple('paginate', 'sort', 'filter')
+export type TableAction = typeof TableActions[number]
 
-export type TransformColumns<RecordType> = (
-    columns: ColumnsType<RecordType>,
-) => ColumnsType<RecordType>
+export interface TableExtra {
+    action: TableAction
+}
+
+export interface TableProps<RecordType>
+    extends Omit<
+        RcTableProps<RecordType>,
+        'transformColumns' | 'internalHooks' | 'internalRefs' | 'data' | 'columns' | 'emptyText'
+    > {
+    dataSource?: RcTableProps<RecordType>['data']
+    columns?: ColumnsType<RecordType>
+    size?: SizeType
+    bordered?: boolean
+    onChange?: (sorter: SorterResult<RecordType>, extra: TableExtra) => void
+    sortDirections?: SortOrder[]
+    sorter?: ControlledSorter | null
+}

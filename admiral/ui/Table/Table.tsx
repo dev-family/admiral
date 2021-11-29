@@ -1,52 +1,16 @@
 import React, { forwardRef, useMemo } from 'react'
+import RcTable from 'rc-table'
 import cn from 'classnames'
-import RcTable, { Summary } from 'rc-table'
-import { TableProps as RcTableProps, INTERNAL_HOOKS } from 'rc-table/lib/Table'
 import { convertChildrenToColumns } from 'rc-table/lib/hooks/useColumns'
+import { ColumnsType, ColumnType, TableProps, ChangeEventInfo, TableAction } from './interfaces'
+import useSorter, { SorterResult, getSortData } from './hooks/useSorter'
 import styles from './Table.module.scss'
-import { ColumnsType, ColumnType } from './interfaces'
-import useSorter, { SorterResult, SortState, SortOrder, getSortData } from './hooks/useSorter'
 
 // TODO: loading spinner
 // TODO: pagination
 // TODO: controlled sorter
 // TODO: sorter tooltip
-
-export type SizeType = 'small' | 'middle' | 'large'
-
-export interface ChangeEventInfo<RecordType> {
-    sorter: SorterResult<RecordType> | SorterResult<RecordType>[]
-    sorterStates: SortState<RecordType>[]
-}
-
-export interface TableProps<RecordType>
-    extends Omit<
-        RcTableProps<RecordType>,
-        | 'transformColumns'
-        | 'internalHooks'
-        | 'internalRefs'
-        | 'data'
-        | 'columns'
-        // | 'scroll'
-        | 'emptyText'
-    > {
-    // dropdownPrefixCls?: string;
-    dataSource?: RcTableProps<RecordType>['data']
-    columns?: ColumnsType<RecordType>
-    // pagination?: false | TablePaginationConfig;
-    // loading?: boolean | SpinProps;
-    size?: SizeType
-    bordered?: boolean
-    onChange?: (sorter: SorterResult<RecordType> | SorterResult<RecordType>[]) => void
-    // rowSelection?: TableRowSelection<RecordType>;
-
-    // getPopupContainer?: GetPopupContainer;
-    // scroll?: RcTableProps<RecordType>['scroll'] & {
-    //   scrollToFirstRowOnChange?: boolean;
-    // };
-    sortDirections?: SortOrder[]
-    // showSorterTooltip?: boolean | TooltipProps;
-}
+// TODO: docs: sortDirections/sorter (Table props), sortDirections/defaultSortOrder/sorter (Column props)
 
 const EMPTY_LIST: any[] = []
 
@@ -66,6 +30,7 @@ function InternalTable<RecordType extends object = any>(
         size = 'large',
         bordered = false,
         sortDirections,
+        sorter,
         onChange,
         children,
         ...tableProps
@@ -73,18 +38,6 @@ function InternalTable<RecordType extends object = any>(
 
     const data: readonly RecordType[] = dataSource || EMPTY_LIST
 
-    // >>>>>>>>> Spinning
-    // let spinProps: SpinProps | undefined;
-    // if (typeof loading === 'boolean') {
-    //   spinProps = {
-    //     spinning: loading,
-    //   };
-    // } else if (typeof loading === 'object') {
-    //   spinProps = {
-    //     spinning: true,
-    //     ...loading,
-    //   };
-    // }
     // To merge columns used as children (<Table.Column />)
     const mergedColumns = useMemo(() => {
         return columns || (convertChildrenToColumns(children) as ColumnsType<RecordType>)
@@ -92,38 +45,35 @@ function InternalTable<RecordType extends object = any>(
 
     const changeEventInfo: Partial<ChangeEventInfo<RecordType>> = {}
 
-    const _onChange = (info: Partial<ChangeEventInfo<RecordType>>) => {
+    const _onChange = (info: Partial<ChangeEventInfo<RecordType>>, action: TableAction) => {
         const changeInfo = {
             ...changeEventInfo,
             ...info,
         }
 
         if (onChange) {
-            onChange(changeInfo.sorter!)
+            onChange(changeInfo.sorter!, { action })
         }
     }
 
-    const onSorterChange = (
-        sorter: SorterResult<RecordType> | SorterResult<RecordType>[],
-        sorterStates: SortState<RecordType>[],
-    ) => {
-        _onChange({
-            sorter,
-            sorterStates,
-        })
+    const onSorterChange = (sorter: SorterResult<RecordType>) => {
+        _onChange(
+            {
+                sorter,
+            },
+            'sort',
+        )
     }
 
-    const [transformSorterColumns, sortStates, sorterTitleProps, getSorters] =
-        useSorter<RecordType>({
-            mergedColumns,
-            onSorterChange,
-            sortDirections: sortDirections || ['ascend', 'descend'],
-        })
-    const sortedData = React.useMemo(() => getSortData(data, sortStates), [data, sortStates])
+    const [transformedColumns, sortState, getSorters] = useSorter<RecordType>({
+        mergedColumns,
+        onSorterChange,
+        sortDirections: sortDirections || ['ascend', 'descend'],
+        controlledSorter: sorter,
+    })
+    const sortedData = React.useMemo(() => getSortData(data, sortState), [data, sortState])
 
     changeEventInfo.sorter = getSorters()
-    changeEventInfo.sorterStates = sortStates
-    const transformedColumns = transformSorterColumns(mergedColumns)
 
     return (
         <div
@@ -135,30 +85,12 @@ function InternalTable<RecordType extends object = any>(
             })}
             style={style}
         >
-            {/* <Spin spinning={false} {...spinProps}> */}
             <RcTable<RecordType>
                 {...tableProps}
                 prefixCls="admiral-table"
                 columns={transformedColumns}
                 data={sortedData}
-                // direction={direction}
-                // expandable={mergedExpandable}
-                // className={classNames({
-                //   [`${prefixCls}-middle`]: mergedSize === 'middle',
-                //   [`${prefixCls}-small`]: mergedSize === 'small',
-                //   [`${prefixCls}-bordered`]: bordered,
-                //   [`${prefixCls}-empty`]: rawData.length === 0,
-                // })}
-                // rowKey={getRowKey}
-                // rowClassName={internalRowClassName}
-                // emptyText={(locale && locale.emptyText) || renderEmpty('Table')}
-                // // Internal
-                // internalHooks={INTERNAL_HOOKS}
-                // internalRefs={internalRefs as any}
-                // transformColumns={transformColumns}
             />
-            {/* {bottomPaginationNode} */}
-            {/* </Spin> */}
         </div>
     )
 }

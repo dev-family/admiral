@@ -1,4 +1,4 @@
-import { ColumnType, Key, ColumnTitle, ColumnTitleProps } from './interfaces'
+import { ColumnType, Key } from './interfaces'
 
 export function getColumnKey<RecordType>(column: ColumnType<RecordType>, defaultKey: string): Key {
     if ('key' in column && column.key !== undefined && column.key !== null) {
@@ -15,15 +15,4 @@ export function getColumnKey<RecordType>(column: ColumnType<RecordType>, default
 
 export function getColumnPos(index: number, pos?: string) {
     return pos ? `${pos}-${index}` : `${index}`
-}
-
-export function renderColumnTitle<RecordType>(
-    title: ColumnTitle<RecordType>,
-    props: ColumnTitleProps<RecordType>,
-) {
-    if (typeof title === 'function') {
-        return title(props)
-    }
-
-    return title
 }

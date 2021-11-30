@@ -1,7 +1,7 @@
-import { Page, Table } from '@/admiral/ui'
+import React, { useState } from 'react'
+import { Page, Table, Pagination } from '@/admiral/ui'
 import { Link } from 'react-router-dom'
 import { ColumnsType } from '@/admiral/ui/Table/interfaces'
-import React from 'react'
 
 interface IUser {
     key: number
@@ -76,6 +76,12 @@ const title = () => 'Here is title'
 const footer = () => 'Here is footer'
 
 export default () => {
+    const [pagination, setPagination] = useState({ current: 3 })
+
+    const onPaginationChange = (page: number) => {
+        setPagination((prev) => ({ ...prev, current: page }))
+    }
+
     return (
         <Page
             title="Users"
@@ -123,6 +129,30 @@ export default () => {
                     width={150}
                 />
             </Table>
+            <br />
+            <hr />
+            <br />
+            <h2>Pagination</h2>
+            <br />
+            <h3>• Default</h3>
+            <br />
+            <Pagination
+                current={pagination.current}
+                total={250}
+                onChange={onPaginationChange}
+                showTotal={(total) => `Total ${total} items`}
+                showTitle={false}
+            />
+            <br />
+            <h3>• Small</h3>
+            <br />
+            <Pagination
+                current={pagination.current}
+                total={25000}
+                onChange={onPaginationChange}
+                showTitle={false}
+                size="small"
+            />
         </Page>
     )
 }

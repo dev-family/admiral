@@ -10,6 +10,10 @@ export interface IconWrapperProps extends IconProps {
 }
 
 export type IconName =
+    | 'backward'
+    | 'backward-double'
+    | 'forward'
+    | 'forward-double'
     | 'dev-family-logo'
     | 'dev-family-logo-inversion'
     | 'dev-family-logo-inversion-bw'

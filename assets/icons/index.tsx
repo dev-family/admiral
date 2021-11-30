@@ -3,6 +3,10 @@ import { IconComponentType, IconWrapperProps } from './interfaces'
 import DevFamilyLogo from './DevFamilyLogo'
 import DevFamilyLogoInversion from './DevFamilyLogoInversion'
 import DevFamilyLogoInversionBW from './DevFamilyLogoInversionBW'
+import Backward from './BackwardIcon'
+import BackwardDouble from './BackwardDoubleIcon'
+import Forward from './ForwardIcon'
+import ForwardDouble from './ForwardDoubleIcon'
 
 const Icon = ({ name, ...props }: IconWrapperProps) => {
     let Component: IconComponentType
@@ -19,6 +23,22 @@ const Icon = ({ name, ...props }: IconWrapperProps) => {
         }
         case 'dev-family-logo-inversion-bw': {
             Component = DevFamilyLogoInversionBW
+            break
+        }
+        case 'backward': {
+            Component = Backward
+            break
+        }
+        case 'backward-double': {
+            Component = BackwardDouble
+            break
+        }
+        case 'forward': {
+            Component = Forward
+            break
+        }
+        case 'forward-double': {
+            Component = ForwardDouble
             break
         }
     }

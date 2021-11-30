@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Card, CardFooter, Paginator } from '@/admiral/ui'
+import { Card, CardFooter } from '@/admiral/ui'
 
 export type DataTableProps = {
     url: string
@@ -50,11 +50,11 @@ export const DataTable: React.FC<DataTableProps> = ({ url, options }) => {
                 </tbody>
             </table>
             <CardFooter className="d-flex align-items-end">
-                <Paginator
+                {/* <Paginator
                     currentPage={pagination.page}
                     totalPages={pagination.totalPages}
                     onChange={(page) => setPagination((pagination) => ({ ...pagination, page }))}
-                />
+                /> */}
             </CardFooter>
         </Card>
     )

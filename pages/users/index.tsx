@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Page, Table, Pagination } from '@/admiral/ui'
 import { Link } from 'react-router-dom'
-import { ColumnsType } from '@/admiral/ui/Table/interfaces'
+import { ColumnsType, TableProps } from '@/admiral/ui/Table/interfaces'
 
 interface IUser {
     key: number
@@ -76,6 +76,10 @@ const title = () => 'Here is title'
 const footer = () => 'Here is footer'
 
 export default () => {
+    const onChange: TableProps<IUser>['onChange'] = (pagination, sorter, extra) => {
+        console.log('[Change data: pagination, sorter, extra]', pagination, sorter, extra)
+    }
+
     const [pagination, setPagination] = useState({ current: 3 })
 
     const onPaginationChange = (page: number) => {
@@ -101,6 +105,8 @@ export default () => {
                 }}
                 sticky
                 bordered
+                onChange={onChange}
+                pagination={{ size: 'small', position: ['bottomCenter'] }}
             />
             <br />
             <Table
@@ -111,17 +117,10 @@ export default () => {
                     x: 0,
                 }}
                 sticky
+                onChange={onChange}
             >
                 <Table.Column<IUser> title="Full Name" dataIndex="name" key="name" width={200} />
-                <Table.Column<IUser>
-                    title="Age"
-                    dataIndex="age"
-                    key="age"
-                    width={200}
-                    sortDirections={['descend', 'ascend', 'descend']}
-                    defaultSortOrder="descend"
-                    sorter={(a, b) => a.age - b.age}
-                />
+                <Table.Column<IUser> title="Age" dataIndex="age" key="age" width={200} />
                 <Table.Column<IUser>
                     title="Address 2"
                     dataIndex="address"
@@ -129,7 +128,6 @@ export default () => {
                     width={150}
                 />
             </Table>
-            <br />
             <hr />
             <br />
             <h2>Pagination</h2>

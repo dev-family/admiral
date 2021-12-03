@@ -4,11 +4,11 @@ import cn from 'classnames'
 import { convertChildrenToColumns } from 'rc-table/lib/hooks/useColumns'
 import { ColumnsType, ColumnType, TableProps, ChangeEventInfo, TableAction } from './interfaces'
 import useSorter, { SorterResult, getSortData } from './hooks/useSorter'
+import usePagination, { getPaginationParam, DEFAULT_PAGE_SIZE } from './hooks/usePagination'
+import { Pagination } from '../Pagination'
 import styles from './Table.module.scss'
 
 // TODO: loading spinner
-// TODO: pagination
-// TODO: controlled sorter
 // TODO: sorter tooltip
 // TODO: docs: sortDirections/sorter (Table props), sortDirections/defaultSortOrder/sorter (Column props)
 
@@ -31,6 +31,7 @@ function InternalTable<RecordType extends object = any>(
         bordered = false,
         sortDirections,
         sorter,
+        pagination,
         onChange,
         children,
         ...tableProps
@@ -52,7 +53,7 @@ function InternalTable<RecordType extends object = any>(
         }
 
         if (onChange) {
-            onChange(changeInfo.sorter!, { action })
+            onChange(changeInfo.pagination!, changeInfo.sorter!, { action })
         }
     }
 
@@ -71,9 +72,81 @@ function InternalTable<RecordType extends object = any>(
         sortDirections: sortDirections || ['ascend', 'descend'],
         controlledSorter: sorter,
     })
+    changeEventInfo.sorter = getSorters()
     const sortedData = React.useMemo(() => getSortData(data, sortState), [data, sortState])
 
-    changeEventInfo.sorter = getSorters()
+    // ========================== Pagination ==========================
+    const onPaginationChange = (current: number, pageSize: number) => {
+        _onChange({ pagination: { ...changeEventInfo.pagination, current, pageSize } }, 'paginate')
+    }
+    const [mergedPagination, resetPagination] = usePagination(
+        sortedData.length,
+        pagination,
+        onPaginationChange,
+    )
+
+    changeEventInfo.pagination = getPaginationParam(mergedPagination)
+    changeEventInfo.resetPagination = resetPagination
+
+    // ============================= Data =============================
+    const pageData = React.useMemo<RecordType[]>(() => {
+        if (pagination === false || !mergedPagination.pageSize) {
+            return sortedData
+        }
+
+        const { current = 1, total, pageSize = DEFAULT_PAGE_SIZE } = mergedPagination
+
+        // Dynamic table data
+        if (sortedData.length < total!) {
+            if (sortedData.length > pageSize) {
+                return sortedData.slice((current - 1) * pageSize, current * pageSize)
+            }
+            return sortedData
+        }
+
+        return sortedData.slice((current - 1) * pageSize, current * pageSize)
+    }, [!!pagination, sortedData, mergedPagination])
+
+    // ======================= Render Pagination ======================
+    let topPaginationNode: React.ReactNode
+    let bottomPaginationNode: React.ReactNode
+    if (pagination !== false && mergedPagination?.total) {
+        const renderPagination = (position: string, small?: boolean) => (
+            <div
+                className={cn(styles.pagination, {
+                    [styles.pagination__PosLeft]: position === 'left',
+                    [styles.pagination__PosCenter]: position === 'center',
+                    [styles.pagination__SizeSmall]: small,
+                })}
+            >
+                <Pagination {...mergedPagination} />
+            </div>
+        )
+        const defaultPosition = 'right'
+        const { position, size } = mergedPagination
+        const isSmall = size === 'small'
+        if (Array.isArray(position)) {
+            const topPos = position.find((p) => p.indexOf('top') !== -1)
+            const bottomPos = position.find((p) => p.indexOf('bottom') !== -1)
+            if (!topPos && !bottomPos) {
+                bottomPaginationNode = renderPagination(defaultPosition, isSmall)
+            }
+            if (topPos) {
+                topPaginationNode = renderPagination(
+                    topPos!.toLowerCase().replace('top', ''),
+                    isSmall,
+                )
+            }
+            if (bottomPos) {
+                bottomPaginationNode = renderPagination(
+                    bottomPos!.toLowerCase().replace('bottom', ''),
+                    isSmall,
+                )
+            }
+        } else {
+            bottomPaginationNode = renderPagination(defaultPosition, isSmall)
+        }
+    }
 
     return (
         <div
@@ -85,12 +158,14 @@ function InternalTable<RecordType extends object = any>(
             })}
             style={style}
         >
+            {topPaginationNode}
             <RcTable<RecordType>
                 {...tableProps}
                 prefixCls="admiral-table"
                 columns={transformedColumns}
-                data={sortedData}
+                data={pageData}
             />
+            {bottomPaginationNode}
         </div>
     )
 }

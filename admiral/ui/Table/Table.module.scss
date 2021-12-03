@@ -369,3 +369,24 @@ $table-class: 'admiral-table';
         }
     }
 }
+
+.pagination {
+    display: flex;
+    width: 100%;
+    padding-top: var(--table-pagination-pt, var(--space-xl));
+    padding-bottom: var(--table-pagination-pb, var(--space-xl));
+    --pagination-horizontal-align: flex-end;
+
+    &__SizeSmall {
+        padding-top: var(--table-pagination-pt, var(--space-l));
+        padding-bottom: var(--table-pagination-pb, var(--space-l));
+    }
+
+    &__PosLeft {
+        --pagination-horizontal-align: flex-start;
+    }
+
+    &__PosCenter {
+        --pagination-horizontal-align: center;
+    }
+}

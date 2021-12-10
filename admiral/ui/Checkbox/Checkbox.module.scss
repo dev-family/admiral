@@ -1,0 +1,42 @@
+.checkbox {
+    $this: &;
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    vertical-align: middle;
+    gap: var(--checkbox-offset, var(--space-xs));
+    cursor: pointer;
+    font-size: var(--checkbox-fz, var(--control-text-size-m));
+    color: var(--color-control-typo-default);
+    user-select: none;
+
+    &__Large {
+        --choice-frame-size: var(--checkbox-size, 20px);
+        --checkbox-fz: var(--control-text-size-l);
+        --checkbox-offset: var(--space-s);
+    }
+
+    &__AlignTop {
+        align-items: flex-start;
+
+        &:not(#{$this}__Empty) {
+            --choice-pt: var(--checkbox-align-offset, 3px);
+        }
+    }
+
+    &__AlignCenter {
+        align-items: center;
+    }
+
+    &__AlignBottom {
+        align-items: flex-end;
+
+        &:not(#{$this}__Empty) {
+            --choice-pb: var(--checkbox-align-offset, 3px);
+        }
+    }
+
+    &__Empty {
+        --choice-pt: 0;
+    }
+}

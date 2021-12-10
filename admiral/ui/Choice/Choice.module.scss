@@ -1,0 +1,180 @@
+@use '@/assets/mixins' as *;
+
+.wrapper {
+    display: inline-flex;
+    vertical-align: middle;
+    padding-top: var(--choice-pt, 0);
+    padding-bottom: var(--choice-pb, 0);
+    cursor: pointer;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    &__Radio {
+        .inner {
+            &::before,
+            &::after {
+                border-radius: var(--choice-frame-radius, 50%);
+            }
+
+            &::after {
+                width: 50%;
+                height: 50%;
+                border-width: 0px;
+                background: currentColor;
+            }
+        }
+    }
+
+    &__Indeterminate {
+        .inner {
+            &::before {
+                background-color: var(
+                    --choice-frame-bg-color-checked,
+                    var(--color-control-bg-primary)
+                );
+                border-color: var(
+                    --choice-frame-border-color-checked,
+                    var(--color-control-bg-primary)
+                );
+            }
+
+            &::after {
+                width: 36%;
+                height: 36%;
+                border-radius: 2px;
+                border-width: 0px;
+                background: currentColor;
+                transform: scale(1);
+                opacity: 1;
+                transition: opacity 0s, transform 0.16s ease-out;
+            }
+        }
+    }
+
+    &__Ghost {
+        --choice-frame-bg-color-checked: var(--color-control-bg-ghost);
+        --choice-frame-border-color-checked: var(--color-control-bg-border-default);
+        --choice-color: var(--color-control-typo-ghost);
+        --choice-frame-border-color-hover: var(--color-control-bg-border-default);
+    }
+
+    @include noTouchHover() {
+        .inner {
+            &::before {
+                border-color: var(
+                    --choice-frame-border-color-hover,
+                    var(--color-control-bg-border-default-hover)
+                );
+            }
+        }
+    }
+}
+
+.inner {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--choice-frame-size, 16px);
+    height: var(--choice-frame-size, 16px);
+    color: var(--choice-color, var(--color-control-typo-primary));
+    user-select: none;
+
+    &::before,
+    &::after {
+        content: var(--choice-frame-content, '');
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        line-height: 1;
+    }
+
+    &::before {
+        background-color: var(--choice-frame-bg-color, transparent);
+        border: 1px solid var(--choice-frame-border-color, var(--color-control-bg-border-default));
+        border-radius: var(--control-radius);
+        transition: background-color 0.16s ease, border-color 0.16s ease;
+    }
+
+    &::after {
+        top: auto;
+        left: auto;
+        opacity: 0;
+        width: 52%;
+        height: 28%;
+        border-bottom: 2px solid currentColor;
+        border-left: 2px solid currentColor;
+        will-change: transform;
+        transform: scale(0.4) rotate(-50deg) translate(10%, -15%);
+        transform-origin: center;
+        transition: opacity 0s 0.16s, transform 0.16s ease-in;
+    }
+}
+
+.input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    overflow: hidden;
+    pointer-events: none;
+    white-space: nowrap;
+
+    &:checked + .inner {
+        &::before {
+            background-color: var(--choice-frame-bg-color-checked, var(--color-control-bg-primary));
+            border-color: var(--choice-frame-border-color-checked, var(--color-control-bg-primary));
+        }
+
+        &::after {
+            transform: scale(1) rotate(-50deg) translate(10%, -15%);
+            opacity: 1;
+            transition: opacity 0s, transform 0.16s ease-in;
+        }
+    }
+
+    &:focus-visible + .inner {
+        &::before {
+            animation: animFocus 0.4s ease-in both;
+        }
+    }
+
+    &:disabled + .inner {
+        cursor: default;
+
+        &::before {
+            background-color: var(--color-control-bg-disable);
+            border-color: var(--color-control-bg-border-disable);
+        }
+    }
+
+    &:disabled:checked + .inner {
+        &::after {
+            opacity: 0.5;
+        }
+    }
+}
+
+@keyframes animFocus {
+    from {
+        box-shadow: 0 0 0 0 var(--color-control-bg-focus), 0 0 0 0 var(--color-control-bg-active);
+    }
+
+    to {
+        box-shadow: 0 0 0 1px var(--color-control-bg-focus), 0 0 0 3px transparent;
+    }
+}

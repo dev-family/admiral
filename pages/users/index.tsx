@@ -76,6 +76,16 @@ const title = () => 'Here is title'
 const footer = () => 'Here is footer'
 
 export default () => {
+    const [selectedKeys, setSelectedKeys] = useState([])
+    const onSelectionChange = (selectedRowKeys: any) => {
+        setSelectedKeys(selectedRowKeys)
+    }
+
+    const [selectedKeys2, setSelectedKeys2] = useState([])
+    const onSelectionChange2 = (selectedRowKeys: any) => {
+        setSelectedKeys2(selectedRowKeys)
+    }
+
     const onChange: TableProps<IUser>['onChange'] = (pagination, sorter, extra) => {
         console.log('[Change data: pagination, sorter, extra]', pagination, sorter, extra)
     }
@@ -95,7 +105,10 @@ export default () => {
                 </Link>
             }
         >
+            <h3>Selected keys: {selectedKeys.join(', ')}</h3>
+            <br />
             <Table
+                rowSelection={{ selectedRowKeys: selectedKeys, onChange: onSelectionChange }}
                 dataSource={data}
                 columns={columns}
                 title={title}
@@ -109,7 +122,15 @@ export default () => {
                 pagination={{ size: 'small', position: ['bottomCenter'] }}
             />
             <br />
+            <h3>Selected keys: {selectedKeys2.join(', ')}</h3>
+            <br />
             <Table
+                rowSelection={{
+                    selectedRowKeys: selectedKeys2,
+                    onChange: onSelectionChange2,
+                    getCheckboxProps: () => ({ view: 'ghost' }),
+                    getTitleCheckboxProps: () => ({ view: 'ghost' }),
+                }}
                 dataSource={data}
                 title={title}
                 footer={footer}

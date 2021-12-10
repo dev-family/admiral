@@ -2,15 +2,26 @@ import React, { forwardRef, useMemo } from 'react'
 import RcTable from 'rc-table'
 import cn from 'classnames'
 import { convertChildrenToColumns } from 'rc-table/lib/hooks/useColumns'
-import { ColumnsType, ColumnType, TableProps, ChangeEventInfo, TableAction } from './interfaces'
+import {
+    ColumnsType,
+    ColumnType,
+    TableProps,
+    ChangeEventInfo,
+    TableAction,
+    GetRowKey,
+} from './interfaces'
 import useSorter, { SorterResult, getSortData } from './hooks/useSorter'
 import usePagination, { getPaginationParam, DEFAULT_PAGE_SIZE } from './hooks/usePagination'
+import useSelection from './hooks/useSelection'
+import useLazyKVMap from './hooks/useLazyKVMap'
 import { Pagination } from '../Pagination'
 import styles from './Table.module.scss'
 
 // TODO: loading spinner
 // TODO: sorter tooltip
+// TODO: table locale
 // TODO: docs: sortDirections/sorter (Table props), sortDirections/defaultSortOrder/sorter (Column props)
+// TODO: docs: rowSelection properties
 
 const EMPTY_LIST: any[] = []
 
@@ -33,11 +44,24 @@ function InternalTable<RecordType extends object = any>(
         sorter,
         pagination,
         onChange,
+        rowKey = 'key',
+        rowSelection,
         children,
         ...tableProps
     } = props
 
     const data: readonly RecordType[] = dataSource || EMPTY_LIST
+
+    // ============================ RowKey ============================
+    const getRowKey = useMemo<GetRowKey<RecordType>>(() => {
+        if (typeof rowKey === 'function') {
+            return rowKey
+        }
+
+        return (record: RecordType) => (record as any)?.[rowKey as string]
+    }, [rowKey])
+
+    const [getRecordByKey] = useLazyKVMap(data, getRowKey)
 
     // To merge columns used as children (<Table.Column />)
     const mergedColumns = useMemo(() => {
@@ -107,6 +131,15 @@ function InternalTable<RecordType extends object = any>(
         return sortedData.slice((current - 1) * pageSize, current * pageSize)
     }, [!!pagination, sortedData, mergedPagination])
 
+    // ========================== Selections ==========================
+    const [transformSelectionColumns, selectedKeySet] = useSelection<RecordType>(rowSelection, {
+        prefixCls: 'admiral-table',
+        pageData,
+        getRowKey,
+        getRecordByKey,
+    })
+    const transformedSelectionColumns = transformSelectionColumns(transformedColumns)
+
     // ======================= Render Pagination ======================
     let topPaginationNode: React.ReactNode
     let bottomPaginationNode: React.ReactNode
@@ -162,8 +195,9 @@ function InternalTable<RecordType extends object = any>(
             <RcTable<RecordType>
                 {...tableProps}
                 prefixCls="admiral-table"
-                columns={transformedColumns}
+                columns={transformedSelectionColumns}
                 data={pageData}
+                rowKey={getRowKey}
             />
             {bottomPaginationNode}
         </div>

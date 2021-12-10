@@ -241,6 +241,14 @@ $table-class: 'admiral-table';
                 }
             }
 
+            &-selection-col {
+                width: calc(var(--table-padding-horizontal) * 2 + 16px);
+            }
+
+            &-selection-column {
+                width: calc(var(--table-padding-horizontal) * 2 + 16px);
+            }
+
             // ============================ Fixed =============================
             &-cell-fix-left,
             &-cell-fix-right {

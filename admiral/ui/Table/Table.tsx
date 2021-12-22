@@ -214,9 +214,19 @@ function InternalTable<RecordType extends object = any>(
                     columns={transformedSelectionColumns}
                     data={pageData}
                     rowKey={getRowKey}
+                    emptyText={<NoData />}
                 />
                 {bottomPaginationNode}
             </Spin>
+        </div>
+    )
+}
+
+function NoData() {
+    return (
+        <div className={styles.empty}>
+            <Icon name="tray" />
+            <div>Нет данных</div>
         </div>
     )
 }

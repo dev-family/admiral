@@ -146,6 +146,11 @@ $table-class: 'admiral-table';
                 }
             }
 
+            &-expanded-row-fixed {
+                position: static !important;
+                width: 100% !important;
+            }
+
             // ============================ Sorter ============================
             &-thead th.column-has-sorters {
                 cursor: pointer;
@@ -396,5 +401,19 @@ $table-class: 'admiral-table';
 
     &__PosCenter {
         --pagination-horizontal-align: center;
+    }
+}
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: var(--space-s);
+    padding-bottom: var(--space-s);
+
+    svg {
+        margin-bottom: var(--space-2xs);
     }
 }

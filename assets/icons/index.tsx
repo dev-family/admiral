@@ -8,6 +8,7 @@ import BackwardDouble from './BackwardDoubleIcon'
 import Forward from './ForwardIcon'
 import ForwardDouble from './ForwardDoubleIcon'
 import Spinner from './SpinnerIcon'
+import Tray from './TrayIcon'
 
 const Icon = ({ name, ...props }: IconWrapperProps) => {
     let Component: IconComponentType
@@ -44,6 +45,10 @@ const Icon = ({ name, ...props }: IconWrapperProps) => {
         }
         case 'spinner': {
             Component = Spinner
+            break
+        }
+        case 'tray': {
+            Component = Tray
             break
         }
     }

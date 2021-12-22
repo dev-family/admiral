@@ -1,0 +1,51 @@
+.wrapper {
+    position: relative;
+
+    .spin {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        max-height: 400px;
+    }
+}
+
+.spin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__Small {
+        --spin-indicator-width: var(--control-height-xs);
+        --spin-text-fz: var(--size-text-s);
+    }
+
+    &__Large {
+        --spin-indicator-width: var(--control-height-l);
+        --spin-text-fz: var(--size-text-xl);
+    }
+}
+
+.indicator {
+    color: var(--color-control-bg-primary);
+
+    svg {
+        width: var(--spin-indicator-width, var(--control-height-s));
+        height: auto;
+    }
+}
+
+.text {
+    padding-top: var(--space-xs);
+    font-size: var(--spin-text-fz, var(--size-text-m));
+}
+
+.content {
+    transition: opacity 0.2s;
+
+    &__Blur {
+        user-select: none;
+        pointer-events: none;
+        opacity: 0.3;
+    }
+}

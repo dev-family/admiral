@@ -17,5 +17,6 @@ export type IconName =
     | 'dev-family-logo'
     | 'dev-family-logo-inversion'
     | 'dev-family-logo-inversion-bw'
+    | 'spinner'
 
 export type IconComponentType = ((props: IconProps) => JSX.Element) | null

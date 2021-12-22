@@ -7,6 +7,7 @@ import Backward from './BackwardIcon'
 import BackwardDouble from './BackwardDoubleIcon'
 import Forward from './ForwardIcon'
 import ForwardDouble from './ForwardDoubleIcon'
+import Spinner from './SpinnerIcon'
 
 const Icon = ({ name, ...props }: IconWrapperProps) => {
     let Component: IconComponentType
@@ -39,6 +40,10 @@ const Icon = ({ name, ...props }: IconWrapperProps) => {
         }
         case 'forward-double': {
             Component = ForwardDouble
+            break
+        }
+        case 'spinner': {
+            Component = Spinner
             break
         }
     }

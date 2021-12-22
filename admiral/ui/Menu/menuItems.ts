@@ -37,6 +37,11 @@ const menu: IMenuItem[] = [
         children: [
             {
                 icon: 'FiUsers',
+                name: 'All Users',
+                to: '/crud-users',
+            },
+            {
+                icon: 'FiUsers',
                 name: 'Create CRUD User',
                 to: '/crud-users/create',
             },

@@ -6,20 +6,35 @@ export const UsersCRUD = createCRUD({
     path: '/crud-users',
     index: {
         title: 'Users CRUD',
-        apiURL: 'http://localhost/api/users',
+        apiURL: '/api/users',
         newButtonText: 'Create New User',
         tableOptions: [
             {
-                label: '#',
-                dataKey: 'id',
+                title: 'Full Name',
+                dataIndex: 'name',
+                key: 'name',
+                width: 200,
+                sorter: true,
             },
             {
-                label: 'Name',
-                dataKey: 'name',
+                title: 'Age',
+                dataIndex: 'age',
+                key: 'age',
+                width: 200,
+                sorter: true,
             },
             {
-                label: 'Email',
-                dataKey: 'email',
+                title: 'Email',
+                dataIndex: 'email',
+                key: 'email',
+                width: 200,
+            },
+            {
+                title: 'Address',
+                dataIndex: 'address',
+                key: 'address 1',
+                width: 150,
+                ellipsis: true,
             },
         ],
     },
@@ -34,10 +49,10 @@ export const UsersCRUD = createCRUD({
     },
     create: {
         title: 'Create New User',
-        apiURL: 'http://localhost/api/users',
+        apiURL: '/api/users',
     },
     update: {
         title: (id: string) => `Edit User #${id}`,
-        apiURL: (id: string) => `http://localhost/api/users/${id}`,
+        apiURL: (id: string) => `/api/users/${id}`,
     },
 })

@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import React from 'react'
+import { Switch, Route } from 'react-router-dom'
 
 export function createRoutesFrom(modules: any) {
     const routes = Object.keys(modules)
@@ -8,13 +8,17 @@ export function createRoutesFrom(modules: any) {
 
             return {
                 name,
-                path: '/' + name.replace('index', '/').replace('//', ''),
+                path:
+                    '/' +
+                    name
+                        .replace('index', '/')
+                        .replace('//', '')
+                        // replaces [param] with :param
+                        .replace(/\[([^\/]+)\]/gi, ':$1'),
                 Component: modules[path].default,
             }
         })
         .reverse()
-
-    console.log(routes)
 
     return () => (
         <Switch>

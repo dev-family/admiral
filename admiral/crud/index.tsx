@@ -1,16 +1,17 @@
-import { DataTable, DataTableProps } from '@/admiral/datatable'
+import { DataTable } from '@/admiral/DataTable'
 import { Form, Submit } from '@/admiral/form'
 import { Page, Card, CardBody } from '@/admiral/ui'
+import { ColumnsType } from '@/admiral/ui/Table/interfaces'
 import { Link } from 'react-router-dom'
 import React from 'react'
 
-type CRUDConfig = {
+type CRUDConfig<RecordType> = {
     path: string
     index: {
         title: string
         apiURL: string
         newButtonText: string
-        tableOptions: DataTableProps['options']
+        tableOptions: ColumnsType<RecordType>
     }
     form: {
         fields: React.ReactNode
@@ -25,7 +26,9 @@ type CRUDConfig = {
     }
 }
 
-function makeIndexPage(config: CRUDConfig) {
+function makeIndexPage<RecordType extends { id: number | string } = any>(
+    config: CRUDConfig<RecordType>,
+) {
     return () => {
         return (
             <Page
@@ -38,21 +41,17 @@ function makeIndexPage(config: CRUDConfig) {
             >
                 <DataTable
                     url={config.index.apiURL}
-                    options={[
+                    columns={[
                         ...config.index.tableOptions,
                         {
-                            label: 'Actions',
-                            align: 'right',
-                            render({ id }) {
-                                return (
-                                    <Link
-                                        className="btn btn-primary btn-sm"
-                                        to={`${config.path}/${id}`}
-                                    >
-                                        Edit
-                                    </Link>
-                                )
-                            },
+                            title: 'Action',
+                            key: 'operation',
+                            fixed: 'right',
+                            width: 100,
+                            render: (_value, record) => (
+                                <Link to={`${config.path}/${record.id}`}>Edit</Link>
+                            ),
+                            ellipsis: true,
                         },
                     ]}
                 />
@@ -61,7 +60,7 @@ function makeIndexPage(config: CRUDConfig) {
     }
 }
 
-function makeCreatePage(config: CRUDConfig) {
+function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
     return () => (
         <Page title={config.create.title}>
             <Card>
@@ -76,25 +75,33 @@ function makeCreatePage(config: CRUDConfig) {
     )
 }
 
-function makeUpdatePage(config: CRUDConfig) {
-    return ({ id }: { id: string }) => (
-        <Page title={config.update.title(id)}>
-            <Card>
-                <CardBody>
-                    <Form action={config.update.apiURL(id)} redirect={config.path} hasInitialData>
-                        {config.form.fields}
-                        <Submit>Update</Submit>
-                    </Form>
-                </CardBody>
-            </Card>
-        </Page>
-    )
+function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
+    return ({ id }: { id: string }) => {
+        return (
+            <Page title={config.update.title(id)}>
+                <Card>
+                    <CardBody>
+                        <Form
+                            action={config.update.apiURL(id)}
+                            redirect={config.path}
+                            hasInitialData
+                        >
+                            {config.form.fields}
+                            <Submit>Update</Submit>
+                        </Form>
+                    </CardBody>
+                </Card>
+            </Page>
+        )
+    }
 }
 
-export function createCRUD(config: CRUDConfig) {
+export function createCRUD<RecordType extends { id: number | string } = any>(
+    config: CRUDConfig<RecordType>,
+) {
     return {
-        IndexPage: makeIndexPage(config),
-        CreatePage: makeCreatePage(config),
-        UpdatePage: makeUpdatePage(config),
+        IndexPage: makeIndexPage<RecordType>(config),
+        CreatePage: makeCreatePage<RecordType>(config),
+        UpdatePage: makeUpdatePage<RecordType>(config),
     }
 }

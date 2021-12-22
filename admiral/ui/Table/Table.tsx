@@ -15,9 +15,10 @@ import usePagination, { getPaginationParam, DEFAULT_PAGE_SIZE } from './hooks/us
 import useSelection from './hooks/useSelection'
 import useLazyKVMap from './hooks/useLazyKVMap'
 import { Pagination } from '../Pagination'
+import { Spin, SpinProps } from '../Spin'
 import styles from './Table.module.scss'
+import Icon from '@/assets/icons'
 
-// TODO: loading spinner
 // TODO: sorter tooltip
 // TODO: table locale
 // TODO: docs: sortDirections/sorter (Table props), sortDirections/defaultSortOrder/sorter (Column props)
@@ -46,6 +47,7 @@ function InternalTable<RecordType extends object = any>(
         onChange,
         rowKey = 'key',
         rowSelection,
+        loading,
         children,
         ...tableProps
     } = props
@@ -62,6 +64,19 @@ function InternalTable<RecordType extends object = any>(
     }, [rowKey])
 
     const [getRecordByKey] = useLazyKVMap(data, getRowKey)
+
+    // =========================== Spinning ===========================
+    let spinProps: SpinProps | undefined
+    if (typeof loading === 'boolean') {
+        spinProps = {
+            spinning: loading,
+        }
+    } else if (typeof loading === 'object') {
+        spinProps = {
+            spinning: true,
+            ...loading,
+        }
+    }
 
     // To merge columns used as children (<Table.Column />)
     const mergedColumns = useMemo(() => {
@@ -191,15 +206,17 @@ function InternalTable<RecordType extends object = any>(
             })}
             style={style}
         >
-            {topPaginationNode}
-            <RcTable<RecordType>
-                {...tableProps}
-                prefixCls="admiral-table"
-                columns={transformedSelectionColumns}
-                data={pageData}
-                rowKey={getRowKey}
-            />
-            {bottomPaginationNode}
+            <Spin spinning={false} {...spinProps}>
+                {topPaginationNode}
+                <RcTable<RecordType>
+                    {...tableProps}
+                    prefixCls="admiral-table"
+                    columns={transformedSelectionColumns}
+                    data={pageData}
+                    rowKey={getRowKey}
+                />
+                {bottomPaginationNode}
+            </Spin>
         </div>
     )
 }

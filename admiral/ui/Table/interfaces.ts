@@ -4,6 +4,7 @@ import { SorterResult, SortOrder, ControlledSorter } from './hooks/useSorter'
 import { CheckboxProps } from '../Checkbox/Checkbox'
 import { PaginationParam } from './hooks/usePagination'
 import { PaginationProps } from '../Pagination'
+import { SpinProps } from '../Spin'
 import { tuple } from '@/admiral/utils/type'
 
 export type { GetRowKey }
@@ -74,6 +75,7 @@ export interface TableProps<RecordType>
     dataSource?: RcTableProps<RecordType>['data']
     columns?: ColumnsType<RecordType>
     pagination?: false | TablePaginationConfig
+    loading?: boolean | SpinProps
     size?: SizeType
     bordered?: boolean
     onChange?: (

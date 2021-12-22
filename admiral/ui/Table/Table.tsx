@@ -203,6 +203,8 @@ function InternalTable<RecordType extends object = any>(
                 [styles.wrapper__SizeMiddle]: size === 'middle',
                 [styles.wrapper__SizeSmall]: size === 'small',
                 [styles.wrapper__Bordered]: bordered,
+                [styles.wrapper__WithTitle]: !!tableProps.title,
+                [styles.wrapper__WithFooter]: !!tableProps.footer,
             })}
             style={style}
         >

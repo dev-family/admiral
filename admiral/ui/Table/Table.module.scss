@@ -24,6 +24,16 @@ $table-class: 'admiral-table';
         --table-border: 1px solid var(--color-bg-border);
     }
 
+    &__WithTitle {
+        --table-top-left-radius: 0px;
+        --table-top-right-radius: 0px;
+    }
+
+    &__WithFooter {
+        --table-bottom-left-radius: 0px;
+        --table-bottom-right-radius: 0px;
+    }
+
     :global {
         .#{$table-class} {
             position: relative;
@@ -84,9 +94,15 @@ $table-class: 'admiral-table';
             // ============================ Footer ============================
             &-footer {
                 padding: var(--table-padding-vertical) var(--table-padding-horizontal);
+                border-top: 1px solid var(--color-bg-border);
             }
 
             // ============================ Header ============================
+            &-header {
+                border-top-left-radius: var(--table-top-left-radius, var(--radius-m));
+                border-top-right-radius: var(--table-top-right-radius, var(--radius-m));
+            }
+
             &-thead {
                 > tr {
                     > th {
@@ -114,12 +130,21 @@ $table-class: 'admiral-table';
             }
 
             // ============================= Body =============================
+            &-body {
+                border-bottom-left-radius: var(--table-bottom-left-radius, var(--radius-m));
+                border-bottom-right-radius: var(--table-bottom-right-radius, var(--radius-m));
+            }
+
             &-tbody {
                 > tr {
-                    > td {
-                        border-bottom: 1px solid var(--color-bg-border);
-                        transition: background 0.3s;
+                    &:not(:last-child) {
+                        & > td {
+                            border-bottom: 1px solid var(--color-bg-border);
+                            transition: background 0.3s;
+                        }
+                    }
 
+                    & > td {
                         &:not(:last-child) {
                             border-right: var(--table-border, none);
                         }

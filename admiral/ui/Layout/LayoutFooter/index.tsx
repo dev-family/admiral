@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from '../Layout.module.scss'
-import { useNav } from '@/src/context/NavContext'
+import { useNav } from '@/admiral/navigation/NavContext'
 import { FiSettings } from 'react-icons/fi'
 import { ThemeSwitch, Tooltip } from '@/admiral/ui'
 import { useTheme } from '@/admiral/theme'

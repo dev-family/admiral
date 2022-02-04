@@ -1,12 +1,4 @@
-import * as Icons from 'react-icons/fi'
-
-export interface IMenuItem {
-    icon?: keyof typeof Icons
-    name: string
-    to?: string
-    exact?: boolean
-    children?: IMenuItem[]
-}
+import { IMenuItem } from '@/admiral'
 
 const menu: IMenuItem[] = [
     {

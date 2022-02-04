@@ -3,10 +3,12 @@ import styles from './Layout.module.scss'
 import LayoutHeader from './LayoutHeader'
 import LayoutAside from './LayoutAside'
 import LayoutFooter from './LayoutFooter'
-import { useNav } from '@/src/context/NavContext'
+import { useNav } from '@/admiral/navigation/NavContext'
+import { HeaderLogoType } from './LayoutHeader'
 import cn from 'classnames'
 
-export const Layout: React.FC<{ asideContent?: React.ReactNode }> = ({
+export const Layout: React.FC<{ logo?: HeaderLogoType; asideContent?: React.ReactNode }> = ({
+    logo,
     asideContent,
     children,
 }) => {
@@ -19,7 +21,7 @@ export const Layout: React.FC<{ asideContent?: React.ReactNode }> = ({
             })}
         >
             <div className={styles.panel}>
-                <LayoutHeader />
+                <LayoutHeader logo={logo} />
                 <LayoutAside>{asideContent}</LayoutAside>
                 <LayoutFooter />
             </div>

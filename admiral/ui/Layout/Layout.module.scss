@@ -98,10 +98,12 @@
 
 .logo {
     display: flex;
+    align-items: center;
     flex-shrink: 0;
     height: 100%;
     transition: opacity 0.2s, width 0.2s, height 0.2s;
 
+    img,
     svg {
         max-height: 100%;
         width: auto;

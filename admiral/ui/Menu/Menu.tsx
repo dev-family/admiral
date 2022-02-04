@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import menuItems, { IMenuItem } from './menuItems'
-import { useNav } from '@/src/context/NavContext'
+import { useNav } from '@/admiral/navigation/NavContext'
 import { useTheme } from '@/admiral/theme'
 import * as Icons from 'react-icons/fi'
 import styles from './Menu.module.scss'
@@ -9,10 +8,10 @@ import { Tooltip } from '@/admiral/ui'
 import cn from 'classnames'
 
 export const Menu: React.FC<{
-    items?: IMenuItem[]
+    items: IMenuItem[]
     type?: 'tooltip' | 'modal'
     collapsible?: boolean
-}> = ({ items = menuItems, type, collapsible = true }) => {
+}> = ({ items, type, collapsible = true }) => {
     const { themeName } = useTheme()
 
     return (
@@ -34,6 +33,13 @@ export const Menu: React.FC<{
             })}
         </ul>
     )
+}
+export interface IMenuItem {
+    icon?: keyof typeof Icons
+    name: string
+    to?: string
+    exact?: boolean
+    children?: IMenuItem[]
 }
 
 interface IMenuItemProps extends IMenuItem {

@@ -1,15 +1,21 @@
 import React from 'react'
 import styles from '../Layout.module.scss'
-import { useNav } from '@/src/context/NavContext'
+import { useNav } from '@/admiral/navigation/NavContext'
 import { useTheme } from '@/admiral/theme'
-import { FiArrowLeft, FiArrowRight, FiX, FiMenu } from 'react-icons/fi'
+import { ThemeName } from '@/admiral/theme/interfaces'
+import { FiArrowLeft, FiX, FiMenu } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
 import Icon from '@/assets/icons'
 import cn from 'classnames'
 
-const LayoutHeader: React.FC = () => {
+export type HeaderLogoType = string | HeaderLogoComponentType
+export type HeaderLogoComponentType = ({ themeName }: { themeName: ThemeName }) => JSX.Element
+
+const LayoutHeader: React.FC<{ logo?: HeaderLogoType }> = ({ logo = LogoDefault }) => {
     const { themeName } = useTheme()
     const { close: closeNav, collapsed, toggleCollapsed, toggle: toggleNav, visible } = useNav()
+
+    const LogoComponent = typeof logo === 'function' ? logo : null
 
     return (
         <header
@@ -22,10 +28,11 @@ const LayoutHeader: React.FC = () => {
                 exact
                 onClick={closeNav}
             >
-                <Icon
-                    name={themeName === 'light' ? 'dev-family-logo' : 'dev-family-logo-inversion'}
-                    width={84}
-                />
+                {LogoComponent ? (
+                    <LogoComponent themeName={themeName} />
+                ) : (
+                    <img src={logo as string} alt="logo" />
+                )}
             </NavLink>
 
             <button
@@ -48,3 +55,12 @@ const LayoutHeader: React.FC = () => {
 }
 
 export default LayoutHeader
+
+const LogoDefault = ({ themeName }: { themeName: ThemeName }) => {
+    return (
+        <Icon
+            name={themeName === 'light' ? 'dev-family-logo' : 'dev-family-logo-inversion'}
+            width={84}
+        />
+    )
+}

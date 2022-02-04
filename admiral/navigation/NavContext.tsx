@@ -1,5 +1,6 @@
 import React, { useContext, useState, createContext, useCallback } from 'react'
-import { useLocalStorage } from '@/src/hooks'
+import { IMenuItem } from '@/admiral/ui'
+import { useLocalStorage } from '@/admiral/hooks'
 import noScroll from 'no-scroll'
 
 export interface ContextState {
@@ -9,15 +10,17 @@ export interface ContextState {
     close: () => void
     collapsed: boolean
     toggleCollapsed: () => void
+    items: IMenuItem[]
 }
 
 const NavContext = createContext({} as ContextState)
 
 type NavProviderProps = {
+    items: IMenuItem[]
     children: React.ReactNode
 }
 
-export function NavProvider({ children }: NavProviderProps) {
+export function NavProvider({ items, children }: NavProviderProps) {
     const [collapsed, setCollapsed] = useLocalStorage('admiral-menu-collapsed', false)
     const [visible, setVisible] = useState(false)
 
@@ -49,6 +52,7 @@ export function NavProvider({ children }: NavProviderProps) {
                 close,
                 collapsed,
                 toggleCollapsed,
+                items,
             }}
         >
             {children}

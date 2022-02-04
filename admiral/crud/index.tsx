@@ -1,6 +1,6 @@
 import { DataTable } from '@/admiral/DataTable'
-import { Form, Submit } from '@/admiral/form'
-import { Page, Card, CardBody } from '@/admiral/ui'
+import { Form } from '@/admiral/form'
+import { Page, Card, CardBody, Button } from '@/admiral/ui'
 import { ColumnsType } from '@/admiral/ui/Table/interfaces'
 import { Link } from 'react-router-dom'
 import React from 'react'
@@ -67,7 +67,13 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
                 <CardBody>
                     <Form action={config.create.apiURL} redirect={config.path}>
                         {config.form.fields}
-                        <Submit>Create</Submit>
+
+                        <Form.Footer>
+                            <Link to={config.path}>
+                                <Button view="secondary">Back</Button>
+                            </Link>
+                            <Form.Submit>Create</Form.Submit>
+                        </Form.Footer>
                     </Form>
                 </CardBody>
             </Card>
@@ -87,7 +93,13 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
                             hasInitialData
                         >
                             {config.form.fields}
-                            <Submit>Update</Submit>
+
+                            <Form.Footer>
+                                <Link to={config.path}>
+                                    <Button view="secondary">Back</Button>
+                                </Link>
+                                <Form.Submit>Update</Form.Submit>
+                            </Form.Footer>
                         </Form>
                     </CardBody>
                 </Card>

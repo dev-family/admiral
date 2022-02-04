@@ -1,4 +1,4 @@
-import { Form, Input, Submit } from '@/admiral/form'
+import { Form, Input } from '@/admiral/form'
 import { Card, CardBody, Page } from '@/admiral/ui'
 import React from 'react'
 
@@ -7,10 +7,7 @@ export default () => (
         <Card>
             <CardBody>
                 <Form action="http://localhost/api/users" redirect="/users">
-                    <Input name="name" label="Name" required />
-                    <Input name="email" label="Email" required />
-                    <Input type="password" name="password" label="Password" required />
-                    <Submit>Create</Submit>
+                    <Form.Submit>Create</Form.Submit>
                 </Form>
             </CardBody>
         </Card>

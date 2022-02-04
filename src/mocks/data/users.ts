@@ -1,12 +1,13 @@
 import { SortOrder } from '@/admiral/ui/Table/hooks/useSorter'
 
 export interface IUser {
-    id: number
-    key: number
+    id: number | string
+    key: number | string
     name: string
-    age: number | null
-    address: string
     email: string
+    password: string
+    group: string[]
+    role: string
 }
 
 export class UserList {
@@ -25,9 +26,10 @@ export class UserList {
                 id: i,
                 key: i,
                 name: `User ${i}`,
-                age: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
-                address: `London Park no. ${i}`,
                 email: 'test@test.com',
+                password: '12345',
+                group: ['project_manager'],
+                role: 'accountant',
             })
             this.id += 1
         }
@@ -36,12 +38,13 @@ export class UserList {
     }
 
     add(data: Partial<IUser>) {
-        const newId = ++this.id
+        const newId = data.id || ++this.id
         const newUser = {
             name: '',
-            age: null,
-            address: '',
             email: '',
+            password: '12345',
+            group: ['project_manager'],
+            role: 'accountant',
             ...data,
             id: newId,
             key: newId,
@@ -51,13 +54,13 @@ export class UserList {
         return newUser
     }
 
-    delete(id: number) {
+    delete(id: number | string) {
         this.users = this.users.filter((user) => user.id !== id)
     }
 
-    update(id: number, data: IUser) {
+    update(id: number | string, data: IUser) {
         this.users = this.users.map((user) => {
-            if (user.id === id) return data
+            if (user.id === id) return { ...user, ...data }
             return user
         })
     }
@@ -120,6 +123,10 @@ export class UserList {
 
         const sortedUsers = this.sortBy(sortField, sortOrder)
         return sortedUsers.slice(start, end)
+    }
+
+    getUserById(id: number | string) {
+        return this.users.find((user) => user.id == id)
     }
 
     get length() {

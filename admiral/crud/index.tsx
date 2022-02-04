@@ -14,7 +14,12 @@ type CRUDConfig<RecordType> = {
         tableOptions: ColumnsType<RecordType>
     }
     form: {
-        fields: React.ReactNode
+        create: {
+            fields: React.ReactNode
+        }
+        edit: {
+            fields: React.ReactNode
+        }
     }
     create: {
         title: string
@@ -66,7 +71,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             <Card>
                 <CardBody>
                     <Form action={config.create.apiURL} redirect={config.path}>
-                        {config.form.fields}
+                        {config.form.create.fields}
 
                         <Form.Footer>
                             <Link to={config.path}>
@@ -92,7 +97,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
                             redirect={config.path}
                             hasInitialData
                         >
-                            {config.form.fields}
+                            {config.form.edit.fields}
 
                             <Form.Footer>
                                 <Link to={config.path}>

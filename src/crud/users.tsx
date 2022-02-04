@@ -1,5 +1,5 @@
 import { createCRUD } from '@/admiral/crud'
-import { Input } from '@/admiral/form'
+import { TextInput, SelectInput } from '@/admiral/form'
 import React from 'react'
 
 export const UsersCRUD = createCRUD({
@@ -10,16 +10,9 @@ export const UsersCRUD = createCRUD({
         newButtonText: 'Create New User',
         tableOptions: [
             {
-                title: 'Full Name',
+                title: 'Name',
                 dataIndex: 'name',
                 key: 'name',
-                width: 200,
-                sorter: true,
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                key: 'age',
                 width: 200,
                 sorter: true,
             },
@@ -30,26 +23,90 @@ export const UsersCRUD = createCRUD({
                 width: 200,
             },
             {
-                title: 'Address',
-                dataIndex: 'address',
-                key: 'address 1',
+                title: 'Group',
+                dataIndex: 'group',
+                key: 'group',
+                width: 200,
+                ellipsis: true,
+                render: (value) => value.join(', '),
+            },
+            {
+                title: 'Role',
+                dataIndex: 'role',
+                key: 'role',
                 width: 150,
                 ellipsis: true,
             },
         ],
     },
     form: {
-        fields: (
-            <>
-                <Input name="name" label="Name" required />
-                <Input name="email" label="Email" required />
-                <Input type="password" name="password" label="Password" required />
-            </>
-        ),
+        create: {
+            fields: (
+                <>
+                    <TextInput label="Id" name="id" placeholder="Id" required />
+                    <TextInput label="Name" name="name" placeholder="Name" />
+                    <TextInput label="Email" name="email" placeholder="Email" required />
+                    <TextInput
+                        label="Password"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                    />
+                    <SelectInput
+                        label="Group"
+                        name="group"
+                        placeholder="Choose Group"
+                        required
+                        mode="multiple"
+                    >
+                        <SelectInput.Option value="admin">Aдминистрация</SelectInput.Option>
+                        <SelectInput.Option value="project_manager">
+                            Проектные менеджеры
+                        </SelectInput.Option>
+                    </SelectInput>
+                    <SelectInput label="Role" name="role" placeholder="Choose Role" required>
+                        <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
+                        <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
+                    </SelectInput>
+                </>
+            ),
+        },
+        edit: {
+            fields: (
+                <>
+                    <TextInput label="Name" name="name" placeholder="Name" />
+                    <TextInput label="Email" name="email" placeholder="Email" required />
+                    <TextInput
+                        label="Password"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                    />
+                    <SelectInput
+                        label="Group"
+                        name="group"
+                        placeholder="Choose Group"
+                        required
+                        mode="multiple"
+                    >
+                        <SelectInput.Option value="admin">Aдминистрация</SelectInput.Option>
+                        <SelectInput.Option value="project_manager">
+                            Проектные менеджеры
+                        </SelectInput.Option>
+                    </SelectInput>
+                    <SelectInput label="Role" name="role" placeholder="Choose Role" required>
+                        <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
+                        <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
+                    </SelectInput>
+                </>
+            ),
+        },
     },
     create: {
         title: 'Create New User',
-        apiURL: '/api/users',
+        apiURL: '/api/users/create',
     },
     update: {
         title: (id: string) => `Edit User #${id}`,

@@ -29,13 +29,19 @@ export const handlers = [
     }),
     rest.delete('/api/users/:id', (req, res, ctx) => {
         const { id } = req.params
-        userList.delete(+id)
+        userList.delete(id as string)
 
         return res(ctx.delay(160), ctx.status(204))
     }),
-    rest.patch('/api/users/:id', (req, res, ctx) => {
+    rest.get('/api/users/:id', (req, res, ctx) => {
         const { id } = req.params
-        userList.update(+id, req.body as IUser)
+        const user = userList.getUserById(id as string)
+
+        return res(ctx.delay(160), ctx.status(200), ctx.json(user))
+    }),
+    rest.post('/api/users/:id', (req, res, ctx) => {
+        const { id } = req.params
+        userList.update(id as string, req.body as IUser)
 
         return res(ctx.delay(160), ctx.status(200), ctx.json(req.body))
     }),

@@ -6,7 +6,7 @@ type InputProps = {
     onChange: (value: string) => void
 }
 
-export const Input: React.FC<InputProps> = ({ value, onChange }) => {
+export const FormInput: React.FC<InputProps> = ({ value, onChange }) => {
     const handleChange = useCallback(
         (e) => {
             onChange(e.target.value)

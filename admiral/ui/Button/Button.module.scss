@@ -1,0 +1,117 @@
+@use '@/assets/mixins' as *;
+
+.button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: calc(var(--button-gap, var(--control-space-m)) * 0.7);
+    width: var(--button-width, fit-content);
+    min-height: var(--button-min-height, var(--control-height-m));
+    padding: var(--button-space-top, 0) var(--button-space-right, var(--control-space-m))
+        var(--button-space-bottom, 0) var(--button-space-left, var(--control-space-m));
+    background: transparent;
+    border: none;
+    border-radius: var(--control-radius);
+    font-family: var(--font-primary);
+    font-size: var(--button-font-size, var(--control-text-size-m));
+    font-weight: var(--font-weight-text-regular);
+    line-height: var(--button-line-height, 1.2);
+    user-select: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease,
+        color 0.15s ease, fill 0.15s ease;
+
+    &:focus {
+        box-shadow: 0px 0px 0px 2px var(--button-bg-focus, var(--color-control-bg-focus));
+    }
+
+    &.size {
+        &XS {
+            --button-min-height: var(--control-height-xs);
+            --button-font-size: var(--control-text-size-xs);
+            --button-space-right: var(--control-space-xs);
+            --button-space-left: var(--control-space-xs);
+            --button-gap: calc(var(--control-space-xs) * 0.7);
+        }
+
+        &S {
+            --button-min-height: var(--control-height-s);
+            --button-font-size: var(--control-text-size-s);
+            --button-space-right: var(--control-space-s);
+            --button-space-left: var(--control-space-s);
+            --button-gap: calc(var(--control-space-s) * 0.7);
+        }
+
+        &L {
+            --button-min-height: var(--control-height-l);
+            --button-font-size: var(--control-text-size-l);
+            --button-space-right: var(--control-space-l);
+            --button-space-left: var(--control-space-l);
+            --button-gap: calc(var(--control-space-l) * 0.7);
+        }
+    }
+
+    &.view {
+        &Clear {
+            --color-hover: var(--color-control-typo-clear-hover);
+            color: var(--color-control-typo-clear);
+            background-color: var(--color-control-bg-clear);
+
+            &:hover {
+                background-color: var(--color-control-bg-clear-hover);
+            }
+        }
+
+        &Ghost {
+            --color-hover: var(--color-control-typo-ghost-hover);
+            color: var(--color-control-typo-ghost);
+            background-color: var(--color-control-bg-ghost);
+
+            &:hover {
+                background-color: var(--color-control-bg-ghost-hover);
+            }
+        }
+
+        &Primary {
+            --color-hover: var(--color-control-typo-primary-hover);
+            color: var(--color-control-typo-primary);
+            background-color: var(--color-control-bg-primary);
+
+            &:hover {
+                background-color: var(--color-control-bg-primary-hover);
+            }
+        }
+
+        &Secondary {
+            --color-hover: var(--color-control-typo-secondary-hover);
+            color: var(--color-control-typo-secondary);
+            background-color: var(--color-control-bg-secondary);
+            border: var(--control-border-width) solid var(--color-control-bg-border-secondary);
+            line-height: calc(var(--button-height) - var(--control-border-width) * 2);
+
+            &:hover {
+                background-color: var(--color-control-bg-secondary-hover);
+                border-color: var(--color-control-bg-border-secondary-hover);
+            }
+        }
+    }
+
+    &:hover {
+        color: var(--color-hover);
+    }
+
+    &.disabled,
+    &:disabled,
+    &.loading {
+        cursor: not-allowed;
+        pointer-events: none;
+        background-color: var(--color-control-bg-disable);
+        border-color: transparent;
+    }
+
+    &.loading {
+        color: transparent;
+    }
+}

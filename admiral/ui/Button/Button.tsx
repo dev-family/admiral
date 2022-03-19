@@ -3,10 +3,7 @@ import { Spin } from '@/admiral/ui'
 import { ButtonProps } from './interfaces'
 import styles from './Button.module.scss'
 import mergeRefs from 'react-merge-refs'
-import Icon from '@/assets/icons'
 import cn from 'classnames'
-
-// TODO: icons logic and styling
 
 const Button = forwardRef((props: ButtonProps, buttonRef) => {
     const {
@@ -24,11 +21,14 @@ const Button = forwardRef((props: ButtonProps, buttonRef) => {
     const withLoader = typeof loading === 'boolean'
     const ref = useRef<typeof Component>(null)
 
+    const onlyIcon =
+        (!!iconLeft && !iconRight && !children) || (!!iconRight && !iconLeft && !children)
+
     const content = (
         <span className={styles.content}>
-            {iconLeft && <Icon name={iconLeft} />}
+            {iconLeft && <span className={cn(styles.icon, styles.icon__Left)}>{iconLeft}</span>}
             {children}
-            {iconRight && <Icon name={iconRight} />}
+            {iconRight && <span className={cn(styles.icon, styles.icon__Right)}>{iconRight}</span>}
         </span>
     )
 
@@ -47,6 +47,7 @@ const Button = forwardRef((props: ButtonProps, buttonRef) => {
                     [styles.sizeL]: size === 'L',
                     [styles.sizeS]: size === 'S',
                     [styles.sizeXS]: size === 'XS',
+                    [styles.onlyIcon]: onlyIcon,
                 },
                 className,
             )}

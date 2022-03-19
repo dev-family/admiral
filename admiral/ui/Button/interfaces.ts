@@ -1,5 +1,4 @@
 import React from 'react'
-import { IconName } from '@/assets/icons/interfaces'
 
 type ButtonPropSize = 'XS' | 'S' | 'M' | 'L'
 type ButtonPropView = 'primary' | 'clear' | 'ghost' | 'secondary'
@@ -13,8 +12,8 @@ export interface ButtonProps
     view?: ButtonPropView
     loading?: boolean
     disabled?: boolean
-    iconLeft?: IconName
-    iconRight?: IconName
+    iconLeft?: React.ReactNode
+    iconRight?: React.ReactNode
     type?: string
     onClick?: React.EventHandler<React.MouseEvent>
     children?: React.ReactNode

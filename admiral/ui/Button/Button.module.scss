@@ -1,6 +1,9 @@
 @use '@/assets/mixins' as *;
 
 .button {
+    --icon-indent: calc(var(--button-space-left, var(--control-space-m)) * 0.4);
+    --icon-size: var(--graphics-size-s);
+
     position: relative;
     display: flex;
     align-items: center;
@@ -34,6 +37,7 @@
             --button-space-right: var(--control-space-xs);
             --button-space-left: var(--control-space-xs);
             --button-gap: calc(var(--control-space-xs) * 0.7);
+            --icon-size: var(--graphics-size-xs);
         }
 
         &S {
@@ -42,6 +46,7 @@
             --button-space-right: var(--control-space-s);
             --button-space-left: var(--control-space-s);
             --button-gap: calc(var(--control-space-s) * 0.7);
+            --icon-size: var(--graphics-size-xs);
         }
 
         &L {
@@ -50,6 +55,32 @@
             --button-space-right: var(--control-space-l);
             --button-space-left: var(--control-space-l);
             --button-gap: calc(var(--control-space-l) * 0.7);
+            --icon-size: var(--graphics-size-m);
+        }
+    }
+
+    &.onlyIcon {
+        --icon-size: var(--graphics-size-m);
+        width: var(--button-min-height, var(--control-height-m));
+
+        &.size {
+            &XS {
+                --icon-size: var(--graphics-size-xs);
+            }
+
+            &S {
+                --icon-size: var(--graphics-size-s);
+            }
+
+            &L {
+                --icon-size: var(--graphics-size-m);
+            }
+        }
+
+        .icon {
+            margin-left: 0;
+            margin-right: 0;
+            padding: 0;
         }
     }
 
@@ -113,5 +144,29 @@
 
     &.loading {
         color: transparent;
+    }
+}
+
+.content {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    display: flex;
+    flex-shrink: 0;
+    width: var(--icon-size);
+    height: var(--icon-size);
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    &__Left {
+        margin-right: var(--icon-indent);
+    }
+    &__Right {
+        margin-left: var(--icon-indent);
     }
 }

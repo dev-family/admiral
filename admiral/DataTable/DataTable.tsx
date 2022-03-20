@@ -77,7 +77,12 @@ export function DataTable<RecordType>({ url, columns, initialSorter }: DataTable
                     x: 0,
                 }}
                 sticky
-                pagination={{ current: +state.page, pageSize: +state.page_size, total }}
+                pagination={{
+                    current: +state.page,
+                    pageSize: +state.page_size,
+                    total,
+                    showTotal: (total) => `Всего ${total}`,
+                }}
                 loading={loading}
                 onChange={onTableChange}
             />

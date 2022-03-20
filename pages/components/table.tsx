@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Page, Table, Pagination, Checkbox } from '@/admiral/ui'
-import { Link } from 'react-router-dom'
+import { Page, Table } from '@/admiral/ui'
 import { ColumnsType, TableProps } from '@/admiral/ui/Table/interfaces'
 
 interface IUser {
@@ -75,7 +74,7 @@ const columns: ColumnsType<IUser> = [
 const title = () => 'Here is title'
 const footer = () => 'Here is footer'
 
-export default () => {
+export default function TablePage() {
     const [selectedKeys, setSelectedKeys] = useState([])
     const onSelectionChange = (selectedRowKeys: any) => {
         setSelectedKeys(selectedRowKeys)
@@ -90,21 +89,8 @@ export default () => {
         console.log('[Change data: pagination, sorter, extra]', pagination, sorter, extra)
     }
 
-    const [pagination, setPagination] = useState({ current: 3 })
-
-    const onPaginationChange = (page: number) => {
-        setPagination((prev) => ({ ...prev, current: page }))
-    }
-
     return (
-        <Page
-            title="Users"
-            actions={
-                <Link className="btn" to="users/create">
-                    New User
-                </Link>
-            }
-        >
+        <Page title="Table">
             <h3>Selected keys: {selectedKeys.join(', ')}</h3>
             <br />
             <Table
@@ -149,73 +135,6 @@ export default () => {
                     width={150}
                 />
             </Table>
-            <hr />
-            <br />
-            <h2>Pagination</h2>
-            <br />
-            <h3>• Default</h3>
-            <br />
-            <Pagination
-                current={pagination.current}
-                total={250}
-                onChange={onPaginationChange}
-                showTotal={(total) => `Total ${total} items`}
-                showTitle={false}
-            />
-            <br />
-            <h3>• Small</h3>
-            <br />
-            <Pagination
-                current={pagination.current}
-                total={25000}
-                onChange={onPaginationChange}
-                showTitle={false}
-                size="small"
-            />
-            <hr />
-            <br />
-            <h2>Checkbox</h2>
-            <br />
-            <Checkbox>Checkbox</Checkbox>
-            <br />
-            <Checkbox disabled>Checkbox disabled</Checkbox>
-            <br />
-            <Checkbox checked disabled>
-                Checkbox checked disabled
-            </Checkbox>
-            <br />
-            <Checkbox size="l">Checkbox large</Checkbox>
-            <br />
-            <Checkbox size="l" disabled>
-                Checkbox large disabled
-            </Checkbox>
-            <br />
-            <Checkbox size="l" checked disabled>
-                Checkbox large checked disabled
-            </Checkbox>
-            <br />
-            <Checkbox view="ghost">Ghost Checkbox</Checkbox>
-            <br />
-            <Checkbox view="ghost" disabled>
-                Ghost Checkbox disabled
-            </Checkbox>
-            <br />
-            <Checkbox view="ghost" checked disabled>
-                Ghost Checkbox checked disabled
-            </Checkbox>
-            <br />
-            <Checkbox view="ghost" size="l">
-                Ghost Checkbox large
-            </Checkbox>
-            <br />
-            <Checkbox view="ghost" size="l" disabled>
-                Ghost Checkbox large disabled
-            </Checkbox>
-            <br />
-            <Checkbox view="ghost" size="l" checked disabled>
-                Ghost Checkbox large checked disabled
-            </Checkbox>
-            <br />
         </Page>
     )
 }

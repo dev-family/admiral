@@ -2,48 +2,31 @@ import { IMenuItem } from '@/admiral'
 
 const menu: IMenuItem[] = [
     {
-        icon: 'FiHome',
-        name: 'Home',
-        to: '/',
+        icon: 'FiUsers',
+        name: 'Пользователи',
+        to: '/crud-users',
     },
     {
-        icon: 'FiUsers',
-        name: 'Users',
+        icon: 'FiSettings',
+        name: 'Компоненты',
+        to: '/components',
         children: [
             {
-                icon: 'FiUsers',
-                name: 'All Users',
-                to: '/users',
+                icon: 'FiBox',
+                name: 'Table',
+                to: '/components/table',
             },
             {
-                icon: 'FiUsers',
-                name: 'Create User',
-                to: '/users/create',
+                icon: 'FiBox',
+                name: 'Checkbox',
+                to: '/components/checkbox',
+            },
+            {
+                icon: 'FiBox',
+                name: 'Pagination',
+                to: '/components/pagination',
             },
         ],
-    },
-
-    {
-        icon: 'FiUsers',
-        name: 'CRUD Users',
-        children: [
-            {
-                icon: 'FiUsers',
-                name: 'All Users',
-                to: '/crud-users',
-            },
-            {
-                icon: 'FiUsers',
-                name: 'Create CRUD User',
-                to: '/crud-users/create',
-            },
-        ],
-    },
-
-    {
-        icon: 'FiUsers',
-        name: 'Custom page',
-        to: '/custom-page',
     },
 ]
 

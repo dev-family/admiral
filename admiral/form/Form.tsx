@@ -62,6 +62,10 @@ const InternalForm: React.FC<FormProps> = ({
     )
 }
 
+const Fields: React.FC = ({ children }) => {
+    return <div className={styles.items}>{children}</div>
+}
+
 const Footer: React.FC = ({ children }) => {
     return <div className={styles.footer}>{children}</div>
 }
@@ -78,12 +82,14 @@ const Submit: React.FC = ({ children }) => {
 
 type FormType = typeof InternalForm
 interface FormInterface extends FormType {
+    Fields: typeof Fields
     Item: typeof Item
     Footer: typeof Footer
     Submit: typeof Submit
 }
 
 export const Form = InternalForm as FormInterface
+Form.Fields = Fields
 Form.Item = Item
 Form.Footer = Footer
 Form.Submit = Submit

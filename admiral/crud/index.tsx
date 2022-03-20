@@ -57,7 +57,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                     columns={[
                         ...config.index.tableOptions,
                         {
-                            title: 'Action',
+                            title: 'Действия',
                             key: 'operation',
                             fixed: 'right',
                             width: 100,
@@ -80,13 +80,13 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             <Card>
                 <CardBody>
                     <Form action={config.create.apiURL} redirect={config.path}>
-                        {config.form.create.fields}
+                        <Form.Fields>{config.form.create.fields}</Form.Fields>
 
                         <Form.Footer>
                             <Link to={config.path}>
-                                <Button view="secondary">Back</Button>
+                                <Button view="secondary">Назад</Button>
                             </Link>
-                            <Form.Submit>Create</Form.Submit>
+                            <Form.Submit>Сохранить</Form.Submit>
                         </Form.Footer>
                     </Form>
                 </CardBody>
@@ -106,13 +106,13 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
                             redirect={config.path}
                             hasInitialData
                         >
-                            {config.form.edit.fields}
+                            <Form.Fields>{config.form.edit.fields}</Form.Fields>
 
                             <Form.Footer>
                                 <Link to={config.path}>
-                                    <Button view="secondary">Back</Button>
+                                    <Button view="secondary">Назад</Button>
                                 </Link>
-                                <Form.Submit>Update</Form.Submit>
+                                <Form.Submit>Сохранить</Form.Submit>
                             </Form.Footer>
                         </Form>
                     </CardBody>

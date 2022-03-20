@@ -1,3 +1,16 @@
+@use '@/assets/scss-variables' as *;
+@use '@/assets/mixins' as *;
+
+.items {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-l);
+
+    @include maxWidth($bp-lMobile) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
 .item {
     display: flex;
     flex-direction: column;

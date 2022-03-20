@@ -26,6 +26,11 @@ const menu: IMenuItem[] = [
                 name: 'Pagination',
                 to: '/components/pagination',
             },
+            {
+                icon: 'FiBox',
+                name: 'Switch',
+                to: '/components/switch',
+            },
         ],
     },
 ]

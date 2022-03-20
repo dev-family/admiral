@@ -15,6 +15,9 @@ export default function ComponentsPage() {
                 <Link to="components/pagination">
                     <Button component="span">Pagination</Button>
                 </Link>
+                <Link to="components/switch">
+                    <Button component="span">Switch</Button>
+                </Link>
             </div>
         </Page>
     )

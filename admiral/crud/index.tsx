@@ -2,6 +2,7 @@ import { DataTable } from '@/admiral/DataTable'
 import { Form } from '@/admiral/form'
 import { Page, Card, CardBody, Button } from '@/admiral/ui'
 import { ColumnsType } from '@/admiral/ui/Table/interfaces'
+import { MdEdit } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { CreateButton } from '@/admiral/actions'
 import { TopToolbar } from '@/admiral/layout'
@@ -45,7 +46,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                     config.actions || (
                         <TopToolbar>
                             <CreateButton basePath={config.path}>
-                        {config.index.newButtonText}
+                                {config.index.newButtonText}
                             </CreateButton>
                         </TopToolbar>
                     )
@@ -61,9 +62,10 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                             fixed: 'right',
                             width: 100,
                             render: (_value, record) => (
-                                <Link to={`${config.path}/${record.id}`}>Edit</Link>
+                                <Link to={`${config.path}/${record.id}`}>
+                                    <Button view="clear" size="S" iconRight={<MdEdit />} />
+                                </Link>
                             ),
-                            ellipsis: true,
                         },
                     ]}
                 />

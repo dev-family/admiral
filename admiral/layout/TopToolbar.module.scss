@@ -1,0 +1,14 @@
+@use '@/assets/scss-variables' as *;
+@use '@/assets/mixins' as *;
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-l);
+    justify-content: flex-end;
+
+    @include maxWidth($bp-mobile) {
+        --button-width: 100%;
+        flex-direction: column;
+    }
+}

@@ -11,7 +11,7 @@ export const Page: React.FC<PageProps> = ({ children, title, actions }) => {
         <div className={styles.page}>
             <h2 className={styles.title}>{title}</h2>
 
-            <div className={styles.btnList}>{actions}</div>
+            <div className={styles.actions}>{actions}</div>
 
             <div>{children}</div>
         </div>

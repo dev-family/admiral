@@ -3,10 +3,13 @@ import { Form } from '@/admiral/form'
 import { Page, Card, CardBody, Button } from '@/admiral/ui'
 import { ColumnsType } from '@/admiral/ui/Table/interfaces'
 import { Link } from 'react-router-dom'
+import { CreateButton } from '@/admiral/actions'
+import { TopToolbar } from '@/admiral/layout'
 import React from 'react'
 
 type CRUDConfig<RecordType> = {
     path: string
+    actions?: React.ReactNode
     index: {
         title: string
         apiURL: string
@@ -39,9 +42,13 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
             <Page
                 title={config.index.title}
                 actions={
-                    <Link className="btn" to={`${config.path}/create`}>
+                    config.actions || (
+                        <TopToolbar>
+                            <CreateButton basePath={config.path}>
                         {config.index.newButtonText}
-                    </Link>
+                            </CreateButton>
+                        </TopToolbar>
+                    )
                 }
             >
                 <DataTable

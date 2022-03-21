@@ -5,6 +5,7 @@ import { FormProvider, useForm } from './FormContext'
 import { Button } from '@/admiral/ui'
 import styles from './Form.module.scss'
 import Item from './Item'
+import { isObject } from '@/admiral/utils/helpers'
 
 type FormProps = {
     redirect?: string
@@ -26,8 +27,8 @@ const InternalForm: React.FC<FormProps> = ({
 
     async function _fetchInitialData() {
         const response = await fetchInitialData!()
-        setValues(response.data)
-        setOptions(response.values)
+        if (isObject(response.data)) setValues((prev) => ({ ...prev, ...response.data }))
+        if (isObject(response.values)) setOptions((prev) => ({ ...prev, ...response.values }))
     }
 
     useEffect(() => {

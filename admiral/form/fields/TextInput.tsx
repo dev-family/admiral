@@ -9,11 +9,10 @@ interface TextInputProps extends InputProps {
     label?: string
 }
 
-export const TextInput: React.FC<TextInputProps> = ({ name, label, ...options }) => {
+export const TextInput: React.FC<TextInputProps> = ({ name, label, required, ...options }) => {
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
-    const required = options?.required
 
     const onChange = useCallback((e) => {
         setValues((values: any) => ({ ...values, [name]: e.target.value }))

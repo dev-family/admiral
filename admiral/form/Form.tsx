@@ -19,6 +19,7 @@ const InternalForm: React.FC<FormProps> = ({
     children,
 }) => {
     const [values, setValues] = useState<Record<any, any>>({})
+    const [options, setOptions] = useState<Record<any, any>>({})
     const [errors, setErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
     const history = useHistory()
@@ -26,6 +27,7 @@ const InternalForm: React.FC<FormProps> = ({
     async function _fetchInitialData() {
         const response = await fetchInitialData!()
         setValues(response.data)
+        setOptions(response.values)
     }
 
     useEffect(() => {
@@ -56,7 +58,7 @@ const InternalForm: React.FC<FormProps> = ({
     }
 
     return (
-        <FormProvider value={{ values, setValues, errors, isSubmitting }}>
+        <FormProvider value={{ values, setValues, options, errors, isSubmitting }}>
             <form onSubmit={handleSubmit}>{children}</form>
         </FormProvider>
     )

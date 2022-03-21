@@ -1,7 +1,9 @@
 import React, { useContext, createContext } from 'react'
+import { OptionType } from '../dataProvider'
 
 type FormContextValue = {
     values: Record<string, any>
+    options: Record<string, OptionType[]>
     errors: Record<string, string[]>
     setValues: (values: any) => void
     isSubmitting: boolean
@@ -9,6 +11,7 @@ type FormContextValue = {
 
 const FormContext = createContext<FormContextValue>({
     values: {},
+    options: {},
     errors: {},
     setValues: () => {},
     isSubmitting: false,

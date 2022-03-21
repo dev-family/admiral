@@ -16,19 +16,39 @@ const InternalSelectInput: React.FC<SelectInputProps> = ({
     name,
     label,
     required = false,
-    ...options
+    children,
+    ...selectProps
 }) => {
-    const { values, errors, setValues } = useForm()
+    const { values, errors, options, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
+    const opts = options[name]
 
     const onChange = useCallback((value) => {
         setValues((values: any) => ({ ...values, [name]: value }))
     }, [])
 
+    const renderChildren = useCallback(() => {
+        if (children) return children
+        if (opts?.length > 0)
+            return (
+                <>
+                    {opts.map(({ value, label }, idx) => (
+                        <SelectInput.Option key={idx} value={value}>
+                            {label}
+                        </SelectInput.Option>
+                    ))}
+                </>
+            )
+
+        return []
+    }, [children, opts])
+
     return (
         <Form.Item label={label} required={required} error={error}>
-            <Select {...options} value={value} onChange={onChange} alert={!!error} />
+            <Select {...selectProps} value={value} onChange={onChange} alert={!!error}>
+                {renderChildren()}
+            </Select>
         </Form.Item>
     )
 }

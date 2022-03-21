@@ -18,6 +18,9 @@ export default function ComponentsPage() {
                 <Link to="components/switch">
                     <Button component="span">Switch</Button>
                 </Link>
+                <Link to="components/textarea">
+                    <Button component="span">Textarea</Button>
+                </Link>
             </div>
         </Page>
     )

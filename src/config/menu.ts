@@ -31,6 +31,11 @@ const menu: IMenuItem[] = [
                 name: 'Switch',
                 to: '/components/switch',
             },
+            {
+                icon: 'FiBox',
+                name: 'Textarea',
+                to: '/components/textarea',
+            },
         ],
     },
 ]

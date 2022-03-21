@@ -3,7 +3,7 @@ import { ColumnsType, ColumnType, Key, CompareFn } from '../interfaces'
 import { getColumnKey, getColumnPos } from '../util'
 import classNames from 'classnames'
 
-export type SortOrder = 'descend' | 'ascend' | null
+export type SortOrder = 'desc' | 'asc' | null
 
 export interface ControlledSorter {
     columnKey: Key
@@ -102,8 +102,10 @@ function nextSortDirection(sortDirections: SortOrder[], current: SortOrder | nul
     return sortDirections[sortDirections.indexOf(current) + 1]
 }
 
-const ASCEND = 'ascend'
-const DESCEND = 'descend'
+enum directions {
+    ascend = 'asc',
+    descend = 'desc',
+}
 
 function injectSorter<RecordType>(
     columns: ColumnsType<RecordType>,
@@ -122,19 +124,19 @@ function injectSorter<RecordType>(
             const columnSorterState = sorterState?.key === columnKey ? sorterState : null
             const sorterOrder = columnSorterState ? columnSorterState.sortOrder : null
             const nextSortOrder = nextSortDirection(sortDirections, sorterOrder)
-            const upNode: React.ReactNode = sortDirections.includes(ASCEND) && (
+            const upNode: React.ReactNode = sortDirections.includes(directions.ascend) && (
                 <span
                     role="img"
                     className={classNames('column-sorter-up', {
-                        active: sorterOrder === ASCEND,
+                        active: sorterOrder === directions.ascend,
                     })}
                 />
             )
-            const downNode: React.ReactNode = sortDirections.includes(DESCEND) && (
+            const downNode: React.ReactNode = sortDirections.includes(directions.descend) && (
                 <span
                     role="img"
                     className={classNames('column-sorter-down', {
-                        active: sorterOrder === DESCEND,
+                        active: sorterOrder === directions.descend,
                     })}
                 />
             )
@@ -232,7 +234,7 @@ export function getSortData<RecordType>(
             const compareResult = compareFn(record1, record2, sortOrder)
 
             if (compareResult !== 0) {
-                return sortOrder === ASCEND ? compareResult : -compareResult
+                return sortOrder === directions.ascend ? compareResult : -compareResult
             }
         }
 

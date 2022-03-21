@@ -76,7 +76,7 @@ export class UserList {
             const fieldTypeB = typeof userB[sortField]
 
             if (fieldTypeA === fieldTypeB && fieldTypeA === 'string') {
-                if (sortOrder === 'descend') {
+                if (sortOrder === 'desc') {
                     // по убыванию
                     if (userA[sortField]! < userB[sortField]!) {
                         return -1
@@ -86,7 +86,7 @@ export class UserList {
                     }
                     return 0
                 }
-                if (sortOrder === 'ascend') {
+                if (sortOrder === 'asc') {
                     // по возрастанию
                     if (userA[sortField]! > userB[sortField]!) {
                         return -1
@@ -101,11 +101,11 @@ export class UserList {
             }
 
             if (fieldTypeA === fieldTypeB && fieldTypeA === 'number') {
-                if (sortOrder === 'descend') {
+                if (sortOrder === 'desc') {
                     // по убыванию
                     return (userB[sortField] as number) - (userA[sortField] as number)
                 }
-                if (sortOrder === 'ascend') {
+                if (sortOrder === 'asc') {
                     // по возрастанию
                     return (userA[sortField] as number) - (userB[sortField] as number)
                 }

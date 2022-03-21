@@ -108,7 +108,7 @@ function InternalTable<RecordType extends object = any>(
     const [transformedColumns, sortState, getSorters] = useSorter<RecordType>({
         mergedColumns,
         onSorterChange,
-        sortDirections: sortDirections || ['ascend', 'descend'],
+        sortDirections: sortDirections || ['asc', 'desc'],
         controlledSorter: sorter,
     })
     changeEventInfo.sorter = getSorters()

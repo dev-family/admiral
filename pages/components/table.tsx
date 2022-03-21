@@ -33,7 +33,7 @@ const columns: ColumnsType<IUser> = [
         dataIndex: 'age',
         key: 'age',
         width: 200,
-        defaultSortOrder: 'descend',
+        defaultSortOrder: 'desc',
         sorter: (a, b) => a.age - b.age,
     },
     {

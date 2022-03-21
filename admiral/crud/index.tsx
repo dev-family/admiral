@@ -3,11 +3,18 @@ import { Form } from '@/admiral/form'
 import { Page, Card, CardBody, Button } from '@/admiral/ui'
 import { ColumnsType } from '@/admiral/ui/Table/interfaces'
 import { MdEdit } from 'react-icons/md'
+import { IoTrash } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import { CreateButton } from '@/admiral/actions'
 import { TopToolbar } from '@/admiral/layout'
 import { useDataProvider } from '@/admiral/dataProvider'
 import React, { useCallback } from 'react'
+
+const operationsStyle: React.CSSProperties = {
+    display: 'flex',
+    gap: '2px',
+    flexWrap: 'wrap',
+}
 
 type CRUDConfig<RecordType> = {
     path: string
@@ -38,6 +45,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
     config: CRUDConfig<RecordType>,
 ) {
     return () => {
+        const { deleteOne } = useDataProvider()
         return (
             <Page
                 title={config.index.title}
@@ -59,12 +67,27 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                             title: 'Действия',
                             key: 'operation',
                             fixed: 'right',
-                            width: 100,
-                            render: (_value, record) => (
-                                <Link to={`${config.path}/${record.id}`}>
-                                    <Button view="clear" size="S" iconRight={<MdEdit />} />
-                                </Link>
-                            ),
+                            width: 120,
+                            render: (_value, record) => {
+                                const handleDelete = useCallback(() => {
+                                    return deleteOne(config.resource, { id: record.id })
+                                }, [])
+
+                                return (
+                                    <div style={operationsStyle}>
+                                        <Link to={`${config.path}/${record.id}`}>
+                                            <Button view="clear" size="S" iconRight={<MdEdit />} />
+                                        </Link>
+
+                                        <Button
+                                            onClick={handleDelete}
+                                            view="clear"
+                                            size="S"
+                                            iconRight={<IoTrash />}
+                                        />
+                                    </div>
+                                )
+                            },
                         },
                     ]}
                 />

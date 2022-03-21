@@ -1,38 +1,38 @@
 name: CI
 on:
-  push:
-    branches:
-    - master
-  pull_request:
-    branches:
-    - master
-  workflow_dispatch:
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - master
+    workflow_dispatch:
 
 env:
-  DEPLOY_PATH: /home/deploy/htdocs/admiral/
-  BUILD_SCRIPT_OUTPUT: dist
+    DEPLOY_PATH: /home/deploy/htdocs/admiral/
+    BUILD_SCRIPT_OUTPUT: dist
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '14'
-      - name: Install Dependencies
-        run: npm i
-      - name: Build Appliction
-        run: npm run build
-      - name: Deploy to Server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.DEPLOY_SERVER_HOST }}
-          port: ${{ secrets.DEPLOY_SERVER_PORT }}
-          username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
-          key: ${{ secrets.DEPLOY_SERVER_KEY }}
-          source: ${{ env.BUILD_SCRIPT_OUTPUT }}
-          target: ${{ env.DEPLOY_PATH }}
-          strip_components: 1
-      - name: Done
-        run: echo "Deployed at https://admiral.websecret.by"
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '14'
+            - name: Install Dependencies
+              run: npm i
+            - name: Build Appliction
+              run: npm run build
+            - name: Deploy to Server
+              uses: appleboy/scp-action@master
+              with:
+                  host: ${{ secrets.DEPLOY_SERVER_HOST }}
+                  port: ${{ secrets.DEPLOY_SERVER_PORT }}
+                  username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
+                  key: ${{ secrets.DEPLOY_SERVER_KEY }}
+                  source: ${{ env.BUILD_SCRIPT_OUTPUT }}
+                  target: ${{ env.DEPLOY_PATH }}
+                  strip_components: 1
+            - name: Done
+              run: echo "Deployed at https://admiral.websecret.by"

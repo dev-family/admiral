@@ -7,7 +7,7 @@ export const handlers = [
     rest.get('/api/users', (req, res, ctx) => {
         const page = Number(req.url.searchParams.get('page')) || 1
         const pageSize = Number(req.url.searchParams.get('page_size')) || 10
-        const sort = JSON.parse(req.url.searchParams.get('sort') || '') as Record<any, any>
+        const sort = JSON.parse(req.url.searchParams.get('sort') || '{}') as Record<any, any>
 
         const from = page * pageSize - pageSize
         const to = page * pageSize
@@ -16,16 +16,16 @@ export const handlers = [
             ctx.delay(1600),
             ctx.status(200),
             ctx.json({
-                data: userList.getUsers(from, to, Object.entries(sort)[0]),
-                pagination: { current: page, total: userList.length, page_size: pageSize },
+                items: userList.getUsers(from, to, Object.entries(sort)[0]),
+                meta: { current: page, total: userList.length, page_size: pageSize },
             }),
         )
     }),
-    rest.post('/api/users/create', (req, res, ctx) => {
+    rest.post('/api/users', (req, res, ctx) => {
         console.log('create user: ', req.body)
         const user = userList.add(req.body as Partial<IUser>)
 
-        return res(ctx.delay(160), ctx.status(201), ctx.json(user))
+        return res(ctx.delay(160), ctx.status(201), ctx.json({ data: user }))
     }),
     rest.delete('/api/users/:id', (req, res, ctx) => {
         const { id } = req.params
@@ -33,16 +33,16 @@ export const handlers = [
 
         return res(ctx.delay(160), ctx.status(204))
     }),
-    rest.get('/api/users/:id', (req, res, ctx) => {
+    rest.get('/api/users/:id/update', (req, res, ctx) => {
         const { id } = req.params
         const user = userList.getUserById(id as string)
 
-        return res(ctx.delay(160), ctx.status(200), ctx.json(user))
+        return res(ctx.delay(160), ctx.status(200), ctx.json({ data: user }))
     }),
     rest.post('/api/users/:id', (req, res, ctx) => {
         const { id } = req.params
         userList.update(id as string, req.body as IUser)
 
-        return res(ctx.delay(160), ctx.status(200), ctx.json(req.body))
+        return res(ctx.delay(160), ctx.status(200), ctx.json({ data: req.body }))
     }),
 ]

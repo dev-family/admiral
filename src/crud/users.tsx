@@ -4,9 +4,9 @@ import React from 'react'
 
 export const UsersCRUD = createCRUD({
     path: '/crud-users',
+    resource: 'users',
     index: {
         title: 'Users CRUD',
-        apiURL: '/api/users',
         newButtonText: 'Create New User',
         tableOptions: [
             {
@@ -20,14 +20,11 @@ export const UsersCRUD = createCRUD({
                 title: 'Email',
                 dataIndex: 'email',
                 key: 'email',
-                width: 200,
             },
             {
                 title: 'Group',
                 dataIndex: 'group',
                 key: 'group',
-                width: 200,
-                ellipsis: true,
                 render: (value) => value.join(', '),
             },
             {
@@ -106,10 +103,8 @@ export const UsersCRUD = createCRUD({
     },
     create: {
         title: 'Create New User',
-        apiURL: '/api/users/create',
     },
     update: {
         title: (id: string) => `Edit User #${id}`,
-        apiURL: (id: string) => `/api/users/${id}`,
     },
 })

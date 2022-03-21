@@ -77,7 +77,6 @@ export default function useSorter<RecordType>({
             setSortState(collectSortState(mergedColumns, controlledSorter))
         }
     }, [controlledSorter])
-    console.log('sortState: ', sortState)
 
     function triggerSorter(sortState: SortState<RecordType>) {
         setSortState(sortState)

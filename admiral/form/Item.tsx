@@ -3,7 +3,7 @@ import { useTransition, animated } from 'react-spring'
 import styles from './Form.module.scss'
 import cn from 'classnames'
 
-type ItemProps = {
+export interface ItemProps {
     label?: string
     error?: string
     required?: boolean

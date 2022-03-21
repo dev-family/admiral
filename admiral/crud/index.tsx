@@ -2,8 +2,7 @@ import { DataTable } from '@/admiral/DataTable'
 import { Form } from '@/admiral/form'
 import { Page, Card, CardBody, Button } from '@/admiral/ui'
 import { ColumnsType } from '@/admiral/ui/Table/interfaces'
-import { MdEdit } from 'react-icons/md'
-import { IoTrash } from 'react-icons/io5'
+import { FiTrash, FiEdit3 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { CreateButton } from '@/admiral/actions'
 import { TopToolbar } from '@/admiral/layout'
@@ -76,14 +75,14 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                                 return (
                                     <div style={operationsStyle}>
                                         <Link to={`${config.path}/${record.id}`}>
-                                            <Button view="clear" size="S" iconRight={<MdEdit />} />
+                                            <Button view="clear" size="S" iconRight={<FiEdit3 />} />
                                         </Link>
 
                                         <Button
                                             onClick={handleDelete}
                                             view="clear"
                                             size="S"
-                                            iconRight={<IoTrash />}
+                                            iconRight={<FiTrash />}
                                         />
                                     </div>
                                 )

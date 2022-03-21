@@ -21,6 +21,9 @@ export default function ComponentsPage() {
                 <Link to="components/textarea">
                     <Button component="span">Textarea</Button>
                 </Link>
+                <Link to="components/datepicker">
+                    <Button component="span">DatePicker</Button>
+                </Link>
             </div>
         </Page>
     )

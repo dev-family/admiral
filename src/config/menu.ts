@@ -36,6 +36,11 @@ const menu: IMenuItem[] = [
                 name: 'Textarea',
                 to: '/components/textarea',
             },
+            {
+                icon: 'FiBox',
+                name: 'Datepicker',
+                to: '/components/datepicker',
+            },
         ],
     },
 ]

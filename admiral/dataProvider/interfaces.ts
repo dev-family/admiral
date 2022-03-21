@@ -37,6 +37,15 @@ export type DataProvider = {
         params: GetOneParams,
     ) => Promise<GetOneResult<RecordType>>
 
+    getCreateFormData: <RecordType extends Record = Record>(
+        resource: string,
+    ) => Promise<GetOneResult<RecordType>>
+
+    getUpdateFormData: <RecordType extends Record = Record>(
+        resource: string,
+        params: GetOneParams,
+    ) => Promise<GetOneResult<RecordType>>
+
     update: <RecordType extends Record = Record>(
         resource: string,
         params: UpdateParams,

@@ -97,7 +97,11 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
 
 function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
     return () => {
-        const { create } = useDataProvider()
+        const { getCreateFormData, create } = useDataProvider()
+
+        const fetchInitialData = useCallback(() => {
+            return getCreateFormData(config.resource)
+        }, [])
 
         const submitData = useCallback((values) => {
             return create(config.resource, { data: values })
@@ -107,7 +111,11 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             <Page title={config.create.title}>
                 <Card>
                     <CardBody>
-                        <Form submitData={submitData} redirect={config.path}>
+                        <Form
+                            submitData={submitData}
+                            redirect={config.path}
+                            fetchInitialData={fetchInitialData}
+                        >
                             <Form.Fields>{config.form.create.fields}</Form.Fields>
 
                             <Form.Footer>
@@ -126,10 +134,10 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
 
 function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
     return ({ id }: { id: string }) => {
-        const { getOne, update } = useDataProvider()
+        const { getUpdateFormData, update } = useDataProvider()
 
         const fetchInitialData = useCallback(() => {
-            return getOne(config.resource, { id })
+            return getUpdateFormData(config.resource, { id })
         }, [])
 
         const submitData = useCallback((values) => {

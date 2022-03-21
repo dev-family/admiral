@@ -6,14 +6,15 @@ import { MdEdit } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { CreateButton } from '@/admiral/actions'
 import { TopToolbar } from '@/admiral/layout'
-import React from 'react'
+import { useDataProvider } from '@/admiral/dataProvider'
+import React, { useCallback } from 'react'
 
 type CRUDConfig<RecordType> = {
     path: string
     actions?: React.ReactNode
+    resource: string
     index: {
         title: string
-        apiURL: string
         newButtonText: string
         tableOptions: ColumnsType<RecordType>
     }
@@ -27,11 +28,9 @@ type CRUDConfig<RecordType> = {
     }
     create: {
         title: string
-        apiURL: string
     }
     update: {
         title: (id: string) => string
-        apiURL: (id: string) => string
     }
 }
 
@@ -53,7 +52,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                 }
             >
                 <DataTable
-                    url={config.index.apiURL}
+                    resource={config.resource}
                     columns={[
                         ...config.index.tableOptions,
                         {
@@ -75,36 +74,54 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
 }
 
 function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
-    return () => (
-        <Page title={config.create.title}>
-            <Card>
-                <CardBody>
-                    <Form action={config.create.apiURL} redirect={config.path}>
-                        <Form.Fields>{config.form.create.fields}</Form.Fields>
+    return () => {
+        const { create } = useDataProvider()
 
-                        <Form.Footer>
-                            <Link to={config.path}>
-                                <Button view="secondary">Назад</Button>
-                            </Link>
-                            <Form.Submit>Сохранить</Form.Submit>
-                        </Form.Footer>
-                    </Form>
-                </CardBody>
-            </Card>
-        </Page>
-    )
+        const submitData = useCallback((values) => {
+            return create(config.resource, { data: values })
+        }, [])
+
+        return (
+            <Page title={config.create.title}>
+                <Card>
+                    <CardBody>
+                        <Form submitData={submitData} redirect={config.path}>
+                            <Form.Fields>{config.form.create.fields}</Form.Fields>
+
+                            <Form.Footer>
+                                <Link to={config.path}>
+                                    <Button view="secondary">Назад</Button>
+                                </Link>
+                                <Form.Submit>Сохранить</Form.Submit>
+                            </Form.Footer>
+                        </Form>
+                    </CardBody>
+                </Card>
+            </Page>
+        )
+    }
 }
 
 function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
     return ({ id }: { id: string }) => {
+        const { getOne, update } = useDataProvider()
+
+        const fetchInitialData = useCallback(() => {
+            return getOne(config.resource, { id })
+        }, [])
+
+        const submitData = useCallback((values) => {
+            return update(config.resource, { data: values, id })
+        }, [])
+
         return (
             <Page title={config.update.title(id)}>
                 <Card>
                     <CardBody>
                         <Form
-                            action={config.update.apiURL(id)}
                             redirect={config.path}
-                            hasInitialData
+                            submitData={submitData}
+                            fetchInitialData={fetchInitialData}
                         >
                             <Form.Fields>{config.form.edit.fields}</Form.Fields>
 

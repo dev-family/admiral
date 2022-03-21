@@ -1,45 +1,45 @@
 import React, { useState, useEffect, FormEvent } from 'react'
+import { GetOneResult } from '@/admiral/dataProvider'
 import { useHistory } from 'react-router-dom'
-import axios, { AxiosResponse } from 'axios'
 import { FormProvider, useForm } from './FormContext'
 import { Button } from '@/admiral/ui'
 import styles from './Form.module.scss'
 import Item from './Item'
 
 type FormProps = {
-    action: string
     redirect?: string
-    hasInitialData?: boolean
+    fetchInitialData?: () => Promise<GetOneResult>
+    submitData: (values: any) => Promise<any>
 }
 
 const InternalForm: React.FC<FormProps> = ({
-    children,
-    action,
+    fetchInitialData,
+    submitData,
     redirect,
-    hasInitialData = false,
+    children,
 }) => {
-    const [values, setValues] = useState({})
+    const [values, setValues] = useState<Record<any, any>>({})
     const [errors, setErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
     const history = useHistory()
 
-    async function fetchInitialData(url: string) {
-        const response = await axios.get(url)
+    async function _fetchInitialData() {
+        const response = await fetchInitialData!()
         setValues(response.data)
     }
 
     useEffect(() => {
-        if (hasInitialData) {
-            fetchInitialData(action)
+        if (typeof fetchInitialData === 'function') {
+            _fetchInitialData()
         }
-    }, [action, hasInitialData])
+    }, [fetchInitialData])
 
     async function handleSubmit(e: FormEvent) {
         e.preventDefault()
 
         setIsSubmitting(true)
         try {
-            const response: AxiosResponse<any> = await axios.post(action, values)
+            await submitData(values)
 
             if (redirect) {
                 history.push(redirect)

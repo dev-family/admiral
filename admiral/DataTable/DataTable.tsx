@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import axios from 'axios'
 import { Card, Table } from '@/admiral/ui'
 import { ColumnsType, TableProps } from '@/admiral/ui/Table/interfaces'
 import { ControlledSorter } from '@/admiral/ui/Table/hooks/useSorter'
 import { useUrlState } from '@/admiral/utils/hooks'
+import { useDataProvider } from '@/admiral/dataProvider'
 
 // TODO: pass table visual props
 // TODO: rowSelection config
 
 export type DataTableProps<RecordType> = {
-    url: string
+    resource: string
     columns: ColumnsType<RecordType>
     initialSorter?: ControlledSorter
 }
@@ -17,10 +17,16 @@ export type DataTableProps<RecordType> = {
 const PAGE_DEFAULT = 1
 const PAGE_SIZE_DEFAULT = 10
 
-export function DataTable<RecordType>({ url, columns, initialSorter }: DataTableProps<RecordType>) {
+export function DataTable<RecordType>({
+    resource,
+    columns,
+    initialSorter,
+}: DataTableProps<RecordType>) {
+    const { getList } = useDataProvider()
     const [data, setData] = useState<RecordType[]>([])
+
     const [loading, setLoading] = useState(false)
-    const [total, setTotal] = useState()
+    const [total, setTotal] = useState<number>()
     const [state, setState] = useUrlState({
         page: '1',
         page_size: '10',
@@ -37,21 +43,22 @@ export function DataTable<RecordType>({ url, columns, initialSorter }: DataTable
             : null
     }, [state])
 
-    async function fetch(url: string, state: any) {
+    async function fetch(resource: string, state: any) {
         setLoading(true)
         try {
-            const response = await axios.get(url, { params: state })
-            console.log('response: ', response)
+            const response = await getList(resource, {
+                pagination: { perPage: state.page_size, page: state.page },
+            })
 
-            setData(response.data.data)
-            setTotal(response.data.pagination.total)
+            setData(response.items as any)
+            setTotal(response.meta.total)
         } catch (error) {}
         setLoading(false)
     }
 
     useEffect(() => {
-        fetch(url, state)
-    }, [url, state])
+        fetch(resource, state)
+    }, [resource, state])
 
     const onTableChange: TableProps<RecordType>['onChange'] = (pagination, sorter, extra) => {
         if (extra.action === 'paginate') {
@@ -71,6 +78,7 @@ export function DataTable<RecordType>({ url, columns, initialSorter }: DataTable
         <Card>
             <Table
                 dataSource={data}
+                rowKey="id"
                 columns={columns}
                 sorter={sorter}
                 scroll={{

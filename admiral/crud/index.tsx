@@ -120,7 +120,9 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
 
                             <Form.Footer>
                                 <Link to={config.path}>
-                                    <Button view="secondary">Назад</Button>
+                                    <Button type="button" view="secondary">
+                                        Назад
+                                    </Button>
                                 </Link>
                                 <Form.Submit>Сохранить</Form.Submit>
                             </Form.Footer>
@@ -157,7 +159,9 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
 
                             <Form.Footer>
                                 <Link to={config.path}>
-                                    <Button view="secondary">Назад</Button>
+                                    <Button type="button" view="secondary">
+                                        Назад
+                                    </Button>
                                 </Link>
                                 <Form.Submit>Сохранить</Form.Submit>
                             </Form.Footer>

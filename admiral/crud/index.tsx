@@ -1,4 +1,4 @@
-import { DataTable } from '@/admiral/DataTable'
+import { DataTable } from '@/admiral/dataTable'
 import { Form } from '@/admiral/form'
 import { Page, Card, CardBody, Button } from '@/admiral/ui'
 import { ColumnsType } from '@/admiral/ui/Table/interfaces'

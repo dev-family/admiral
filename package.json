@@ -11,6 +11,7 @@
         "@tippyjs/react": "^4.2.5",
         "axios": "^0.26.1",
         "classnames": "^2.3.1",
+        "lodash.throttle": "^4.1.1",
         "no-scroll": "^2.1.1",
         "qs": "^6.10.3",
         "rc-pagination": "^3.1.14",
@@ -23,9 +24,11 @@
         "react-icons": "^4.3.1",
         "react-merge-refs": "^1.1.0",
         "react-router-dom": "^5.2.0",
-        "react-spring": "^9.4.4"
+        "react-spring": "^9.4.4",
+        "react-textarea-autosize": "^8.3.3"
     },
     "devDependencies": {
+        "@types/lodash.throttle": "^4.1.6",
         "@types/no-scroll": "^2.1.0",
         "@types/qs": "^6.9.7",
         "@types/react": "^17.0.40",

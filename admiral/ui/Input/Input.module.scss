@@ -20,59 +20,62 @@
     }
 
     &:focus-within {
-        filter: drop-shadow(0px 0px 1px var(--input-bcolor-focus, var(--color-control-bg-border-focus)));
+        filter: drop-shadow(
+            0px 0px 1px var(--input-bcolor-focus, var(--color-control-bg-border-focus))
+        );
         border-color: var(--input-bcolor-focus, var(--color-control-bg-border-focus));
     }
 
     &__SizeL {
-      --input-pr: calc(var(--control-space-l) / 2);
-      --input-pl: calc(var(--control-space-l) / 2)
-      --input-fz: var(--control-text-size-l);
+        --input-pr: calc(var(--control-space-l) / 2);
+        --input-pl: calc(var(--control-space-l) / 2);
+        --input-height: var(--control-height-l);
+        --input-fz: var(--control-text-size-l);
     }
 
     &__SizeS {
-      --input-pr: calc(var(--control-space-s) / 2);
-      --input-pl: calc(var(--control-space-s) / 2)
-      --input-fz: var(--control-text-size-s);
+        --input-pr: calc(var(--control-space-s) / 2);
+        --input-pl: calc(var(--control-space-s) / 2);
+        --input-height: var(--control-height-s);
+        --input-fz: var(--control-text-size-s);
     }
 
     &__SizeXS {
-      --input-pr: calc(var(--control-space-xs) / 2);
-      --input-pl: calc(var(--control-space-xs) / 2)
-      --input-fz: var(--control-text-size-xs);
+        --input-pr: calc(var(--control-space-xs) / 2);
+        --input-pl: calc(var(--control-space-xs) / 2);
+        --input-height: var(--control-height-xs);
+        --input-fz: var(--control-text-size-xs);
     }
 
     &__Alert {
-      --input-bcolor: var(--color-bg-alert);
-      --input-bcolor-hover: var(--color-bg-alert);
-      --input-bcolor-focus: var(--color-bg-alert);
+        --input-bcolor: var(--color-bg-alert);
+        --input-bcolor-hover: var(--color-bg-alert);
+        --input-bcolor-focus: var(--color-bg-alert);
     }
 
-
     &__Disabled {
-      --input-color: var(--color-control-typo-disable);
-      --input-bg: var(--color-control-bg-disable);
-      --input-bcolor: var(--color-control-bg-border-disable);
-      --input-bcolor-hover: var(--color-control-bg-border-disable);
-      --input-bcolor-focus: var(--color-control-bg-border-disable);
-      cursor: not-allowed;
+        --input-color: var(--color-control-typo-disable);
+        --input-bg: var(--color-control-bg-disable);
+        --input-bcolor: var(--color-control-bg-border-disable);
+        --input-bcolor-hover: var(--color-control-bg-border-disable);
+        --input-bcolor-focus: var(--color-control-bg-border-disable);
+        cursor: not-allowed;
 
-      & > .input {
-        &::placeholder {
-          color: var(--color-control-typo-disable);
+        & > .input {
+            &::placeholder {
+                color: var(--color-control-typo-disable);
+            }
         }
-      }
     }
 
     &__Clear {
-      --input-pr: 0;
-      --input-pl: 0;
-      --input-bg: var(--color-control-bg-clear);
-      --input-bcolor: var(--color-control-bg-clear);
-      --input-bcolor-hover: var(--color-control-bg-clear);
-      --input-bcolor-focus: var(--color-control-bg-clear);
+        --input-pr: 0;
+        --input-pl: 0;
+        --input-bg: var(--color-control-bg-clear);
+        --input-bcolor: var(--color-control-bg-clear);
+        --input-bcolor-hover: var(--color-control-bg-clear);
+        --input-bcolor-focus: var(--color-control-bg-clear);
     }
-
 }
 
 .input {

@@ -48,6 +48,7 @@ export function DataTable<RecordType>({
         try {
             const response = await getList(resource, {
                 pagination: { perPage: state.page_size, page: state.page },
+                sort: state.sort,
             })
 
             setData(response.items as any)

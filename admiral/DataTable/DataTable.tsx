@@ -74,6 +74,13 @@ export function DataTable<RecordType>({
         }
     }
 
+    const scrollX = useMemo(() => {
+        return columns.reduce((acc, column) => {
+            const width = Number(column.width)
+            return isNaN(width) ? acc + 200 : acc + width
+        }, 0)
+    }, [columns])
+
     return (
         <Card>
             <Table
@@ -82,7 +89,7 @@ export function DataTable<RecordType>({
                 columns={columns}
                 sorter={sorter}
                 scroll={{
-                    x: 0,
+                    x: scrollX,
                 }}
                 sticky
                 pagination={{

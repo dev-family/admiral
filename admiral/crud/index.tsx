@@ -4,7 +4,7 @@ import { Page, Card, CardBody, Button } from '@/admiral/ui'
 import { ColumnsType } from '@/admiral/ui/Table/interfaces'
 import { FiTrash, FiEdit3 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
-import { CreateButton } from '@/admiral/actions'
+import { CreateButton, BackButton } from '@/admiral/actions'
 import { TopToolbar } from '@/admiral/layout'
 import { useDataProvider } from '@/admiral/dataProvider'
 import React, { useCallback } from 'react'
@@ -119,11 +119,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
                             <Form.Fields>{config.form.create.fields}</Form.Fields>
 
                             <Form.Footer>
-                                <Link to={config.path}>
-                                    <Button type="button" view="secondary">
-                                        Назад
-                                    </Button>
-                                </Link>
+                                <BackButton basePath={config.path}>Назад</BackButton>
                                 <Form.Submit>Сохранить</Form.Submit>
                             </Form.Footer>
                         </Form>
@@ -158,11 +154,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
                             <Form.Fields>{config.form.edit.fields}</Form.Fields>
 
                             <Form.Footer>
-                                <Link to={config.path}>
-                                    <Button type="button" view="secondary">
-                                        Назад
-                                    </Button>
-                                </Link>
+                                <BackButton basePath={config.path}>Назад</BackButton>
                                 <Form.Submit>Сохранить</Form.Submit>
                             </Form.Footer>
                         </Form>

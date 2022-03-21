@@ -3,18 +3,22 @@ import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Switch } from '@/admiral/ui'
 import type { SwitchProps } from '@/admiral/ui/Switch'
+import { FormItemProps } from '../Item'
 
-interface BooleanInputProps extends SwitchProps {
+interface BooleanInputProps extends SwitchProps, FormItemProps {
     name: string
-    label?: string
-    required?: boolean
 }
 
-export const BooleanInput: React.FC<BooleanInputProps> = ({ name, label, ...options }) => {
+export const BooleanInput: React.FC<BooleanInputProps> = ({
+    name,
+    label,
+    required,
+    columnSpan,
+    ...switchProps
+}) => {
     const { values, errors, setValues } = useForm()
     const checked = values[name]
     const error = errors[name]?.[0]
-    const required = options?.required
 
     useEffect(() => {
         setValues((values: any) => ({ ...values, [name]: checked ?? false }))
@@ -25,8 +29,8 @@ export const BooleanInput: React.FC<BooleanInputProps> = ({ name, label, ...opti
     }, [])
 
     return (
-        <Form.Item label={label} required={required} error={error}>
-            <Switch {...options} checked={checked} onChange={onChange} />
+        <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
+            <Switch {...switchProps} checked={checked} onChange={onChange} />
         </Form.Item>
     )
 }

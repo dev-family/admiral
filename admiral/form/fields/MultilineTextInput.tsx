@@ -3,14 +3,19 @@ import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Textarea } from '@/admiral/ui'
 import type { TextareaProps } from '@/admiral/ui/Textarea/interfaces'
-import { ItemProps } from '../Item'
+import { FormItemProps } from '../Item'
 
-interface MultilineTextInputProps extends TextareaProps, ItemProps {
+interface MultilineTextInputProps extends TextareaProps, FormItemProps {
     name: string
 }
 
-export const MultilineTextInput: React.FC<MultilineTextInputProps> = (props) => {
-    const { name, label, required, ...options } = props
+export const MultilineTextInput: React.FC<MultilineTextInputProps> = ({
+    name,
+    label,
+    required,
+    columnSpan,
+    ...textareaProps
+}) => {
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
@@ -20,8 +25,14 @@ export const MultilineTextInput: React.FC<MultilineTextInputProps> = (props) => 
     }, [])
 
     return (
-        <Form.Item label={label} required={required} error={error}>
-            <Textarea {...options} name={name} value={value} onChange={onChange} alert={!!error} />
+        <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
+            <Textarea
+                {...textareaProps}
+                name={name}
+                value={value}
+                onChange={onChange}
+                alert={!!error}
+            />
         </Form.Item>
     )
 }

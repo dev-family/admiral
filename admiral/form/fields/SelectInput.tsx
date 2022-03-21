@@ -3,19 +3,19 @@ import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Select } from '@/admiral/ui'
 import type { SelectProps } from '@/admiral/ui/Select/Select'
+import { FormItemProps } from '../Item'
 
 const { OptGroup, Option } = Select
 
-interface SelectInputProps extends SelectProps {
+interface SelectInputProps extends SelectProps, FormItemProps {
     name: string
-    label?: string
-    required?: boolean
 }
 
 const InternalSelectInput: React.FC<SelectInputProps> = ({
     name,
     label,
     required = false,
+    columnSpan,
     children,
     ...selectProps
 }) => {
@@ -45,7 +45,7 @@ const InternalSelectInput: React.FC<SelectInputProps> = ({
     }, [children, opts])
 
     return (
-        <Form.Item label={label} required={required} error={error}>
+        <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
             <Select {...selectProps} value={value} onChange={onChange} alert={!!error}>
                 {renderChildren()}
             </Select>

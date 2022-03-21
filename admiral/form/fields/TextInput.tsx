@@ -3,13 +3,19 @@ import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Input } from '@/admiral/ui'
 import type { InputProps } from '@/admiral/ui/Input/interfaces'
+import { FormItemProps } from '../Item'
 
-interface TextInputProps extends InputProps {
+interface TextInputProps extends InputProps, FormItemProps {
     name: string
-    label?: string
 }
 
-export const TextInput: React.FC<TextInputProps> = ({ name, label, required, ...options }) => {
+export const TextInput: React.FC<TextInputProps> = ({
+    name,
+    label,
+    required,
+    columnSpan,
+    ...inputProps
+}) => {
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
@@ -19,8 +25,8 @@ export const TextInput: React.FC<TextInputProps> = ({ name, label, required, ...
     }, [])
 
     return (
-        <Form.Item label={label} required={required} error={error}>
-            <Input {...options} name={name} value={value} onChange={onChange} alert={!!error} />
+        <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
+            <Input {...inputProps} name={name} value={value} onChange={onChange} alert={!!error} />
         </Form.Item>
     )
 }

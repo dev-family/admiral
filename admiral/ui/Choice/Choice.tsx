@@ -1,23 +1,8 @@
 import React, { forwardRef, useState, memo, useRef, useEffect } from 'react'
 import mergeRefs from 'react-merge-refs'
-import styles from './Choice.module.scss'
 import cn from 'classnames'
-
-export interface ChoiceChangeEventTarget extends ChoiceProps {
-    checked: boolean
-}
-
-export interface ChoiceChangeEvent {
-    target: ChoiceChangeEventTarget
-    event: Event
-}
-
-export interface ChoiceProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
-    classNames?: { wrapper?: string; input?: string; inner?: string }
-    view?: 'primary' | 'ghost'
-    indeterminate?: boolean
-    onChange?: (e: ChoiceChangeEvent) => void
-}
+import styles from './Choice.module.scss'
+import { ChoiceProps } from './interfaces'
 
 const InternalChoice: React.ForwardRefRenderFunction<HTMLInputElement, ChoiceProps> = (
     props,

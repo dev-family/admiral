@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { TablePaginationConfig } from '../interfaces'
-import { PaginationProps } from '../../Pagination'
+import { PaginationProps } from '../../Pagination/interfaces'
 
 export const DEFAULT_PAGE_SIZE = 10
 const EMPTY_PAGINATION = {}

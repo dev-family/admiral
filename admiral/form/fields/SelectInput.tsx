@@ -2,12 +2,12 @@ import React, { useCallback } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Select } from '@/admiral/ui'
-import type { SelectProps } from '@/admiral/ui/Select/Select'
+import type { SelectProps } from '@/admiral/ui/Select/interfaces'
 import { FormItemProps } from '../Item'
 
 const { OptGroup, Option } = Select
 
-interface SelectInputProps extends SelectProps, FormItemProps {
+export interface SelectInputProps extends SelectProps, FormItemProps {
     name: string
 }
 

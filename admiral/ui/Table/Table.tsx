@@ -15,7 +15,8 @@ import usePagination, { getPaginationParam, DEFAULT_PAGE_SIZE } from './hooks/us
 import useSelection from './hooks/useSelection'
 import useLazyKVMap from './hooks/useLazyKVMap'
 import { Pagination } from '../Pagination'
-import { Spin, SpinProps } from '../Spin'
+import { Spin } from '../Spin'
+import { SpinProps } from '../Spin/interfaces'
 import styles from './Table.module.scss'
 import Icon from '@/assets/icons'
 

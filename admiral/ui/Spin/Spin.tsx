@@ -1,22 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { tuple } from '@/admiral/utils/type'
 import styles from './Spin.module.scss'
 import classNames from 'classnames'
 import Icon from '@/assets/icons'
-
-const SpinSizes = tuple('small', 'default', 'large')
-export type SpinSize = typeof SpinSizes[number]
-export type SpinIndicator = React.ReactElement<HTMLElement>
-
-export interface SpinProps {
-    className?: string
-    spinning?: boolean
-    style?: React.CSSProperties
-    size?: SpinSize
-    tip?: React.ReactNode
-    delay?: number
-    wrapperClassName?: string
-}
+import { SpinProps } from './interfaces'
 
 function shouldDelay(spinning?: boolean, delay?: number): boolean {
     return !!spinning && !!delay && !isNaN(Number(delay))

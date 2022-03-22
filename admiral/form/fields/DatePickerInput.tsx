@@ -6,7 +6,7 @@ import { PickerProps } from '@/admiral/ui/DatePicker/generatePicker/interfaces'
 import { FormItemProps } from '../Item'
 import parseISO from 'date-fns/parseISO'
 
-type DatePickerInputProps = FormItemProps & {
+export type DatePickerInputProps = FormItemProps & {
     name: string
 } & PickerProps<Date>
 

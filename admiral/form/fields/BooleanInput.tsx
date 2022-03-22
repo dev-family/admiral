@@ -2,10 +2,10 @@ import React, { useCallback, useEffect } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Switch } from '@/admiral/ui'
-import type { SwitchProps } from '@/admiral/ui/Switch'
+import type { SwitchProps } from '@/admiral/ui/Switch/interfaces'
 import { FormItemProps } from '../Item'
 
-interface BooleanInputProps extends SwitchProps, FormItemProps {
+export interface BooleanInputProps extends SwitchProps, FormItemProps {
     name: string
 }
 

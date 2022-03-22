@@ -1,23 +1,14 @@
 import React from 'react'
-import RcPagination, { PaginationLocale, PaginationProps as RcPaginationProps } from 'rc-pagination'
+import RcPagination, { PaginationProps as RcPaginationProps } from 'rc-pagination'
 import { enUs, ruRu } from './locales'
 import styles from './Pagination.module.scss'
 import Icon from '@/assets/icons'
 import cn from 'classnames'
+import { PaginationProps } from './interfaces'
 
 // TODO: simple (after Input ready)
 // TODO: showQuickJumper (after Input ready)
 // TODO: showSizeChanger (need selectComponentClass, after Select ready)
-
-export interface PaginationProps
-    extends Omit<
-        RcPaginationProps,
-        'prevIcon' | 'nextIcon' | 'jumpPrevIcon' | 'jumpNextIcon' | 'locale' | 'itemRender'
-    > {
-    size?: 'default' | 'small'
-    locale?: 'ruRu' | 'enUs'
-    localeConfig?: PaginationLocale
-}
 
 const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => {
     const ellipsis = <span className={styles.control_Ellipsis}>•••</span>

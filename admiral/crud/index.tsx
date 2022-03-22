@@ -15,7 +15,7 @@ const operationsStyle: React.CSSProperties = {
     flexWrap: 'wrap',
 }
 
-type CRUDConfig<RecordType> = {
+export type CRUDConfig<RecordType> = {
     path: string
     actions?: React.ReactNode
     resource: string

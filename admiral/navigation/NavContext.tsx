@@ -1,6 +1,6 @@
 import React, { useContext, useState, createContext, useCallback } from 'react'
 import { IMenuItem } from '@/admiral/ui'
-import { useLocalStorage } from '@/admiral/hooks'
+import { useLocalStorage } from '@/admiral/utils/hooks'
 import noScroll from 'no-scroll'
 
 export interface ContextState {

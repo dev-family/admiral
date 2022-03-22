@@ -5,7 +5,7 @@ import { Input } from '@/admiral/ui'
 import type { InputProps } from '@/admiral/ui/Input/interfaces'
 import { FormItemProps } from '../Item'
 
-interface TextInputProps extends InputProps, FormItemProps {
+export interface TextInputProps extends InputProps, FormItemProps {
     name: string
 }
 

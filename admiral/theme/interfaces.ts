@@ -1,8 +1,8 @@
-import { ThemePreset } from '@consta/uikit/Theme'
+import { ThemePreset as ThemePresetType } from '@consta/uikit/Theme'
 
 export interface ContextState {
-    theme: ThemePreset
-    themeClassNames: ThemePreset
+    theme: ThemePresetType
+    themeClassNames: ThemePresetType
     themeName: ThemeName
     setTheme: (name: ThemeName) => void
 }
@@ -11,3 +11,5 @@ export interface ProviderProps {
 }
 
 export type ThemeName = 'light' | 'dark'
+
+export type ThemePreset = ThemePresetType

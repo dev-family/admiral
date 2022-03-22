@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Page.module.scss'
 
-type PageProps = {
+export type PageProps = {
     title: string
     actions?: React.ReactNode
 }

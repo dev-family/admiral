@@ -1,45 +1,11 @@
 import React, { useCallback } from 'react'
 import omit from 'rc-util/lib/omit'
 import cn from 'classnames'
-import RcSelect, { Option, OptGroup, SelectProps as RcSelectProps, BaseSelectRef } from 'rc-select'
+import RcSelect, { Option, OptGroup, BaseSelectRef } from 'rc-select'
 import type { BaseOptionType, DefaultOptionType } from 'rc-select/lib/Select'
-import { OptionProps } from 'rc-select/lib/Option'
+import { SelectProps } from './interfaces'
 import getIcons from './utils/getIcons'
 import './Select.scss'
-
-type RawValue = string | number
-
-export type { OptionProps, BaseSelectRef as RefSelectProps, BaseOptionType, DefaultOptionType }
-export type SelectSizeType = 'L' | 'M' | 'S' | 'XS'
-
-export interface LabeledValue {
-    key?: string
-    value: RawValue
-    label: React.ReactNode
-}
-
-export type SelectValue = RawValue | RawValue[] | LabeledValue | LabeledValue[] | undefined
-
-export interface SelectProps<
-    ValueType = any,
-    OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType,
-> extends Omit<
-        RcSelectProps<ValueType, OptionType>,
-        | 'mode'
-        | 'getInputElement'
-        | 'getRawInputElement'
-        | 'backfill'
-        | 'inputIcon'
-        | 'clearIcon'
-        | 'removeIcon'
-        | 'menuItemSelectedIcon'
-        | 'getPopupContainer'
-    > {
-    size?: SelectSizeType
-    mode?: 'multiple' | 'tags'
-    borderless?: boolean
-    alert?: boolean
-}
 
 const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(
     {

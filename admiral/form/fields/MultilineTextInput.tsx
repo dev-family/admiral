@@ -5,7 +5,7 @@ import { Textarea } from '@/admiral/ui'
 import type { TextareaProps } from '@/admiral/ui/Textarea/interfaces'
 import { FormItemProps } from '../Item'
 
-interface MultilineTextInputProps extends TextareaProps, FormItemProps {
+export interface MultilineTextInputProps extends TextareaProps, FormItemProps {
     name: string
 }
 

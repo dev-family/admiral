@@ -1,10 +1,10 @@
 import { TableProps as RcTableProps } from 'rc-table/lib/Table'
 import { ColumnType as RcColumnType, GetRowKey } from 'rc-table/lib/interface'
 import { SorterResult, SortOrder, ControlledSorter } from './hooks/useSorter'
-import { CheckboxProps } from '../Checkbox/Checkbox'
+import { CheckboxProps } from '../Checkbox/interfaces'
 import { PaginationParam } from './hooks/usePagination'
-import { PaginationProps } from '../Pagination'
-import { SpinProps } from '../Spin'
+import { PaginationProps } from '../Pagination/interfaces'
+import { SpinProps } from '../Spin/interfaces'
 import { tuple } from '@/admiral/utils/type'
 
 export type { GetRowKey }

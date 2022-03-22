@@ -3,11 +3,8 @@ import Tippy, { TippyProps } from '@tippyjs/react/headless'
 import { useSpring, animated } from 'react-spring'
 import styles from './Tooltip.module.scss'
 import { useTheme } from '@/admiral/theme'
+import { TooltipProps } from './interfaces'
 import cn from 'classnames'
-
-export interface ITooltipProps extends TippyProps {
-    mode?: 'custom'
-}
 
 const config = { tension: 90, friction: 10, precision: 0.1, duration: 160 }
 const initialStyles = { opacity: 0, transform: 'scale(0.6)' }
@@ -19,7 +16,7 @@ export const Tooltip = ({
     content,
     children,
     ...tippyProps
-}: ITooltipProps) => {
+}: TooltipProps) => {
     const appendTo = useCallback(
         () => document.querySelector('#root > .Theme') as HTMLDivElement,
         [],

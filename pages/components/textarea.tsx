@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Page, Textarea, Input } from '@/admiral/ui'
+import { Page, Textarea, Input } from '../../admiral'
 
 export default function CheckboxPage() {
     const [value, setValue] = useState('')

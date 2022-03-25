@@ -1,5 +1,5 @@
 import React from 'react'
-import { Page, Checkbox } from '@/admiral/ui'
+import { Page, Checkbox } from '../../admiral'
 
 export default function CheckboxPage() {
     return (

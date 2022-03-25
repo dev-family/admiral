@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Page, Table } from '@/admiral/ui'
-import { ColumnsType, TableProps } from '@/admiral/ui/Table/interfaces'
+import { Page, Table } from '../../admiral'
+import type { TableColumnsType, TableProps } from '../../admiral'
 
 interface IUser {
     key: number
@@ -21,7 +21,7 @@ for (let i = 0; i < 25; i++) {
     })
 }
 
-const columns: ColumnsType<IUser> = [
+const columns: TableColumnsType<IUser> = [
     {
         title: 'Full Name',
         dataIndex: 'name',

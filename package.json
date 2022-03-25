@@ -4,6 +4,7 @@
     "scripts": {
         "dev": "vite --host",
         "build": "tsc && vite build",
+        "build:lib": "vite build --config vite-lib.config.js && tsc --project tsconfig-lib.json && rm -r lib/pages lib/src lib/mockServiceWorker.js",
         "serve": "vite preview",
         "prepare": "husky install",
         "prettier:check": "prettier --check .",
@@ -65,7 +66,24 @@
         "typescript": "^4.6.2",
         "vite": "^2.8.6"
     },
+    "peerDependencies": {
+        "react": "^17.0.0",
+        "react-dom": "^17.0.0"
+    },
     "msw": {
         "workerDirectory": "public"
+    },
+    "files": [
+        "lib"
+    ],
+    "main": "./lib/admiral.umd.js",
+    "module": "./lib/admiral.es.js",
+    "types": "./lib/admiral/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./lib/admiral.es.js",
+            "require": "./lib/admiral.umd.js"
+        },
+        "./style.css": "./lib/style.css"
     }
 }

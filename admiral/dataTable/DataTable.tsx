@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { Card, Table } from '@/admiral/ui'
-import { ColumnsType, TableProps } from '@/admiral/ui/Table/interfaces'
-import { ControlledSorter } from '@/admiral/ui/Table/hooks/useSorter'
-import { useUrlState } from '@/admiral/utils/hooks'
-import { useDataProvider } from '@/admiral/dataProvider'
+import { Card, Table } from '../ui'
+import { ColumnsType, TableProps } from '../ui/Table/interfaces'
+import { ControlledSorter } from '../ui/Table/hooks/useSorter'
+import { useUrlState } from '../utils/hooks'
+import { useDataProvider } from '../dataProvider'
 
 // TODO: pass table visual props
 // TODO: rowSelection config

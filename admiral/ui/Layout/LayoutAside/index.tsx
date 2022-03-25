@@ -1,7 +1,7 @@
 import React from 'react'
-import { Menu } from '@/admiral/ui'
+import { Menu } from '../../../ui'
 import styles from '../Layout.module.scss'
-import { useNav } from '@/admiral/navigation/NavContext'
+import { useNav } from '../../../navigation/NavContext'
 import cn from 'classnames'
 
 const LayoutAside: React.FC = ({ children }) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTheme } from '@/admiral/theme'
+import { useTheme } from '../../theme'
 import { FiSun, FiMoon } from 'react-icons/fi'
 import styles from './ThemeSwitch.module.scss'
 

@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
-import { Input } from '@/admiral/ui'
-import type { InputProps } from '@/admiral/ui/Input/interfaces'
+import { Input } from '../../ui'
+import type { InputProps } from '../../ui/Input/interfaces'
 import { FormItemProps } from '../Item'
 
 export interface TextInputProps extends InputProps, FormItemProps {

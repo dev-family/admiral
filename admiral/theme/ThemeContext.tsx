@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo } from 'react'
 import { Theme, ThemePreset, generateThemeClassNames } from '@consta/uikit/Theme'
 import { ThemeName, ContextState, ProviderProps } from './interfaces'
-import { useMedia, useLocalStorage } from '@/admiral/utils/hooks'
+import { useMedia, useLocalStorage } from '../utils/hooks'
 import themeLight from './presets/themeLight'
 import themeDark from './presets/themeDark'
 

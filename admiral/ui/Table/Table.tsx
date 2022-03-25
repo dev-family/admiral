@@ -18,7 +18,7 @@ import { Pagination } from '../Pagination'
 import { Spin } from '../Spin'
 import { SpinProps } from '../Spin/interfaces'
 import styles from './Table.module.scss'
-import Icon from '@/assets/icons'
+import { IoFileTrayOutline } from 'react-icons/io5'
 
 // TODO: sorter tooltip
 // TODO: table locale
@@ -228,7 +228,7 @@ function InternalTable<RecordType extends object = any>(
 function NoData() {
     return (
         <div className={styles.empty}>
-            <Icon name="tray" />
+            <IoFileTrayOutline />
             <div>Нет данных</div>
         </div>
     )

@@ -1,5 +1,5 @@
-import { Button } from '@/admiral/ui'
-import { ButtonProps } from '@/admiral/ui/Button/interfaces'
+import { Button } from '../ui'
+import { ButtonProps } from '../ui/Button/interfaces'
 import { FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import React from 'react'

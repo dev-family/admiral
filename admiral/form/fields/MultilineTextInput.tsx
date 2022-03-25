@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
-import { Textarea } from '@/admiral/ui'
-import type { TextareaProps } from '@/admiral/ui/Textarea/interfaces'
+import { Textarea } from '../../ui'
+import type { TextareaProps } from '../../ui/Textarea/interfaces'
 import { FormItemProps } from '../Item'
 
 export interface MultilineTextInputProps extends TextareaProps, FormItemProps {

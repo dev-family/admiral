@@ -2,7 +2,7 @@ import React from 'react'
 import RcPagination, { PaginationProps as RcPaginationProps } from 'rc-pagination'
 import { enUs, ruRu } from './locales'
 import styles from './Pagination.module.scss'
-import Icon from '@/assets/icons'
+import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
 import cn from 'classnames'
 import { PaginationProps } from './interfaces'
 
@@ -24,7 +24,7 @@ const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => 
     if (type === 'prev') {
         return (
             <button className={styles.control} type="button" tabIndex={-1}>
-                <Icon name="backward" />
+                <FiChevronLeft />
             </button>
         )
     }
@@ -32,7 +32,7 @@ const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => 
     if (type === 'next') {
         return (
             <button className={styles.control} type="button" tabIndex={-1}>
-                <Icon name="forward" />
+                <FiChevronRight />
             </button>
         )
     }
@@ -41,7 +41,7 @@ const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => 
         return (
             <button type="button" tabIndex={-1} className={styles.control}>
                 <span className={styles.control_Icon}>
-                    <Icon name="backward-double" />
+                    <FiChevronsLeft />
                 </span>
                 {ellipsis}
             </button>
@@ -52,7 +52,7 @@ const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => 
         return (
             <button type="button" tabIndex={-1} className={styles.control}>
                 <span className={styles.control_Icon}>
-                    <Icon name="forward-double" />
+                    <FiChevronsRight />
                 </span>
                 {ellipsis}
             </button>

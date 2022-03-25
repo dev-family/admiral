@@ -1,11 +1,11 @@
 import React from 'react'
 import styles from '../Layout.module.scss'
-import { useNav } from '@/admiral/navigation/NavContext'
-import { useTheme } from '@/admiral/theme'
-import { ThemeName } from '@/admiral/theme/interfaces'
+import { useNav } from '../../../navigation/NavContext'
+import { useTheme } from '../../../theme'
+import { ThemeName } from '../../../theme/interfaces'
 import { FiArrowLeft, FiX, FiMenu } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
-import Icon from '@/assets/icons'
+import Icon from '../../../assets/icons'
 import cn from 'classnames'
 
 export type HeaderLogoType = string | HeaderLogoComponentType

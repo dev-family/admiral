@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { FixedType } from 'rc-table/lib/interface'
-import { useMergedState } from '@/admiral/utils/hooks'
+import { useMergedState } from '../../../utils/hooks'
 import { Checkbox } from '../../Checkbox'
 import { CheckboxProps } from '../../Checkbox/interfaces'
 import { INTERNAL_COL_DEFINE } from 'rc-table'

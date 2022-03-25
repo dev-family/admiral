@@ -1,4 +1,4 @@
-import { tuple } from '@/admiral/utils/type'
+import { tuple } from '../../utils/type'
 
 const SpinSizes = tuple('small', 'default', 'large')
 export type SpinSizeType = typeof SpinSizes[number]

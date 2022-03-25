@@ -1,4 +1,4 @@
-@use '@/assets/mixins' as *;
+@use 'admiral/assets/mixins' as *;
 
 .button {
     --icon-indent: calc(var(--button-space-left, var(--control-space-m)) * 0.4);

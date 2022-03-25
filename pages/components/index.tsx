@@ -1,5 +1,5 @@
 import React from 'react'
-import { Page, Button } from '@/admiral/ui'
+import { Page, Button } from '../../admiral'
 import { Link } from 'react-router-dom'
 
 export default function ComponentsPage() {

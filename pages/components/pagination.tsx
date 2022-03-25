@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Page, Pagination } from '@/admiral/ui'
+import { Page, Pagination } from '../../admiral'
 
 export default function PaginationPage() {
     const [pagination, setPagination] = useState({ current: 3 })

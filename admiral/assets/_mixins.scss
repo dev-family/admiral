@@ -1,0 +1,75 @@
+@mixin maxWidth($breakpoint) {
+    @media only screen and (max-width: ($breakpoint + 'px')) {
+        @content;
+    }
+}
+
+@mixin minWidth($breakpoint) {
+    @media only screen and (min-width: ($breakpoint + 'px')) {
+        @content;
+    }
+}
+
+@mixin minMaxWidth($breakpoint-min, $breakpoint-max) {
+    @media only screen and (min-width: ($breakpoint-min + 'px')) and (max-width: ($breakpoint-max + 'px')) {
+        @content;
+    }
+}
+
+@mixin noTouch {
+    @media not all and (-moz-touch-enabled: 1),
+        not all and (pointer: coarse),
+        not all and (-ms-high-contrast: none) and (max-width: 600px) {
+        @content;
+    }
+}
+
+@mixin noTouchHover {
+    @media not all and (-moz-touch-enabled: 1),
+        not all and (pointer: coarse),
+        not all and (-ms-high-contrast: none) and (max-width: 600px) {
+        &:hover {
+            @content;
+        }
+    }
+}
+
+@mixin touchDevices {
+    @media (-moz-touch-enabled: 1),
+        (pointer: coarse),
+        (-ms-high-contrast: none) and (max-width: 600px) {
+        @content;
+    }
+}
+
+@mixin retina {
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+        only screen and (min--moz-device-pixel-ratio: 1.5),
+        only screen and (-o-min-device-pixel-ratio: 3/2),
+        only screen and (min-resolution: 1.5dppx),
+        only screen and (min-resolution: 144dpi) {
+        @content;
+    }
+}
+
+@mixin scrollBar(
+    $barColor: var(--clr-white),
+    $thumbColor: var(--clr-primary-hover),
+    $radius: 7px,
+    $size: 7px
+) {
+    scrollbar-color: $thumbColor $barColor;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+        background-color: $barColor;
+        width: $size;
+        height: $size;
+        border-radius: $radius;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: $radius;
+        background-color: $thumbColor;
+    }
+}

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, FormEvent } from 'react'
-import { GetOneResult } from '@/admiral/dataProvider'
+import { GetOneResult } from '../dataProvider'
 import { useHistory } from 'react-router-dom'
 import { FormProvider, useForm } from './FormContext'
-import { Button } from '@/admiral/ui'
+import { Button } from '../ui'
 import styles from './Form.module.scss'
 import Item from './Item'
-import { isObject } from '@/admiral/utils/helpers'
+import { isObject } from '../utils/helpers'
 
 type FormProps = {
     redirect?: string

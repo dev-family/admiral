@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Page, DatePicker } from '@/admiral/ui'
+import { Page, DatePicker } from '../../admiral'
 import parseISO from 'date-fns/parseISO'
 import isBefore from 'date-fns/isBefore'
 

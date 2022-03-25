@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import { DataProvider } from '@/admiral/dataProvider'
+import { DataProvider } from '../admiral'
 
 /**
  *

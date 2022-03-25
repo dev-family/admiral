@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from '../Layout.module.scss'
-import { useNav } from '@/admiral/navigation/NavContext'
+import { useNav } from '../../../navigation/NavContext'
 import { FiSettings } from 'react-icons/fi'
-import { ThemeSwitch, Tooltip } from '@/admiral/ui'
-import { useTheme } from '@/admiral/theme'
+import { ThemeSwitch, Tooltip } from '../../../ui'
+import { useTheme } from '../../../theme'
 import cn from 'classnames'
 
 const LayoutFooter: React.FC = () => {

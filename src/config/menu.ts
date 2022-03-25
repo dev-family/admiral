@@ -1,4 +1,4 @@
-import { IMenuItem } from '@/admiral'
+import { IMenuItem } from '../../admiral'
 
 const menu: IMenuItem[] = [
     {

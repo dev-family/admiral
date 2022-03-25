@@ -1,5 +1,5 @@
 import React from 'react'
-import { Page, Switch } from '@/admiral/ui'
+import { Page, Switch } from '../../admiral'
 
 const labelStyleBase = {
     display: 'flex',

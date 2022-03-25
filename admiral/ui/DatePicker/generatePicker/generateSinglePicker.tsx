@@ -1,6 +1,6 @@
 import React from 'react'
 import cn from 'classnames'
-import { Button } from '@/admiral/ui'
+import { Button } from '../../../ui'
 import {
     FiCalendar,
     FiClock,

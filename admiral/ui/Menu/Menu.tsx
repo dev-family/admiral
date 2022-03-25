@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { useNav } from '@/admiral/navigation/NavContext'
-import { useTheme } from '@/admiral/theme'
+import { useNav } from '../../navigation/NavContext'
+import { useTheme } from '../../theme'
 import * as Icons from 'react-icons/fi'
 import styles from './Menu.module.scss'
-import { Tooltip } from '@/admiral/ui'
+import { Tooltip } from '../../ui'
 import cn from 'classnames'
 
 export const Menu: React.FC<{

@@ -1,5 +1,5 @@
-@use '@/assets/scss-variables' as *;
-@use '@/assets/mixins' as *;
+@use 'admiral/assets/scss-variables' as *;
+@use 'admiral/assets/mixins' as *;
 
 .tooltip {
     padding: var(--space-s) var(--space-m);

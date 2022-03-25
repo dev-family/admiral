@@ -15,10 +15,7 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react",
-        "baseUrl": "./",
-        "paths": {
-            "@/*": ["./*"]
-        }
+        "baseUrl": "./"
     },
     "include": ["**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules", "**/node_modules/*"]

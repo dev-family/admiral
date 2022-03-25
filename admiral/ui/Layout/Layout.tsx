@@ -3,7 +3,7 @@ import styles from './Layout.module.scss'
 import LayoutHeader from './LayoutHeader'
 import LayoutAside from './LayoutAside'
 import LayoutFooter from './LayoutFooter'
-import { useNav } from '@/admiral/navigation/NavContext'
+import { useNav } from '../../navigation/NavContext'
 import { HeaderLogoType } from './LayoutHeader'
 import cn from 'classnames'
 

@@ -1,11 +1,12 @@
+import '../assets/global.css'
 import React from 'react'
-import { Layout } from '@/admiral/ui'
-import { IMenuItem } from '@/admiral/ui'
+import { Layout } from '../ui'
+import type { IMenuItem } from '../ui'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { ThemeProvider } from '@/admiral/theme'
-import { NavProvider } from '@/admiral/navigation/NavContext'
-import { HeaderLogoType } from '@/admiral/ui/Layout/LayoutHeader'
-import { DataProviderContextProvider, DataProvider } from '@/admiral/dataProvider'
+import { ThemeProvider } from '../theme'
+import { NavProvider } from '../navigation/NavContext'
+import { HeaderLogoType } from '../ui/Layout/LayoutHeader'
+import { DataProviderContextProvider, DataProvider } from '../dataProvider'
 
 export type AdminProps = {
     menu: IMenuItem[]

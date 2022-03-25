@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, memo } from 'react'
-import { Spin } from '@/admiral/ui'
+import { Spin } from '../../ui'
 import { ButtonProps } from './interfaces'
 import styles from './Button.module.scss'
 import mergeRefs from 'react-merge-refs'

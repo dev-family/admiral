@@ -1,7 +1,6 @@
 import React from 'react'
-import { createRoutesFrom } from '@/admiral/router'
+import { Admin, createRoutesFrom } from '../admiral'
 import menu from './config/menu'
-import { Admin } from '@/admiral'
 import dataProvider from './dataProvider'
 
 const apiUrl = '/api'

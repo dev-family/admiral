@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
-import { DatePicker } from '@/admiral/ui'
-import { PickerProps } from '@/admiral/ui/DatePicker/generatePicker/interfaces'
+import { DatePicker } from '../../ui'
+import { PickerProps } from '../../ui/DatePicker/generatePicker/interfaces'
 import { FormItemProps } from '../Item'
 import parseISO from 'date-fns/parseISO'
 

@@ -1,4 +1,4 @@
-import { SortOrder } from '@/admiral/ui/Table/hooks/useSorter'
+import { SortOrder } from '../../../admiral'
 
 export interface IUser {
     id: number | string

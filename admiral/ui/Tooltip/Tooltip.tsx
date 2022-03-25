@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import Tippy, { TippyProps } from '@tippyjs/react/headless'
 import { useSpring, animated } from 'react-spring'
 import styles from './Tooltip.module.scss'
-import { useTheme } from '@/admiral/theme'
+import { useTheme } from '../../theme'
 import { TooltipProps } from './interfaces'
 import cn from 'classnames'
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styles from './Spin.module.scss'
 import classNames from 'classnames'
-import Icon from '@/assets/icons'
+import Icon from '../../assets/icons'
 import { SpinProps } from './interfaces'
 
 function shouldDelay(spinning?: boolean, delay?: number): boolean {

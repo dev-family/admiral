@@ -24,6 +24,9 @@ export default function ComponentsPage() {
                 <Link to="components/datepicker">
                     <Button component="span">DatePicker</Button>
                 </Link>
+                <Link to="components/upload">
+                    <Button component="span">Upload</Button>
+                </Link>
             </div>
         </Page>
     )

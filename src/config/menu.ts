@@ -41,6 +41,11 @@ const menu: IMenuItem[] = [
                 name: 'Datepicker',
                 to: '/components/datepicker',
             },
+            {
+                icon: 'FiBox',
+                name: 'Upload',
+                to: '/components/upload',
+            },
         ],
     },
 ]

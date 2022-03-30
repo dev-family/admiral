@@ -60,8 +60,9 @@ export class UserList {
 
     delete(id: number | string): IUser | null {
         let removed: IUser | null = null
+
         this.users = this.users.filter((user) => {
-            if (user.id !== id) {
+            if (user.id !== +id) {
                 return true
             } else {
                 removed = user

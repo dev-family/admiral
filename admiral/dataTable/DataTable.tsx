@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Card, Table } from '../ui'
 import { ColumnsType, TableProps } from '../ui/Table/interfaces'
 import { ControlledSorter } from '../ui/Table/hooks/useSorter'
 import { useUrlState } from '../utils/hooks'
 import { useDataProvider } from '../dataProvider'
+import { DataTableContextProvider } from './DataTableContext'
 
 // TODO: pass table visual props
 // TODO: rowSelection config
@@ -57,6 +58,10 @@ export function DataTable<RecordType>({
         setLoading(false)
     }
 
+    const refresh = useCallback(() => {
+        fetch(resource, state)
+    }, [resource, state, fetch])
+
     useEffect(() => {
         fetch(resource, state)
     }, [resource, state])
@@ -84,24 +89,26 @@ export function DataTable<RecordType>({
 
     return (
         <Card>
-            <Table
-                dataSource={data}
-                rowKey="id"
-                columns={columns}
-                sorter={sorter}
-                scroll={{
-                    x: scrollX,
-                }}
-                sticky
-                pagination={{
-                    current: +state.page,
-                    pageSize: +state.page_size,
-                    total,
-                    showTotal: (total) => `Всего ${total}`,
-                }}
-                loading={loading}
-                onChange={onTableChange}
-            />
+            <DataTableContextProvider value={{ refresh }}>
+                <Table
+                    dataSource={data}
+                    rowKey="id"
+                    columns={columns}
+                    sorter={sorter}
+                    scroll={{
+                        x: scrollX,
+                    }}
+                    sticky
+                    pagination={{
+                        current: +state.page,
+                        pageSize: +state.page_size,
+                        total,
+                        showTotal: (total) => `Всего ${total}`,
+                    }}
+                    loading={loading}
+                    onChange={onTableChange}
+                />
+            </DataTableContextProvider>
         </Card>
     )
 }

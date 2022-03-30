@@ -8,6 +8,7 @@ import { CreateButton, BackButton } from '../actions'
 import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
 import React, { useCallback } from 'react'
+import { useDataTable } from '../dataTable/DataTableContext'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
@@ -68,8 +69,10 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                             fixed: 'right',
                             width: 120,
                             render: (_value, record) => {
-                                const handleDelete = useCallback(() => {
-                                    return deleteOne(config.resource, { id: record.id })
+                                const { refresh } = useDataTable()
+                                const handleDelete = useCallback(async () => {
+                                    await deleteOne(config.resource, { id: record.id })
+                                    refresh()
                                 }, [])
 
                                 return (

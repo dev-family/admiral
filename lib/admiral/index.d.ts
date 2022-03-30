@@ -24,6 +24,7 @@ export type {
 export type { TextareaSizeType, TextareaProps } from './ui/Textarea/interfaces'
 export type { TooltipProps } from './ui/Tooltip/interfaces'
 export * from './form/fields'
+export * from './dataTable/fields'
 export * from './actions'
 export * from './admin'
 export * from './dataProvider/interfaces'

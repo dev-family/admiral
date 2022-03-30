@@ -35,12 +35,45 @@ function _delete(url: string) {
     }
 }
 
+function toFormData(obj: Record<any, any>, form?: FormData, namespace?: string) {
+    let fd = form || new FormData()
+    let formKey
+
+    for (let property in obj) {
+        if (obj.hasOwnProperty(property)) {
+            if (namespace) {
+                formKey = namespace + '[' + property + ']'
+            } else {
+                formKey = property
+            }
+
+            if (obj[property] instanceof Date) {
+                fd.append(formKey, obj[property].toISOString())
+            } else if (
+                typeof obj[property] === 'object' &&
+                obj[property] !== null &&
+                !(obj[property] instanceof File)
+            ) {
+                toFormData(obj[property], fd, formKey)
+            } else {
+                fd.append(formKey, obj[property] === null ? '' : obj[property])
+            }
+        }
+    }
+
+    return fd
+}
+
 function _post(url: string) {
     return (query: AxiosRequestConfig = {}) => {
         const { cancelToken = axios.CancelToken.source().token, data } = query
+        const formdata = toFormData(data)
 
         return axios
-            .post(url, data, {
+            .post(url, formdata, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
                 cancelToken,
             })
             .then((response) => response.data)

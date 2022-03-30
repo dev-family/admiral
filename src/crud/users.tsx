@@ -1,5 +1,5 @@
 import React from 'react'
-import { createCRUD, TextInput, SelectInput } from '../../admiral'
+import { createCRUD, TextInput, SelectInput, FilePictureInput, FileField } from '../../admiral'
 
 export const UsersCRUD = createCRUD({
     path: '/crud-users',
@@ -8,6 +8,13 @@ export const UsersCRUD = createCRUD({
         title: 'Users CRUD',
         newButtonText: 'Create New User',
         tableOptions: [
+            {
+                title: 'Avatar',
+                dataIndex: 'avatar',
+                key: 'avatar',
+                width: 90,
+                render: (value) => <FileField {...value} />,
+            },
             {
                 title: 'Name',
                 dataIndex: 'name',
@@ -24,7 +31,7 @@ export const UsersCRUD = createCRUD({
                 title: 'Group',
                 dataIndex: 'group',
                 key: 'group',
-                render: (value) => value.join(', '),
+                render: (value) => (Array.isArray(value) ? value.join(', ') : value),
             },
             {
                 title: 'Role',
@@ -65,6 +72,12 @@ export const UsersCRUD = createCRUD({
                         <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
                         <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
                     </SelectInput>
+                    <FilePictureInput
+                        columnSpan={2}
+                        label="Avatar"
+                        name="avatar"
+                        accept="image/*"
+                    />
                 </>
             ),
         },
@@ -96,6 +109,12 @@ export const UsersCRUD = createCRUD({
                         <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
                         <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
                     </SelectInput>
+                    <FilePictureInput
+                        columnSpan={2}
+                        label="Avatar"
+                        name="avatar"
+                        accept="image/*"
+                    />
                 </>
             ),
         },

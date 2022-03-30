@@ -1,3 +1,4 @@
+import { UploadFile } from 'admiral/ui/Upload/interfaces'
 import { SortOrder } from '../../../admiral'
 
 export interface IUser {
@@ -8,6 +9,7 @@ export interface IUser {
     password: string
     group: string[]
     role: string
+    avatar: UploadFile | null
 }
 
 export class UserList {
@@ -30,6 +32,7 @@ export class UserList {
                 password: '12345',
                 group: ['project_manager'],
                 role: 'accountant',
+                avatar: null,
             })
             this.id += 1
         }
@@ -45,6 +48,7 @@ export class UserList {
             password: '12345',
             group: ['project_manager'],
             role: 'accountant',
+            avatar: null,
             ...data,
             id: newId,
             key: newId,
@@ -54,8 +58,17 @@ export class UserList {
         return newUser
     }
 
-    delete(id: number | string) {
-        this.users = this.users.filter((user) => user.id !== id)
+    delete(id: number | string): IUser | null {
+        let removed: IUser | null = null
+        this.users = this.users.filter((user) => {
+            if (user.id !== id) {
+                return true
+            } else {
+                removed = user
+                return false
+            }
+        })
+        return removed
     }
 
     update(id: number | string, data: IUser) {

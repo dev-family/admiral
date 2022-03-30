@@ -1,0 +1,90 @@
+.list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-gap: var(--space-xs);
+    padding-top: var(--space-s);
+}
+
+$item-border-width: 1px;
+$item-padding: calc(var(--control-space-m) / 2);
+$item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
+
+.item {
+    height: var(--upload-picture-item-height, $item-height);
+    padding: var(--upload-picture-item-padding, $item-padding);
+    font-size: var(--upload-picture-item-fz, var(--control-text-size-m));
+    line-height: 1.2;
+    border: $item-border-width solid
+        var(--upload-picture-item-bcolor, var(--color-control-bg-border-default));
+    border-radius: var(--upload-picture-item-bradius, var(--control-radius));
+    background: var(--upload-picture-item-bg, var(--color-control-bg-default));
+    color: var(--upload-color, var(--color-control-typo-default));
+    transition: border-color 0.2s ease;
+
+    &:hover {
+        border-color: var(
+            --upload-picture-item-bcolor-hover,
+            var(--color-control-bg-border-default-hover)
+        );
+    }
+
+    &__Error {
+        --upload-picture-item-bcolor: var(--color-bg-alert);
+        --upload-picture-item-bcolor-hover: var(--color-bg-alert);
+        --upload-color: var(--color-typo-alert);
+    }
+}
+
+.item_Content {
+    display: flex;
+    gap: var(--upload-picture-item-padding, $item-padding);
+    align-items: center;
+    height: 100%;
+}
+
+.item_Name {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.item_Actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--space-2xs);
+}
+
+.item_Thumb {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: calc(#{$item-height} - #{$item-padding}* 2 - #{$item-border-width}* 2);
+    border-radius: var(--upload-picture-item-bradius, var(--control-radius));
+    overflow: hidden;
+    background-color: var(--color-control-bg-clear-hover);
+
+    &::after {
+        content: '';
+        display: block;
+        padding-top: 100%;
+    }
+
+    svg {
+        position: absolute;
+        width: 16px;
+        height: auto;
+    }
+}
+
+.item_Image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    object-fit: cover;
+}

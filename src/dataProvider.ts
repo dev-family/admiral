@@ -95,6 +95,11 @@ export default (apiUrl: string): DataProvider => ({
         return _get(url)({ params: query })
     },
 
+    reorderList: (resource, params) => {
+        const url = `${apiUrl}/${resource}/reorder`
+        return _post(url)({ data: params.data })
+    },
+
     getOne: (resource, params) => {
         const url = `${apiUrl}/${resource}/${params.id}`
         return _get(url)({ params })

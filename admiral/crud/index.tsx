@@ -25,6 +25,7 @@ export type CRUDConfig<RecordType> = {
         newButtonText: string
         tableOptions: ColumnsType<RecordType>
     }
+    table?: { dndRows?: boolean }
     form: {
         create: {
             fields: React.ReactNode
@@ -46,6 +47,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
 ) {
     return () => {
         const { deleteOne } = useDataProvider()
+        const { dndRows } = config.table || {}
         return (
             <Page
                 title={config.index.title}
@@ -92,6 +94,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                             },
                         },
                     ]}
+                    dndRows={dndRows}
                 />
             </Page>
         )

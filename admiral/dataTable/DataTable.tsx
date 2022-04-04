@@ -5,6 +5,7 @@ import { ControlledSorter } from '../ui/Table/hooks/useSorter'
 import { useUrlState } from '../utils/hooks'
 import { useDataProvider } from '../dataProvider'
 import { DataTableContextProvider } from './DataTableContext'
+import { arrayMove } from '@dnd-kit/sortable'
 
 // TODO: pass table visual props
 // TODO: rowSelection config
@@ -13,17 +14,19 @@ export type DataTableProps<RecordType> = {
     resource: string
     columns: ColumnsType<RecordType>
     initialSorter?: ControlledSorter
+    dndRows?: boolean
 }
 
 const PAGE_DEFAULT = 1
 const PAGE_SIZE_DEFAULT = 10
 
-export function DataTable<RecordType>({
+export function DataTable<RecordType extends { id: number | string }>({
     resource,
     columns,
     initialSorter,
+    dndRows = false,
 }: DataTableProps<RecordType>) {
-    const { getList } = useDataProvider()
+    const { getList, reorderList } = useDataProvider()
     const [data, setData] = useState<RecordType[]>([])
 
     const [loading, setLoading] = useState(false)
@@ -58,6 +61,12 @@ export function DataTable<RecordType>({
         setLoading(false)
     }
 
+    async function reorder(resource: string, replaces: Array<string>) {
+        await reorderList(resource, {
+            data: { replaces },
+        })
+    }
+
     const refresh = useCallback(() => {
         fetch(resource, state)
     }, [resource, state, fetch])
@@ -87,6 +96,19 @@ export function DataTable<RecordType>({
         }, 0)
     }, [columns])
 
+    const onDragEnd: TableProps<RecordType>['onDragEnd'] = ({ active, over }) => {
+        const prevId = active?.id
+        const nextId = over?.id
+        let prevData = data
+        const getIndex = (id: number | string) => data.findIndex((item) => item.id == id)
+        if (prevId && nextId && prevId != nextId) {
+            const prevIdx = getIndex(prevId)
+            const nextIdx = getIndex(nextId)
+            setData((prev) => arrayMove(prev, prevIdx, nextIdx))
+            reorder(resource, [prevId, nextId]).catch(() => setData(prevData))
+        }
+    }
+
     return (
         <Card>
             <DataTableContextProvider value={{ refresh }}>
@@ -104,9 +126,12 @@ export function DataTable<RecordType>({
                         pageSize: +state.page_size,
                         total,
                         showTotal: (total) => `Всего ${total}`,
+                        showSizeChanger: !!total && total > 10,
                     }}
                     loading={loading}
                     onChange={onTableChange}
+                    dndRows={dndRows}
+                    onDragEnd={onDragEnd}
                 />
             </DataTableContextProvider>
         </Card>

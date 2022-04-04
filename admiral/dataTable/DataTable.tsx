@@ -61,9 +61,21 @@ export function DataTable<RecordType extends { id: number | string }>({
         setLoading(false)
     }
 
-    async function reorder(resource: string, replaces: Array<string>) {
+    async function reorder(
+        resource: string,
+        state: any,
+        ids: Array<string | number>,
+        replaces: string[],
+    ) {
         await reorderList(resource, {
-            data: { replaces },
+            data: {
+                pagination: {
+                    perPage: state.page_size,
+                    page: state.page,
+                },
+                ids,
+                replaces,
+            },
         })
     }
 
@@ -96,18 +108,28 @@ export function DataTable<RecordType extends { id: number | string }>({
         }, 0)
     }, [columns])
 
-    const onDragEnd: TableProps<RecordType>['onDragEnd'] = ({ active, over }) => {
-        const prevId = active?.id
-        const nextId = over?.id
-        let prevData = data
-        const getIndex = (id: number | string) => data.findIndex((item) => item.id == id)
-        if (prevId && nextId && prevId != nextId) {
-            const prevIdx = getIndex(prevId)
-            const nextIdx = getIndex(nextId)
-            setData((prev) => arrayMove(prev, prevIdx, nextIdx))
-            reorder(resource, [prevId, nextId]).catch(() => setData(prevData))
-        }
-    }
+    const onDragEnd: TableProps<RecordType>['onDragEnd'] = useCallback(
+        ({ active, over }) => {
+            const prevId = active?.id
+            const nextId = over?.id
+            let prevData = data
+            const getIndex = (id: number | string) => data.findIndex((item) => item.id == id)
+            if (prevId && nextId && prevId != nextId) {
+                const prevIdx = getIndex(prevId)
+                const nextIdx = getIndex(nextId)
+                const nextData = arrayMove(data, prevIdx, nextIdx)
+
+                setData(nextData)
+                reorder(
+                    resource,
+                    state,
+                    nextData.map((i) => i.id),
+                    [prevId, nextId],
+                ).catch(() => setData(prevData))
+            }
+        },
+        [data, state, reorder, resource],
+    )
 
     return (
         <Card>

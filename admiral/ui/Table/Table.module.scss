@@ -34,6 +34,21 @@ $table-class: 'admiral-table';
         --table-bottom-right-radius: 0px;
     }
 
+    &__DndOverlay {
+        --table-top-left-radius: 0px;
+        --table-top-right-radius: 0px;
+        --table-bottom-left-radius: 0px;
+        --table-bottom-right-radius: 0px;
+
+        * {
+            scrollbar-width: none !important;
+
+            &::-webkit-scrollbar {
+                display: none !important;
+            }
+        }
+    }
+
     :global {
         .#{$table-class} {
             position: relative;
@@ -137,6 +152,10 @@ $table-class: 'admiral-table';
 
             &-tbody {
                 > tr {
+                    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)
+                        scaleX(var(--scale-x, 1)) scaleY(var(--scale-y, 1));
+                    transform-origin: 0 0;
+
                     &:not(:last-child) {
                         & > td {
                             border-bottom: 1px solid var(--color-bg-border);

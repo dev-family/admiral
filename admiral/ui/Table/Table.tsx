@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from 'react'
+import React, { forwardRef, useMemo, useState, useCallback, useRef } from 'react'
 import RcTable from 'rc-table'
 import cn from 'classnames'
 import { convertChildrenToColumns } from 'rc-table/lib/hooks/useColumns'
@@ -19,11 +19,25 @@ import { Spin } from '../Spin'
 import { SpinProps } from '../Spin/interfaces'
 import styles from './Table.module.scss'
 import { IoFileTrayOutline } from 'react-icons/io5'
+import {
+    closestCenter,
+    DndContext,
+    DragOverlay,
+    PointerSensor,
+    useSensor,
+    useSensors,
+    DragStartEvent,
+    DragEndEvent,
+} from '@dnd-kit/core'
+import { DraggableRow, DraggableWrapper, DragHandle } from './components'
+import mergeRefs from 'react-merge-refs'
+import useTableSize from './hooks/useTableSize'
 
 // TODO: sorter tooltip
 // TODO: table locale
 // TODO: docs: sortDirections/sorter (Table props), sortDirections/defaultSortOrder/sorter (Column props)
 // TODO: docs: rowSelection properties
+// TODO: disable d&d if other sort choosen
 
 const EMPTY_LIST: any[] = []
 
@@ -49,6 +63,8 @@ function InternalTable<RecordType extends object = any>(
         rowKey = 'key',
         rowSelection,
         loading,
+        dndRows = false,
+        onDragEnd,
         children,
         ...tableProps
     } = props
@@ -197,31 +213,109 @@ function InternalTable<RecordType extends object = any>(
         }
     }
 
+    // ======================= Drag & Drop ======================
+    const [activeId, setActiveId] = useState<string | null>(null)
+    const handleDragStart = useCallback((event: DragStartEvent) => {
+        const { active } = event
+        setActiveId(active.id)
+    }, [])
+
+    const handleDragEnd = useCallback(
+        (event: DragEndEvent) => {
+            setActiveId(null)
+            onDragEnd?.(event)
+        },
+        [onDragEnd],
+    )
+
+    const transformedDnDColumns = useMemo(
+        () =>
+            dndRows
+                ? [
+                      {
+                          key: 'dragHandle',
+                          dataIndex: 'dragHandle',
+                          width: size === 'large' ? 64 : 48,
+                          render: () => <DragHandle />,
+                      },
+                      ...transformedSelectionColumns,
+                  ]
+                : transformedSelectionColumns,
+        [transformedSelectionColumns],
+    )
+
+    const sensors = useSensors(useSensor(PointerSensor))
+
+    const innerWrapperRef = useRef<HTMLDivElement>()
+    const overlayStyle = useTableSize(innerWrapperRef)
+
+    const dragOverlayData = useMemo(() => {
+        if (!dndRows) return []
+        return pageData.filter((item: any) => getRowKey(item) == activeId)
+    }, [dndRows, pageData, activeId])
+
+    const tableWrapperClassName = cn(styles.wrapper, wrapperClassName, {
+        [styles.wrapper__SizeMiddle]: size === 'middle',
+        [styles.wrapper__SizeSmall]: size === 'small',
+        [styles.wrapper__Bordered]: bordered,
+        [styles.wrapper__WithTitle]: !!tableProps.title,
+        [styles.wrapper__WithFooter]: !!tableProps.footer,
+    })
+
     return (
-        <div
-            ref={wrapperRef}
-            className={cn(styles.wrapper, wrapperClassName, {
-                [styles.wrapper__SizeMiddle]: size === 'middle',
-                [styles.wrapper__SizeSmall]: size === 'small',
-                [styles.wrapper__Bordered]: bordered,
-                [styles.wrapper__WithTitle]: !!tableProps.title,
-                [styles.wrapper__WithFooter]: !!tableProps.footer,
-            })}
-            style={style}
+        <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+            onDragStart={handleDragStart}
         >
-            <Spin spinning={false} {...spinProps}>
-                {topPaginationNode}
-                <RcTable<RecordType>
-                    {...tableProps}
-                    prefixCls="admiral-table"
-                    columns={transformedSelectionColumns}
-                    data={pageData}
-                    rowKey={getRowKey}
-                    emptyText={<NoData />}
-                />
-                {bottomPaginationNode}
-            </Spin>
-        </div>
+            <div
+                ref={mergeRefs([wrapperRef, innerWrapperRef])}
+                className={tableWrapperClassName}
+                style={style}
+            >
+                <Spin spinning={false} {...spinProps}>
+                    {topPaginationNode}
+
+                    <RcTable<RecordType>
+                        {...tableProps}
+                        prefixCls="admiral-table"
+                        columns={transformedDnDColumns}
+                        data={pageData}
+                        rowKey={getRowKey}
+                        emptyText={<NoData />}
+                        {...(dndRows && {
+                            components: {
+                                body: {
+                                    wrapper: DraggableWrapper,
+                                    row: DraggableRow,
+                                },
+                            },
+                        })}
+                    />
+                    <DragOverlay>
+                        {activeId ? (
+                            <div
+                                className={cn(tableWrapperClassName, styles.wrapper__DndOverlay)}
+                                style={style}
+                            >
+                                <RcTable<RecordType>
+                                    scroll={tableProps.scroll}
+                                    prefixCls="admiral-table"
+                                    data={dragOverlayData}
+                                    rowKey={getRowKey}
+                                    columns={transformedDnDColumns}
+                                    style={overlayStyle}
+                                    showHeader={false}
+                                    sticky
+                                />
+                            </div>
+                        ) : null}
+                    </DragOverlay>
+                    {bottomPaginationNode}
+                </Spin>
+            </div>
+        </DndContext>
     )
 }
 

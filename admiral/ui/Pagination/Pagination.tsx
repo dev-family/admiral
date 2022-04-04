@@ -5,10 +5,10 @@ import styles from './Pagination.module.scss'
 import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
 import cn from 'classnames'
 import { PaginationProps } from './interfaces'
+import { MiniSelect, MiddleSelect } from './PaginationSelect'
 
 // TODO: simple (after Input ready)
 // TODO: showQuickJumper (after Input ready)
-// TODO: showSizeChanger (need selectComponentClass, after Select ready)
 
 const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => {
     const ellipsis = <span className={styles.control_Ellipsis}>•••</span>
@@ -70,11 +70,12 @@ export const Pagination = ({
     ...restProps
 }: PaginationProps) => {
     const locale = localeConfig ? localeConfig : localeName === 'enUs' ? enUs : ruRu
+    const isSmall = size === 'small'
 
     const extendedClassName = cn(
         styles.pagination,
         {
-            [styles.pagination__Small]: size === 'small',
+            [styles.pagination__Small]: isSmall,
         },
         className,
     )
@@ -82,10 +83,11 @@ export const Pagination = ({
     return (
         <RcPagination
             {...restProps}
-            prefixCls="admiral-pagination"
+            prefixCls="pagination"
             className={extendedClassName}
             locale={locale}
             itemRender={itemRender}
+            selectComponentClass={isSmall ? MiniSelect : MiddleSelect}
         />
     )
 }

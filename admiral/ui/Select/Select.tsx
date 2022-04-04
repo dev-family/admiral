@@ -7,9 +7,10 @@ import { SelectProps } from './interfaces'
 import getIcons from './utils/getIcons'
 import './Select.scss'
 
+const prefixCls = 'select'
+
 const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(
     {
-        prefixCls = 'admiral-select',
         mode,
         borderless = false,
         alert = false,

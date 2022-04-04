@@ -1,6 +1,6 @@
 @use 'admiral/assets/mixins' as *;
 
-$prefix-class: 'admiral-pagination';
+$prefix-class: 'pagination';
 
 .pagination {
     display: flex;
@@ -12,13 +12,13 @@ $prefix-class: 'admiral-pagination';
     color: var(--color-control-typo-ghost);
 
     --pagination-control-height: var(--control-height-s);
-    --pagination-control-fz: var(--size-text-m);
+    --pagination-control-fz: var(--control-text-size-s);
     --pagination-control-radius: var(--control-radius);
     --pagination-button-padding: var(--space-3xs) var(--space-2xs);
 
     &__Small {
         --pagination-control-height: var(--control-height-xs);
-        --pagination-control-fz: var(--size-text-s);
+        --pagination-control-fz: var(--control-text-size-xs);
     }
 
     &:global(.#{$prefix-class}-disabled) {
@@ -28,11 +28,15 @@ $prefix-class: 'admiral-pagination';
 
     :global {
         & .#{$prefix-class} {
-            &-item {
-                --pagination-control-color: var(--color-control-typo-ghost);
-                --pagination-control-color-hover: var(--color-control-typo-ghost-hover);
-                --pagination-control-bcolor: var(--color-bg-default);
-                --pagination-control-bg: var(--color-bg-default);
+            &-item,
+            &-prev,
+            &-next,
+            &-jump-prev,
+            &-jump-next {
+                --pagination-control-color: var(--color-control-typo-default);
+                --pagination-control-bcolor: var(--color-control-bg-border-default);
+                --pagination-control-bcolor-hover: var(--color-control-bg-border-default-hover);
+                --pagination-control-bg: var(--color-control-bg-default);
                 border-radius: var(--pagination-control-radius);
 
                 &-active {
@@ -47,26 +51,7 @@ $prefix-class: 'admiral-pagination';
 
                 &:focus-visible {
                     outline: none;
-
-                    & :local {
-                        animation: animFocus 0.4s ease-in both;
-                    }
-                }
-            }
-
-            &-prev,
-            &-next,
-            &-jump-prev,
-            &-jump-next {
-                --pagination-nav-control-color: var(--color-control-typo-ghost);
-                --pagination-nav-control-bcolor: var(--color-bg-default);
-                --pagination-nav-control-bg: rgba(255, 255, 255, 0);
-                --pagination-nav-control-bg-hover: var(--color-bg-default);
-                border-radius: var(--pagination-control-radius);
-
-                &:focus-visible {
-                    outline: none;
-
+                    --pagination-control-bcolor: var(--color-control-bg-border-focus);
                     & :local {
                         animation: animFocus 0.4s ease-in both;
                     }
@@ -99,21 +84,15 @@ $prefix-class: 'admiral-pagination';
     background: var(--pagination-control-bg);
     border: 1px solid var(--pagination-control-bcolor);
     border-radius: var(--pagination-control-radius);
-    transition: color 0.2s, border-color 0.2s;
-}
+    transition: color 0.2s, border-color 0.2s, opacity 0.16s;
 
-.page {
     @include noTouchHover() {
-        color: var(--pagination-control-color-hover);
+        border-color: var(--pagination-control-bcolor-hover);
     }
 }
 
 .control {
     position: relative;
-    color: var(--pagination-nav-control-color);
-    border: 1px solid var(--pagination-nav-control-bcolor);
-    background: var(--pagination-nav-control-bg);
-    transition: background 0.2s, opacity 0.16s;
 
     &:disabled {
         pointer-events: none;
@@ -128,8 +107,6 @@ $prefix-class: 'admiral-pagination';
     }
 
     @include noTouchHover() {
-        background: var(--pagination-nav-control-bg-hover);
-
         .control_Icon {
             opacity: 1;
             transform: scale(1);
@@ -166,10 +143,11 @@ $prefix-class: 'admiral-pagination';
 
 @keyframes animFocus {
     from {
-        box-shadow: 0 0 0 0 var(--color-control-bg-focus), 0 0 0 0 var(--color-control-bg-active);
+        box-shadow: 0 0 0 0 var(--color-control-bg-border-default),
+            0 0 0 0 var(--color-control-bg-border-default);
     }
 
     to {
-        box-shadow: 0 0 0 1px var(--color-control-bg-focus), 0 0 0 3px transparent;
+        box-shadow: 0 0 2px 0 var(--color-control-bg-border-focus), 0 0 0 3px transparent;
     }
 }

@@ -42,6 +42,7 @@ export const UsersCRUD = createCRUD({
             },
         ],
     },
+    table: { dndRows: true },
     form: {
         create: {
             fields: (

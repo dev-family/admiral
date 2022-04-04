@@ -1,3 +1,4 @@
+import { arrayMove } from '@dnd-kit/sortable'
 import { UploadFile } from 'admiral/ui/Upload/interfaces'
 import { SortOrder } from '../../../admiral'
 
@@ -77,6 +78,15 @@ export class UserList {
             if (user.id === +id) return { ...user, ...data }
             return user
         })
+    }
+
+    reorder(prevId: number | string, nextId: number | string) {
+        const getIndex = (id: number | string) => this.users.findIndex((item) => item.id == id)
+        const prevIdx = getIndex(prevId)
+        const nextIdx = getIndex(nextId)
+
+        this.users = arrayMove(this.users, prevIdx, nextIdx)
+        return this.users
     }
 
     sortBy(field: string | null, order: string | null) {

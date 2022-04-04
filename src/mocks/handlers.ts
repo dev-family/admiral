@@ -8,7 +8,7 @@ const userList = new UserList()
 export const handlers = [
     rest.get('/api/users', (req, res, ctx) => {
         const page = Number(req.url.searchParams.get('page')) || 1
-        const pageSize = Number(req.url.searchParams.get('page_size')) || 10
+        const pageSize = Number(req.url.searchParams.get('perPage')) || 10
         const sort = JSON.parse(req.url.searchParams.get('sort') || '{}') as Record<any, any>
 
         const from = page * pageSize - pageSize
@@ -22,6 +22,12 @@ export const handlers = [
                 meta: { current: page, total: userList.length, page_size: pageSize },
             }),
         )
+    }),
+    rest.post('/api/users/reorder', (req, res, ctx) => {
+        const data: Record<'replaces', [string, string]> = toObj(req.body as any)
+        const users = userList.reorder(...data.replaces)
+
+        return res(ctx.delay(160), ctx.status(200), ctx.json({ data: users }))
     }),
     rest.post('/api/users', (req, res, ctx) => {
         const data = toObj(req.body as any)
@@ -50,7 +56,7 @@ export const handlers = [
     }),
 ]
 
-function toObj(data: Record<string, any>) {
+function toObj(data: Record<string, any>): Record<any, any> {
     const entries = Object.entries(data).reduce<any[][]>(
         (acc, [k, v]) => {
             acc[0].push(k)

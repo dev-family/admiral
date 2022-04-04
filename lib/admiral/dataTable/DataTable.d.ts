@@ -5,9 +5,10 @@ export declare type DataTableProps<RecordType> = {
     resource: string
     columns: ColumnsType<RecordType>
     initialSorter?: ControlledSorter
+    dndRows?: boolean
 }
-export declare function DataTable<RecordType>({
-    resource,
-    columns,
-    initialSorter,
-}: DataTableProps<RecordType>): JSX.Element
+export declare function DataTable<
+    RecordType extends {
+        id: number | string
+    },
+>({ resource, columns, initialSorter, dndRows }: DataTableProps<RecordType>): JSX.Element

@@ -6,6 +6,7 @@ import { CheckboxProps } from '../Checkbox/interfaces'
 import { PaginationParam } from './hooks/usePagination'
 import { PaginationProps } from '../Pagination/interfaces'
 import { SpinProps } from '../Spin/interfaces'
+import { DragEndEvent } from '@dnd-kit/core'
 export type { GetRowKey }
 export type { SortOrder, SorterResult, ControlledSorter }
 export declare type Key = React.Key
@@ -60,7 +61,13 @@ export declare type TransformColumns<RecordType> = (
 export interface TableProps<RecordType>
     extends Omit<
         RcTableProps<RecordType>,
-        'transformColumns' | 'internalHooks' | 'internalRefs' | 'data' | 'columns' | 'emptyText'
+        | 'transformColumns'
+        | 'internalHooks'
+        | 'internalRefs'
+        | 'data'
+        | 'columns'
+        | 'emptyText'
+        | 'components'
     > {
     dataSource?: RcTableProps<RecordType>['data']
     columns?: ColumnsType<RecordType>
@@ -76,6 +83,8 @@ export interface TableProps<RecordType>
     rowSelection?: TableRowSelection<RecordType>
     sortDirections?: SortOrder[]
     sorter?: ControlledSorter | null
+    dndRows?: boolean
+    onDragEnd?: (event: DragEndEvent) => void
 }
 export declare type TablePaginationPosition =
     | 'topLeft'

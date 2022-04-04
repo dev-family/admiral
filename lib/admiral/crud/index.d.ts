@@ -9,6 +9,9 @@ export declare type CRUDConfig<RecordType> = {
         newButtonText: string
         tableOptions: ColumnsType<RecordType>
     }
+    table?: {
+        dndRows?: boolean
+    }
     form: {
         create: {
             fields: React.ReactNode

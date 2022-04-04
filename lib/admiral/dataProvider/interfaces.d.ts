@@ -28,6 +28,7 @@ export declare type DataProvider = {
         resource: string,
         params: Partial<GetListParams>,
     ) => Promise<GetListResult<RecordType>>
+    reorderList: (resource: string, params: ReorderParams) => Promise<void>
     getOne: <RecordType extends Record = Record>(
         resource: string,
         params: GetOneParams,
@@ -61,6 +62,9 @@ export interface GetListParams {
 export interface GetListResult<RecordType extends Record = Record> {
     items: RecordType[]
     meta: PaginationResponse
+}
+export interface ReorderParams<T = any> {
+    data: T
 }
 export interface GetOneParams {
     id: Identifier

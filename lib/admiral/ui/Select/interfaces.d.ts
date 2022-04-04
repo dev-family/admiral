@@ -25,6 +25,7 @@ export interface SelectProps<
         | 'removeIcon'
         | 'menuItemSelectedIcon'
         | 'getPopupContainer'
+        | 'prefixCls'
     > {
     size?: SelectSizeType
     mode?: 'multiple' | 'tags'

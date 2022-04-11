@@ -54,6 +54,33 @@ export const handlers = [
 
         return res(ctx.delay(160), ctx.status(200), ctx.json({ data }))
     }),
+    rest.post('/api/login', (req, res, ctx) => {
+        const data = req.body as { user: string; password: string }
+
+        return res(
+            ctx.delay(160),
+            ctx.status(201),
+            ctx.json({ data: { user: data.user, token: `${Math.random()}` } }),
+        )
+    }),
+    rest.post('/api/logout', (req, res, ctx) => {
+        return res(ctx.delay(160), ctx.status(200))
+    }),
+    rest.get('/api/checkAuth', (req, res, ctx) => {
+        return res(ctx.delay(100), ctx.status(201))
+    }),
+    rest.get('/api/getIdentity', (req, res, ctx) => {
+        return res(
+            ctx.delay(100),
+            ctx.status(201),
+            ctx.json({
+                id: '1',
+                fullName: 'Dev Family',
+                email: 'dev.family@websecret.by',
+                avatar: 'https://picsum.photos/200',
+            }),
+        )
+    }),
 ]
 
 function toObj(data: Record<string, any>): Record<any, any> {

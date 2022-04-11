@@ -5,6 +5,7 @@ import { FormProvider, useForm } from './FormContext'
 import { Button } from '../ui'
 import styles from './Form.module.scss'
 import Item from './Item'
+import cn from 'classnames'
 import { isObject } from '../utils/helpers'
 import { useSafeSetState } from '../utils/hooks'
 
@@ -66,8 +67,10 @@ const InternalForm: React.FC<FormProps> = ({
     )
 }
 
-const Fields: React.FC = ({ children }) => {
-    return <div className={styles.items}>{children}</div>
+const Fields: React.FC<{ singleColumn?: boolean }> = ({ children, singleColumn = false }) => {
+    return (
+        <div className={cn(styles.items, { [styles.items__Column]: singleColumn })}>{children}</div>
+    )
 }
 
 const Footer: React.FC = ({ children }) => {

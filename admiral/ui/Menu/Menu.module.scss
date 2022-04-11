@@ -9,7 +9,7 @@
         .link {
             grid-template-columns: 16px minmax(0, 1fr);
             grid-gap: 0 8px;
-            height: 40px;
+            height: var(--control-height-m);
             padding-left: calc(var(--space-2xl));
             font-size: var(--size-text-s);
 

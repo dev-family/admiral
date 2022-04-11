@@ -4,15 +4,12 @@ import LayoutHeader from './LayoutHeader'
 import LayoutAside from './LayoutAside'
 import LayoutFooter from './LayoutFooter'
 import { useNav } from '../../navigation/NavContext'
-import { HeaderLogoType } from './LayoutHeader'
+import { useConfig } from '../../config/ConfigContext'
 import cn from 'classnames'
 
-export const Layout: React.FC<{ logo?: HeaderLogoType; asideContent?: React.ReactNode }> = ({
-    logo,
-    asideContent,
-    children,
-}) => {
+export const Layout: React.FC = ({ children }) => {
     const { collapsed } = useNav()
+    const { logo, asideContent } = useConfig()
 
     return (
         <div

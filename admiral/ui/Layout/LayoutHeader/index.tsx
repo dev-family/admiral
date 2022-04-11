@@ -8,10 +8,10 @@ import { NavLink } from 'react-router-dom'
 import Icon from '../../../assets/icons'
 import cn from 'classnames'
 
-export type HeaderLogoType = string | HeaderLogoComponentType
-export type HeaderLogoComponentType = ({ themeName }: { themeName: ThemeName }) => JSX.Element
+export type LogoType = string | LogoComponentType
+export type LogoComponentType = ({ themeName }: { themeName: ThemeName }) => JSX.Element
 
-const LayoutHeader: React.FC<{ logo?: HeaderLogoType }> = ({ logo = LogoDefault }) => {
+const LayoutHeader: React.FC<{ logo?: LogoType }> = ({ logo = LogoDefault }) => {
     const { themeName } = useTheme()
     const { close: closeNav, collapsed, toggleCollapsed, toggle: toggleNav, visible } = useNav()
 

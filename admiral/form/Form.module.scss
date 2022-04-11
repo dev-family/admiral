@@ -10,6 +10,10 @@
     @include maxWidth($bp-lMobile) {
         grid-template-columns: minmax(0, 1fr);
     }
+
+    &__Column {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 .item {

@@ -1,0 +1,44 @@
+@use 'admiral/assets/scss-variables' as *;
+@use 'admiral/assets/mixins' as *;
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 320px;
+    background: var(--color-bg-secondary);
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex: 1 0 auto;
+    padding: var(--space-xl);
+}
+
+.card {
+    max-width: 400px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: 100%;
+    margin-bottom: var(--space-l);
+    transition: opacity 0.2s, width 0.2s, height 0.2s;
+
+    img,
+    svg {
+        max-height: 100%;
+        width: auto;
+    }
+}
+
+.footer {
+    margin-top: var(--space-2xl);
+    --button-width: 100%;
+}

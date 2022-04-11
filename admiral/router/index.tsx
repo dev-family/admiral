@@ -1,12 +1,35 @@
-import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Switch, Route, Redirect, RouteProps, useLocation } from 'react-router-dom'
+import { useAuthProvider } from '../auth/AuthContext'
+import { useAuthState } from '../auth'
+import { LoginLayout, Login } from '../auth/components/Login'
+import { Layout } from '../ui'
 
-export function createRoutesFrom(modules: any) {
+type RouteType = {
+    name: string
+    path: string
+    Component: any
+}
+interface CreateRoutesConfig {
+    withAuth?: boolean
+}
+export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
+    const authRequired = config?.withAuth ?? true
+    const loginRoute: RouteType = {
+        name: 'login',
+        path: '/login',
+        Component: Login,
+    }
+
     const routes = Object.keys(modules)
-        .map((path: string) => {
+        .reduce<RouteType[]>((acc, path: string) => {
             const name = path.match(/\.\/pages\/(.*)\.tsx$/)![1]
+            if (name === 'login') {
+                loginRoute.Component = modules[path].default
+                return acc
+            }
 
-            return {
+            acc.push({
                 name,
                 path: `/${name}`
                     .replace('index', '/')
@@ -14,8 +37,9 @@ export function createRoutesFrom(modules: any) {
                     // replaces [param] with :param
                     .replace(/\[([^\/]+)\]/gi, ':$1'),
                 Component: modules[path].default,
-            }
-        })
+            })
+            return acc
+        }, [])
         .reverse()
         // fix os specific routes sort
         .sort((a, b) => {
@@ -26,18 +50,92 @@ export function createRoutesFrom(modules: any) {
             return 0
         })
 
-    console.log('routes: ', routes)
+    const { path: loginRoutePath, Component: LoginComponent } = loginRoute
 
     return () => (
-        <Switch>
-            {routes.map(({ path, Component }) => (
-                <Route
-                    key={path}
-                    path={path}
-                    exact
-                    render={({ match }) => <Component {...match.params} />}
-                />
-            ))}
-        </Switch>
+        <>
+            <RouteScrollTop />
+
+            <Switch>
+                {authRequired && (
+                    <Route
+                        key={loginRoutePath}
+                        path={loginRoutePath}
+                        exact
+                        render={({ match }) => (
+                            <LoginLayout key="login-layout">
+                                <LoginComponent {...match.params} />
+                            </LoginLayout>
+                        )}
+                    />
+                )}
+
+                {routes.map(({ path, Component }) =>
+                    authRequired ? (
+                        <PrivateRoute
+                            key={path}
+                            path={path}
+                            exact
+                            render={({ match }) => (
+                                <Layout key="layout">
+                                    <Component {...match.params} />
+                                </Layout>
+                            )}
+                        />
+                    ) : (
+                        <Route
+                            key={path}
+                            path={path}
+                            exact
+                            render={({ match }) => (
+                                <Layout key="layout">
+                                    <Component {...match.params} />
+                                </Layout>
+                            )}
+                        />
+                    ),
+                )}
+            </Switch>
+        </>
     )
+}
+
+function PrivateRoute({ children, render, ...rest }: RouteProps) {
+    const { authenticated, loading } = useAuthState()
+    const { isDefault } = useAuthProvider()
+    const authRequired = !isDefault
+
+    return (
+        <Route
+            {...rest}
+            render={({ location, ...props }) =>
+                authenticated || !authRequired ? (
+                    render?.({ location, ...props }) ?? children
+                ) : loading && authRequired ? (
+                    <div key="loading" />
+                ) : (
+                    <Redirect
+                        to={{
+                            pathname: '/login',
+                            state: { nextPathname: location.pathname },
+                        }}
+                    />
+                )
+            }
+        />
+    )
+}
+
+function RouteScrollTop() {
+    const { pathname } = useLocation()
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+        })
+    }, [pathname])
+
+    return null
 }

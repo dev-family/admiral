@@ -206,24 +206,37 @@
 .modal_Inner {
     height: 100%;
     overflow-y: auto;
-    background-color: var(--color-bg-secondary);
+    background-color: var(--color-bg-default);
     pointer-events: all;
+}
+
+.modal_User {
+    padding: var(--space-m) var(--space-xl);
+    margin-bottom: var(--space-s);
+    border-bottom: 1px solid var(--color-bg-border);
+}
+
+.modal_Menu {
+    margin-top: var(--space-s);
+    margin-bottom: var(--space-s);
+}
+
+.modal_UserControls {
+    display: flex;
+    gap: var(--space-s);
+
+    & > * {
+        flex-shrink: 0;
+    }
 }
 
 .user {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
 
     &__Collapsed {
         justify-content: center;
-
-        .user_Info {
-            width: 0;
-            height: 0;
-            margin-right: 0;
-            overflow: hidden;
-        }
 
         .user_Settings {
             width: 100%;
@@ -231,19 +244,7 @@
     }
 }
 
-.user_Info {
-    margin-right: 10px;
-}
-
-.user_Name {
-    font-weight: var(--font-weight-text-semibold);
-}
-
-.user_Email {
-    font-size: var(--size-text-s);
-}
-
-.user_Settings {
+.settings {
     width: 24px;
     height: 24px;
     color: inherit;
@@ -254,11 +255,17 @@
     }
 }
 
+.userTooltip {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    grid-gap: var(--space-s);
+}
+
 .themeSwitch {
     display: flex;
     align-items: center;
-}
 
-.themeSwitch_Text {
-    margin-right: 6px;
+    &:only-child {
+        grid-column: 1 / -1;
+    }
 }

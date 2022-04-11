@@ -1,2 +1,9 @@
 /// <reference types="react" />
-export declare function createRoutesFrom(modules: any): () => JSX.Element
+interface CreateRoutesConfig {
+    withAuth?: boolean
+}
+export declare function createRoutesFrom(
+    modules: any,
+    config?: CreateRoutesConfig,
+): () => JSX.Element
+export {}

@@ -6,4 +6,5 @@ export interface InputProps
     type?: 'text' | 'tel' | 'password'
     borderless?: boolean
     alert?: boolean
+    suffix?: React.ReactNode
 }

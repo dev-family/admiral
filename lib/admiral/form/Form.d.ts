@@ -7,7 +7,9 @@ declare type FormProps = {
     submitData: (values: any) => Promise<any>
 }
 declare const InternalForm: React.FC<FormProps>
-declare const Fields: React.FC
+declare const Fields: React.FC<{
+    singleColumn?: boolean
+}>
 declare const Footer: React.FC
 declare const Submit: React.FC
 declare type FormType = typeof InternalForm

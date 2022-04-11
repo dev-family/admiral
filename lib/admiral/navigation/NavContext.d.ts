@@ -13,6 +13,7 @@ declare type NavProviderProps = {
     items: IMenuItem[]
     children: React.ReactNode
 }
+export declare const menuCollapsedStorageKey = 'df_admin_menu_collapsed'
 export declare function NavProvider({ items, children }: NavProviderProps): JSX.Element
 export declare function useNav(): ContextState
 export {}

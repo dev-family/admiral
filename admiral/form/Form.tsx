@@ -6,6 +6,7 @@ import { Button } from '../ui'
 import styles from './Form.module.scss'
 import Item from './Item'
 import { isObject } from '../utils/helpers'
+import { useSafeSetState } from '../utils/hooks'
 
 type FormProps = {
     redirect?: string
@@ -21,8 +22,8 @@ const InternalForm: React.FC<FormProps> = ({
 }) => {
     const [values, setValues] = useState<Record<any, any>>({})
     const [options, setOptions] = useState<Record<any, any>>({})
-    const [errors, setErrors] = useState({})
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [errors, setErrors] = useSafeSetState({})
+    const [isSubmitting, setIsSubmitting] = useSafeSetState(false)
     const history = useHistory()
 
     async function _fetchInitialData() {

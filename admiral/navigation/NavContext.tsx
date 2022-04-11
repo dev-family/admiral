@@ -1,6 +1,6 @@
 import React, { useContext, useState, createContext, useCallback } from 'react'
 import { IMenuItem } from '../ui'
-import { useLocalStorage } from '../utils/hooks'
+import { useLocalStorageState } from 'ahooks'
 import noScroll from 'no-scroll'
 
 export interface ContextState {
@@ -20,8 +20,12 @@ type NavProviderProps = {
     children: React.ReactNode
 }
 
+export const menuCollapsedStorageKey = 'df_admin_menu_collapsed'
+
 export function NavProvider({ items, children }: NavProviderProps) {
-    const [collapsed, setCollapsed] = useLocalStorage('admiral-menu-collapsed', false)
+    const [collapsed, setCollapsed] = useLocalStorageState(menuCollapsedStorageKey, {
+        defaultValue: false,
+    })
     const [visible, setVisible] = useState(false)
 
     const toggleCollapsed = useCallback(() => {

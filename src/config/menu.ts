@@ -46,6 +46,11 @@ const menu: IMenuItem[] = [
                 name: 'Upload',
                 to: '/components/upload',
             },
+            {
+                icon: 'FiBox',
+                name: 'Card',
+                to: '/components/card',
+            },
         ],
     },
 ]

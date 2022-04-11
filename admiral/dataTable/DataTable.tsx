@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { Card, Table } from '../ui'
+import { Table } from '../ui'
 import { ColumnsType, TableProps } from '../ui/Table/interfaces'
 import { ControlledSorter } from '../ui/Table/hooks/useSorter'
 import { useUrlState } from '../utils/hooks'
@@ -132,30 +132,28 @@ export function DataTable<RecordType extends { id: number | string }>({
     )
 
     return (
-        <Card>
-            <DataTableContextProvider value={{ refresh }}>
-                <Table
-                    dataSource={data}
-                    rowKey="id"
-                    columns={columns}
-                    sorter={sorter}
-                    scroll={{
-                        x: scrollX,
-                    }}
-                    sticky
-                    pagination={{
-                        current: +state.page,
-                        pageSize: +state.page_size,
-                        total,
-                        showTotal: (total) => `Всего ${total}`,
-                        showSizeChanger: !!total && total > 10,
-                    }}
-                    loading={loading}
-                    onChange={onTableChange}
-                    dndRows={dndRows}
-                    onDragEnd={onDragEnd}
-                />
-            </DataTableContextProvider>
-        </Card>
+        <DataTableContextProvider value={{ refresh }}>
+            <Table
+                dataSource={data}
+                rowKey="id"
+                columns={columns}
+                sorter={sorter}
+                scroll={{
+                    x: scrollX,
+                }}
+                sticky
+                pagination={{
+                    current: +state.page,
+                    pageSize: +state.page_size,
+                    total,
+                    showTotal: (total) => `Всего ${total}`,
+                    showSizeChanger: !!total && total > 10,
+                }}
+                loading={loading}
+                onChange={onTableChange}
+                dndRows={dndRows}
+                onDragEnd={onDragEnd}
+            />
+        </DataTableContextProvider>
     )
 }

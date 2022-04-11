@@ -27,6 +27,9 @@ export default function ComponentsPage() {
                 <Link to="components/upload">
                     <Button component="span">Upload</Button>
                 </Link>
+                <Link to="components/card">
+                    <Button component="span">Card</Button>
+                </Link>
             </div>
         </Page>
     )

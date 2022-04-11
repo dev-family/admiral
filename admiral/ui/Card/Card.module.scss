@@ -1,0 +1,113 @@
+.card {
+    width: var(--card-width, 100%);
+    padding: var(--card-pt, var(--space-m)) var(--card-pr, var(--space-m))
+        var(--card-pb, var(--space-m)) var(--card-pl, var(--space-m));
+    border-radius: var(--card-radius, var(--radius-m));
+    background: var(--card-bg, var(--color-control-bg-default));
+    color: var(card-color, var(--color-control-typo-default));
+    filter: drop-shadow(var(--shadow-group));
+
+    &__NoShadow {
+        filter: none;
+    }
+
+    &__FormSquare {
+        border-radius: var(--card-radius, 0px);
+    }
+
+    &__Space {
+        &Vertical {
+            &XS {
+                --card-pt: var(--space-xs);
+                --card-pb: var(--space-xs);
+            }
+
+            &S {
+                --card-pt: var(--space-s);
+                --card-pb: var(--space-s);
+            }
+
+            &M {
+                --card-pt: var(--space-m);
+                --card-pb: var(--space-m);
+            }
+
+            &L {
+                --card-pt: var(--space-l);
+                --card-pb: var(--space-l);
+            }
+
+            &XL {
+                --card-pt: var(--space-xl);
+                --card-pb: var(--space-xl);
+            }
+
+            &2XL {
+                --card-pt: var(--space-2xl);
+                --card-pb: var(--space-2xl);
+            }
+
+            &3XL {
+                --card-pt: var(--space-3xl);
+                --card-pb: var(--space-3xl);
+            }
+
+            &4XL {
+                --card-pt: var(--space-4xl);
+                --card-pb: var(--space-4xl);
+            }
+
+            &5XL {
+                --card-pt: var(--space-5xl);
+                --card-pb: var(--space-5xl);
+            }
+        }
+
+        &Horizontal {
+            &XS {
+                --card-pr: var(--space-xs);
+                --card-pl: var(--space-xs);
+            }
+
+            &S {
+                --card-pr: var(--space-s);
+                --card-pl: var(--space-s);
+            }
+
+            &M {
+                --card-pr: var(--space-m);
+                --card-pl: var(--space-m);
+            }
+
+            &L {
+                --card-pr: var(--space-l);
+                --card-pl: var(--space-l);
+            }
+
+            &XL {
+                --card-pr: var(--space-xl);
+                --card-pl: var(--space-xl);
+            }
+
+            &2XL {
+                --card-pr: var(--space-2xl);
+                --card-pl: var(--space-2xl);
+            }
+
+            &3XL {
+                --card-pr: var(--space-3xl);
+                --card-pl: var(--space-3xl);
+            }
+
+            &4XL {
+                --card-pr: var(--space-4xl);
+                --card-pl: var(--space-4xl);
+            }
+
+            &5XL {
+                --card-pr: var(--space-5xl);
+                --card-pl: var(--space-5xl);
+            }
+        }
+    }
+}

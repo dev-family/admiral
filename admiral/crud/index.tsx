@@ -1,6 +1,6 @@
 import { DataTable } from '../dataTable'
 import { Form } from '../form'
-import { Page, Card, CardBody, Button } from '../ui'
+import { Page, Button } from '../ui'
 import { ColumnsType } from '../ui/Table/interfaces'
 import { FiTrash, FiEdit3 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
@@ -115,22 +115,18 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
 
         return (
             <Page title={config.create.title}>
-                <Card>
-                    <CardBody>
-                        <Form
-                            submitData={submitData}
-                            redirect={config.path}
-                            fetchInitialData={fetchInitialData}
-                        >
-                            <Form.Fields>{config.form.create.fields}</Form.Fields>
+                <Form
+                    submitData={submitData}
+                    redirect={config.path}
+                    fetchInitialData={fetchInitialData}
+                >
+                    <Form.Fields>{config.form.create.fields}</Form.Fields>
 
-                            <Form.Footer>
-                                <BackButton basePath={config.path}>Назад</BackButton>
-                                <Form.Submit>Сохранить</Form.Submit>
-                            </Form.Footer>
-                        </Form>
-                    </CardBody>
-                </Card>
+                    <Form.Footer>
+                        <BackButton basePath={config.path}>Назад</BackButton>
+                        <Form.Submit>Сохранить</Form.Submit>
+                    </Form.Footer>
+                </Form>
             </Page>
         )
     }
@@ -150,22 +146,18 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
 
         return (
             <Page title={config.update.title(id)}>
-                <Card>
-                    <CardBody>
-                        <Form
-                            redirect={config.path}
-                            submitData={submitData}
-                            fetchInitialData={fetchInitialData}
-                        >
-                            <Form.Fields>{config.form.edit.fields}</Form.Fields>
+                <Form
+                    redirect={config.path}
+                    submitData={submitData}
+                    fetchInitialData={fetchInitialData}
+                >
+                    <Form.Fields>{config.form.edit.fields}</Form.Fields>
 
-                            <Form.Footer>
-                                <BackButton basePath={config.path}>Назад</BackButton>
-                                <Form.Submit>Сохранить</Form.Submit>
-                            </Form.Footer>
-                        </Form>
-                    </CardBody>
-                </Card>
+                    <Form.Footer>
+                        <BackButton basePath={config.path}>Назад</BackButton>
+                        <Form.Submit>Сохранить</Form.Submit>
+                    </Form.Footer>
+                </Form>
             </Page>
         )
     }

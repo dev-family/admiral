@@ -24,6 +24,7 @@ const Input = forwardRef((props: InputProps, inputRef) => {
         disabled = false,
         type = 'text',
         inputMode = 'text',
+        suffix,
     } = props
     const ref = useRef<HTMLInputElement>(null)
     const [value, setValue] = useState(
@@ -55,6 +56,7 @@ const Input = forwardRef((props: InputProps, inputRef) => {
                 [styles.wrapper__Alert]: alert,
                 [styles.wrapper__Clear]: borderless,
                 [styles.wrapper__Disabled]: disabled,
+                [styles.wrapper__Suffix]: !!suffix,
             })}
         >
             <input
@@ -67,6 +69,7 @@ const Input = forwardRef((props: InputProps, inputRef) => {
                 disabled={disabled}
                 className={cn(styles.input)}
             />
+            {suffix}
         </div>
     )
 })

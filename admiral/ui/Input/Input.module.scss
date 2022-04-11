@@ -1,9 +1,14 @@
 @use 'admiral/assets/mixins' as *;
 
 .wrapper {
+    --input-pt: 0;
+    --input-pr: calc(var(--control-space-m) / 2);
+    --input-pb: 0;
+    --input-pl: calc(var(--control-space-m) / 2);
     position: relative;
     z-index: 1;
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
     border: 1px solid var(--input-bcolor, var(--color-control-bg-border-default));
     border-radius: var(--input-bradius, var(--control-radius));
@@ -76,6 +81,10 @@
         --input-bcolor-hover: var(--color-control-bg-clear);
         --input-bcolor-focus: var(--color-control-bg-clear);
     }
+
+    &__Suffix {
+        grid-template-columns: minmax(0, 1fr) max-content;
+    }
 }
 
 .input {
@@ -84,8 +93,7 @@
     max-width: var(--input-max-width, none);
     height: var(--input-height, var(--control-height-m));
     min-height: 100%;
-    padding: var(--input-pt, 0) var(--input-pr, calc(var(--control-space-m) / 2)) var(--input-pb, 0)
-        var(--input-pl, calc(var(--control-space-m) / 2));
+    padding: var(--input-pt) var(--input-pr) var(--input-pb) var(--input-pl);
     font-size: var(--input-fz, var(--control-text-size-m));
     line-height: 1.2;
     color: var(--input-color, var(--color-control-typo-default));
@@ -99,5 +107,28 @@
 
     &::placeholder {
         color: var(--color-control-typo-placeholder);
+    }
+}
+
+.toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-right: var(--input-pr);
+    color: var(--color-control-typo-placeholder);
+    overflow: hidden;
+    transition: transform 0.16s, color 0.16s;
+
+    svg {
+        width: 16px;
+        height: auto;
+    }
+
+    &:hover:not(:active) {
+        color: var(--color-control-bg-border-default-hover);
+        transform: scale(1.1);
     }
 }

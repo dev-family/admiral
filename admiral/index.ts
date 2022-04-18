@@ -41,4 +41,5 @@ export * from './utils/hooks'
 
 export { createRoutesFrom } from './router'
 
+export { useTheme, useThemeVars } from './theme'
 export type { ThemeName, ThemePreset } from './theme/interfaces'

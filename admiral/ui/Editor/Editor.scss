@@ -1,0 +1,393 @@
+.editor {
+    .tox-tinymce {
+        border: 1px solid var(--editor-bcolor, var(--color-control-bg-border-default));
+        border-radius: var(--editor-bradius, var(--control-radius));
+        background-color: var(--editor-bg, var(--color-bg-default));
+        transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease,
+            filter 0.16s;
+
+        &.tox.tox-fullscreen {
+            border-radius: 0;
+            background-color: var(--editor-bg, var(--color-bg-default));
+        }
+    }
+
+    &--alert {
+        .tox-tinymce {
+            border-color: var(--color-bg-alert);
+        }
+    }
+
+    .tox {
+        background: var(--color-bg-default);
+
+        &:not(.tox-tinymce-inline) .tox-editor-header,
+        &:not(.tox-tinymce-inline).tox-tinymce--toolbar-sticky-on .tox-editor-header {
+            border-bottom: 1px solid var(--editor-bcolor, var(--color-control-bg-border-default));
+            box-shadow: var(--shadow-group);
+            box-shadow: 0 1px 3px rgba(var(--color-nums-shadow), 0.2);
+            box-shadow: none;
+            background: var(--color-bg-default);
+        }
+
+        .tox-edit-area__iframe,
+        .tox-statusbar,
+        .tox-toolbar-overlord,
+        .tox-toolbar__primary {
+            background-color: transparent;
+        }
+
+        .tox-statusbar {
+            color: var(--color-control-typo-placeholder);
+            border-top: 1px solid var(--editor-bcolor, var(--color-control-bg-border-default));
+            background-color: transparent;
+
+            a,
+            &__path-item,
+            &__wordcount,
+            &__resize-handle {
+                color: var(--color-control-typo-placeholder);
+                transition: color 0.2s ease;
+
+                svg {
+                    fill: currentColor;
+                }
+            }
+
+            a:focus:not(:disabled):not([aria-disabled='true']),
+            a:hover:not(:disabled):not([aria-disabled='true']),
+            &__path-item:focus:not(:disabled):not([aria-disabled='true']),
+            &__path-item:hover:not(:disabled):not([aria-disabled='true']),
+            &__wordcount:focus:not(:disabled):not([aria-disabled='true']),
+            &__wordcount:hover:not(:disabled):not([aria-disabled='true']) {
+                color: var(--color-control-typo-clear);
+
+                svg {
+                    fill: currentColor;
+                }
+            }
+        }
+
+        .tox-tbtn {
+            cursor: pointer;
+            --color-hover: var(--color-control-typo-clear-hover);
+            color: var(--color-control-typo-clear);
+            background-color: var(--color-control-bg-clear);
+            border-radius: var(--control-radius);
+            transition: background-color 0.15s ease, color 0.15s ease, fill 0.15s ease;
+
+            &:hover,
+            &:active,
+            &:focus:not(.tox-tbtn--disabled) {
+                color: var(--color-control-typo-clear);
+                background-color: var(--color-control-bg-clear-hover);
+
+                svg {
+                    fill: currentColor;
+                }
+            }
+
+            &--enabled {
+                color: var(--color-control-typo-secondary);
+                background-color: var(--color-control-bg-clear-hover);
+
+                svg {
+                    fill: currentColor;
+                }
+            }
+
+            svg {
+                fill: currentColor;
+            }
+
+            &__select-label {
+                cursor: pointer;
+            }
+
+            &__select-chevron {
+                color: var(--color-control-bg-border-default);
+
+                svg {
+                    fill: currentColor;
+                }
+
+                &:hover {
+                    color: var(--color-control-bg-border-default-hover);
+                }
+            }
+        }
+
+        .tox-button {
+            border-radius: var(--control-radius);
+            font-family: var(--font-primary);
+            font-size: var(--control-text-size-m);
+            font-weight: var(--font-weight-text-regular);
+            color: var(--color-control-typo-primary);
+            background-color: var(--color-control-bg-primary);
+            border-color: var(--color-control-bg-primary);
+            --color-hover: var(--color-control-typo-primary-hover);
+            --bg-hover: var(--color-control-bg-primary-hover);
+            --border-hover: var(--color-control-bg-primary-hover);
+
+            &.tox-button--icon:hover:not(:disabled) {
+                color: var(--color--hover);
+            }
+
+            &:hover:not(:disabled),
+            &:active:not(:disabled),
+            &:focus:not(:disabled) {
+                color: var(--color-hover);
+                background-color: var(--bg-hover);
+                border-color: var(--border-hover);
+            }
+
+            &:focus:not(:disabled) {
+                box-shadow: 0px 0px 0px 2px var(--color-control-bg-focus);
+            }
+
+            &--secondary {
+                --color-hover: var(--color-control-typo-secondary-hover);
+                --bg-hover: var(--color-control-bg-secondary-hover);
+                --border-hover: var(--color-control-bg-border-secondary-hover);
+                color: var(--color-control-typo-secondary);
+                background-color: var(--color-control-bg-secondary);
+                border: var(--control-border-width) solid var(--color-control-bg-border-secondary);
+            }
+
+            &--naked {
+                --color-hover: var(--color-control-typo-clear-hover);
+                --bg-hover: var(--color-control-bg-clear-hover);
+                --border-hover: transparent;
+                color: var(--color-control-typo-clear);
+                border-color: transparent;
+                background-color: var(--color-control-bg-clear);
+                box-shadow: unset;
+            }
+        }
+
+        // modal dialog
+        .tox-dialog-wrap__backdrop {
+            background-color: var(--color-bg-tone);
+        }
+
+        .tox-dialog {
+            color: var(--color-typo-primary);
+            background-color: var(--color-bg-default);
+            border-radius: var(--radius-m);
+            box-shadow: var(--shadow-modal);
+
+            &__header,
+            &__footer {
+                color: inherit;
+                background-color: inherit;
+            }
+
+            &__header {
+                padding: var(--space-s) var(--space-m) 0;
+            }
+
+            &__footer {
+                padding: var(--space-s) var(--space-m) var(--space-m);
+            }
+
+            &__body-content {
+                padding: var(--space-m);
+                color: var(--color-typo-primary);
+            }
+        }
+
+        .tox-form__group {
+            &:not(:last-child) {
+                margin-bottom: var(--space-s);
+
+                .tox-form__group {
+                    margin-bottom: 4px;
+                }
+            }
+        }
+
+        .tox-label,
+        .tox-toolbar-label {
+            margin-bottom: var(--space-2xs);
+            color: var(--color-control-typo-default);
+        }
+
+        // Input, select, textarea
+        .tox-listboxfield .tox-listbox--select,
+        .tox-textarea,
+        .tox-textfield {
+            --input-pt: 0;
+            --input-pr: calc(var(--control-space-m) / 2);
+            --input-pb: 0;
+            --input-pl: calc(var(--control-space-m) / 2);
+            height: var(--control-height-m);
+            padding: var(--input-pt) var(--input-pr) var(--input-pb) var(--input-pl);
+            font-size: var(--control-text-size-m);
+            line-height: 1.2;
+            color: var(--color-control-typo-default);
+            caret-color: currentColor;
+            border: 1px solid var(--color-control-bg-border-default);
+            border-radius: var(--control-radius);
+            background: var(--color-control-bg-default);
+            transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease,
+                filter 0.16s;
+
+            &:hover:not(:disabled) {
+                border-color: var(--color-control-bg-border-default-hover);
+
+                .tox-listbox__select-chevron {
+                    color: var(--color-control-bg-border-default-hover);
+                }
+            }
+
+            &:focus:not(:disabled) {
+                background-color: unset;
+                box-shadow: 0px 0px 1px var(--color-control-bg-border-focus);
+                border-color: var(--color-control-bg-border-focus);
+
+                .tox-listbox__select-chevron {
+                    color: var(--color-control-bg-border-default-hover);
+                }
+            }
+        }
+
+        .tox-textarea {
+            --input-pt: calc(var(--control-space-m) / 2);
+            --input-pb: calc(var(--control-space-m) / 2);
+        }
+
+        .tox-listbox__select-chevron {
+            color: var(--color-control-bg-border-default);
+
+            svg {
+                fill: currentColor;
+            }
+        }
+
+        .tox-pop__dialog {
+            background: var(--color-bg-default);
+            border: 1px solid var(--color-control-bg-border-default);
+            box-shadow: var(--shadow-layer);
+            border-radius: var(--control-radius);
+        }
+
+        .tox-pop.tox-pop--top {
+            &::before,
+            &::after {
+                border-color: transparent transparent var(--color-control-bg-border-default)
+                    transparent;
+            }
+        }
+        .tox-pop.tox-pop--bottom {
+            &::before,
+            &::after {
+                border-color: var(--color-control-bg-border-default) transparent transparent
+                    transparent;
+            }
+        }
+
+        // Tabs
+        .tox-dialog__body-nav-item {
+            border-bottom: 2px solid transparent;
+            color: var(--color-typo-secondary);
+
+            &:focus,
+            &:active {
+                background-color: transparent;
+            }
+
+            &--active {
+                border-bottom: 2px solid var(--color-bg-link);
+                color: var(--color-typo-primary);
+            }
+        }
+
+        // Dropzone
+        .tox-dropzone {
+            color: var(--color-typo-secondary);
+            border-radius: var(--control-radius);
+            border-color: var(--color-control-bg-border-default);
+            background: var(--color-bg-default);
+
+            p {
+                color: inherit;
+            }
+        }
+    }
+}
+
+.tox {
+    .tox-menu {
+        background: var(--color-bg-default) !important;
+        border: 1px solid var(--color-control-bg-border-default) !important;
+        box-shadow: var(--shadow-layer) !important;
+        border-radius: var(--control-radius) !important;
+    }
+
+    .tox-collection--list,
+    .tox-collection--grid {
+        .tox-collection__group {
+            border-color: var(--color-control-bg-border-default) !important;
+        }
+
+        .tox-collection__item {
+            margin-bottom: 2px;
+            color: var(--color-control-typo-clear) !important;
+            border-radius: var(--control-radius) !important;
+
+            &--state-disabled {
+                background-color: var(--color-control-bg-disable) !important;
+                color: var(--color-control-typo-disable) !important;
+            }
+
+            &--active:not(.tox-collection__item--state-disabled) {
+                color: var(--color-control-typo-clear) !important;
+                background-color: var(--color-control-bg-clear-hover) !important;
+                border-radius: var(--control-radius) !important;
+            }
+
+            &--enabled {
+                color: var(--color-control-typo-secondary) !important;
+                background-color: var(--color-control-bg-clear-hover) !important;
+            }
+        }
+
+        tox-collection__item-label {
+            line-height: 1 !important;
+        }
+
+        .tox-collection__item-accessory {
+            color: var(--color-control-typo-placeholder) !important;
+        }
+
+        .tox-collection__item-caret {
+            color: var(--color-control-bg-border-default) !important;
+
+            svg {
+                fill: currentColor !important;
+            }
+        }
+    }
+
+    .tox-toolbar__overflow {
+        margin-top: 2px !important;
+        background: var(--color-bg-default) !important;
+        border: 1px solid var(--color-control-bg-border-default) !important;
+        box-shadow: var(--shadow-layer) !important;
+        border-radius: var(--control-radius) !important;
+    }
+
+    .tox-insert-table-picker {
+        & > div {
+            border-color: var(--color-control-bg-border-default) !important;
+        }
+
+        .tox-insert-table-picker__selected {
+            background-color: var(--color-control-bg-focus) !important;
+        }
+    }
+
+    .tox-insert-table-picker__label {
+        color: var(--color-control-typo-default) !important;
+    }
+}

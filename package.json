@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "vite --host",
         "build": "tsc && vite build",
-        "build:lib": "vite build --config vite-lib.config.js && tsc --project tsconfig-lib.json && rm -r lib/pages lib/src lib/mockServiceWorker.js",
+        "build:lib": "vite build --config vite-lib.config.js && tsc --project tsconfig-lib.json && rm -r lib/pages lib/src lib/mockServiceWorker.js lib/lib",
         "serve": "vite preview",
         "prepare": "husky install",
         "prettier:check": "prettier --check .",
@@ -28,6 +28,7 @@
         "@consta/uikit": "^3.18.0",
         "@dnd-kit/core": "^5.0.3",
         "@dnd-kit/sortable": "^6.0.1",
+        "@tinymce/tinymce-react": "^4.0.0",
         "@tippyjs/react": "^4.2.5",
         "ahooks": "^3.3.0",
         "axios": "^0.26.1",

@@ -81,6 +81,13 @@ export const handlers = [
             }),
         )
     }),
+    rest.post('/api/editorUpload', (req, res, ctx) => {
+        return res(
+            ctx.delay(160),
+            ctx.status(200),
+            ctx.json({ location: 'https://picsum.photos/500' }),
+        )
+    }),
 ]
 
 function toObj(data: Record<string, any>): Record<any, any> {

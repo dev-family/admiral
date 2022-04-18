@@ -30,6 +30,9 @@ export default function ComponentsPage() {
                 <Link to="components/card">
                     <Button component="span">Card</Button>
                 </Link>
+                <Link to="components/editor">
+                    <Button component="span">Editor</Button>
+                </Link>
             </div>
         </Page>
     )

@@ -51,6 +51,11 @@ const menu: IMenuItem[] = [
                 name: 'Card',
                 to: '/components/card',
             },
+            {
+                icon: 'FiBox',
+                name: 'Editor',
+                to: '/components/editor',
+            },
         ],
     },
 ]

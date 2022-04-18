@@ -1,5 +1,17 @@
 import React from 'react'
-import { createCRUD, TextInput, SelectInput, FilePictureInput, FileField } from '../../admiral'
+import {
+    createCRUD,
+    TextInput,
+    SelectInput,
+    FilePictureInput,
+    FileField,
+    EditorInput,
+} from '../../admiral'
+import api from '../api'
+
+const onImageUpload = (file: Blob) => {
+    return api.editorImageUpload('editorUpload', { file })
+}
 
 export const UsersCRUD = createCRUD({
     path: '/crud-users',
@@ -79,6 +91,12 @@ export const UsersCRUD = createCRUD({
                         name="avatar"
                         accept="image/*"
                     />
+                    <EditorInput
+                        columnSpan={2}
+                        label="Description"
+                        name="description"
+                        onImageUpload={onImageUpload}
+                    />
                 </>
             ),
         },
@@ -115,6 +133,12 @@ export const UsersCRUD = createCRUD({
                         label="Avatar"
                         name="avatar"
                         accept="image/*"
+                    />
+                    <EditorInput
+                        columnSpan={2}
+                        label="Description"
+                        name="description"
+                        onImageUpload={onImageUpload}
                     />
                 </>
             ),

@@ -1,7 +1,7 @@
-import React from 'react'
-import type { SwitchProps } from '../../ui/Switch/interfaces'
-import { FormItemProps } from '../Item'
+import React from 'react';
+import type { SwitchProps } from '../../ui/Switch/interfaces';
+import { FormItemProps } from '../Item';
 export interface BooleanInputProps extends SwitchProps, FormItemProps {
-    name: string
+    name: string;
 }
-export declare const BooleanInput: React.FC<BooleanInputProps>
+export declare const BooleanInput: React.FC<BooleanInputProps>;

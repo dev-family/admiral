@@ -1,2 +1,2 @@
-export * from './DataProviderContext'
-export * from './interfaces'
+export * from './DataProviderContext';
+export * from './interfaces';

@@ -1,2 +1,2 @@
-import React from 'react'
-export declare const Layout: React.FC
+import React from 'react';
+export declare const Layout: React.FC;

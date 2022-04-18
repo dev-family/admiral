@@ -1,40 +1,38 @@
-import { ColumnsType } from '../ui/Table/interfaces'
-import React from 'react'
+import { ColumnsType } from '../ui/Table/interfaces';
+import React from 'react';
 export declare type CRUDConfig<RecordType> = {
-    path: string
-    actions?: React.ReactNode
-    resource: string
+    path: string;
+    actions?: React.ReactNode;
+    resource: string;
     index: {
-        title: string
-        newButtonText: string
-        tableOptions: ColumnsType<RecordType>
-    }
+        title: string;
+        newButtonText: string;
+        tableOptions: ColumnsType<RecordType>;
+    };
     table?: {
-        dndRows?: boolean
-    }
+        dndRows?: boolean;
+    };
     form: {
         create: {
-            fields: React.ReactNode
-        }
+            fields: React.ReactNode;
+        };
         edit: {
-            fields: React.ReactNode
-        }
-    }
+            fields: React.ReactNode;
+        };
+    };
     create: {
-        title: string
-    }
+        title: string;
+    };
     update: {
-        title: (id: string) => string
-    }
-}
-export declare function createCRUD<
-    RecordType extends {
-        id: number | string
-    } = any,
->(
-    config: CRUDConfig<RecordType>,
-): {
-    IndexPage: () => JSX.Element
-    CreatePage: () => JSX.Element
-    UpdatePage: ({ id }: { id: string }) => JSX.Element
-}
+        title: (id: string) => string;
+    };
+};
+export declare function createCRUD<RecordType extends {
+    id: number | string;
+} = any>(config: CRUDConfig<RecordType>): {
+    IndexPage: () => JSX.Element;
+    CreatePage: () => JSX.Element;
+    UpdatePage: ({ id }: {
+        id: string;
+    }) => JSX.Element;
+};

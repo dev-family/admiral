@@ -1,7 +1,7 @@
-import React from 'react'
-import type { TextareaProps } from '../../ui/Textarea/interfaces'
-import { FormItemProps } from '../Item'
+import React from 'react';
+import type { TextareaProps } from '../../ui/Textarea/interfaces';
+import { FormItemProps } from '../Item';
 export interface MultilineTextInputProps extends TextareaProps, FormItemProps {
-    name: string
+    name: string;
 }
-export declare const MultilineTextInput: React.FC<MultilineTextInputProps>
+export declare const MultilineTextInput: React.FC<MultilineTextInputProps>;

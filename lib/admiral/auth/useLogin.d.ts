@@ -1,4 +1,4 @@
-declare const useLogin: () => Login
+declare const useLogin: () => Login;
 /**
  * Log a user in by calling the authProvider.login() method
  *
@@ -7,5 +7,5 @@ declare const useLogin: () => Login
  *
  * @return {Promise} The authProvider response
  */
-declare type Login = (params: any, pathName?: string) => Promise<any>
-export default useLogin
+declare type Login = (params: any, pathName?: string) => Promise<any>;
+export default useLogin;

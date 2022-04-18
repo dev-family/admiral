@@ -1,2 +1,2 @@
-import { UploadLocale } from '../interfaces'
-export declare const ruRU: UploadLocale
+import { UploadLocale } from '../interfaces';
+export declare const ruRU: UploadLocale;

@@ -1,1 +1,1 @@
-export declare const isObject: (value: any) => boolean
+export declare const isObject: (value: any) => boolean;

@@ -1,2 +1,2 @@
-export * from './enUS'
-export * from './ruRU'
+export * from './enUS';
+export * from './ruRU';

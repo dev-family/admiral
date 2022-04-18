@@ -1,2 +1,2 @@
-export * from './Choice'
-export { default as Choice } from './Choice'
+export * from './Choice';
+export { default as Choice } from './Choice';

@@ -1,96 +1,76 @@
-export declare type Identifier = string | number
+export declare type Identifier = string | number;
 export interface Record {
-    id: Identifier
-    [key: string]: any
+    id: Identifier;
+    [key: string]: any;
 }
 export interface SortPayload {
-    field: string
-    order: string
+    field: string;
+    order: string;
 }
 export interface FilterPayload {
-    [k: string]: any
+    [k: string]: any;
 }
 export interface PaginationPayload {
-    page: number
-    perPage: number
+    page: number;
+    perPage: number;
 }
 export interface PaginationResponse {
-    current_page: number
-    per_page: number
-    total: number
+    current_page: number;
+    per_page: number;
+    total: number;
 }
 export declare type OptionType = {
-    value: string
-    label: string
-}
+    value: string;
+    label: string;
+};
 export declare type DataProvider = {
-    getList: <RecordType extends Record = Record>(
-        resource: string,
-        params: Partial<GetListParams>,
-    ) => Promise<GetListResult<RecordType>>
-    reorderList: (resource: string, params: ReorderParams) => Promise<void>
-    getOne: <RecordType extends Record = Record>(
-        resource: string,
-        params: GetOneParams,
-    ) => Promise<GetOneResult<RecordType>>
-    getCreateFormData: <RecordType extends Record = Record>(
-        resource: string,
-    ) => Promise<GetOneResult<RecordType>>
-    getUpdateFormData: <RecordType extends Record = Record>(
-        resource: string,
-        params: GetOneParams,
-    ) => Promise<GetOneResult<RecordType>>
-    update: <RecordType extends Record = Record>(
-        resource: string,
-        params: UpdateParams,
-    ) => Promise<UpdateResult<RecordType>>
-    create: <RecordType extends Record = Record>(
-        resource: string,
-        params: CreateParams,
-    ) => Promise<CreateResult<RecordType>>
-    deleteOne: <RecordType extends Record = Record>(
-        resource: string,
-        params: DeleteParams,
-    ) => Promise<DeleteResult<RecordType>>
-    [key: string]: any
-}
+    getList: <RecordType extends Record = Record>(resource: string, params: Partial<GetListParams>) => Promise<GetListResult<RecordType>>;
+    reorderList: (resource: string, params: ReorderParams) => Promise<void>;
+    getOne: <RecordType extends Record = Record>(resource: string, params: GetOneParams) => Promise<GetOneResult<RecordType>>;
+    getCreateFormData: <RecordType extends Record = Record>(resource: string) => Promise<GetOneResult<RecordType>>;
+    getUpdateFormData: <RecordType extends Record = Record>(resource: string, params: GetOneParams) => Promise<GetOneResult<RecordType>>;
+    update: <RecordType extends Record = Record>(resource: string, params: UpdateParams) => Promise<UpdateResult<RecordType>>;
+    create: <RecordType extends Record = Record>(resource: string, params: CreateParams) => Promise<CreateResult<RecordType>>;
+    deleteOne: <RecordType extends Record = Record>(resource: string, params: DeleteParams) => Promise<DeleteResult<RecordType>>;
+    [key: string]: any;
+};
 export interface GetListParams {
-    pagination: PaginationPayload
-    sort: SortPayload
-    filter: any
+    pagination: PaginationPayload;
+    sort: SortPayload;
+    filter: any;
 }
 export interface GetListResult<RecordType extends Record = Record> {
-    items: RecordType[]
-    meta: PaginationResponse
+    items: RecordType[];
+    meta: PaginationResponse;
 }
 export interface ReorderParams<T = any> {
-    data: T
+    data: T;
 }
 export interface GetOneParams {
-    id: Identifier
+    id: Identifier;
 }
 export interface GetOneResult<RecordType extends Record = Record> {
-    data: RecordType
+    data: RecordType;
     values: {
-        [k: string]: OptionType[]
-    }
+        [k: string]: OptionType[];
+    };
 }
 export interface UpdateParams<T = any> {
-    id: Identifier
-    data: T
+    id: Identifier;
+    data: T;
 }
 export interface UpdateResult<RecordType extends Record = Record> {
-    data: RecordType
+    data: RecordType;
 }
 export interface CreateParams<T = any> {
-    data: T
+    data: T;
 }
 export interface CreateResult<RecordType extends Record = Record> {
-    data: RecordType
+    data: RecordType;
 }
 export interface DeleteParams {
-    id: Identifier
+    id: Identifier;
 }
 export interface DeleteResult<RecordType extends Record = Record> {
-    data: RecordType
+    data: RecordType;
 }

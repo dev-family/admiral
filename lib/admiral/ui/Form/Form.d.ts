@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 declare type FormProps = {
-    onSubmit?: () => void
-}
-export declare const Form: React.FC<FormProps>
-export {}
+    onSubmit?: () => void;
+};
+export declare const Form: React.FC<FormProps>;
+export {};

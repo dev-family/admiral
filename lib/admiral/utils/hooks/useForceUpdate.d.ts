@@ -1,2 +1,2 @@
 /// <reference types="react" />
-export default function useForceUpdate(): import('react').DispatchWithoutAction
+export default function useForceUpdate(): import("react").DispatchWithoutAction;

@@ -1,6 +1,8 @@
 import React, { useMemo, useCallback } from 'react'
 import { useTheme, useThemeVars } from '../../theme'
-import { Editor as TinyEditor, IAllProps as TinyEditorProps } from '@tinymce/tinymce-react'
+import { Editor as TinyEditor } from '@tinymce/tinymce-react'
+import type { IAllProps as TinyEditorProps } from '@tinymce/tinymce-react'
+import { setupAutocompleters } from './setup'
 import cn from 'classnames'
 import { EditorProps, BlobInfo } from './interfaces'
 import './Editor.scss'
@@ -13,6 +15,7 @@ const Editor = ({
     imageUploadUrl,
     onImageUpload,
     init,
+    autocompleter,
     height = 300,
     ...rest
 }: EditorProps) => {
@@ -37,6 +40,8 @@ const Editor = ({
                     ) as HTMLDivElement
                     container.parentNode!.appendChild(uiContainer)
                 })
+
+                if (autocompleter) setupAutocompleters(editor, autocompleter)
             },
             menubar: false,
             toolbar:

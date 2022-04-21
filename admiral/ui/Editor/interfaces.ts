@@ -25,4 +25,25 @@ export interface EditorProps extends Omit<TinyEditorProps, 'onChange' | 'onEdito
     onChange?: TinyEditorProps['onEditorChange']
     alert?: boolean
     onImageUpload?: (file: Blob) => Promise<string>
+    autocompleter?: AutocompleterConfig | AutocompleterConfig[]
+}
+
+export type AutocompleterItem = {
+    text: string
+    value: string
+    icon?: string
+}
+
+export type AutocompleterMode = 'autocompleteitem' | 'cardmenuitem'
+
+export interface AutocompleterConfig {
+    id: string
+    trigger?: string
+    minCharsToTrigger?: number
+    items: AutocompleterItem[]
+    highlightOnSearch?: boolean
+    filterOnInput?: boolean
+    mode?: AutocompleterMode
+    includeValueInTitle?: boolean
+    columns?: number | 'auto'
 }

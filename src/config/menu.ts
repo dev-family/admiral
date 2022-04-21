@@ -56,6 +56,11 @@ const menu: IMenuItem[] = [
                 name: 'Editor',
                 to: '/components/editor',
             },
+            {
+                icon: 'FiBox',
+                name: 'Colorpicker',
+                to: '/components/colorpicker',
+            },
         ],
     },
 ]

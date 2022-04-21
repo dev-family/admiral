@@ -8,6 +8,7 @@ export interface FormItemProps {
     error?: string
     required?: boolean
     columnSpan?: 1 | 2
+    onLabelClick?: React.MouseEventHandler<HTMLLabelElement>
 }
 
 const AnimatePresence: React.FC<{ show: boolean }> = ({ show, children }) => {
@@ -27,11 +28,12 @@ const Item: React.FC<FormItemProps> = ({
     required = false,
     error,
     columnSpan = 1,
+    onLabelClick,
     children,
 }) => {
     return (
         <div className={cn(styles.item, { [styles.item__ColumnSpanTwo]: columnSpan === 2 })}>
-            <label>
+            <label onClick={onLabelClick}>
                 <span
                     className={cn(styles.item_Label, { [styles.item_Label__Required]: required })}
                 >

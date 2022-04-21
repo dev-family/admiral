@@ -1,4 +1,5 @@
 export * from './BooleanInput';
+export * from './ColorPickerInput';
 export * from './DatePickerInput';
 export * from './EditorInput';
 export * from './FilePictureInput';

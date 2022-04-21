@@ -2,6 +2,7 @@ export * from './ui';
 export type { ButtonSizeType, ButtonViewType, ButtonProps } from './ui/Button/interfaces';
 export type { CheckboxProps } from './ui/Checkbox/interfaces';
 export type { ChoiceChangeEvent, ChoiceProps } from './ui/Choice/interfaces';
+export * from './ui/ColorPicker/interfaces';
 export type { TimePickerLocale, PickerLocale, PickerDateProps, PickerProps, } from './ui/DatePicker/generatePicker/interfaces';
 export type { InputProps, InputSizeType } from './ui/Input/interfaces';
 export type { LogoComponentType, LogoType } from './ui/Layout/LayoutHeader';

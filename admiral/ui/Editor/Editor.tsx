@@ -13,6 +13,7 @@ const Editor = ({
     imageUploadUrl,
     onImageUpload,
     init,
+    height = 300,
     ...rest
 }: EditorProps) => {
     const { themeName } = useTheme()
@@ -27,7 +28,7 @@ const Editor = ({
 
     const initParams = useMemo<TinyEditorProps['init']>(
         () => ({
-            height: 300,
+            height,
             setup: function (editor) {
                 editor.on('PostRender', function () {
                     var container = editor.getContainer()
@@ -88,7 +89,7 @@ const Editor = ({
             }),
             content_style: `:root { ${varsInline}; }`,
         }),
-        [varsInline, size, imageUploadUrl],
+        [varsInline, size, imageUploadUrl, height],
     )
 
     const _init = useMemo(() => {
@@ -103,8 +104,10 @@ const Editor = ({
         onChange?.(value, editor)
     }
 
+    const editorStyle = useMemo(() => ({ minHeight: height }), [height])
+
     return (
-        <div className={cn('editor', { 'editor--alert': alert })}>
+        <div style={editorStyle} className={cn('editor', { 'editor--alert': alert })}>
             <TinyEditor
                 key={themeName}
                 tinymceScriptSrc="/lib/tinymce/js/tinymce/tinymce.min.js"

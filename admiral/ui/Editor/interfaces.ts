@@ -16,6 +16,7 @@ export type EditorUploadHandler = (blobInfo: BlobInfo, progress: ProgressFn) => 
 export type EditorSizeType = 'L' | 'M' | 'S' | 'XS'
 
 export interface EditorProps extends Omit<TinyEditorProps, 'onChange' | 'onEditorChange'> {
+    height?: number
     imageUploadUrl?: string
     size?: EditorSizeType
     init?:

@@ -1,4 +1,6 @@
 .editor {
+    display: grid;
+
     .tox-tinymce {
         border: 1px solid var(--editor-bcolor, var(--color-control-bg-border-default));
         border-radius: var(--editor-bradius, var(--control-radius));
@@ -33,8 +35,10 @@
         .tox-edit-area__iframe,
         .tox-statusbar,
         .tox-toolbar-overlord,
-        .tox-toolbar__primary {
+        .tox-toolbar__primary,
+        .tox-toolbar--scrolling {
             background-color: transparent;
+            background-image: none;
         }
 
         .tox-statusbar {

@@ -1,0 +1,78 @@
+.colorPickerToggle {
+    position: relative;
+    width: var(--color-picker-width, calc(var(--control-height-m) * 2));
+    height: var(--color-picker-height, var(--control-height-m));
+    border-radius: var(--control-radius);
+    border: 1px solid var(--color-picker-border-color, var(--color-control-bg-border-default));
+    cursor: pointer;
+    transition: border-color 0.16s ease;
+
+    & > span {
+        position: relative;
+        z-index: 1;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        border-radius: inherit;
+    }
+
+    &:hover {
+        border-color: var(
+            --color-picker-border-color-hover,
+            var(--color-control-bg-border-default-hover)
+        );
+    }
+
+    &:focus-visible {
+        filter: drop-shadow(
+            0px 0px 1px var(--color-picker-border-color-focus, var(--color-control-bg-border-focus))
+        );
+        border-color: var(--color-picker-border-color-focus, var(--color-control-bg-border-focus));
+    }
+
+    &__SizeL {
+        width: var(--color-picker-width, calc(var(--control-height-l) * 2));
+        height: var(--color-picker-height, var(--control-height-l));
+    }
+
+    &__SizeS {
+        width: var(--color-picker-width, calc(var(--control-height-s) * 2));
+        height: var(--color-picker-height, var(--control-height-s));
+    }
+
+    &__SizeXS {
+        width: var(--color-picker-width, calc(var(--control-height-xs) * 2));
+        height: var(--color-picker-height, var(--control-height-xs));
+    }
+
+    &__Alert {
+        --color-picker-border-color: var(--color-bg-alert);
+        --color-picker-border-color-hover: var(--color-bg-alert);
+        --color-picker-border-color-focus: var(--color-bg-alert);
+    }
+}
+
+.colorPicker {
+    border-radius: var(--control-radius) !important;
+    box-shadow: var(--shadow-layer) !important;
+    touch-action: none;
+
+    input {
+        font-size: var(--control-text-size-xs) !important;
+        border-radius: var(--control-radius) !important;
+        box-shadow: var(--color-control-bg-primary) 0px 0px 0px 1px inset !important;
+        height: var(--control-height-s) !important;
+    }
+}

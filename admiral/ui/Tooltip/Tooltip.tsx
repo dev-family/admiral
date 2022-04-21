@@ -15,6 +15,7 @@ export const Tooltip = ({
     onHide,
     content,
     children,
+    invertTheme = true,
     ...tippyProps
 }: TooltipProps) => {
     const appendTo = useCallback(
@@ -56,7 +57,8 @@ export const Tooltip = ({
                     <animated.div
                         style={props}
                         {...attrs}
-                        className={cn(styles.tooltip, themeClassNames.color.invert, {
+                        className={cn(styles.tooltip, {
+                            [themeClassNames.color.invert]: invertTheme,
                             [styles.tooltip__Custom]: mode === 'custom',
                         })}
                     >

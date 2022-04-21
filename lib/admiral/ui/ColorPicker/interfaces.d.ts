@@ -1,4 +1,4 @@
-import { ColorInputWithoutInstance as ColorInputType } from 'tinycolor2';
+declare type ColorInputType = string | RGB | RGBA | HSL | HSLA;
 interface Alpha {
     a: number;
 }

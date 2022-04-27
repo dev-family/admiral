@@ -36,6 +36,9 @@ export default function ComponentsPage() {
                 <Link to="components/colorpicker">
                     <Button component="span">ColorPicker</Button>
                 </Link>
+                <Link to="components/typography">
+                    <Button component="span">Typography</Button>
+                </Link>
             </div>
         </Page>
     )

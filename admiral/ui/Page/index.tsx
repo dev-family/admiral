@@ -1,6 +1,9 @@
 import React from 'react'
 import { Card } from '../Card'
+import { Typography } from '../Typography'
 import styles from './Page.module.scss'
+
+const { Title } = Typography
 
 export type PageProps = {
     title: string
@@ -11,7 +14,7 @@ export const Page: React.FC<PageProps> = ({ children, title, actions }) => {
     return (
         <div className={styles.page}>
             <Card>
-                <h2 className={styles.title}>{title}</h2>
+                <Title className={styles.title}>{title}</Title>
 
                 <div className={styles.actions}>{actions}</div>
 

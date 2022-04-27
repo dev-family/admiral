@@ -31,18 +31,21 @@ const ColorPicker = forwardRef(
         const ref = useRef<HTMLButtonElement>(null)
         const [open, setOpen] = useState(initialOpen)
         const [color, setColor] = useState<Color>(formatColorToRgb(value))
+        const [isValid, setIsValid] = useState(tinycolor(value).isValid())
 
         useEffect(() => {
             const valueFromProps = value ? formatColorToRgb(value) : formatColorToRgb()
             const equals = tinycolor.equals(valueFromProps, color)
-            if (!equals) {
+            if (!equals || !isValid) {
                 setColor(valueFromProps)
+                setIsValid(tinycolor(value).isValid())
             }
         }, [value])
 
         const handleChange: ColorChangeHandler = useCallback(
             (color) => {
                 setColor(color.rgb)
+                setIsValid(tinycolor(color.rgb).isValid())
                 if (onChange) onChange(formatColorOutput(color.rgb as RGBA))
             },
             [onChange],
@@ -83,6 +86,7 @@ const ColorPicker = forwardRef(
                         colorPickerToggle__SizeS: size === 'S',
                         colorPickerToggle__SizeXS: size === 'XS',
                         colorPickerToggle__Alert: alert,
+                        colorPickerToggle__Unset: !isValid,
                     })}
                     type="button"
                     onClick={onToggleOpen}

@@ -1,7 +1,10 @@
 .colorPickerToggle {
     position: relative;
+    display: flex;
+    flex-shrink: 0;
     width: var(--color-picker-width, calc(var(--control-height-m) * 2));
     height: var(--color-picker-height, var(--control-height-m));
+    padding: var(--space-2xs);
     border-radius: var(--control-radius);
     border: 1px solid var(--color-picker-border-color, var(--color-control-bg-border-default));
     cursor: pointer;
@@ -13,7 +16,7 @@
         display: block;
         width: 100%;
         height: 100%;
-        border-radius: inherit;
+        border-radius: calc(var(--control-radius) / 2);
     }
 
     &::after {
@@ -24,7 +27,7 @@
         z-index: 0;
         width: 100%;
         height: 100%;
-        background: #fff;
+        background: var(--color-bg-default);
         border-radius: inherit;
     }
 
@@ -61,6 +64,31 @@
         --color-picker-border-color: var(--color-bg-alert);
         --color-picker-border-color-hover: var(--color-bg-alert);
         --color-picker-border-color-focus: var(--color-bg-alert);
+    }
+
+    &__Unset {
+        & > span {
+            background-image: linear-gradient(
+                    45deg,
+                    var(--color-typo-primary) 25%,
+                    rgba(238, 238, 238, 0) 25%,
+                    rgba(238, 238, 238, 0) 75%,
+                    var(--color-typo-primary) 75%,
+                    var(--color-typo-primary) 100%
+                ),
+                linear-gradient(
+                    45deg,
+                    var(--color-typo-primary) 25%,
+                    var(--color-bg-default) 25%,
+                    var(--color-bg-default) 75%,
+                    var(--color-typo-primary) 75%,
+                    var(--color-typo-primary) 100%
+                );
+            background-position: 0px 0px, 5px 5px;
+            background-size: 10px 10px, 10px 10px;
+            background-repeat: repeat, repeat;
+            opacity: 0.2;
+        }
     }
 }
 

@@ -1,0 +1,160 @@
+@mixin typography-paragraph {
+    margin-bottom: 1em;
+}
+
+$typography-title-font-weight: 600;
+$typography-title-margin-top: 1.2em;
+$typography-title-margin-bottom: 0.5em;
+
+@mixin typography-title($fontSize, $lineHeight) {
+    margin-bottom: var(--heading-mb, $typography-title-margin-bottom);
+    font-weight: var(--heading-font-weight, $typography-title-font-weight);
+    font-size: $fontSize;
+    line-height: $lineHeight;
+}
+
+@mixin typography-title-1() {
+    @include typography-title(var(--size-text-3xl), 1.23);
+}
+
+@mixin typography-title-2() {
+    @include typography-title(var(--size-text-2xl), 1.35);
+}
+
+@mixin typography-title-3() {
+    @include typography-title(var(--size-text-xl), 1.35);
+}
+
+@mixin typography-title-4() {
+    @include typography-title(var(--size-text-l), 1.4);
+}
+
+@mixin typography-title-5() {
+    @include typography-title(var(--size-text-m), 1.5);
+}
+
+.typography {
+    font-family: var(--font-primary);
+    color: var(--color-typo-primary);
+    overflow-wrap: break-word;
+
+    &__Secondary {
+        color: var(--color-typo-secondary);
+    }
+
+    &__Success {
+        color: var(--color-typo-success);
+    }
+
+    &__Warning {
+        color: var(--color-typo-warning);
+    }
+
+    &__Danger {
+        color: var(--color-typo-alert);
+    }
+
+    code {
+        margin: 0 0.2em;
+        padding: 0.2em 0.4em 0.1em;
+        font-size: 85%;
+        font-family: var(--font-mono);
+        background: var(--color-control-bg-ghost);
+        border: 1px solid var(--color-bg-border);
+        border-radius: var(--control-radius);
+    }
+
+    mark {
+        padding: 0;
+        background-color: var(--color-bg-caution);
+    }
+
+    u,
+    ins {
+        text-decoration: underline;
+        text-decoration-skip-ink: auto;
+    }
+
+    s,
+    del {
+        text-decoration: line-through;
+    }
+
+    strong {
+        font-weight: 600;
+    }
+
+    p {
+        @include typography-paragraph();
+    }
+
+    h1 {
+        @include typography-title-1();
+    }
+
+    h2 {
+        @include typography-title-2();
+    }
+
+    h3 {
+        @include typography-title-3();
+    }
+
+    h4 {
+        @include typography-title-4();
+    }
+
+    h5 {
+        @include typography-title-5();
+    }
+
+    & + h1#{&},
+    & + h2#{&},
+    & + h3#{&},
+    & + h4#{&},
+    & + h5#{&} {
+        margin-top: $typography-title-margin-top;
+    }
+
+    div,
+    ul,
+    li,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        + h1,
+        + h2,
+        + h3,
+        + h4,
+        + h5 {
+            margin-top: $typography-title-margin-top;
+        }
+    }
+}
+
+div.typography {
+    @include typography-paragraph();
+}
+
+h1.typography {
+    @include typography-title-1();
+}
+
+h2.typography {
+    @include typography-title-2();
+}
+
+h3.typography {
+    @include typography-title-3();
+}
+
+h4.typography {
+    @include typography-title-4();
+}
+
+h5.typography {
+    @include typography-title-5();
+}

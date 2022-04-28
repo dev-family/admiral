@@ -5,11 +5,12 @@ import { FormProvider, useForm } from './FormContext'
 import { Button } from '../ui'
 import styles from './Form.module.scss'
 import Item from './Item'
+import Error from './Error'
 import cn from 'classnames'
 import { isObject } from '../utils/helpers'
 import { useSafeSetState } from '../utils/hooks'
 
-type FormProps = {
+export type FormProps = {
     redirect?: string
     fetchInitialData?: () => Promise<GetOneResult>
     submitData: (values: any) => Promise<any>
@@ -25,17 +26,26 @@ const InternalForm: React.FC<FormProps> = ({
     const [options, setOptions] = useState<Record<any, any>>({})
     const [errors, setErrors] = useSafeSetState({})
     const [isSubmitting, setIsSubmitting] = useSafeSetState(false)
+    const [isFetching, setIsFetching] = useSafeSetState(true)
     const history = useHistory()
 
     async function _fetchInitialData() {
-        const response = await fetchInitialData!()
-        if (isObject(response.data)) setValues((prev) => ({ ...prev, ...response.data }))
-        if (isObject(response.values)) setOptions((prev) => ({ ...prev, ...response.values }))
+        try {
+            const response = await fetchInitialData!()
+            if (isObject(response.data)) setValues((prev) => ({ ...prev, ...response.data }))
+            if (isObject(response.values)) setOptions((prev) => ({ ...prev, ...response.values }))
+        } catch (error) {
+            setErrors({ cathed: ['Fetch initial data error'] })
+        } finally {
+            setIsFetching(false)
+        }
     }
 
     useEffect(() => {
         if (typeof fetchInitialData === 'function') {
             _fetchInitialData()
+        } else {
+            setIsFetching(false)
         }
     }, [fetchInitialData])
 
@@ -61,7 +71,9 @@ const InternalForm: React.FC<FormProps> = ({
     }
 
     return (
-        <FormProvider value={{ values, setValues, options, errors, isSubmitting }}>
+        <FormProvider
+            value={{ values, setValues, options, errors, setErrors, isSubmitting, isFetching }}
+        >
             <form onSubmit={handleSubmit}>{children}</form>
         </FormProvider>
     )
@@ -77,11 +89,16 @@ const Footer: React.FC = ({ children }) => {
     return <div className={styles.footer}>{children}</div>
 }
 
-const Submit: React.FC = ({ children }) => {
-    const { isSubmitting } = useForm()
+const Submit: React.FC<{ className?: string }> = ({ className, children }) => {
+    const { isSubmitting, isFetching } = useForm()
 
     return (
-        <Button type="submit" loading={isSubmitting}>
+        <Button
+            className={className}
+            type="submit"
+            disabled={isFetching || isSubmitting}
+            loading={isSubmitting}
+        >
             {children}
         </Button>
     )
@@ -89,6 +106,7 @@ const Submit: React.FC = ({ children }) => {
 
 type FormType = typeof InternalForm
 interface FormInterface extends FormType {
+    Error: typeof Error
     Fields: typeof Fields
     Item: typeof Item
     Footer: typeof Footer
@@ -96,6 +114,7 @@ interface FormInterface extends FormType {
 }
 
 export const Form = InternalForm as FormInterface
+Form.Error = Error
 Form.Fields = Fields
 Form.Item = Item
 Form.Footer = Footer

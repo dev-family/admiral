@@ -24,8 +24,16 @@ export type {
 } from './ui/Table/interfaces'
 export type { TextareaSizeType, TextareaProps } from './ui/Textarea/interfaces'
 export type { TooltipProps } from './ui/Tooltip/interfaces'
+export type {
+    UploadProps,
+    UploadFile,
+    UploadLocale,
+    UploadType,
+    ShowUploadListInterface,
+    UploadListType,
+} from './ui/Upload/interfaces'
 
-export * from './form/fields'
+export * from './form'
 
 export * from './dataTable/fields'
 

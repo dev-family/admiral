@@ -1,32 +1,22 @@
 import React from 'react'
-import { useTransition, animated } from 'react-spring'
 import styles from './Form.module.scss'
 import cn from 'classnames'
+import Error from './Error'
 
 export interface FormItemProps {
     label?: string
     error?: string
+    showError?: boolean
     required?: boolean
     columnSpan?: 1 | 2
     onLabelClick?: React.MouseEventHandler<HTMLLabelElement>
-}
-
-const AnimatePresence: React.FC<{ show: boolean }> = ({ show, children }) => {
-    const transitions = useTransition(show, {
-        from: { opacity: 0, translateY: 4 },
-        enter: { opacity: 1, translateY: 0 },
-        reverse: show,
-        config: { tension: 90, friction: 10, precision: 0.1, duration: 160 },
-    })
-    return transitions(
-        (styles, item) => item && <animated.div style={styles}>{children}</animated.div>,
-    )
 }
 
 const Item: React.FC<FormItemProps> = ({
     label,
     required = false,
     error,
+    showError = true,
     columnSpan = 1,
     onLabelClick,
     children,
@@ -42,9 +32,7 @@ const Item: React.FC<FormItemProps> = ({
                 <div className={styles.item_Field}>{children}</div>
             </label>
 
-            <AnimatePresence show={!!error}>
-                <div className={styles.item_Error}>{error}</div>
-            </AnimatePresence>
+            {showError && <Error error={error} />}
         </div>
     )
 }

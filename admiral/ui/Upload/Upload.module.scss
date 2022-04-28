@@ -2,7 +2,10 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-gap: var(--space-xs);
-    padding-top: var(--space-s);
+
+    &:not(:empty) {
+        padding-top: var(--space-s);
+    }
 }
 
 $item-border-width: 1px;

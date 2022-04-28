@@ -10,7 +10,9 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-items: center;
-    border: 1px solid var(--input-bcolor, var(--color-control-bg-border-default));
+    height: var(--wrapper-height, var(--control-height-m));
+    border: var(--control-border-width) solid
+        var(--input-bcolor, var(--color-control-bg-border-default));
     border-radius: var(--input-bradius, var(--control-radius));
     background: var(--input-bg, var(--color-control-bg-default));
     transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, filter 0.16s;
@@ -32,23 +34,23 @@
     }
 
     &__SizeL {
+        --wrapper-height: var(--control-height-l);
         --input-pr: calc(var(--control-space-l) / 2);
         --input-pl: calc(var(--control-space-l) / 2);
-        --input-height: var(--control-height-l);
         --input-fz: var(--control-text-size-l);
     }
 
     &__SizeS {
+        --wrapper-height: var(--control-height-s);
         --input-pr: calc(var(--control-space-s) / 2);
         --input-pl: calc(var(--control-space-s) / 2);
-        --input-height: var(--control-height-s);
         --input-fz: var(--control-text-size-s);
     }
 
     &__SizeXS {
+        --wrapper-height: var(--control-height-xs);
         --input-pr: calc(var(--control-space-xs) / 2);
         --input-pl: calc(var(--control-space-xs) / 2);
-        --input-height: var(--control-height-xs);
         --input-fz: var(--control-text-size-xs);
     }
 
@@ -91,7 +93,7 @@
     flex-grow: 1;
     display: block;
     max-width: var(--input-max-width, none);
-    height: var(--input-height, var(--control-height-m));
+    height: 100%;
     min-height: 100%;
     padding: var(--input-pt) var(--input-pr) var(--input-pb) var(--input-pl);
     font-size: var(--input-fz, var(--control-text-size-m));

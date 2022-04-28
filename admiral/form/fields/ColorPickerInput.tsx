@@ -15,6 +15,7 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({
     label,
     required,
     columnSpan,
+    showError,
     outputValue = 'rgbString',
     ...colorPickerProps
 }) => {
@@ -36,6 +37,7 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({
             label={label}
             required={required}
             error={error}
+            showError={showError}
             columnSpan={columnSpan}
             onLabelClick={onLabelClick}
         >

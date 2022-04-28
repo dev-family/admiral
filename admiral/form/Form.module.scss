@@ -21,7 +21,7 @@
     flex-direction: column;
 
     &:not(:last-child) {
-        margin-bottom: var(--space-l);
+        margin-bottom: var(--form-item-mb, var(--space-l));
     }
 
     &__ColumnSpanTwo {

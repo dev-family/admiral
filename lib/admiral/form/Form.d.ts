@@ -11,7 +11,9 @@ declare const InternalForm: React.FC<FormProps>;
 declare const Fields: React.FC<{
     singleColumn?: boolean;
 }>;
-declare const Footer: React.FC;
+declare const Footer: React.FC<{
+    className?: string;
+}>;
 declare const Submit: React.FC<{
     className?: string;
 }>;

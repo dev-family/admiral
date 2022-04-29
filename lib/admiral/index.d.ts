@@ -18,6 +18,7 @@ export * from './form';
 export * from './dataTable/fields';
 export * from './actions';
 export * from './admin';
+export { useDataProvider } from './dataProvider';
 export * from './dataProvider/interfaces';
 export * from './auth/interfaces';
 export * from './crud';

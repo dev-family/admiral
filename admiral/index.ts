@@ -41,6 +41,7 @@ export * from './actions'
 
 export * from './admin'
 
+export { useDataProvider } from './dataProvider'
 export * from './dataProvider/interfaces'
 export * from './auth/interfaces'
 

@@ -85,8 +85,8 @@ const Fields: React.FC<{ singleColumn?: boolean }> = ({ children, singleColumn =
     )
 }
 
-const Footer: React.FC = ({ children }) => {
-    return <div className={styles.footer}>{children}</div>
+const Footer: React.FC<{ className?: string }> = ({ className, children }) => {
+    return <div className={cn(styles.footer, className)}>{children}</div>
 }
 
 const Submit: React.FC<{ className?: string }> = ({ className, children }) => {

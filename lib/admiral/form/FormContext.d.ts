@@ -1,8 +1,9 @@
 import React from 'react';
 import { OptionType } from '../dataProvider';
 export declare type FormErrorsType = Record<string, string[]>;
-export declare type FormContextValue = {
-    values: Record<string, any>;
+export declare type FieldValues = Record<string, any>;
+export declare type FormContextValue<TFieldValues extends FieldValues> = {
+    values: TFieldValues;
     options: Record<string, OptionType[]>;
     errors: Record<string, string[]>;
     setErrors: React.Dispatch<React.SetStateAction<FormErrorsType>>;
@@ -10,7 +11,8 @@ export declare type FormContextValue = {
     isSubmitting: boolean;
     isFetching: boolean;
 };
-export declare const FormProvider: React.FC<{
-    value: FormContextValue;
-}>;
-export declare function useForm(): FormContextValue;
+export declare type FormProviderProps<TFieldValues extends FieldValues> = {
+    value: FormContextValue<TFieldValues>;
+};
+export declare function FormProvider<TFieldValues extends FieldValues>({ children, value, }: React.PropsWithChildren<FormProviderProps<TFieldValues>>): JSX.Element;
+export declare function useForm<TFieldValues extends FieldValues>(): FormContextValue<TFieldValues>;

@@ -51,7 +51,7 @@ export const MenuItem = ({
     icon,
     name,
     to,
-    exact = true,
+    exact = false,
     children,
     tooltip = true,
     collapsible = true,

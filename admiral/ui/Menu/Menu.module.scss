@@ -39,21 +39,18 @@
     }
 
     &__Tooltip {
+        padding: 4px 0;
+
         .link {
             $this: &;
             grid-template-columns: 16px minmax(0, 1fr);
             grid-gap: 0 8px;
+            min-width: 140px;
             height: 42px;
             padding: 0 var(--space-m);
             font-size: var(--size-text-s);
             font-weight: normal;
             color: var(--color-typo-primary);
-
-            &__Active {
-                &::after {
-                    background-color: var(--color-bg-tone);
-                }
-            }
 
             &:hover:not(.link__Active) {
                 color: var(--color-typo-secondary);

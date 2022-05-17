@@ -43,6 +43,11 @@ const menu: IMenuItem[] = [
             },
             {
                 icon: 'FiBox',
+                name: 'Timepicker',
+                to: '/components/timepicker',
+            },
+            {
+                icon: 'FiBox',
                 name: 'Upload',
                 to: '/components/upload',
             },

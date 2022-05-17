@@ -15,13 +15,7 @@ import { PickerMode } from 'rc-picker/lib/interface'
 import { GenerateConfig } from 'rc-picker/lib/generate/index'
 import ruRU from '../locale/ru_RU'
 import { getPlaceholder } from '../util'
-import {
-    PickerProps,
-    PickerDateProps,
-    PickerTimeProps,
-    getTimeProps,
-    PickerComponentClass,
-} from './interfaces'
+import { PickerProps, getTimeProps, PickerComponentClass } from './interfaces'
 import PickerButton from '../PickerButton'
 import PickerTag from '../PickerTag'
 
@@ -158,11 +152,5 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
     }
 
     const DatePicker = getPicker<DatePickerProps>()
-    const WeekPicker = getPicker<Omit<PickerDateProps<DateType>, 'picker'>>('week', 'WeekPicker')
-    const MonthPicker = getPicker<Omit<PickerDateProps<DateType>, 'picker'>>('month', 'MonthPicker')
-    const YearPicker = getPicker<Omit<PickerDateProps<DateType>, 'picker'>>('year', 'YearPicker')
-    const TimePicker = getPicker<PickerTimeProps<DateType>>('time', 'TimePicker')
-    const QuarterPicker = getPicker<PickerTimeProps<DateType>>('quarter', 'QuarterPicker')
-
-    return { DatePicker, WeekPicker, MonthPicker, YearPicker, TimePicker, QuarterPicker }
+    return { DatePicker }
 }

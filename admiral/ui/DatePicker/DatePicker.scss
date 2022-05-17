@@ -185,6 +185,7 @@ $font-size-xs: var(--control-text-size-xs);
         $this: &;
         position: absolute;
         z-index: 1001;
+        max-width: calc(100vw - var(--space-xl) * 2);
 
         &-hidden {
             display: none;
@@ -239,7 +240,8 @@ $font-size-xs: var(--control-text-size-xs);
     }
 
     &-panel-container {
-        overflow: hidden;
+        overflow-y: hidden;
+        overflow-x: auto;
         vertical-align: top;
         background: var(--color-bg-default);
         border: 1px solid var(--color-control-bg-border-default);
@@ -270,10 +272,14 @@ $font-size-xs: var(--control-text-size-xs);
         outline: none;
 
         --picker-panel-cell-width: 36px;
-        --picker-panel-cell-height: 32px;
+        --picker-panel-cell-height: 28px;
         --picker-panel-without-time-cell-height: 48px;
         --picker-panel-width: calc(var(--picker-panel-cell-width) * 7 + var(--space-xs) * 2);
         --picker-year-month-cell-width: 60px;
+        --picker-time-panel-column-width: 56px;
+        --picker-time-panel-column-height: 238px;
+        --picker-time-panel-cell-height: 28px;
+        --picker-border-width: 1px;
         --item-bg-color: transparent;
         --item-bg-color-hover: transparent;
         --item-border-color: transparent;
@@ -302,6 +308,7 @@ $font-size-xs: var(--control-text-size-xs);
 
         display: flex;
         gap: var(--space-2xs);
+        height: 48px;
         padding: var(--space-xs);
 
         > * {
@@ -443,16 +450,208 @@ $font-size-xs: var(--control-text-size-xs);
         }
     }
 
+    // ==================== Datetime Panel ====================
+    &-datetime-panel {
+        display: flex;
+
+        .#{$prefix-class}-time-panel {
+            border-left: var(--picker-border-width) solid var(--color-bg-border);
+        }
+
+        .#{$prefix-class}-date-panel,
+        .#{$prefix-class}-time-panel {
+            transition: opacity 0.16s;
+        }
+
+        // Keyboard
+        &-active {
+            .#{$prefix-class}-date-panel,
+            .#{$prefix-class}-time-panel {
+                opacity: 0.3;
+
+                &-active {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    // ====================== Week Panel ======================
+    &-week-panel {
+        .#{$prefix-class}-body {
+            padding: var(--space-xs);
+        }
+
+        // // Clear cell style
+        .#{$prefix-class}-cell {
+            &:hover .#{$prefix-class}-cell-inner,
+            &-selected .#{$prefix-class}-cell-inner,
+            .#{$prefix-class}-cell-inner {
+                --item-bg-color: transparent;
+                --item-text-color: var(--color-typo-primary);
+            }
+        }
+
+        &-row {
+            .#{$prefix-class}-cell {
+                transition: background-color 0.16s;
+
+                &:first-child {
+                    border-top-left-radius: var(--control-radius);
+                    border-bottom-left-radius: var(--control-radius);
+                }
+
+                &:last-child {
+                    border-top-right-radius: var(--control-radius);
+                    border-bottom-right-radius: var(--control-radius);
+                }
+
+                &-week {
+                    color: var(--color-control-typo-disable);
+                }
+            }
+
+            &:hover .#{$prefix-class}-cell {
+                background-color: var(--color-control-bg-ghost);
+            }
+
+            &-selected .#{$prefix-class}-cell,
+            &-selected:hover .#{$prefix-class}-cell {
+                color: var(--color-control-typo-primary);
+                background-color: var(--color-control-bg-primary);
+
+                .#{$prefix-class}-cell-inner {
+                    --item-text-color: var(--color-control-typo-primary);
+                }
+
+                &-week {
+                    opacity: 0.8;
+                }
+
+                &-today {
+                    .#{$prefix-class}-cell-inner {
+                        --item-border-color: var(--color-control-typo-primary);
+                    }
+                }
+            }
+        }
+    }
+
+    // ====================== Time Panel ======================
+    &-time-panel {
+        width: auto;
+        min-width: auto;
+
+        .#{$prefix-class}-header {
+            border-bottom: var(--picker-border-width) solid var(--color-bg-border);
+        }
+
+        .#{$prefix-class}-content {
+            display: flex;
+            flex: auto;
+            height: var(--picker-time-panel-column-height);
+        }
+
+        &-column {
+            flex: 1 0 auto;
+            width: var(--picker-time-panel-column-width);
+            margin: 0;
+            padding: 0;
+            overflow-y: hidden;
+            text-align: left;
+            list-style: none;
+            transition: background-color 0.16s;
+
+            &::after {
+                display: block;
+                height: calc(
+                    var(--picker-time-panel-column-height) - var(--picker-time-panel-cell-height)
+                );
+                content: '';
+            }
+
+            &:not(:first-child) {
+                border-left: var(--picker-border-width) solid var(--color-bg-border);
+            }
+
+            &:hover {
+                overflow-y: auto;
+            }
+
+            & > li {
+                margin: 0;
+                padding: 0;
+
+                &.#{$prefix-class}-time-panel-cell {
+                    .#{$prefix-class}-time-panel-cell-inner {
+                        display: block;
+                        width: 100%;
+                        height: var(--picker-time-panel-cell-height);
+                        margin: 0;
+                        padding: 0 0 0 calc((var(--picker-time-panel-column-width) - 28px) / 2);
+                        color: var(--item-text-color);
+                        line-height: var(--picker-time-panel-cell-height);
+                        border-radius: 0;
+                        background-color: var(--item-bg-color);
+                        cursor: pointer;
+                        transition: background-color 0.16s;
+                    }
+
+                    &:not(&-selected):not(&-disabled) {
+                        .#{$prefix-class}-time-panel-cell-inner {
+                            &:hover {
+                                --item-bg-color: var(--color-control-bg-ghost);
+                            }
+                        }
+                    }
+
+                    &-selected {
+                        --item-text-color: var(--color-control-typo-primary);
+                        --item-bg-color: var(--color-control-bg-primary);
+                    }
+
+                    &-disabled {
+                        .#{$prefix-class}-time-panel-cell-inner {
+                            --item-text-color: var(--color-control-typo-disable);
+                            --item-bg-color: transparent;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // ======================== Footer ========================
     &-footer {
         width: min-content;
         min-width: 100%;
-        padding: var(--space-2xs) var(--space-xs) var(--space-s);
+        padding: var(--space-xs);
         text-align: center;
+        border-top: var(--picker-border-width) solid var(--color-bg-border);
+    }
+
+    &-ranges {
+        display: flex;
+        gap: var(--space-xs);
+        align-items: center;
     }
 
     &-now {
+        color: var(--item-text-color);
         text-align: left;
+        transition: color 0.16s;
+
+        &:hover {
+            color: var(--item-text-color-hover);
+        }
+
+        a {
+            cursor: pointer;
+        }
+    }
+
+    &-ok {
+        margin-left: auto;
     }
 
     &-today-btn {

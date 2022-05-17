@@ -12,6 +12,7 @@ import {
 import { removeFileItem } from './utils'
 import UploadList from './components/UploadList'
 import { enUS } from './locales'
+import styles from './Upload.module.scss'
 
 // TODO: drag upload type
 
@@ -118,7 +119,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     }
 
     const renderUploadButton = (uploadButtonStyle?: React.CSSProperties) => (
-        <div style={uploadButtonStyle}>
+        <div className={styles.buttonWrap} style={uploadButtonStyle}>
             <RcUpload {...rcUploadProps} ref={upload} />
         </div>
     )

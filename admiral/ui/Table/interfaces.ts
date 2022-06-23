@@ -7,6 +7,7 @@ import { PaginationProps } from '../Pagination/interfaces'
 import { SpinProps } from '../Spin/interfaces'
 import { tuple } from '../../utils/type'
 import { DragEndEvent } from '@dnd-kit/core'
+import type { TooltipProps } from '../Tooltip/interfaces'
 
 export type { GetRowKey }
 
@@ -19,6 +20,7 @@ export interface ColumnType<RecordType> extends RcColumnType<RecordType> {
     sorter?: boolean | CompareFn<RecordType>
     defaultSortOrder?: SortOrder
     sortDirections?: SortOrder[]
+    showSorterTooltip?: boolean | TooltipProps
 }
 
 export type ColumnsType<RecordType = unknown> = ColumnType<RecordType>[]
@@ -118,6 +120,7 @@ export interface TableProps<RecordType>
     dndRows?: boolean
     onDragEnd?: (event: DragEndEvent) => void
     locale?: TableLocale
+    showSorterTooltip?: boolean | TooltipProps
 }
 
 export type TablePaginationPosition =

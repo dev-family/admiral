@@ -72,6 +72,7 @@ function InternalTable<RecordType extends object = any>(
         onDragEnd,
         children,
         locale,
+        showSorterTooltip = true,
         ...tableProps
     } = props
 
@@ -133,6 +134,8 @@ function InternalTable<RecordType extends object = any>(
         onSorterChange,
         sortDirections: sortDirections || ['asc', 'desc'],
         controlledSorter: sorter,
+        tableLocale,
+        showSorterTooltip,
     })
     changeEventInfo.sorter = getSorters()
     const sortedData = React.useMemo(() => getSortData(data, sortState), [data, sortState])
@@ -289,7 +292,7 @@ function InternalTable<RecordType extends object = any>(
                         columns={transformedDnDColumns}
                         data={pageData}
                         rowKey={getRowKey}
-                        emptyText={<NoData />}
+                        emptyText={<NoData emptyText={tableLocale?.emptyText} />}
                         {...(dndRows && {
                             components: {
                                 body: {
@@ -325,11 +328,11 @@ function InternalTable<RecordType extends object = any>(
     )
 }
 
-function NoData() {
+function NoData({ emptyText }: TableLocale) {
     return (
         <div className={styles.empty}>
             <IoFileTrayOutline />
-            <div>Нет данных</div>
+            <div>{emptyText}</div>
         </div>
     )
 }

@@ -8,7 +8,8 @@
         "serve": "vite preview",
         "prepare": "husky install",
         "prettier:check": "prettier --check .",
-        "prettier:write": "prettier --write ."
+        "prettier:write": "prettier --write .",
+        "tsc": "tsc"
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx}": [

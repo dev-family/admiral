@@ -9,7 +9,10 @@ import {
     ChangeEventInfo,
     TableAction,
     GetRowKey,
+    TableLocale,
 } from './interfaces'
+
+import { enUs } from './locales/'
 import useSorter, { SorterResult, getSortData } from './hooks/useSorter'
 import usePagination, { getPaginationParam, DEFAULT_PAGE_SIZE } from './hooks/usePagination'
 import useSelection from './hooks/useSelection'
@@ -39,6 +42,8 @@ import useTableSize from './hooks/useTableSize'
 // TODO: docs: rowSelection properties
 // TODO: disable d&d if other sort choosen
 
+const defaultLocale = enUs
+
 const EMPTY_LIST: any[] = []
 
 function Column<RecordType>(_: ColumnType<RecordType>) {
@@ -66,11 +71,12 @@ function InternalTable<RecordType extends object = any>(
         dndRows = false,
         onDragEnd,
         children,
+        locale,
         ...tableProps
     } = props
 
     const data: readonly RecordType[] = dataSource || EMPTY_LIST
-
+    const tableLocale = { ...defaultLocale, ...locale } as TableLocale
     // ============================ RowKey ============================
     const getRowKey = useMemo<GetRowKey<RecordType>>(() => {
         if (typeof rowKey === 'function') {

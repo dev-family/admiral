@@ -8,7 +8,6 @@ import cn from 'classnames'
 
 const config = { tension: 90, friction: 10, precision: 0.1, duration: 160 }
 const initialStyles = { opacity: 0, transform: 'scale(0.6)' }
-
 export const Tooltip = ({
     mode,
     onMount,
@@ -22,7 +21,6 @@ export const Tooltip = ({
         () => document.querySelector('#root > .Theme') as HTMLDivElement,
         [],
     )
-
     const [props, setSpring] = useSpring(() => initialStyles)
     const { themeClassNames } = useTheme()
 

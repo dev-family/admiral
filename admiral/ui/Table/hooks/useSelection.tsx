@@ -4,7 +4,14 @@ import { useMergedState } from '../../../utils/hooks'
 import { Checkbox } from '../../Checkbox'
 import { CheckboxProps } from '../../Checkbox/interfaces'
 import { INTERNAL_COL_DEFINE } from 'rc-table'
-import { TableRowSelection, Key, ColumnsType, GetRowKey, TransformColumns } from '../interfaces'
+import {
+    TableRowSelection,
+    Key,
+    ColumnsType,
+    GetRowKey,
+    TransformColumns,
+    TableLocale,
+} from '../interfaces'
 
 export type GetCheckDisabled<RecordType> = (record: RecordType) => boolean
 
@@ -31,6 +38,7 @@ function getFixedType<RecordType>(column: ColumnsType<RecordType>[number]): Fixe
 
 interface UseSelectionConfig<RecordType> {
     prefixCls: string
+    locale: TableLocale
     pageData: RecordType[]
     getRowKey: GetRowKey<RecordType>
     getRecordByKey: (key: Key) => RecordType
@@ -54,8 +62,7 @@ export default function useSelection<RecordType>(
         hideSelectAll,
     } = rowSelection || {}
 
-    const { prefixCls, pageData, getRecordByKey, getRowKey } = config
-
+    const { prefixCls, pageData, getRecordByKey, getRowKey, locale } = config
     // ========================= Keys =========================
     const [mergedSelectedKeys, setMergedSelectedKeys] = useMergedState(
         selectedRowKeys || defaultSelectedRowKeys || [],

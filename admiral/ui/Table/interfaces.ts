@@ -7,6 +7,7 @@ import { PaginationProps } from '../Pagination/interfaces'
 import { SpinProps } from '../Spin/interfaces'
 import { tuple } from '../../utils/type'
 import { DragEndEvent } from '@dnd-kit/core'
+import type { TooltipProps } from '../Tooltip/interfaces'
 
 export type { GetRowKey }
 
@@ -19,6 +20,7 @@ export interface ColumnType<RecordType> extends RcColumnType<RecordType> {
     sorter?: boolean | CompareFn<RecordType>
     defaultSortOrder?: SortOrder
     sortDirections?: SortOrder[]
+    showSorterTooltip?: boolean | TooltipProps
 }
 
 export type ColumnsType<RecordType = unknown> = ColumnType<RecordType>[]
@@ -70,6 +72,26 @@ export type TransformColumns<RecordType> = (
     columns: ColumnsType<RecordType>,
 ) => ColumnsType<RecordType>
 
+export interface TableLocale {
+    filterTitle?: string
+    filterConfirm?: React.ReactNode
+    filterReset?: React.ReactNode
+    filterEmptyText?: React.ReactNode
+    filterCheckall?: React.ReactNode
+    filterSearchPlaceholder?: string
+    emptyText?: React.ReactNode | (() => React.ReactNode)
+    selectAll?: React.ReactNode
+    selectNone?: React.ReactNode
+    selectInvert?: React.ReactNode
+    selectionAll?: React.ReactNode
+    sortTitle?: string
+    expand?: string
+    collapse?: string
+    triggerDesc?: string
+    triggerAsc?: string
+    cancelSort?: string
+}
+
 export interface TableProps<RecordType>
     extends Omit<
         RcTableProps<RecordType>,
@@ -97,6 +119,8 @@ export interface TableProps<RecordType>
     sorter?: ControlledSorter | null
     dndRows?: boolean
     onDragEnd?: (event: DragEndEvent) => void
+    locale?: TableLocale
+    showSorterTooltip?: boolean | TooltipProps
 }
 
 export type TablePaginationPosition =

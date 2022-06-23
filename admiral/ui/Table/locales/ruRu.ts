@@ -1,0 +1,17 @@
+export const ruRu = {
+    filterTitle: 'Фильтр',
+    filterConfirm: 'OK',
+    filterReset: 'Сбросить',
+    filterEmptyText: 'Без фильтров',
+    emptyText: 'Нет данных',
+    selectAll: 'Выбрать всё',
+    selectInvert: 'Инвертировать выбор',
+    selectNone: 'Очистить все данные',
+    selectionAll: 'Выбрать все данные',
+    sortTitle: 'Сортировка',
+    expand: 'Развернуть строку',
+    collapse: 'Свернуть строку',
+    triggerDesc: 'Нажмите для сортировки по убыванию',
+    triggerAsc: 'Нажмите для сортировки по возрастанию',
+    cancelSort: 'Нажмите, чтобы отменить сортировку',
+}

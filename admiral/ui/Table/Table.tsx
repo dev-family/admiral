@@ -9,7 +9,10 @@ import {
     ChangeEventInfo,
     TableAction,
     GetRowKey,
+    TableLocale,
 } from './interfaces'
+
+import { enUs } from './locales/'
 import useSorter, { SorterResult, getSortData } from './hooks/useSorter'
 import usePagination, { getPaginationParam, DEFAULT_PAGE_SIZE } from './hooks/usePagination'
 import useSelection from './hooks/useSelection'
@@ -39,6 +42,8 @@ import useTableSize from './hooks/useTableSize'
 // TODO: docs: rowSelection properties
 // TODO: disable d&d if other sort choosen
 
+const defaultLocale = enUs
+
 const EMPTY_LIST: any[] = []
 
 function Column<RecordType>(_: ColumnType<RecordType>) {
@@ -66,11 +71,13 @@ function InternalTable<RecordType extends object = any>(
         dndRows = false,
         onDragEnd,
         children,
+        locale,
+        showSorterTooltip = true,
         ...tableProps
     } = props
 
     const data: readonly RecordType[] = dataSource || EMPTY_LIST
-
+    const tableLocale = { ...defaultLocale, ...locale } as TableLocale
     // ============================ RowKey ============================
     const getRowKey = useMemo<GetRowKey<RecordType>>(() => {
         if (typeof rowKey === 'function') {
@@ -127,6 +134,8 @@ function InternalTable<RecordType extends object = any>(
         onSorterChange,
         sortDirections: sortDirections || ['asc', 'desc'],
         controlledSorter: sorter,
+        tableLocale,
+        showSorterTooltip,
     })
     changeEventInfo.sorter = getSorters()
     const sortedData = React.useMemo(() => getSortData(data, sortState), [data, sortState])
@@ -166,6 +175,7 @@ function InternalTable<RecordType extends object = any>(
     // ========================== Selections ==========================
     const [transformSelectionColumns, selectedKeySet] = useSelection<RecordType>(rowSelection, {
         prefixCls: 'admiral-table',
+        locale: tableLocale,
         pageData,
         getRowKey,
         getRecordByKey,
@@ -283,7 +293,7 @@ function InternalTable<RecordType extends object = any>(
                         columns={transformedDnDColumns}
                         data={pageData}
                         rowKey={getRowKey}
-                        emptyText={<NoData />}
+                        emptyText={<NoData emptyText={tableLocale?.emptyText} />}
                         {...(dndRows && {
                             components: {
                                 body: {
@@ -319,11 +329,11 @@ function InternalTable<RecordType extends object = any>(
     )
 }
 
-function NoData() {
+function NoData({ emptyText }: TableLocale) {
     return (
         <div className={styles.empty}>
             <IoFileTrayOutline />
-            <div>Нет данных</div>
+            <div>{emptyText}</div>
         </div>
     )
 }

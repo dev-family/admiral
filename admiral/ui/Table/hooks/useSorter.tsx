@@ -1,7 +1,10 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import { ColumnsType, ColumnType, Key, CompareFn } from '../interfaces'
+import { ColumnsType, ColumnType, Key, CompareFn, TableLocale } from '../interfaces'
+import type { TooltipProps } from '../../Tooltip/interfaces'
+import { Tooltip } from '../../'
 import { getColumnKey, getColumnPos } from '../util'
 import classNames from 'classnames'
+import styles from '../Table.module.scss'
 
 export type SortOrder = 'desc' | 'asc' | null
 
@@ -26,6 +29,8 @@ interface SorterConfig<RecordType> {
     onSorterChange: (sorterResult: SorterResult<RecordType>) => void
     sortDirections: SortOrder[]
     controlledSorter?: ControlledSorter | null
+    tableLocale?: TableLocale
+    showSorterTooltip?: boolean | TooltipProps
 }
 
 function collectSortState<RecordType>(
@@ -62,6 +67,8 @@ export default function useSorter<RecordType>({
     onSorterChange,
     sortDirections,
     controlledSorter,
+    tableLocale,
+    showSorterTooltip,
 }: SorterConfig<RecordType>): [
     ColumnsType<RecordType>,
     SortState<RecordType> | null,
@@ -84,7 +91,15 @@ export default function useSorter<RecordType>({
     }
 
     const transformedColumns = useMemo(
-        () => injectSorter(mergedColumns, sortState, triggerSorter, sortDirections),
+        () =>
+            injectSorter(
+                mergedColumns,
+                sortState,
+                triggerSorter,
+                sortDirections,
+                tableLocale,
+                showSorterTooltip,
+            ),
         [sortState, triggerSorter],
     )
 
@@ -111,6 +126,8 @@ function injectSorter<RecordType>(
     sorterState: SortState<RecordType> | null,
     triggerSorter: (sorterState: SortState<RecordType>) => void,
     defaultSortDirections: SortOrder[],
+    tableLocale: TableLocale | undefined,
+    tableShowSorterTooltip?: boolean | TooltipProps,
     pos?: string,
 ): ColumnsType<RecordType> {
     return (columns || []).map((column, index) => {
@@ -119,6 +136,10 @@ function injectSorter<RecordType>(
 
         if (newColumn.sorter) {
             const sortDirections: SortOrder[] = newColumn.sortDirections || defaultSortDirections
+            const showSorterTooltip =
+                newColumn.showSorterTooltip === undefined
+                    ? tableShowSorterTooltip
+                    : newColumn.showSorterTooltip
             const columnKey = getColumnKey(newColumn, columnPos)
             const columnSorterState = sorterState?.key === columnKey ? sorterState : null
             const sorterOrder = columnSorterState ? columnSorterState.sortOrder : null
@@ -139,26 +160,49 @@ function injectSorter<RecordType>(
                     })}
                 />
             )
+            const { cancelSort, triggerAsc, triggerDesc } = tableLocale || {}
+            let sortTip: string | undefined = cancelSort
+            if (nextSortOrder === directions.descend) {
+                sortTip = triggerDesc
+            } else if (nextSortOrder === directions.ascend) {
+                sortTip = triggerAsc
+            }
+            const tooltipProps: TooltipProps =
+                typeof showSorterTooltip === 'object'
+                    ? showSorterTooltip
+                    : {
+                          content: sortTip,
+                          hideOnClick: false,
+                          contentClassName: styles.limitedWidth,
+                      }
+
             newColumn = {
                 ...newColumn,
                 className: classNames(newColumn.className, {
                     [`column-sort`]: sorterOrder,
                 }),
-                title: (
-                    <div className={`column-sorters`}>
-                        <span className={`column-title`}>{column.title}</span>
-                        <span
-                            className={classNames(`column-sorter`, {
-                                [`column-sorter-full`]: !!(upNode && downNode),
-                            })}
-                        >
-                            <span className={`column-sorter-inner`}>
-                                {upNode}
-                                {downNode}
+                title: (() => {
+                    const renderSortTitle = (
+                        <div className={`column-sorters`}>
+                            <span className={`column-title`}>{column.title}</span>
+                            <span
+                                className={classNames(`column-sorter`, {
+                                    [`column-sorter-full`]: !!(upNode && downNode),
+                                })}
+                            >
+                                <span className={`column-sorter-inner`}>
+                                    {upNode}
+                                    {downNode}
+                                </span>
                             </span>
-                        </span>
-                    </div>
-                ),
+                        </div>
+                    )
+                    return showSorterTooltip ? (
+                        <Tooltip {...tooltipProps}>{renderSortTitle}</Tooltip>
+                    ) : (
+                        renderSortTitle
+                    )
+                })(),
                 onHeaderCell: (col) => {
                     const cell: React.HTMLAttributes<HTMLElement> =
                         (column.onHeaderCell && column.onHeaderCell(col)) || {}

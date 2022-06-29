@@ -1,4 +1,5 @@
 @use 'admiral/assets/mixins' as *;
+@import '../Input/Input.module.scss';
 
 $prefix-class: 'pagination';
 
@@ -15,6 +16,14 @@ $prefix-class: 'pagination';
     --pagination-control-fz: var(--control-text-size-s);
     --pagination-control-radius: var(--control-radius);
     --pagination-button-padding: var(--space-3xs) var(--space-2xs);
+
+    input {
+        @extend .input;
+        @extend .wrapper;
+        border-radius: var(--input-bradius, var(--control-radius));
+        text-align: center;
+        padding: 0;
+    }
 
     &__Small {
         --pagination-control-height: var(--control-height-xs);
@@ -64,6 +73,10 @@ $prefix-class: 'pagination';
 
             &-disabled {
                 opacity: 0.6;
+            }
+            &-simple-pager {
+                display: flex;
+                gap: 5px;
             }
         }
     }

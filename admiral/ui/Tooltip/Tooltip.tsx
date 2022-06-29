@@ -43,7 +43,6 @@ export const Tooltip = ({
             onRest: unmount,
             config: { ...config, clamp: true },
         })
-
         if (onHide) onHide(instance)
     }
 
@@ -57,10 +56,14 @@ export const Tooltip = ({
                     <animated.div
                         style={props}
                         {...attrs}
-                        className={cn(styles.tooltip, {
-                            [themeClassNames.color.invert]: invertTheme,
-                            [styles.tooltip__Custom]: mode === 'custom',
-                        })}
+                        className={cn(
+                            styles.tooltip,
+                            {
+                                [themeClassNames.color.invert]: invertTheme,
+                                [styles.tooltip__Custom]: mode === 'custom',
+                            },
+                            tippyProps?.contentClassName,
+                        )}
                     >
                         {content}
                         <div data-popper-arrow="" />

@@ -4,6 +4,7 @@ import type { TooltipProps } from '../../Tooltip/interfaces'
 import { Tooltip } from '../../'
 import { getColumnKey, getColumnPos } from '../util'
 import classNames from 'classnames'
+import styles from '../Table.module.scss'
 
 export type SortOrder = 'desc' | 'asc' | null
 
@@ -167,7 +168,13 @@ function injectSorter<RecordType>(
                 sortTip = triggerAsc
             }
             const tooltipProps: TooltipProps =
-                typeof showSorterTooltip === 'object' ? showSorterTooltip : { content: sortTip }
+                typeof showSorterTooltip === 'object'
+                    ? showSorterTooltip
+                    : {
+                          content: sortTip,
+                          hideOnClick: false,
+                          contentClassName: styles.limitedWidth,
+                      }
 
             newColumn = {
                 ...newColumn,

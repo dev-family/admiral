@@ -461,3 +461,7 @@ $table-class: 'admiral-table';
         margin-bottom: var(--space-2xs);
     }
 }
+
+.limitedWidth {
+    max-width: 250px;
+}

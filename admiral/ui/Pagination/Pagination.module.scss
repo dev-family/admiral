@@ -16,18 +16,30 @@ $prefix-class: 'pagination';
     --pagination-control-fz: var(--control-text-size-s);
     --pagination-control-radius: var(--control-radius);
     --pagination-button-padding: var(--space-3xs) var(--space-2xs);
-
     input {
         @extend .input;
         @extend .wrapper;
         border-radius: var(--input-bradius, var(--control-radius));
         text-align: center;
         padding: 0;
+        height: var(--control-height-s);
+        width: var(--pagination-control-m);
+        font-size: var(--control-text-size-s);
     }
 
     &__Small {
         --pagination-control-height: var(--control-height-xs);
         --pagination-control-fz: var(--control-text-size-xs);
+        input {
+            height: var(--control-height-xs);
+            font-size: var(--control-text-size-xs);
+        }
+
+        &:global(.#{$prefix-class}-simple) {
+            :global {
+                font-size: var(--control-text-size-s);
+            }
+        }
     }
 
     &:global(.#{$prefix-class}-disabled) {
@@ -74,9 +86,23 @@ $prefix-class: 'pagination';
             &-disabled {
                 opacity: 0.6;
             }
-            &-simple-pager {
-                display: flex;
-                gap: 5px;
+            &-simple {
+                &-pager {
+                    display: flex;
+                    align-items: center;
+                    gap: var(--space-xs);
+                }
+            }
+        }
+    }
+    &:global(.#{$prefix-class}-simple) {
+        :global {
+            .#{$prefix-class} {
+                &-prev,
+                &-next {
+                    --pagination-control-bcolor: transparent;
+                    --pagination-control-bcolor-hover: transparent;
+                }
             }
         }
     }

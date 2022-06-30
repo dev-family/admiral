@@ -37,7 +37,6 @@ export default function PaginationPage() {
                 total={25000}
                 onChange={onPaginationChange}
                 showTitle={false}
-                size="small"
             />
             <br />
             <Pagination

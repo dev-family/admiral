@@ -29,6 +29,26 @@ export default function PaginationPage() {
                 size="small"
             />
             <br />
+            <h3>• ShowQuickJumper</h3>
+            <br />
+            <Pagination
+                locale="enUs"
+                showQuickJumper
+                current={pagination.current}
+                total={25000}
+                onChange={onPaginationChange}
+                showTitle={false}
+            />
+            <br />
+            <Pagination
+                showQuickJumper
+                current={pagination.current}
+                total={25000}
+                onChange={onPaginationChange}
+                showTitle={false}
+                size="small"
+            />
+            <br />
             <h3>• Simple</h3>
             <br />
             <Pagination

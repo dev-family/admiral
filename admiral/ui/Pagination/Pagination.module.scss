@@ -30,6 +30,7 @@ $prefix-class: 'pagination';
     &__Small {
         --pagination-control-height: var(--control-height-xs);
         --pagination-control-fz: var(--control-text-size-xs);
+        font-size: var(--control-text-size-xs);
         input {
             height: var(--control-height-xs);
             font-size: var(--control-text-size-xs);
@@ -78,7 +79,18 @@ $prefix-class: 'pagination';
                     }
                 }
             }
+            &-options {
+                display: flex;
+                align-items: center;
+                gap: 10px;
 
+                &-quick-jumper {
+                    min-width: fit-content;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+            }
             &-total-text {
                 margin-right: var(--space-xs);
             }

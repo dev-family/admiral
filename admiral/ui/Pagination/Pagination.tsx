@@ -7,7 +7,6 @@ import cn from 'classnames'
 import { PaginationProps } from './interfaces'
 import { MiniSelect, MiddleSelect } from './PaginationSelect'
 
-// TODO: simple (after Input ready)
 // TODO: showQuickJumper (after Input ready)
 
 const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => {

@@ -3,7 +3,6 @@ import { Page, Pagination } from '../../admiral'
 
 export default function PaginationPage() {
     const [pagination, setPagination] = useState({ current: 3 })
-
     const onPaginationChange = (page: number) => {
         setPagination((prev) => ({ ...prev, current: page }))
     }
@@ -23,6 +22,26 @@ export default function PaginationPage() {
             <h3>• Small</h3>
             <br />
             <Pagination
+                current={pagination.current}
+                total={25000}
+                onChange={onPaginationChange}
+                showTitle={false}
+                size="small"
+            />
+            <br />
+            <h3>• Simple</h3>
+            <br />
+            <Pagination
+                simple
+                current={pagination.current}
+                total={25000}
+                onChange={onPaginationChange}
+                showTitle={false}
+            />
+            <br />
+            <Pagination
+                simple
+                disabled
                 current={pagination.current}
                 total={25000}
                 onChange={onPaginationChange}

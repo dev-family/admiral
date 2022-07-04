@@ -36,7 +36,6 @@ const UploadList: React.FC<UploadListProps> = ({
                 return
             }
 
-            file.thumbUrl = ''
             if (previewFile) {
                 previewFile(file as any as File).then((previewDataUrl: string) => {
                     file.thumbUrl = previewDataUrl || ''

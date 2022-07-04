@@ -38,6 +38,7 @@ export interface UploadLocale {
     removeFile?: string
     previewFile?: string
     uploadError?: string
+    clickToUpload?: string
 }
 
 export type UploadType = 'drag' | 'select'

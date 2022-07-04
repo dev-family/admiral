@@ -1,7 +1,9 @@
 import React, { useReducer, Reducer } from 'react'
-import { FiUpload } from 'react-icons/fi'
+import { FiUpload, FiImage } from 'react-icons/fi'
 import { Page, Upload, Button } from '../../admiral'
 import { UploadProps, UploadFile } from '../../admiral/ui/Upload/interfaces'
+import styles from '../../admiral/ui/Upload/Upload.module.scss'
+const { Dragger } = Upload
 
 export default function UploadPage() {
     const [fileList, updateFileList] = useReducer<
@@ -78,6 +80,20 @@ export default function UploadPage() {
                 >
                     <Button iconLeft={<FiUpload />}>Click to Upload</Button>
                 </Upload>
+                <h2>Default draggable</h2>
+                <Dragger multiple fileList={fileListMultiple} onChange={updateFileListMultiple} />
+                <h2>Custom draggable</h2>
+                <Dragger multiple fileList={fileListMultiple} onChange={updateFileListMultiple}>
+                    <div className={styles.uploadStyleExample}>
+                        <div className={styles.uploadStyleExample__img}>
+                            <FiImage />
+                        </div>
+                        <p className={styles.uploadStyleExample__text}>
+                            Click or drag file to this area to upload
+                        </p>
+                        <p className={styles.uploadStyleExample__text}>MY CUSTOM LAYOUT</p>
+                    </div>
+                </Dragger>
             </div>
         </Page>
     )

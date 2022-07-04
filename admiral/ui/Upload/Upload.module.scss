@@ -95,3 +95,26 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
     z-index: 1;
     object-fit: cover;
 }
+
+.uploadStyleExample {
+    cursor: pointer;
+    max-width: 500px;
+    padding: 16px;
+    border: 1px dashed;
+    border-color: var(--color-control-typo-default), var(--upload-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.uploadStyleExample__img {
+    margin-bottom: 5px;
+    svg {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.uploadStyleExample__text {
+    margin-bottom: 5px;
+}

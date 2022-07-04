@@ -14,8 +14,6 @@ import UploadList from './components/UploadList'
 import { enUS } from './locales'
 import styles from './Upload.module.scss'
 
-// TODO: drag upload type
-
 const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (props, ref) => {
     const {
         fileList,
@@ -102,7 +100,6 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     const renderUploadList = () => {
         const { showRemoveIcon } =
             typeof showUploadList === 'boolean' ? ({} as ShowUploadListInterface) : showUploadList
-
         return showUploadList ? (
             <>
                 <UploadList

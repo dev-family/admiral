@@ -99,10 +99,6 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
 :global {
     .upload {
         &-drag {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: var(--space-l);
             text-align: center;
             background: var(--color-control-bg-clear);
             border: 1px dashed var(--color-control-bg-border-default);
@@ -115,6 +111,12 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
                 background-color: var(--color-control-bg-clear-hover);
                 border-color: var(--color-control-bg-border-default-hover);
             }
+        }
+        &-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--space-l);
         }
         &-disabled {
             background-color: var(--color-control-bg-disable);

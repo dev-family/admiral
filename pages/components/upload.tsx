@@ -119,6 +119,7 @@ export default function UploadPage() {
                     fileList={fileListMultiple}
                     onChange={updateFileListMultiple}
                     className="custom-upload-drag"
+                    style={draggerCustomStyles.uploadStyleExample}
                     disabled
                 >
                     <div style={draggerCustomStyles.uploadStyleExample_Img}>

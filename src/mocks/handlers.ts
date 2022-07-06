@@ -41,11 +41,17 @@ export const handlers = [
 
         return res(ctx.delay(160), ctx.status(204))
     }),
+    rest.get('/api/users/create', (req, res, ctx) => {
+        const options = userList.getOptions()
+
+        return res(ctx.delay(160), ctx.status(200), ctx.json({ data: {}, values: options }))
+    }),
     rest.get('/api/users/:id/update', (req, res, ctx) => {
         const { id } = req.params
         const user = userList.getUserById(id as string)
+        const options = userList.getOptions()
 
-        return res(ctx.delay(160), ctx.status(200), ctx.json({ data: user }))
+        return res(ctx.delay(160), ctx.status(200), ctx.json({ data: user, values: options }))
     }),
     rest.post('/api/users/:id', (req, res, ctx) => {
         const { id } = req.params

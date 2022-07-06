@@ -99,47 +99,52 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
 :global {
     .upload {
         &-drag {
-            cursor: pointer;
-            max-width: 500px;
-            padding: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: var(--space-l);
             text-align: center;
-            border: 1px dashed;
-            border-color: var(--color-control-typo-default);
-            transition: border-color 0.2s ease;
-            &-hover {
-                border-color: var(--color-control-bg-primary);
-            }
+            background: var(--color-control-bg-clear);
+            border: 1px dashed var(--color-control-bg-border-default);
+            border-radius: var(--control-radius);
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+
+            &-hover,
             &:hover {
-                border-color: var(--color-control-bg-primary);
+                background-color: var(--color-control-bg-clear-hover);
+                border-color: var(--color-control-bg-border-default-hover);
             }
         }
         &-disabled {
+            background-color: var(--color-control-bg-disable);
+            border-color: transparent;
             cursor: not-allowed;
-            &:global(.upload-drag-hover) {
-                :global {
-                    border-color: var(--color-control-typo-default);
-                }
+
+            .upload-disabled {
+                background-color: transparent;
             }
 
-            &:hover {
-                border-color: var(--color-control-typo-default);
+            &:hover,
+            &:global(.upload-drag-hover) {
+                background-color: var(--color-control-bg-disable);
+                border-color: transparent;
             }
         }
     }
 }
 
 .uploadStyleExample_Img {
-    margin-bottom: 5px;
+    margin-bottom: var(--space-2xs);
+    color: var(--color-control-typo-secondary);
+
     svg {
         width: 50px;
-        height: 50px;
-        color: var(--color-control-bg-primary);
+        height: auto;
     }
 }
 
 .uploadStyleExample_Text {
-    margin-bottom: 5px;
+    margin-bottom: var(--space-2xs);
+    color: var(--color-typo-secondary);
 }

@@ -6,6 +6,9 @@ import {
     FilePictureInput,
     FileField,
     EditorInput,
+    ArrayInput,
+    TimePickerInput,
+    BooleanInput,
 } from '../../admiral'
 import api from '../api'
 
@@ -97,6 +100,27 @@ export const UsersCRUD = createCRUD({
                         name="description"
                         onImageUpload={onImageUpload}
                     />
+                    <ArrayInput label="Расписание" name="schedule" required>
+                        <SelectInput
+                            label="День недели"
+                            name="day"
+                            placeholder="День недели"
+                            required
+                        />
+                        <TimePickerInput
+                            label="Время открытия"
+                            name="start_time"
+                            placeholder="Время открытия"
+                            format="HH:mm"
+                        />
+                        <TimePickerInput
+                            label="Время закрытия"
+                            name="end_time"
+                            placeholder="Время закрытия"
+                            format="HH:mm"
+                        />
+                        <BooleanInput label="Выходной?" name="day_off" />
+                    </ArrayInput>
                 </>
             ),
         },
@@ -140,6 +164,22 @@ export const UsersCRUD = createCRUD({
                         name="description"
                         onImageUpload={onImageUpload}
                     />
+                    <ArrayInput label="Расписание" name="schedule" required>
+                        <SelectInput label="День недели" name="day" placeholder="День недели" />
+                        <TimePickerInput
+                            label="Время открытия"
+                            name="start_time"
+                            placeholder="Время открытия"
+                            format="HH:mm"
+                        />
+                        <TimePickerInput
+                            label="Время закрытия"
+                            name="end_time"
+                            placeholder="Время закрытия"
+                            format="HH:mm"
+                        />
+                        <BooleanInput label="Выходной?" name="day_off" />
+                    </ArrayInput>
                 </>
             ),
         },

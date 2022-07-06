@@ -1,6 +1,6 @@
 import { arrayMove } from '@dnd-kit/sortable'
 import { UploadFile } from 'admiral/ui/Upload/interfaces'
-import { SortOrder } from '../../../admiral'
+import { RecordOptions, SortOrder } from '../../../admiral'
 
 export interface IUser {
     id: number | string
@@ -11,15 +11,28 @@ export interface IUser {
     group: string[]
     role: string
     avatar: UploadFile | null
+    schedule: any[]
 }
 
 export class UserList {
     private id: number
     private users: IUser[]
+    private options: RecordOptions
 
     constructor() {
         this.id = 1
         this.users = this.init()
+        this.options = {
+            'schedule.day': [
+                { label: 'Понедельник', value: '1' },
+                { label: 'Вторник', value: '2' },
+                { label: 'Среда', value: '3' },
+                { label: 'Четверг', value: '4' },
+                { label: 'Пятница', value: '5' },
+                { label: 'Суббота', value: '6' },
+                { label: 'Воскресенье', value: '7' },
+            ],
+        }
     }
 
     private init() {
@@ -34,6 +47,57 @@ export class UserList {
                 group: ['project_manager'],
                 role: 'accountant',
                 avatar: null,
+                schedule: [
+                    {
+                        id: 1,
+                        day: 'Понедельник',
+                        day_off: false,
+                        start_time: '2014-02-11T11:30:30',
+                        end_time: '2014-02-11T15:30:30',
+                    },
+                    {
+                        id: 2,
+                        day: 'Вторник',
+                        day_off: false,
+                        start_time: '12:00',
+                        end_time: '16:00',
+                    },
+                    {
+                        id: 3,
+                        day: 'Среда',
+                        day_off: false,
+                        start_time: '12:00',
+                        end_time: '16:00',
+                    },
+                    {
+                        id: 4,
+                        day: 'Четверг',
+                        day_off: false,
+                        start_time: '12:00',
+                        end_time: '16:00',
+                    },
+                    {
+                        id: 5,
+                        day: 'Пятница',
+                        day_off: false,
+                        start_time: '12:00',
+                        end_time: '16:00',
+                    },
+                    {
+                        id: 6,
+                        day: 'Суббота',
+                        day_off: true,
+                        start_time: '12:00',
+                        end_time: '16:00',
+                    },
+                    {
+                        id: 7,
+                        day: 'Воскресенье',
+                        day_off: true,
+                        start_time: '12:00',
+                        end_time: '16:00',
+                    },
+                ],
             })
             this.id += 1
         }
@@ -53,6 +117,7 @@ export class UserList {
             ...data,
             id: newId,
             key: newId,
+            schedule: [],
         }
 
         this.users = [newUser, ...this.users]
@@ -151,6 +216,10 @@ export class UserList {
 
     getUserById(id: number | string) {
         return this.users.find((user) => user.id == id)
+    }
+
+    getOptions() {
+        return this.options
     }
 
     get length() {

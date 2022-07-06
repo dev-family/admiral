@@ -1,7 +1,7 @@
-import React, { useState, useEffect, FormEvent } from 'react'
+import React, { useState, useEffect, FormEvent, useRef } from 'react'
 import { GetOneResult } from '../dataProvider'
 import { useHistory } from 'react-router-dom'
-import { FormProvider, useForm } from './FormContext'
+import { FieldValues, FormContextValue, FormProvider, useForm } from './FormContext'
 import { Button } from '../ui'
 import styles from './Form.module.scss'
 import Item from './Item'
@@ -9,22 +9,29 @@ import Error from './Error'
 import cn from 'classnames'
 import { isObject } from '../utils/helpers'
 import { useSafeSetState } from '../utils/hooks'
+import { Locale } from './interfaces'
+import { enUS } from './locale'
 
 export type FormProps = {
+    locale?: Locale
+    className?: string
     redirect?: string
     fetchInitialData?: () => Promise<GetOneResult>
     submitData: (values: any) => Promise<any>
 }
 
 const InternalForm: React.FC<FormProps> = ({
+    locale = enUS,
+    className,
     fetchInitialData,
     submitData,
     redirect,
     children,
 }) => {
+    const mounted = useRef(false)
     const [values, setValues] = useState<Record<any, any>>({})
     const [options, setOptions] = useState<Record<any, any>>({})
-    const [errors, setErrors] = useSafeSetState({})
+    const [errors, setErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useSafeSetState(false)
     const [isFetching, setIsFetching] = useSafeSetState(true)
     const history = useHistory()
@@ -35,11 +42,20 @@ const InternalForm: React.FC<FormProps> = ({
             if (isObject(response.data)) setValues((prev) => ({ ...prev, ...response.data }))
             if (isObject(response.values)) setOptions((prev) => ({ ...prev, ...response.values }))
         } catch (error) {
-            setErrors({ cathed: ['Fetch initial data error'] })
+            mounted.current &&
+                setErrors((prev) => ({ ...prev, cathed: ['Fetch initial data error'] }))
         } finally {
             setIsFetching(false)
         }
     }
+
+    useEffect(() => {
+        mounted.current = true
+
+        return () => {
+            mounted.current = false
+        }
+    }, [])
 
     useEffect(() => {
         if (typeof fetchInitialData === 'function') {
@@ -61,10 +77,10 @@ const InternalForm: React.FC<FormProps> = ({
                 return
             }
 
-            setErrors({})
+            mounted.current && setErrors({})
         } catch (e: any) {
             if (e.response.status === 422) {
-                setErrors(e.response.data.errors)
+                mounted.current && setErrors(e.response.data.errors)
             }
         }
         setIsSubmitting(false)
@@ -72,9 +88,56 @@ const InternalForm: React.FC<FormProps> = ({
 
     return (
         <FormProvider
-            value={{ values, setValues, options, errors, setErrors, isSubmitting, isFetching }}
+            value={{
+                locale,
+                values,
+                setValues,
+                options,
+                errors,
+                setErrors,
+                isSubmitting,
+                isFetching,
+            }}
         >
-            <form onSubmit={handleSubmit}>{children}</form>
+            <form onSubmit={handleSubmit} className={cn(className)}>
+                {children}
+            </form>
+        </FormProvider>
+    )
+}
+
+export type ControlledChildFormProps = FormContextValue<FieldValues> & {
+    as?: string | React.JSXElementConstructor<any>
+    className?: string
+}
+
+const ChildForm: React.FC<ControlledChildFormProps> = ({
+    as: Component = 'div',
+    className,
+    values,
+    setValues,
+    options,
+    errors,
+    setErrors,
+    isFetching,
+    isSubmitting,
+    locale,
+    children,
+}) => {
+    return (
+        <FormProvider
+            value={{
+                values,
+                setValues,
+                options,
+                errors,
+                setErrors,
+                isSubmitting,
+                isFetching,
+                locale,
+            }}
+        >
+            <Component className={cn(className)}>{children}</Component>
         </FormProvider>
     )
 }
@@ -111,6 +174,7 @@ interface FormInterface extends FormType {
     Item: typeof Item
     Footer: typeof Footer
     Submit: typeof Submit
+    ChildForm: typeof ChildForm
 }
 
 export const Form = InternalForm as FormInterface
@@ -119,3 +183,4 @@ Form.Fields = Fields
 Form.Item = Item
 Form.Footer = Footer
 Form.Submit = Submit
+Form.ChildForm = ChildForm

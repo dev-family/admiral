@@ -64,3 +64,66 @@
     gap: var(--space-l);
     margin-top: var(--space-xl);
 }
+
+.arrayInput {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-flow: row dense;
+    gap: var(--space-l);
+    grid-column: 1 / -1;
+    counter-reset: arrayInput;
+    list-style-type: none;
+
+    &:not(:last-child) {
+        margin-bottom: var(--space-xl);
+    }
+
+    @include maxWidth($bp-lMobile) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.arrayInput_Item {
+    display: flex;
+    gap: var(--space-m);
+    flex-direction: column;
+    counter-increment: arrayInput;
+    padding: var(--space-m);
+    border-radius: var(--radius-m);
+    background: var(--color-bg-stripe);
+
+    &__ColumnSpanTwo {
+        grid-column: 1 / -1;
+    }
+}
+
+.arrayInput_Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--space-m);
+    border-bottom: 1px solid var(--color-bg-border);
+
+    &::before {
+        content: counter(arrayInput) '.';
+        min-width: 24px;
+    }
+
+    &__Empty {
+        display: none;
+    }
+
+    &__NoOrder {
+        &::before {
+            content: none;
+        }
+    }
+}
+
+.arrayInput_Children {
+    flex-grow: 1;
+}
+
+.arrayInput_Footer {
+    padding-left: var(--space-m);
+}

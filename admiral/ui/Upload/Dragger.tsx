@@ -8,12 +8,12 @@ import styles from './Upload.module.scss'
 export type DraggerProps = UploadProps & { height?: number }
 
 const getDraggerLayoutExample = (locale: UploadProps['locale']) => (
-    <div className={styles.uploadStyleExample}>
-        <div className={styles.uploadStyleExample__img}>
+    <>
+        <div className={styles.uploadStyleExample_Img}>
             <FiInbox />
         </div>
-        <p className={styles.uploadStyleExample__text}>{locale?.clickToUpload}</p>
-    </div>
+        <p className={styles.uploadStyleExample_Text}>{locale?.clickToUpload}</p>
+    </>
 )
 const InternalDragger: React.ForwardRefRenderFunction<unknown, DraggerProps> = (
     { style, height, locale = enUS, ...restProps },

@@ -9,6 +9,7 @@ import {
     ArrayInput,
     TimePickerInput,
     BooleanInput,
+    DraggerInput,
 } from '../../admiral'
 import api from '../api'
 
@@ -94,6 +95,13 @@ export const UsersCRUD = createCRUD({
                         name="avatar"
                         accept="image/*"
                     />
+                    <DraggerInput
+                        columnSpan={2}
+                        label="Images"
+                        name="images"
+                        accept="image/*"
+                        multiple
+                    />
                     <EditorInput
                         columnSpan={2}
                         label="Description"
@@ -157,6 +165,13 @@ export const UsersCRUD = createCRUD({
                         label="Avatar"
                         name="avatar"
                         accept="image/*"
+                    />
+                    <DraggerInput
+                        columnSpan={2}
+                        label="Images"
+                        name="images"
+                        accept="image/*"
+                        multiple
                     />
                     <EditorInput
                         columnSpan={2}

@@ -1,5 +1,7 @@
 import React, { useContext, createContext } from 'react'
 import { OptionType } from '../dataProvider'
+import { Locale } from './interfaces'
+import { enUS } from './locale'
 
 export type FormErrorsType = Record<string, string[]>
 export type FieldValues = Record<string, any>
@@ -12,6 +14,7 @@ export type FormContextValue<TFieldValues extends FieldValues> = {
     setValues: React.Dispatch<React.SetStateAction<any>>
     isSubmitting: boolean
     isFetching: boolean
+    locale: Locale
 }
 
 const FormContext = createContext<FormContextValue<FieldValues>>({
@@ -22,6 +25,7 @@ const FormContext = createContext<FormContextValue<FieldValues>>({
     setValues: () => {},
     isSubmitting: false,
     isFetching: true,
+    locale: enUS,
 })
 
 export type FormProviderProps<TFieldValues extends FieldValues> = {

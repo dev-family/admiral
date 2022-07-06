@@ -9,6 +9,7 @@ import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
 import React, { useCallback } from 'react'
 import { useDataTable } from '../dataTable/DataTableContext'
+import { Locale as FormLocale } from '../form/interfaces'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
@@ -39,6 +40,9 @@ export type CRUDConfig<RecordType> = {
     }
     update: {
         title: (id: string) => string
+    }
+    locale?: {
+        form: FormLocale
     }
 }
 
@@ -119,6 +123,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     submitData={submitData}
                     redirect={config.path}
                     fetchInitialData={fetchInitialData}
+                    locale={config.locale?.form}
                 >
                     <Form.Fields>{config.form.create.fields}</Form.Fields>
 
@@ -150,6 +155,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     redirect={config.path}
                     submitData={submitData}
                     fetchInitialData={fetchInitialData}
+                    locale={config.locale?.form}
                 >
                     <Form.Fields>{config.form.edit.fields}</Form.Fields>
 

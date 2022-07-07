@@ -123,7 +123,7 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
             border-color: transparent;
             cursor: not-allowed;
 
-            .upload-disabled {
+            &.upload-btn {
                 background-color: transparent;
             }
 
@@ -131,6 +131,10 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
             &:global(.upload-drag-hover) {
                 background-color: var(--color-control-bg-disable);
                 border-color: transparent;
+
+                &.upload-btn {
+                    background-color: transparent;
+                }
             }
         }
     }

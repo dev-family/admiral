@@ -83,11 +83,13 @@ export interface ReorderParams<T = any> {
 export interface GetOneParams {
     id: Identifier
 }
+
+export interface RecordOptions {
+    [k: string]: OptionType[]
+}
 export interface GetOneResult<RecordType extends Record = Record> {
     data: RecordType
-    values: {
-        [k: string]: OptionType[]
-    }
+    values: RecordOptions
 }
 
 export interface UpdateParams<T = any> {

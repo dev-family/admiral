@@ -10,6 +10,7 @@ export interface FormItemProps {
     required?: boolean
     columnSpan?: 1 | 2
     onLabelClick?: React.MouseEventHandler<HTMLLabelElement>
+    labelAs?: string | React.JSXElementConstructor<any>
 }
 
 const Item: React.FC<FormItemProps> = ({
@@ -19,18 +20,19 @@ const Item: React.FC<FormItemProps> = ({
     showError = true,
     columnSpan = 1,
     onLabelClick,
+    labelAs: LabelComponent = 'label',
     children,
 }) => {
     return (
         <div className={cn(styles.item, { [styles.item__ColumnSpanTwo]: columnSpan === 2 })}>
-            <label onClick={onLabelClick}>
+            <LabelComponent onClick={onLabelClick}>
                 <span
                     className={cn(styles.item_Label, { [styles.item_Label__Required]: required })}
                 >
                     {label}
                 </span>
                 <div className={styles.item_Field}>{children}</div>
-            </label>
+            </LabelComponent>
 
             {showError && <Error error={error} />}
         </div>

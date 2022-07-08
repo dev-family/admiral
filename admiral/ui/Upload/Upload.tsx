@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import RcUpload, { UploadProps as RcUploadProps } from 'rc-upload'
 import useMergedState from 'rc-util/lib/hooks/useMergedState'
 import cn from 'classnames'
@@ -14,8 +14,6 @@ import UploadList from './components/UploadList'
 import { enUS } from './locales'
 import styles from './Upload.module.scss'
 
-// TODO: drag upload type
-
 const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (props, ref) => {
     const {
         fileList,
@@ -23,16 +21,18 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         listType,
         onChange,
         onPreview,
+        onDrop,
         disabled = false,
         locale = enUS,
         isImageUrl,
         className,
         children,
         style,
+        type,
         itemRender,
         maxCount,
     } = props
-
+    const [dragState, setDragState] = useState<string>('drop')
     const [mergedFileList, setMergedFileList] = useMergedState([], {
         value: fileList,
         postState: (list) => list ?? [],
@@ -103,7 +103,6 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     const renderUploadList = () => {
         const { showRemoveIcon, showPreviewIcon } =
             typeof showUploadList === 'boolean' ? ({} as ShowUploadListInterface) : showUploadList
-
         return showUploadList ? (
             <>
                 <UploadList
@@ -126,6 +125,45 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
             <RcUpload {...rcUploadProps} ref={upload} />
         </div>
     )
+
+    const onFileDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        setDragState(e.type)
+
+        if (e.type === 'drop') {
+            onDrop?.(e)
+        }
+    }
+
+    if (type === 'drag') {
+        const dragCls = cn(
+            prefixCls,
+            {
+                [`${prefixCls}-drag`]: true,
+                [`${prefixCls}-drag-uploading`]: mergedFileList.some(
+                    (file) => file?.status === 'uploading',
+                ),
+                [`${prefixCls}-drag-hover`]: dragState === 'dragover',
+                [`${prefixCls}-disabled`]: disabled,
+            },
+            className,
+        )
+        return (
+            <span>
+                <div
+                    className={dragCls}
+                    onDrop={onFileDrop}
+                    onDragOver={onFileDrop}
+                    onDragLeave={onFileDrop}
+                    style={style}
+                >
+                    <RcUpload {...rcUploadProps} ref={upload} className={`${prefixCls}-btn`}>
+                        <div className={`${prefixCls}-drag-container`}>{children}</div>
+                    </RcUpload>
+                </div>
+                {renderUploadList()}
+            </span>
+        )
+    }
 
     return (
         <span className={className}>

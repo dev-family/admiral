@@ -152,3 +152,62 @@ $prefix-class: 'item';
 .#{$prefix-class}_ActionButton {
     --button-bg-focus: transparent;
 }
+
+:global {
+    .upload {
+        &-drag {
+            text-align: center;
+            background: var(--color-control-bg-clear);
+            border: 1px dashed var(--color-control-bg-border-default);
+            border-radius: var(--control-radius);
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+
+            &-hover,
+            &:hover {
+                background-color: var(--color-control-bg-clear-hover);
+                border-color: var(--color-control-bg-border-default-hover);
+            }
+        }
+        &-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--space-l);
+        }
+        &-disabled {
+            background-color: var(--color-control-bg-disable);
+            border-color: transparent;
+            cursor: not-allowed;
+
+            &.upload-btn {
+                background-color: transparent;
+            }
+
+            &:hover,
+            &:global(.upload-drag-hover) {
+                background-color: var(--color-control-bg-disable);
+                border-color: transparent;
+
+                &.upload-btn {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+}
+
+.uploadStyleExample_Img {
+    margin-bottom: var(--space-2xs);
+    color: var(--color-control-typo-secondary);
+
+    svg {
+        width: 50px;
+        height: auto;
+    }
+}
+
+.uploadStyleExample_Text {
+    margin-bottom: var(--space-2xs);
+    color: var(--color-typo-secondary);
+}

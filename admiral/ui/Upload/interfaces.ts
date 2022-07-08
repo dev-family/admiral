@@ -7,7 +7,7 @@ import {
 
 export type { RcFile }
 
-export type UploadFileStatus = 'error' | 'removed'
+export type UploadFileStatus = 'error' | 'removed' | 'uploading'
 export type UploadFileError = { message: string }
 
 export interface UploadFile {
@@ -39,6 +39,7 @@ export interface UploadLocale {
     removeFile?: string
     previewFile?: string
     uploadError?: string
+    clickToUpload?: string
 }
 
 export type UploadType = 'drag' | 'select'
@@ -72,6 +73,7 @@ export interface UploadProps<T = any> extends Pick<RcUploadProps, 'capture'> {
     ) => BeforeUploadValueType | Promise<BeforeUploadValueType>
     onChange?: (info: UploadChangeParam<UploadFile>) => void
     onPreview?: (file: UploadFile) => void
+    onDrop?: (event: React.DragEvent<HTMLDivElement>) => void
     listType?: UploadListType
     className?: string
     style?: React.CSSProperties

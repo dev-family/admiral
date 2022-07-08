@@ -14,6 +14,8 @@ import UploadList from './components/UploadList'
 import { enUS } from './locales'
 import styles from './Upload.module.scss'
 
+import { FiPlus } from 'react-icons/fi'
+
 const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (props, ref) => {
     const {
         fileList,
@@ -100,8 +102,8 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         delete rcUploadProps.id
     }
 
-    const renderUploadList = () => {
-        const { showRemoveIcon, showPreviewIcon } =
+    const renderUploadList = (button?: React.ReactNode) => {
+        const { showRemoveIcon } =
             typeof showUploadList === 'boolean' ? ({} as ShowUploadListInterface) : showUploadList
         return showUploadList ? (
             <>
@@ -111,20 +113,69 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
                     onRemove={handleRemove}
                     onPreview={onPreview}
                     showRemoveIcon={!disabled && showRemoveIcon}
-                    showPreviewIcon={showPreviewIcon}
+                    showPreviewIcon={!!onPreview}
                     locale={locale}
                     isImageUrl={isImageUrl}
                     itemRender={itemRender}
+                    appendButton={button}
                 />
             </>
         ) : null
     }
 
-    const renderUploadButton = (uploadButtonStyle?: React.CSSProperties) => (
-        <div className={styles.buttonWrap} style={uploadButtonStyle}>
-            <RcUpload {...rcUploadProps} ref={upload} />
-        </div>
-    )
+    const renderUploadButton = (
+        buttonType?: 'basic' | 'drag' | 'picture-card',
+        uploadButtonStyle?: React.CSSProperties,
+    ) => {
+        if (buttonType === 'drag' || buttonType === 'picture-card') {
+            let buttonLayout = <div className={`${prefixCls}-drag-container`}>{children}</div>
+
+            if (buttonType === 'picture-card' && !children) {
+                buttonLayout = (
+                    <div className={styles.item_Thumb__DefaultPictureCardUpload}>
+                        <FiPlus />
+                        Upload
+                    </div>
+                )
+            }
+
+            const dragCls = cn(
+                prefixCls,
+                {
+                    [`${prefixCls}-drag`]: true,
+                    [`${prefixCls}-drag-hover`]: dragState === 'dragover',
+                    [`${prefixCls}-disabled`]: disabled,
+                },
+                className,
+            )
+
+            return (
+                <div
+                    className={dragCls}
+                    onDrop={onFileDrop}
+                    onDragOver={onFileDrop}
+                    onDragLeave={onFileDrop}
+                    style={style}
+                >
+                    <RcUpload
+                        {...rcUploadProps}
+                        ref={upload}
+                        className={cn({
+                            [`${prefixCls}-btn`]: buttonType === 'drag',
+                            [styles.item]: buttonType === 'picture-card',
+                        })}
+                    >
+                        {buttonLayout}
+                    </RcUpload>
+                </div>
+            )
+        }
+        return (
+            <div className={styles.buttonWrap} style={uploadButtonStyle}>
+                <RcUpload {...rcUploadProps} ref={upload} />
+            </div>
+        )
+    }
 
     const onFileDrop = (e: React.DragEvent<HTMLDivElement>) => {
         setDragState(e.type)
@@ -135,39 +186,31 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     }
 
     if (type === 'drag') {
-        const dragCls = cn(
-            prefixCls,
-            {
-                [`${prefixCls}-drag`]: true,
-                [`${prefixCls}-drag-uploading`]: mergedFileList.some(
-                    (file) => file?.status === 'uploading',
-                ),
-                [`${prefixCls}-drag-hover`]: dragState === 'dragover',
-                [`${prefixCls}-disabled`]: disabled,
-            },
-            className,
-        )
+        const buttonType = type
         return (
             <span>
-                <div
-                    className={dragCls}
-                    onDrop={onFileDrop}
-                    onDragOver={onFileDrop}
-                    onDragLeave={onFileDrop}
-                    style={style}
-                >
-                    <RcUpload {...rcUploadProps} ref={upload} className={`${prefixCls}-btn`}>
-                        <div className={`${prefixCls}-drag-container`}>{children}</div>
-                    </RcUpload>
-                </div>
+                {renderUploadButton(buttonType)}
                 {renderUploadList()}
             </span>
         )
     }
 
+    if (listType === 'picture-card') {
+        const buttonType = listType
+        const pictureCardUploadButton = renderUploadButton(buttonType)
+
+        return (
+            <span className={cn(`${prefixCls}-picture-card-wrapper`, className)}>
+                {renderUploadList(pictureCardUploadButton)}
+            </span>
+        )
+    }
+
+    const buttonType = 'basic'
+
     return (
         <span className={className}>
-            {renderUploadButton(children ? undefined : { display: 'none' })}
+            {renderUploadButton(buttonType, children ? undefined : { display: 'none' })}
             {renderUploadList()}
         </span>
     )

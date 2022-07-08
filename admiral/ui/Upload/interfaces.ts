@@ -107,6 +107,7 @@ export interface UploadListProps<T = any> {
     isImageUrl?: (file: UploadFile) => boolean
     itemRender?: ItemRender<T>
     previewFile?: PreviewFileHandler
+    appendButton?: React.ReactNode
 }
 
 export interface ListItemProps {

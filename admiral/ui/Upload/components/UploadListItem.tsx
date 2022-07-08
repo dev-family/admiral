@@ -144,9 +144,18 @@ const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listTyp
         isImgUrl && isImgUrl(file) ? <FiImage /> : isVideoUrl(file) ? <FiVideo /> : <FiFile />
 
     let node = <></>
-    if (listType === 'picture') {
+    if (listType === 'picture' || listType === 'picture-card') {
         if (!file.thumbUrl && !file.url) {
-            node = <div className={styles.item_Thumb}>{iconNode}</div>
+            node = (
+                <div
+                    className={cn({
+                        [styles.item_Thumb]: listType === 'picture',
+                        [styles.item_Thumb__PictureCard]: listType === 'picture-card',
+                    })}
+                >
+                    {iconNode}
+                </div>
+            )
         } else {
             const thumbnail = isImgUrl?.(file) ? (
                 <img
@@ -158,34 +167,22 @@ const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listTyp
                 iconNode
             )
             node = file.url ? (
-                <div className={styles.item_Thumb}>
+                <div
+                    className={cn({
+                        [styles.item_Thumb]: true,
+                        [styles.item_Thumb__PictureCard]: listType === 'picture-card',
+                    })}
+                >
                     {thumbnail}
                     <a className={styles.item_Link} target="_blank" rel="noopener noreferrer" />
                 </div>
             ) : (
-                <div className={styles.item_Thumb}>{thumbnail}</div>
-            )
-        }
-    } else if (listType === 'picture-card') {
-        if (!file.thumbUrl && !file.url) {
-            node = <div className={cn(styles.item_Thumb__PictureCard)}>{iconNode}</div>
-        } else {
-            const thumbnail = isImgUrl?.(file) ? (
-                <img
-                    src={file.thumbUrl || file.url}
-                    alt={file.name}
-                    className={styles.item_Image}
-                />
-            ) : (
-                iconNode
-            )
-            node = file.url ? (
-                <div className={cn(styles.item_Thumb, styles.item_Thumb__PictureCard)}>
-                    {thumbnail}
-                    <a className={styles.item_Link} target="_blank" rel="noopener noreferrer" />
-                </div>
-            ) : (
-                <div className={cn(styles.item_Thumb, styles.item_Thumb__PictureCard)}>
+                <div
+                    className={cn({
+                        [styles.item_Thumb]: true,
+                        [styles.item_Thumb__PictureCard]: listType === 'picture-card',
+                    })}
+                >
                     {thumbnail}
                 </div>
             )

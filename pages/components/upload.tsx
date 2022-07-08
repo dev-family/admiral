@@ -80,17 +80,6 @@ export default function UploadPage() {
                     gridGap: '24px',
                 }}
             >
-                <h2>Picture list</h2>
-                <Upload
-                    listType="picture-card"
-                    fileList={fileList}
-                    onPreview={handlePreview}
-                    onChange={updateFileList}
-                >
-                    {fileList.length >= 8 ? null : (
-                        <Button iconLeft={<FiUpload />}>Click to Upload</Button>
-                    )}
-                </Upload>
                 <h2>Default</h2>
                 <Upload fileList={fileList} onChange={updateFileList}>
                     <Button iconLeft={<FiUpload />}>Click to Upload</Button>
@@ -119,6 +108,40 @@ export default function UploadPage() {
                 >
                     <Button iconLeft={<FiUpload />}>Click to Upload</Button>
                 </Upload>
+                <br />
+                <h2>Picture cards</h2>
+                <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={updateFileList}
+                />
+                <h2>Picture cards (custom upload button)</h2>
+                <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={updateFileList}
+                >
+                    {fileList.length >= 8 ? null : (
+                        <>
+                            <b>Click here</b>
+                            <br />
+                            or <br />
+                            <b>Drop item</b> <br />
+                            to upload
+                        </>
+                    )}
+                </Upload>
+                <h2>Picture cards (disabled)</h2>
+                <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={updateFileList}
+                    disabled
+                />
+                <br />
                 <h2>Default draggable</h2>
                 <Dragger
                     onDrop={(e) => {

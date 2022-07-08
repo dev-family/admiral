@@ -44,7 +44,10 @@ $prefix-class: 'item';
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: #00000080;
+            border: 1px solid
+                var(--upload-picture-item-bcolor, var(--color-control-bg-border-default));
+            border-radius: var(--upload-picture-item-bradius, var(--control-radius));
+            background-color: var(--color-bg-tone);
             opacity: 0;
             transition: all 0.3s;
         }
@@ -67,6 +70,12 @@ $prefix-class: 'item';
         --upload-picture-item-bcolor: var(--color-bg-alert);
         --upload-picture-item-bcolor-hover: var(--color-bg-alert);
         --upload-color: var(--color-typo-alert);
+    }
+
+    &:global(.upload) {
+        display: block;
+        height: 100%;
+        border: none;
     }
 }
 
@@ -132,6 +141,15 @@ $prefix-class: 'item';
         width: 86px;
         height: auto;
     }
+    &__DefaultPictureCardUpload {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 86px;
+        height: 100%;
+    }
 }
 
 .#{$prefix-class}_Image {
@@ -141,12 +159,6 @@ $prefix-class: 'item';
     height: 100%;
     z-index: 1;
     object-fit: cover;
-}
-
-.#{$prefix-class}_Button {
-    &__PictureCard {
-        background-color: red;
-    }
 }
 
 .#{$prefix-class}_ActionButton {
@@ -167,6 +179,9 @@ $prefix-class: 'item';
             &:hover {
                 background-color: var(--color-control-bg-clear-hover);
                 border-color: var(--color-control-bg-border-default-hover);
+            }
+            &-container {
+                height: 100%;
             }
         }
         &-btn {

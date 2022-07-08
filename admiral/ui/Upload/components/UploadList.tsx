@@ -20,6 +20,7 @@ const UploadList: React.FC<UploadListProps> = ({
     showPreviewIcon,
     itemRender,
     previewFile,
+    appendButton,
 }) => {
     const forceUpdate = useForceUpdate()
     useEffect(() => {
@@ -110,6 +111,7 @@ const UploadList: React.FC<UploadListProps> = ({
                     />
                 </animated.div>
             ))}
+            {appendButton}
         </div>
     )
 }

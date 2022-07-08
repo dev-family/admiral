@@ -22,6 +22,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         showUploadList = true,
         listType,
         onChange,
+        onPreview,
         disabled = false,
         locale = enUS,
         isImageUrl,
@@ -100,7 +101,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     }
 
     const renderUploadList = () => {
-        const { showRemoveIcon } =
+        const { showRemoveIcon, showPreviewIcon } =
             typeof showUploadList === 'boolean' ? ({} as ShowUploadListInterface) : showUploadList
 
         return showUploadList ? (
@@ -109,7 +110,9 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
                     listType={listType}
                     items={mergedFileList}
                     onRemove={handleRemove}
+                    onPreview={onPreview}
                     showRemoveIcon={!disabled && showRemoveIcon}
+                    showPreviewIcon={showPreviewIcon}
                     locale={locale}
                     isImageUrl={isImageUrl}
                     itemRender={itemRender}

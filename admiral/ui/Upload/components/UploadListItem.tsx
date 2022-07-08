@@ -2,10 +2,14 @@ import React from 'react'
 import cn from 'classnames'
 import { Tooltip } from '../../Tooltip'
 import { Button } from '../../Button'
-import { FiTrash, FiFile, FiVideo, FiImage } from 'react-icons/fi'
+import { FiTrash, FiFile, FiVideo, FiImage, FiEye } from 'react-icons/fi'
 import { isVideoUrl } from '../utils'
 import { ListItemProps } from '../interfaces'
 import styles from '../Upload.module.scss'
+
+import { useTheme } from '../../../theme'
+
+// TODO: show preview with modal
 
 const ListItem = React.forwardRef(
     (
@@ -17,10 +21,14 @@ const ListItem = React.forwardRef(
             itemRender,
             isImgUrl,
             showRemoveIcon,
+            showPreviewIcon = true,
             onClose,
+            onPreview,
         }: ListItemProps,
         ref: React.Ref<HTMLDivElement>,
     ) => {
+        const { themeName, themeClassNames } = useTheme()
+
         const removeIcon = showRemoveIcon ? (
             <Button
                 view="clear"
@@ -29,25 +37,62 @@ const ListItem = React.forwardRef(
                 iconLeft={<FiTrash />}
                 title={locale.removeFile}
                 onClick={() => onClose(file)}
+                className={cn(styles.item_ActionButton, {
+                    [themeClassNames.color.invert]:
+                        listType === 'picture-card' && themeName === 'light',
+                })}
+            />
+        ) : null
+
+        const previewIcon = showPreviewIcon ? (
+            <Button
+                view="clear"
+                size="S"
+                type="button"
+                iconLeft={<FiEye />}
+                title={locale.previewFile}
+                disabled={file.url || file.thumbUrl ? false : true}
+                onClick={(e) => onPreview(e, file)}
+                className={cn(styles.item_ActionButton, {
+                    [themeClassNames.color.invert]:
+                        listType === 'picture-card' && themeName === 'light',
+                })}
             />
         ) : null
 
         const actions = (
-            <span key="actions" className={styles.item_Actions}>
+            <span
+                key="actions"
+                className={cn(styles.item_Actions, {
+                    [styles.item_Actions__PictureCard]: listType === 'picture-card',
+                })}
+            >
+                {previewIcon}
                 {removeIcon}
             </span>
         )
 
         const preview = [
-            <span key="view" className={styles.item_Name} title={file.name}>
-                {file.name}
-            </span>,
+            listType !== 'picture-card' ? (
+                <span key="view" className={styles.item_Name} title={file.name}>
+                    file.name
+                </span>
+            ) : null,
             actions,
         ]
 
         const itemContent = (
-            <div className={cn(styles.item, { [styles.item__Error]: file.status === 'error' })}>
-                <div className={styles.item_Content}>
+            <div
+                className={cn(styles.item, {
+                    [styles.item__PictureCard]: listType === 'picture-card',
+                    [styles.item__Error]: file.status === 'error',
+                })}
+            >
+                <div
+                    className={cn(styles.item_Content, {
+                        [styles.item_Content__PictureCard]: listType === 'picture-card',
+                    })}
+                >
                     <ListItemThumb isImgUrl={isImgUrl} listType={listType} file={file} />
                     {preview}
                 </div>
@@ -119,6 +164,30 @@ const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listTyp
                 </div>
             ) : (
                 <div className={styles.item_Thumb}>{thumbnail}</div>
+            )
+        }
+    } else if (listType === 'picture-card') {
+        if (!file.thumbUrl && !file.url) {
+            node = <div className={cn(styles.item_Thumb__PictureCard)}>{iconNode}</div>
+        } else {
+            const thumbnail = isImgUrl?.(file) ? (
+                <img
+                    src={file.thumbUrl || file.url}
+                    alt={file.name}
+                    className={styles.item_Image}
+                />
+            ) : (
+                iconNode
+            )
+            node = file.url ? (
+                <div className={cn(styles.item_Thumb, styles.item_Thumb__PictureCard)}>
+                    {thumbnail}
+                    <a className={styles.item_Link} target="_blank" rel="noopener noreferrer" />
+                </div>
+            ) : (
+                <div className={cn(styles.item_Thumb, styles.item_Thumb__PictureCard)}>
+                    {thumbnail}
+                </div>
             )
         }
     }

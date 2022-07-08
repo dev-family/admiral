@@ -42,6 +42,10 @@ export default function UploadPage() {
         return fileList || []
     }, [])
 
+    const handlePreview = async (file: UploadFile) => {
+        console.log('handlePreview file', file)
+    }
+
     return (
         <Page title="Upload">
             <div
@@ -50,6 +54,17 @@ export default function UploadPage() {
                     gridGap: '24px',
                 }}
             >
+                <h2>Picture list</h2>
+                <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={updateFileList}
+                >
+                    {fileList.length >= 8 ? null : (
+                        <Button iconLeft={<FiUpload />}>Click to Upload</Button>
+                    )}
+                </Upload>
                 <h2>Default</h2>
                 <Upload fileList={fileList} onChange={updateFileList}>
                     <Button iconLeft={<FiUpload />}>Click to Upload</Button>

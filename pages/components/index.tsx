@@ -39,6 +39,9 @@ export default function ComponentsPage() {
                 <Link to="components/typography">
                     <Button component="span">Typography</Button>
                 </Link>
+                <Link to="components/drawer">
+                    <Button component="span">Drawer</Button>
+                </Link>
             </div>
         </Page>
     )

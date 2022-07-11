@@ -71,6 +71,11 @@ const menu: IMenuItem[] = [
                 name: 'Typography',
                 to: '/components/typography',
             },
+            {
+                icon: 'FiBox',
+                name: 'Drawer',
+                to: '/components/drawer',
+            },
         ],
     },
 ]

@@ -40,6 +40,7 @@
         "nanoid": "^4.0.0",
         "no-scroll": "^2.1.1",
         "qs": "^6.10.3",
+        "rc-drawer": "^4.4.3",
         "rc-pagination": "^3.1.14",
         "rc-picker": "^2.6.4",
         "rc-select": "^14.0.0-alpha.25",

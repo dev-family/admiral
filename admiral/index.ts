@@ -9,6 +9,7 @@ export type {
     PickerDateProps,
     PickerProps,
 } from './ui/DatePicker/generatePicker/interfaces'
+export type { DrawerProps } from './ui/Drawer/interfaces'
 export type { InputProps, InputSizeType } from './ui/Input/interfaces'
 export type { LogoComponentType, LogoType } from './ui/Layout/LayoutHeader'
 export type { PaginationProps } from './ui/Pagination/interfaces'

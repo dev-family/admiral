@@ -1,0 +1,211 @@
+@use 'admiral/assets/mixins' as *;
+
+$prefix-class: 'drawer';
+
+.wrapper {
+    color: var(--color-typo-primary);
+
+    &#{&}__NoMask {
+        :global(.#{$prefix-class}-mask) {
+            background-color: transparent;
+        }
+    }
+
+    :global {
+        & .#{$prefix-class} {
+            position: fixed;
+            z-index: 1000;
+            width: 0%;
+            height: 100%;
+            pointer-events: none;
+            transition: width 0s ease 0.3s, height 0s ease 0.3s;
+
+            &-left,
+            &-right {
+                top: 0;
+                width: 100%;
+                height: 100%;
+
+                .#{$prefix-class}-content-wrapper {
+                    height: 100%;
+                }
+
+                &.#{$prefix-class}-open {
+                    width: 100%;
+                    transition: transform 0.3s ease;
+                }
+            }
+
+            &-left {
+                left: 0;
+
+                .#{$prefix-class}-content- {
+                    left: 0;
+                }
+            }
+
+            &-right {
+                right: 0;
+
+                .#{$prefix-class}-content-wrapper {
+                    right: 0;
+                }
+            }
+
+            &-top,
+            &-bottom {
+                left: 0;
+                width: 100%;
+                height: 0%;
+
+                .#{$prefix-class}-content-wrapper {
+                    width: 100%;
+                }
+                &.#{$prefix-class}-open {
+                    height: 100%;
+                    transition: transform 0.3s ease;
+                }
+            }
+
+            &-top {
+                top: 0;
+            }
+
+            &-bottom {
+                bottom: 0;
+
+                .#{$prefix-class}-content-wrapper {
+                    bottom: 0;
+                }
+            }
+
+            &-open {
+                pointer-events: all;
+
+                .#{$prefix-class}-mask {
+                    // height: 100%;
+                    opacity: 1;
+                    transition: none;
+                    & :local {
+                        animation: drawerFadeIn 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+                    }
+                    pointer-events: auto;
+                }
+
+                .#{$prefix-class}-content-wrapper {
+                    opacity: 1;
+                    box-shadow: var(--shadow-modal);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0s 0s;
+                }
+            }
+            &-mask {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
+                width: 100%;
+                height: 100%;
+                background-color: var(--color-bg-tone);
+                opacity: 0;
+                transition: opacity 0.3s linear, height 0s ease 0.3s;
+                pointer-events: none;
+            }
+
+            &-content-wrapper {
+                position: absolute;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0s 0.3s;
+            }
+
+            &-content {
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: var(--color-bg-default);
+                border: 0;
+            }
+        }
+    }
+
+    .bodyWrapper {
+        display: flex;
+        flex-flow: column nowrap;
+        width: 100%;
+        height: 100%;
+    }
+
+    .header {
+        $padding: var(--space-l);
+        --drawer-close-svg-size: var(--size-text-l);
+        --drawer-close-btn-size: calc(
+            var(--size-text-l) + var(--drawer-header-padding, #{$padding}) * 2
+        );
+
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: var(--drawer-header-padding, $padding);
+        min-height: calc(var(--drawer-close-svg-size) + var(--drawer-header-padding, $padding) * 2);
+        padding: var(--drawer-header-padding, $padding);
+        padding-right: var(--drawer-header-pr, var(--drawer-close-btn-size));
+        border-bottom: 1px solid var(--color-bg-border);
+    }
+
+    .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: var(--drawer-close-btn-size);
+        height: 100%;
+        margin-left: auto;
+        color: var(--color-control-typo-clear);
+        cursor: pointer;
+
+        svg {
+            width: var(--drawer-close-svg-size);
+            height: auto;
+            transition: transform 0.16s;
+        }
+
+        &:focus,
+        &:hover {
+            svg {
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    .body {
+        flex-grow: 1;
+        padding: var(--drawer-body-padding, var(--space-l));
+        font-size: var(--drawer-body-fz, var(--size-text-m));
+        line-height: var(--drawer-body-lh, var(--line-height-text-m));
+        word-wrap: break-word;
+        overflow: auto;
+    }
+
+    .footer {
+        flex-shrink: 0;
+        padding: var(--drawer-footer-padding, var(--space-l));
+        border-top: 1px solid var(--color-bg-border);
+    }
+}
+
+@keyframes drawerFadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

@@ -27,7 +27,7 @@
     --color-bg-stripe-active: color-mod(#f8f9fa l(-2%));
 
     --color-bg-ghost: color-mod(var(--color-base-phantom) l(-11%) a(8%)); /* Цвет затенения */
-    --color-bg-tone: color-mod(var(--color-base-phantom) l(-11%) a(85%)); /* Цвет паранджи */
+    --color-bg-tone: color-mod(var(--color-base-phantom) l(-25%) a(10%)); /* Цвет паранджи */
     --color-bg-soft: color-mod(var(--color-base-essential) a(90%)); /* Цвет молока */
     --color-bg-system: color-mod(var(--color-base-system) a(100%)); /* Цвет фона системнный */
     --color-bg-normal: color-mod(var(--color-base-normal) a(100%)); /* Цвет фона нейтральный */

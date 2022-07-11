@@ -57,7 +57,6 @@ const UploadList: React.FC<UploadListProps> = ({
         if (!onPreview) {
             return
         }
-        console.log('first', e, file)
         e?.preventDefault()
         return onPreview(file)
     }

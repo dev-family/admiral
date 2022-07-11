@@ -20,9 +20,7 @@ $item-border-width: 1px;
 $item-padding: calc(var(--control-space-m) / 2);
 $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
 
-$prefix-class: 'item';
-
-.#{$prefix-class} {
+.item {
     height: var(--upload-picture-item-height, $item-height);
     padding: var(--upload-picture-item-padding, $item-padding);
     font-size: var(--upload-picture-item-fz, var(--control-text-size-m));
@@ -79,7 +77,7 @@ $prefix-class: 'item';
     }
 }
 
-.#{$prefix-class}_Content {
+.item_Content {
     display: flex;
     gap: var(--upload-picture-item-padding, $item-padding);
     align-items: center;
@@ -89,7 +87,7 @@ $prefix-class: 'item';
     }
 }
 
-.#{$prefix-class}_Name {
+.item_Name {
     display: inline-block;
     width: 100%;
     overflow: hidden;
@@ -97,7 +95,7 @@ $prefix-class: 'item';
     text-overflow: ellipsis;
 }
 
-.#{$prefix-class}_Actions {
+.item_Actions {
     display: flex;
     flex-shrink: 0;
     gap: var(--space-2xs);
@@ -114,7 +112,7 @@ $prefix-class: 'item';
     }
 }
 
-.#{$prefix-class}_Thumb {
+.item_Thumb {
     position: relative;
     display: flex;
     justify-content: center;
@@ -153,7 +151,7 @@ $prefix-class: 'item';
     }
 }
 
-.#{$prefix-class}_Image {
+.item_Image {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -162,7 +160,7 @@ $prefix-class: 'item';
     object-fit: cover;
 }
 
-.#{$prefix-class}_ActionButton {
+.item_ActionButton {
     --button-bg-focus: transparent;
 }
 

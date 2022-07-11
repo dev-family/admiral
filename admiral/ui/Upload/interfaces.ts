@@ -40,6 +40,7 @@ export interface UploadLocale {
     previewFile?: string
     uploadError?: string
     clickToUpload?: string
+    pictureCardUpload?: string
 }
 
 export type UploadType = 'drag' | 'select'

@@ -166,7 +166,7 @@ const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listTyp
             ) : (
                 iconNode
             )
-            node = file.url ? (
+            node = (
                 <div
                     className={cn({
                         [styles.item_Thumb]: true,
@@ -174,16 +174,9 @@ const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listTyp
                     })}
                 >
                     {thumbnail}
-                    <a className={styles.item_Link} target="_blank" rel="noopener noreferrer" />
-                </div>
-            ) : (
-                <div
-                    className={cn({
-                        [styles.item_Thumb]: true,
-                        [styles.item_Thumb__PictureCard]: listType === 'picture-card',
-                    })}
-                >
-                    {thumbnail}
+                    {file.url ? (
+                        <a className={styles.item_Link} target="_blank" rel="noopener noreferrer" />
+                    ) : null}
                 </div>
             )
         }

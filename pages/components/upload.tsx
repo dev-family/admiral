@@ -109,12 +109,13 @@ export default function UploadPage() {
                     <Button iconLeft={<FiUpload />}>Click to Upload</Button>
                 </Upload>
                 <br />
-                <h2>Picture cards</h2>
+                <h2>Picture cards (maxCount: 4)</h2>
                 <Upload
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={handlePreview}
                     onChange={updateFileList}
+                    maxCount={4}
                 />
                 <h2>Picture cards (custom upload button)</h2>
                 <Upload
@@ -123,15 +124,13 @@ export default function UploadPage() {
                     onPreview={handlePreview}
                     onChange={updateFileList}
                 >
-                    {fileList.length >= 8 ? null : (
-                        <>
-                            <b>Click here</b>
-                            <br />
-                            or <br />
-                            <b>Drop item</b> <br />
-                            to upload
-                        </>
-                    )}
+                    <>
+                        <b>Click here</b>
+                        <br />
+                        or <br />
+                        <b>Drop item</b> <br />
+                        to upload
+                    </>
                 </Upload>
                 <h2>Picture cards (disabled)</h2>
                 <Upload
@@ -142,7 +141,7 @@ export default function UploadPage() {
                     disabled
                 />
                 <br />
-                <h2>Default draggable</h2>
+                <h2>Default draggable (maxCount 3)</h2>
                 <Dragger
                     onDrop={(e) => {
                         console.log('drop event', e)
@@ -150,6 +149,7 @@ export default function UploadPage() {
                     multiple
                     fileList={fileListMultiple}
                     onChange={updateFileListMultiple}
+                    maxCount={3}
                 />
                 <h2>Custom draggable (disabled)</h2>
                 <Dragger

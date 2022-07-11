@@ -5,4 +5,5 @@ export const ruRU: UploadLocale = {
     previewFile: 'Предпросмотр файла',
     uploadError: 'При загрузке произошла ошибка',
     clickToUpload: 'Кликните или перетащите файл в это окно для загрузки',
+    pictureCardUpload: 'Загрузить',
 }

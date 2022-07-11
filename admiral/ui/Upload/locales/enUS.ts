@@ -5,4 +5,5 @@ export const enUS: UploadLocale = {
     previewFile: 'Preview file',
     uploadError: 'Upload error',
     clickToUpload: 'Click or drag file to this area to upload',
+    pictureCardUpload: 'Upload',
 }

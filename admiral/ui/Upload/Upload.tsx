@@ -128,13 +128,17 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         uploadButtonStyle?: React.CSSProperties,
     ) => {
         if (buttonType === 'drag' || buttonType === 'picture-card') {
+            const isAppendAvailable = maxCount && fileList ? maxCount > fileList.length : true
+            if (!isAppendAvailable) {
+                rcUploadProps.disabled = true
+            }
             let buttonLayout = <div className={`${prefixCls}-drag-container`}>{children}</div>
 
             if (buttonType === 'picture-card' && !children) {
                 buttonLayout = (
                     <div className={styles.item_Thumb__DefaultPictureCardUpload}>
                         <FiPlus />
-                        Upload
+                        {locale.pictureCardUpload}
                     </div>
                 )
             }
@@ -144,7 +148,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
                 {
                     [`${prefixCls}-drag`]: true,
                     [`${prefixCls}-drag-hover`]: dragState === 'dragover',
-                    [`${prefixCls}-disabled`]: disabled,
+                    [`${prefixCls}-disabled`]: disabled || !isAppendAvailable,
                 },
                 className,
             )
@@ -155,7 +159,10 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
                     onDrop={onFileDrop}
                     onDragOver={onFileDrop}
                     onDragLeave={onFileDrop}
-                    style={style}
+                    style={{
+                        ...style,
+                        display: buttonType === 'picture-card' && !isAppendAvailable ? 'none' : '',
+                    }}
                 >
                     <RcUpload
                         {...rcUploadProps}

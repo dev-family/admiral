@@ -10,6 +10,9 @@
     &:not(:empty) {
         padding-top: var(--space-s);
     }
+    &.list-picture-card {
+        padding-top: initial;
+    }
 }
 .list-picture-card {
     display: flex;

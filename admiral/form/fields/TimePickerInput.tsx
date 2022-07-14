@@ -1,14 +1,17 @@
 import React, { useCallback } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
-import { TimePicker, TimePickerProps } from '../../ui'
+import { TimePicker, TimePickerProps as BaseTimePickerProps } from '../../ui'
 import { FormItemProps } from '../Item'
 import parse from 'date-fns/parse'
 import isValid from 'date-fns/isValid'
 import parseISO from 'date-fns/parseISO'
 
+interface TimePickerProps extends Omit<BaseTimePickerProps, 'format'> {}
+
 export type TimePickerInputProps = FormItemProps & {
     name: string
+    format: string
 } & TimePickerProps
 
 export const TimePickerInput: React.FC<TimePickerInputProps> = ({
@@ -20,8 +23,7 @@ export const TimePickerInput: React.FC<TimePickerInputProps> = ({
 }) => {
     const { values, errors, setValues } = useForm()
 
-    const format = typeof pickerProps.format === 'string' ? pickerProps.format : 'HH:mm:ss'
-    const value = values[name] ? parseValue(values[name], format) : null
+    const value = values[name] ? parseValue(values[name], pickerProps.format) : null
 
     const error = errors[name]?.[0]
 
@@ -36,7 +38,11 @@ export const TimePickerInput: React.FC<TimePickerInputProps> = ({
     )
 }
 
-const parseValue = (value: string, format: string) => {
+TimePickerInput.defaultProps = {
+    format: 'HH:mm:ss',
+}
+
+export const parseValue = (value: string, format: string) => {
     const fullISO = parseISO(value)
     const timeOnlyISO = parse(value, format, new Date())
 

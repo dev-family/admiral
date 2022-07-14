@@ -1,5 +1,12 @@
-import React, { useState, useEffect, FormEvent, useRef } from 'react'
-import { GetOneResult } from '../dataProvider'
+import React, {
+    useState,
+    useEffect,
+    FormEvent,
+    useRef,
+    forwardRef,
+    useImperativeHandle,
+} from 'react'
+import { GetFormDataResult } from '../dataProvider'
 import { useHistory } from 'react-router-dom'
 import { FieldValues, FormContextValue, FormProvider, useForm } from './FormContext'
 import { Button } from '../ui'
@@ -16,95 +23,103 @@ export type FormProps = {
     locale?: Locale
     className?: string
     redirect?: string
-    fetchInitialData?: () => Promise<GetOneResult>
-    submitData: (values: any) => Promise<any>
+    fetchInitialData?: () => Promise<GetFormDataResult>
+    submitData?: (values: any) => Promise<any>
+    children: React.ReactNode
 }
 
-const InternalForm: React.FC<FormProps> = ({
-    locale = enUS,
-    className,
-    fetchInitialData,
-    submitData,
-    redirect,
-    children,
-}) => {
-    const mounted = useRef(false)
-    const [values, setValues] = useState<Record<any, any>>({})
-    const [options, setOptions] = useState<Record<any, any>>({})
-    const [errors, setErrors] = useState({})
-    const [isSubmitting, setIsSubmitting] = useSafeSetState(false)
-    const [isFetching, setIsFetching] = useSafeSetState(true)
-    const history = useHistory()
+export type FormRef = {
+    values: Record<any, any>
+}
 
-    async function _fetchInitialData() {
-        try {
-            const response = await fetchInitialData!()
-            if (isObject(response.data)) setValues((prev) => ({ ...prev, ...response.data }))
-            if (isObject(response.values)) setOptions((prev) => ({ ...prev, ...response.values }))
-        } catch (error) {
-            mounted.current &&
-                setErrors((prev) => ({ ...prev, cathed: ['Fetch initial data error'] }))
-        } finally {
-            setIsFetching(false)
-        }
-    }
+const InternalForm = forwardRef<FormRef, FormProps>(
+    ({ locale = enUS, className, fetchInitialData, submitData, redirect, children }, ref) => {
+        const mounted = useRef(false)
+        const [values, setValues] = useState<Record<any, any>>({})
+        const [options, setOptions] = useState<Record<any, any>>({})
+        const [errors, setErrors] = useState({})
+        const [isSubmitting, setIsSubmitting] = useSafeSetState(false)
+        const [isFetching, setIsFetching] = useSafeSetState(true)
+        const history = useHistory()
 
-    useEffect(() => {
-        mounted.current = true
-
-        return () => {
-            mounted.current = false
-        }
-    }, [])
-
-    useEffect(() => {
-        if (typeof fetchInitialData === 'function') {
-            _fetchInitialData()
-        } else {
-            setIsFetching(false)
-        }
-    }, [fetchInitialData])
-
-    async function handleSubmit(e: FormEvent) {
-        e.preventDefault()
-
-        setIsSubmitting(true)
-        try {
-            await submitData(values)
-
-            if (redirect) {
-                history.push(redirect)
-                return
-            }
-
-            mounted.current && setErrors({})
-        } catch (e: any) {
-            if (e.response.status === 422) {
-                mounted.current && setErrors(e.response.data.errors)
+        async function _fetchInitialData() {
+            try {
+                const response = await fetchInitialData!()
+                if (isObject(response.data)) setValues({ ...response.data })
+                if (isObject(response.values)) setOptions({ ...response.values })
+            } catch (error) {
+                mounted.current &&
+                    setErrors((prev) => ({ ...prev, cathed: ['Fetch initial data error'] }))
+            } finally {
+                setIsFetching(false)
             }
         }
-        setIsSubmitting(false)
-    }
 
-    return (
-        <FormProvider
-            value={{
-                locale,
+        useImperativeHandle(
+            ref,
+            () => ({
                 values,
-                setValues,
-                options,
-                errors,
-                setErrors,
-                isSubmitting,
-                isFetching,
-            }}
-        >
-            <form onSubmit={handleSubmit} className={cn(className)}>
-                {children}
-            </form>
-        </FormProvider>
-    )
-}
+            }),
+            [values],
+        )
+
+        useEffect(() => {
+            mounted.current = true
+
+            return () => {
+                mounted.current = false
+            }
+        }, [])
+
+        useEffect(() => {
+            if (typeof fetchInitialData === 'function') {
+                _fetchInitialData()
+            } else {
+                setIsFetching(false)
+            }
+        }, [fetchInitialData])
+
+        async function handleSubmit(e: FormEvent) {
+            e.preventDefault()
+
+            setIsSubmitting(true)
+            try {
+                await submitData?.(values)
+
+                if (redirect) {
+                    history.push(redirect)
+                    return
+                }
+
+                mounted.current && setErrors({})
+            } catch (e: any) {
+                if (e.response.status === 422) {
+                    mounted.current && setErrors(e.response.data.errors)
+                }
+            }
+            setIsSubmitting(false)
+        }
+
+        return (
+            <FormProvider
+                value={{
+                    locale,
+                    values,
+                    setValues,
+                    options,
+                    errors,
+                    setErrors,
+                    isSubmitting,
+                    isFetching,
+                }}
+            >
+                <form onSubmit={handleSubmit} className={cn(className)}>
+                    {children}
+                </form>
+            </FormProvider>
+        )
+    },
+)
 
 export type ControlledChildFormProps = FormContextValue<FieldValues> & {
     as?: string | React.JSXElementConstructor<any>

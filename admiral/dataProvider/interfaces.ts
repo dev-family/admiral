@@ -3,6 +3,9 @@ export interface Record {
     id: Identifier
     [key: string]: any
 }
+export interface FormRecord {
+    [key: string]: any
+}
 
 export interface SortPayload {
     field: string
@@ -39,14 +42,16 @@ export type DataProvider = {
         params: GetOneParams,
     ) => Promise<GetOneResult<RecordType>>
 
-    getCreateFormData: <RecordType extends Record = Record>(
+    getCreateFormData: <RecordType extends FormRecord = FormRecord>(
         resource: string,
-    ) => Promise<GetOneResult<RecordType>>
+    ) => Promise<GetFormDataResult<RecordType>>
 
-    getUpdateFormData: <RecordType extends Record = Record>(
+    getUpdateFormData: <RecordType extends FormRecord = FormRecord>(
         resource: string,
         params: GetOneParams,
-    ) => Promise<GetOneResult<RecordType>>
+    ) => Promise<GetFormDataResult<RecordType>>
+
+    getFiltersFormData: (resource: string) => Promise<GetFiltersFormDataResult>
 
     update: <RecordType extends Record = Record>(
         resource: string,
@@ -90,6 +95,13 @@ export interface RecordOptions {
 export interface GetOneResult<RecordType extends Record = Record> {
     data: RecordType
     values: RecordOptions
+}
+export interface GetFormDataResult<RecordType extends FormRecord = FormRecord> {
+    data: RecordType
+    values: RecordOptions
+}
+export interface GetFiltersFormDataResult {
+    options: RecordOptions
 }
 
 export interface UpdateParams<T = any> {

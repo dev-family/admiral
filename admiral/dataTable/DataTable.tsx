@@ -2,10 +2,10 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Table } from '../ui'
 import { ColumnsType, TableProps } from '../ui/Table/interfaces'
 import { ControlledSorter } from '../ui/Table/hooks/useSorter'
-import { useUrlState } from '../utils/hooks'
 import { useDataProvider } from '../dataProvider'
 import { DataTableContextProvider } from './DataTableContext'
 import { arrayMove } from '@dnd-kit/sortable'
+import { useCrudIndex } from '../crud/CrudIndexPageContext'
 
 // TODO: pass table visual props
 // TODO: rowSelection config
@@ -23,7 +23,6 @@ const PAGE_SIZE_DEFAULT = 10
 export function DataTable<RecordType extends { id: number | string }>({
     resource,
     columns,
-    initialSorter,
     dndRows = false,
 }: DataTableProps<RecordType>) {
     const { getList, reorderList } = useDataProvider()
@@ -31,28 +30,27 @@ export function DataTable<RecordType extends { id: number | string }>({
 
     const [loading, setLoading] = useState(false)
     const [total, setTotal] = useState<number>()
-    const [state, setState] = useUrlState({
-        page: '1',
-        page_size: '10',
-        sort: initialSorter ? { [initialSorter.columnKey]: initialSorter.order } : {},
-    })
+    const { urlState, setUrlState } = useCrudIndex()
 
     const sorter = useMemo(() => {
-        const entries = Object.entries(state.sort)
+        const entries = Object.entries(urlState.sort)
         return entries.length > 0
             ? ({
                   columnKey: entries[0][0],
                   order: entries[0][1],
               } as ControlledSorter)
             : null
-    }, [state])
+    }, [urlState])
 
-    async function fetch(resource: string, state: any) {
+    async function fetch(resource: string, state: typeof urlState) {
         setLoading(true)
         try {
+            const [sortField, sortOrder] = Object.entries(state.sort)[0] || []
+
             const response = await getList(resource, {
-                pagination: { perPage: state.page_size, page: state.page },
-                sort: state.sort,
+                pagination: { perPage: +state.page_size, page: +state.page },
+                filter: state.filter,
+                ...(sortField && sortOrder && { sort: { field: sortField, order: sortOrder } }),
             })
 
             setData(response.items as any)
@@ -63,7 +61,7 @@ export function DataTable<RecordType extends { id: number | string }>({
 
     async function reorder(
         resource: string,
-        state: any,
+        state: typeof urlState,
         ids: Array<string | number>,
         replaces: string[],
     ) {
@@ -80,24 +78,25 @@ export function DataTable<RecordType extends { id: number | string }>({
     }
 
     const refresh = useCallback(() => {
-        fetch(resource, state)
-    }, [resource, state, fetch])
+        fetch(resource, urlState)
+    }, [resource, urlState, fetch])
 
     useEffect(() => {
-        fetch(resource, state)
-    }, [resource, state])
+        fetch(resource, urlState)
+    }, [resource, urlState])
 
     const onTableChange: TableProps<RecordType>['onChange'] = (pagination, sorter, extra) => {
         if (extra.action === 'paginate') {
             const { current, pageSize } = pagination
-            setState({
-                page: current !== PAGE_DEFAULT ? current : undefined,
-                page_size: pageSize !== PAGE_SIZE_DEFAULT ? pageSize : undefined,
+            setUrlState({
+                page: current ? String(current) : undefined,
+                page_size: pageSize ? String(pageSize) : undefined,
             })
         }
         if (extra.action === 'sort') {
             const { columnKey, order } = sorter
-            setState(columnKey && order ? { sort: { [columnKey]: order } } : { sort: undefined })
+            const sort = columnKey && order ? { sort: { [columnKey]: order } } : { sort: {} }
+            setUrlState((prev) => ({ ...prev, sort }))
         }
     }
 
@@ -122,13 +121,13 @@ export function DataTable<RecordType extends { id: number | string }>({
                 setData(nextData)
                 reorder(
                     resource,
-                    state,
+                    urlState,
                     nextData.map((i) => i.id),
                     [prevId, nextId],
                 ).catch(() => setData(prevData))
             }
         },
-        [data, state, reorder, resource],
+        [data, urlState, reorder, resource],
     )
 
     return (
@@ -143,8 +142,8 @@ export function DataTable<RecordType extends { id: number | string }>({
                 }}
                 sticky
                 pagination={{
-                    current: +state.page,
-                    pageSize: +state.page_size,
+                    current: +urlState.page,
+                    pageSize: +urlState.page_size,
                     total,
                     showTotal: (total) => `Всего ${total}`,
                     showSizeChanger: !!total && total > 10,

@@ -10,6 +10,7 @@ import { useDataProvider } from '../dataProvider'
 import React, { useCallback } from 'react'
 import { useDataTable } from '../dataTable/DataTableContext'
 import { Locale as FormLocale } from '../form/interfaces'
+import { Locale as FiltersLocale } from '../filters/interfaces'
 import { CrudIndexPageContextProvider } from './CrudIndexPageContext'
 import { Filters } from '../filters'
 
@@ -46,6 +47,7 @@ export type CRUDConfig<RecordType> = {
     }
     locale?: {
         form: FormLocale
+        filters: FiltersLocale
     }
     filter?: { fields: JSX.Element }
 }
@@ -117,7 +119,10 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                         dndRows={dndRows}
                     />
                     {!!config.filter && (
-                        <Filters fetchInitialData={fetchInitialFiltersData}>
+                        <Filters
+                            fetchInitialData={fetchInitialFiltersData}
+                            locale={config.locale?.filters}
+                        >
                             {config.filter.fields}
                         </Filters>
                     )}

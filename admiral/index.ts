@@ -38,6 +38,8 @@ export * from './form'
 
 export * from './dataTable/fields'
 
+export * as filtersLocale from './filters/locale'
+
 export * from './actions'
 
 export * from './admin'

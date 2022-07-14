@@ -23,6 +23,7 @@ export const UsersCRUD = createCRUD({
     index: {
         title: 'Users CRUD',
         newButtonText: 'Create New User',
+        filterButtonText: 'Filter',
         tableOptions: [
             {
                 title: 'Avatar',
@@ -56,9 +57,25 @@ export const UsersCRUD = createCRUD({
                 width: 150,
                 ellipsis: true,
             },
+            {
+                title: 'Active',
+                dataIndex: 'active',
+                key: 'active',
+                width: 150,
+                render: (value) => (value ? 'Yes' : 'No'),
+            },
         ],
     },
     table: { dndRows: true },
+    filter: {
+        fields: (
+            <>
+                <TextInput label="Name" name="name" placeholder="Name" />
+                <SelectInput label="Role" name="role" placeholder="Choose Role" />
+                <BooleanInput label="Active?" name="active" />
+            </>
+        ),
+    },
     form: {
         create: {
             fields: (
@@ -129,6 +146,7 @@ export const UsersCRUD = createCRUD({
                         />
                         <BooleanInput label="Выходной?" name="day_off" />
                     </ArrayInput>
+                    <BooleanInput label="Active?" name="active" />
                 </>
             ),
         },
@@ -195,6 +213,7 @@ export const UsersCRUD = createCRUD({
                         />
                         <BooleanInput label="Выходной?" name="day_off" />
                     </ArrayInput>
+                    <BooleanInput label="Active?" name="active" />
                 </>
             ),
         },

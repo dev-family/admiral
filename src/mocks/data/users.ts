@@ -12,6 +12,7 @@ export interface IUser {
     role: string
     avatar: UploadFile | null
     schedule: any[]
+    active: boolean
 }
 
 export class UserList {
@@ -32,6 +33,14 @@ export class UserList {
                 { label: 'Суббота', value: '6' },
                 { label: 'Воскресенье', value: '7' },
             ],
+            group: [
+                { label: 'Aдминистрация', value: 'admin' },
+                { label: 'Проектные менеджеры', value: 'project_manager' },
+            ],
+            role: [
+                { label: 'Бухгалтер', value: 'accountant' },
+                { label: 'Кадровик', value: 'recruiter' },
+            ],
         }
     }
 
@@ -44,8 +53,8 @@ export class UserList {
                 name: `User ${i}`,
                 email: 'test@test.com',
                 password: '12345',
-                group: ['project_manager'],
-                role: 'accountant',
+                group: randomFromValues([['project_manager'], ['admin']]),
+                role: randomFromValues(['accountant', 'recruiter']),
                 avatar: null,
                 schedule: [
                     {
@@ -98,6 +107,7 @@ export class UserList {
                         end_time: '16:00',
                     },
                 ],
+                active: randomFromValues([true, false]),
             })
             this.id += 1
         }
@@ -118,6 +128,7 @@ export class UserList {
             id: newId,
             key: newId,
             schedule: [],
+            active: false,
         }
 
         this.users = [newUser, ...this.users]
@@ -206,12 +217,35 @@ export class UserList {
         })
     }
 
-    getUsers(start: number = 0, end: number = -1, sort?: string[]) {
+    filterBy(params: Record<keyof IUser, any>, data: IUser[]) {
+        let result: IUser[] = data
+        if (params.name) {
+            result = result.filter((i) =>
+                i.name.toLocaleLowerCase().includes(params.name.toLowerCase()),
+            )
+        }
+        if (params.role) {
+            result = result.filter((i) => i.role === params.role)
+        }
+        if (params.active) {
+            const active = params.active === 'true'
+            result = result.filter((i) => i.active === active)
+        }
+        return result
+    }
+
+    getUsers(
+        start: number = 0,
+        end: number = -1,
+        sort: string[] | undefined,
+        filter?: Record<keyof IUser, any>,
+    ) {
         const sortField = sort?.[0] ?? null
         const sortOrder = sort?.[1] ?? null
 
         const sortedUsers = this.sortBy(sortField, sortOrder)
-        return sortedUsers.slice(start, end)
+        const filteredUsers = !!filter ? this.filterBy(filter, sortedUsers) : sortedUsers
+        return [filteredUsers.slice(start, end), filteredUsers]
     }
 
     getUserById(id: number | string) {
@@ -225,4 +259,9 @@ export class UserList {
     get length() {
         return this.users.length
     }
+}
+
+function randomFromValues<T>(values: T[]) {
+    const random = Math.floor(Math.random() * values.length)
+    return values[random]
 }

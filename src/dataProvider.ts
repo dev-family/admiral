@@ -45,6 +45,11 @@ const dataProvider = (apiUrl: string): DataProvider => ({
         return _.get(url)({})
     },
 
+    getFiltersFormData: (resource) => {
+        const url = `${apiUrl}/${resource}/filters`
+        return _.get(url)({})
+    },
+
     create: (resource, params) => {
         const url = `${apiUrl}/${resource}`
         return _.postFD(url)({ data: params.data })

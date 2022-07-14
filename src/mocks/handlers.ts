@@ -2,6 +2,7 @@ import { rest } from 'msw'
 import { IUser, UserList } from './data/users'
 import zipObjectDeep from 'lodash.zipobjectdeep'
 import { UploadFile } from 'admiral/ui/Upload/interfaces'
+import qs from 'qs'
 
 const userList = new UserList()
 
@@ -10,16 +11,19 @@ export const handlers = [
         const page = Number(req.url.searchParams.get('page')) || 1
         const pageSize = Number(req.url.searchParams.get('perPage')) || 10
         const sort = JSON.parse(req.url.searchParams.get('sort') || '{}') as Record<any, any>
+        const filter = (qs.parse(req.url.searchParams.toString()).filter || {}) as Record<any, any>
 
         const from = page * pageSize - pageSize
         const to = page * pageSize
+
+        const [items, all] = userList.getUsers(from, to, Object.entries(sort)[0], filter)
 
         return res(
             ctx.delay(1600),
             ctx.status(200),
             ctx.json({
-                items: userList.getUsers(from, to, Object.entries(sort)[0]),
-                meta: { current: page, total: userList.length, page_size: pageSize },
+                items,
+                meta: { current: page, total: all.length, page_size: pageSize },
             }),
         )
     }),
@@ -45,6 +49,11 @@ export const handlers = [
         const options = userList.getOptions()
 
         return res(ctx.delay(160), ctx.status(200), ctx.json({ data: {}, values: options }))
+    }),
+    rest.get('/api/users/filters', (req, res, ctx) => {
+        const options = userList.getOptions()
+
+        return res(ctx.delay(160), ctx.status(200), ctx.json({ options }))
     }),
     rest.get('/api/users/:id/update', (req, res, ctx) => {
         const { id } = req.params

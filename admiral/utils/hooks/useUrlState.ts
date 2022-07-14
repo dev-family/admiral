@@ -26,6 +26,7 @@ const useUrlState = <S extends UrlState = UrlState>(
     const queryFromUrl = useMemo(() => {
         return parse(location.search.replace(/(^[?])/gi, ''), {
             arrayLimit: 100,
+            decoder,
         })
     }, [location.search])
 
@@ -55,6 +56,27 @@ const useUrlState = <S extends UrlState = UrlState>(
     }
 
     return [targetQuery, setState] as const
+}
+
+function decoder(str: string) {
+    const strWithoutPlus = str.replace(/\+/g, ' ')
+
+    const keywords: Record<string, any> = {
+        true: true,
+        false: false,
+        null: null,
+        undefined,
+    }
+    if (str in keywords) {
+        return keywords[str]
+    }
+
+    // utf-8
+    try {
+        return decodeURIComponent(strWithoutPlus)
+    } catch (e) {
+        return strWithoutPlus
+    }
 }
 
 export default useUrlState

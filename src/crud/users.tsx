@@ -10,6 +10,7 @@ import {
     TimePickerInput,
     BooleanInput,
     DraggerInput,
+    DatePickerInput,
 } from '../../admiral'
 import api from '../api'
 
@@ -71,8 +72,20 @@ export const UsersCRUD = createCRUD({
         fields: (
             <>
                 <TextInput label="Name" name="name" placeholder="Name" />
-                <SelectInput label="Role" name="role" placeholder="Choose Role" />
+                <SelectInput label="Role" name="role" placeholder="Choose Role" allowClear />
                 <BooleanInput label="Active?" name="active" />
+                <TimePickerInput label="Time" name="time" placeholder="Time" format="HH:mm" />
+                <DatePickerInput label="Date" name="date" placeholder="Date" />
+                <SelectInput label="Group" name="group" placeholder="Choose Group" mode="multiple">
+                    <SelectInput.Option value="admin">Admins</SelectInput.Option>
+                    <SelectInput.Option value="project_manager">
+                        Project Managers
+                    </SelectInput.Option>
+                </SelectInput>
+                <SelectInput label="Role 2" name="role 2" placeholder="Choose Role 2">
+                    <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
+                    <SelectInput.Option value="recruiter">Recruiter</SelectInput.Option>
+                </SelectInput>
             </>
         ),
     },

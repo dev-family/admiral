@@ -136,7 +136,7 @@ $dropdown-list-space-s: var(--space-2xs);
         }
     }
 
-    &:not(.#{$prefix-class}-focused):not(.#{$prefix-class}-disabled):hover {
+    &:not(.#{$prefix-class}-disabled):hover {
         --border-color-hover: var(--color-control-bg-border-default-hover);
 
         &.#{$prefix-class}__Alert {

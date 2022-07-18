@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Switch } from '../../ui'
@@ -19,10 +19,6 @@ export const BooleanInput: React.FC<BooleanInputProps> = ({
     const { values, errors, setValues } = useForm()
     const checked = values[name]
     const error = errors[name]?.[0]
-
-    useEffect(() => {
-        setValues((values: any) => ({ ...values, [name]: checked ?? false }))
-    }, [])
 
     const onChange = useCallback((checked) => {
         setValues((values: any) => ({ ...values, [name]: checked }))

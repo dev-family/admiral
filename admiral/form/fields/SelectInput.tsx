@@ -4,6 +4,7 @@ import { Form } from '../Form'
 import { Select } from '../../ui'
 import type { SelectProps } from '../../ui/Select/interfaces'
 import { FormItemProps } from '../Item'
+import { InputComponentWithName } from '../interfaces'
 
 const { OptGroup, Option } = Select
 
@@ -53,10 +54,13 @@ const InternalSelectInput: React.FC<SelectInputProps> = ({
     )
 }
 
-export const SelectInput = InternalSelectInput as typeof InternalSelectInput & {
+type SelectInputType = typeof InternalSelectInput & {
     Option: typeof Option
     OptGroup: typeof OptGroup
 }
 
+export const SelectInput = InternalSelectInput as InputComponentWithName<SelectInputType>
+
 SelectInput.Option = Option
 SelectInput.OptGroup = OptGroup
+SelectInput.inputName = 'SelectInput'

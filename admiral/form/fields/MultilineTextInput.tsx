@@ -4,12 +4,13 @@ import { Form } from '../Form'
 import { Textarea } from '../../ui'
 import type { TextareaProps } from '../../ui/Textarea/interfaces'
 import { FormItemProps } from '../Item'
+import { InputComponentWithName } from '../interfaces'
 
 export interface MultilineTextInputProps extends TextareaProps, FormItemProps {
     name: string
 }
 
-export const MultilineTextInput: React.FC<MultilineTextInputProps> = ({
+export const MultilineTextInput: InputComponentWithName<React.FC<MultilineTextInputProps>> = ({
     name,
     label,
     required,
@@ -36,3 +37,5 @@ export const MultilineTextInput: React.FC<MultilineTextInputProps> = ({
         </Form.Item>
     )
 }
+
+MultilineTextInput.inputName = 'MultilineTextInput'

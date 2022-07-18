@@ -4,12 +4,13 @@ import { Form } from '../Form'
 import { Switch } from '../../ui'
 import type { SwitchProps } from '../../ui/Switch/interfaces'
 import { FormItemProps } from '../Item'
+import { InputComponentWithName } from '../interfaces'
 
 export interface BooleanInputProps extends SwitchProps, FormItemProps {
     name: string
 }
 
-export const BooleanInput: React.FC<BooleanInputProps> = ({
+export const BooleanInput: InputComponentWithName<React.FC<BooleanInputProps>> = ({
     name,
     label,
     required,
@@ -30,3 +31,5 @@ export const BooleanInput: React.FC<BooleanInputProps> = ({
         </Form.Item>
     )
 }
+
+BooleanInput.inputName = 'BooleanInput'

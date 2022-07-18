@@ -3,3 +3,19 @@
     gap: var(--space-l);
     justify-content: flex-end;
 }
+
+.appliedFilters {
+    display: flex;
+    gap: var(--space-s);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-l);
+}
+
+.appliedFilters_Remove {
+    opacity: 0.6;
+    transition: opacity 0.16s linear;
+
+    &:hover {
+        opacity: 1;
+    }
+}

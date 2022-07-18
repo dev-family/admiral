@@ -4,12 +4,13 @@ import { Form } from '../Form'
 import { Editor } from '../../ui'
 import type { EditorProps } from '../../ui/Editor/interfaces'
 import { FormItemProps } from '../Item'
+import { InputComponentWithName } from '../interfaces'
 
 export interface EditorInputProps extends EditorProps, FormItemProps {
     name: string
 }
 
-export const EditorInput: React.FC<EditorInputProps> = ({
+export const EditorInput: InputComponentWithName<React.FC<EditorInputProps>> = ({
     name,
     label,
     required,
@@ -30,3 +31,5 @@ export const EditorInput: React.FC<EditorInputProps> = ({
         </Form.Item>
     )
 }
+
+EditorInput.inputName = 'EditorInput'

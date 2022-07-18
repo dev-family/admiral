@@ -8,6 +8,7 @@ import { nanoid } from 'nanoid'
 import cn from 'classnames'
 import type { Record as DataProviderRecord } from '../../dataProvider'
 import styles from '../Form.module.scss'
+import { InputComponentWithName } from '../interfaces'
 
 export interface ArrayInputProps extends FormItemProps {
     name: string
@@ -18,7 +19,7 @@ export interface ArrayInputProps extends FormItemProps {
     children: React.ReactNode
 }
 
-export const ArrayInput: React.FC<ArrayInputProps> = ({
+export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
     name,
     label,
     required,
@@ -170,6 +171,8 @@ export const ArrayInput: React.FC<ArrayInputProps> = ({
         </Form.Item>
     )
 }
+
+ArrayInput.inputName = 'ArrayInput'
 
 const getFormErrorsByIndex = (
     errors: Record<string, string[]>,

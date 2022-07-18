@@ -4,12 +4,13 @@ import { Form } from '../Form'
 import { Upload } from '../../ui'
 import { UploadProps } from '../../ui/Upload/interfaces'
 import { FormItemProps } from '../Item'
+import { InputComponentWithName } from '../interfaces'
 
 export type DraggerInputProps = FormItemProps & {
     name: string
 } & UploadProps
 
-export const DraggerInput: React.FC<DraggerInputProps> = ({
+export const DraggerInput: InputComponentWithName<React.FC<DraggerInputProps>> = ({
     name,
     label,
     required,
@@ -46,3 +47,5 @@ export const DraggerInput: React.FC<DraggerInputProps> = ({
         </Form.Item>
     )
 }
+
+DraggerInput.inputName = 'DraggerInput'

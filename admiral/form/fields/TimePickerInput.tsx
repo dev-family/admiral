@@ -6,6 +6,7 @@ import { FormItemProps } from '../Item'
 import parse from 'date-fns/parse'
 import isValid from 'date-fns/isValid'
 import parseISO from 'date-fns/parseISO'
+import { InputComponentWithName } from '../interfaces'
 
 interface TimePickerProps extends Omit<BaseTimePickerProps, 'format'> {}
 
@@ -14,7 +15,7 @@ export type TimePickerInputProps = FormItemProps & {
     format: string
 } & TimePickerProps
 
-export const TimePickerInput: React.FC<TimePickerInputProps> = ({
+export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputProps>> = ({
     name,
     label,
     required,
@@ -41,6 +42,8 @@ export const TimePickerInput: React.FC<TimePickerInputProps> = ({
 TimePickerInput.defaultProps = {
     format: 'HH:mm:ss',
 }
+
+TimePickerInput.inputName = 'TimePickerInput'
 
 export const parseValue = (value: string, format: string) => {
     const fullISO = parseISO(value)

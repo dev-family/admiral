@@ -5,12 +5,13 @@ import { DatePicker } from '../../ui'
 import { PickerProps } from '../../ui/DatePicker/generatePicker/interfaces'
 import { FormItemProps } from '../Item'
 import parseISO from 'date-fns/parseISO'
+import { InputComponentWithName } from '../interfaces'
 
 export type DatePickerInputProps = FormItemProps & {
     name: string
 } & PickerProps<Date>
 
-export const DatePickerInput: React.FC<DatePickerInputProps> = ({
+export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputProps>> = ({
     name,
     label,
     required,
@@ -32,3 +33,5 @@ export const DatePickerInput: React.FC<DatePickerInputProps> = ({
         </Form.Item>
     )
 }
+
+DatePickerInput.inputName = 'DatePickerInput'

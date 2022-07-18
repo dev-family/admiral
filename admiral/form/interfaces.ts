@@ -21,10 +21,12 @@ export const INPUT_NAMES = {
     filePicture: 'FilePictureInput',
     multilineText: 'MultilineTextInput',
     password: 'PasswordInput',
-    select: 'InternalSelectInput',
+    select: 'SelectInput',
     text: 'TextInput',
     timePicker: 'TimePickerInput',
 } as const
 
 const inputTypes = tuple(...Object.values(INPUT_NAMES))
 export type FormInputType = typeof inputTypes[number]
+
+export type InputComponentWithName<T> = T & { inputName: FormInputType }

@@ -4,12 +4,13 @@ import { Form } from '../Form'
 import { Input } from '../../ui'
 import type { InputProps } from '../../ui/Input/interfaces'
 import { FormItemProps } from '../Item'
+import { InputComponentWithName } from '../interfaces'
 
 export interface TextInputProps extends InputProps, FormItemProps {
     name: string
 }
 
-export const TextInput: React.FC<TextInputProps> = ({
+export const TextInput: InputComponentWithName<React.FC<TextInputProps>> = ({
     name,
     label,
     required,
@@ -30,3 +31,5 @@ export const TextInput: React.FC<TextInputProps> = ({
         </Form.Item>
     )
 }
+
+TextInput.inputName = 'TextInput'

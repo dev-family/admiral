@@ -4,12 +4,13 @@ import { Form } from '../Form'
 import { Password } from '../../ui'
 import type { InputProps } from '../../ui/Input/interfaces'
 import { FormItemProps } from '../Item'
+import { InputComponentWithName } from '../interfaces'
 
 export interface PasswordInputProps extends InputProps, FormItemProps {
     name: string
 }
 
-export const PasswordInput: React.FC<PasswordInputProps> = ({
+export const PasswordInput: InputComponentWithName<React.FC<PasswordInputProps>> = ({
     name,
     label,
     required,
@@ -36,3 +37,5 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
         </Form.Item>
     )
 }
+
+PasswordInput.inputName = 'PasswordInput'

@@ -4,13 +4,14 @@ import { Form } from '../Form'
 import { ColorPicker } from '../../ui'
 import type { ColorPickerProps, ColorPickerResult } from '../../ui/ColorPicker/interfaces'
 import { FormItemProps } from '../Item'
+import { InputComponentWithName } from '../interfaces'
 
 export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps {
     name: string
     outputValue?: keyof ColorPickerResult
 }
 
-export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({
+export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputProps>> = ({
     name,
     label,
     required,
@@ -45,3 +46,5 @@ export const ColorPickerInput: React.FC<ColorPickerInputProps> = ({
         </Form.Item>
     )
 }
+
+ColorPickerInput.inputName = 'ColorPickerInput'

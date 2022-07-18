@@ -54,7 +54,7 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
             })
             .map((child: any): FilterField => {
                 const selectExtra =
-                    child.type.name === INPUT_NAMES.select ? getSelectExtra(child) : undefined
+                    child.type.inputName === INPUT_NAMES.select ? getSelectExtra(child) : undefined
 
                 if (selectExtra?.options) {
                     setFilterOptions((prev) => ({
@@ -66,10 +66,10 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
                 return {
                     name: child.props.name,
                     label: child.props.label,
-                    type: child.type.name,
+                    type: child.type.inputName,
                     extra: {
                         timePicker:
-                            child.type.name === INPUT_NAMES.timePicker
+                            child.type.inputName === INPUT_NAMES.timePicker
                                 ? getTimePickerExtra(child)
                                 : undefined,
                     },

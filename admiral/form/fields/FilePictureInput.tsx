@@ -5,12 +5,13 @@ import { Upload, Button } from '../../ui'
 import { FiUpload } from 'react-icons/fi'
 import { UploadProps } from '../../ui/Upload/interfaces'
 import { FormItemProps } from '../Item'
+import { InputComponentWithName } from '../interfaces'
 
 export type FilePictureInputProps = FormItemProps & {
     name: string
 } & UploadProps
 
-export const FilePictureInput: React.FC<FilePictureInputProps> = ({
+export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputProps>> = ({
     name,
     label,
     required,
@@ -39,3 +40,5 @@ export const FilePictureInput: React.FC<FilePictureInputProps> = ({
         </Form.Item>
     )
 }
+
+FilePictureInput.inputName = 'FilePictureInput'

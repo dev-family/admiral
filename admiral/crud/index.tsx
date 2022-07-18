@@ -12,7 +12,7 @@ import { useDataTable } from '../dataTable/DataTableContext'
 import { Locale as FormLocale } from '../form/interfaces'
 import { Locale as FiltersLocale } from '../filters/interfaces'
 import { CrudIndexPageContextProvider } from './CrudIndexPageContext'
-import { Filters } from '../filters'
+import { AppliedFilters, Filters } from '../filters'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
@@ -79,6 +79,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                         )
                     }
                 >
+                    <AppliedFilters />
                     <DataTable
                         resource={config.resource}
                         columns={[

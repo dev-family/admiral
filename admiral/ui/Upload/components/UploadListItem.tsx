@@ -124,7 +124,7 @@ const ListItem = React.forwardRef(
             )
 
         return (
-            <div ref={ref}>
+            <div ref={ref} style={{ height: '100%' }}>
                 {itemRender
                     ? itemRender(item, file, items, {
                           remove: onClose.bind(null, file),

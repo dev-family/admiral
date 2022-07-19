@@ -36,7 +36,8 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
     transition: border-color 0.2s ease;
 
     &__PictureCard {
-        height: auto;
+        height: 100%;
+        min-height: 108px;
         &::before {
             content: '';
             position: absolute;
@@ -140,7 +141,13 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
 
     &__PictureCard {
         width: 86px;
-        height: auto;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg {
+            font-size: 50px;
+        }
     }
     &__DefaultPictureCardUpload {
         display: flex;

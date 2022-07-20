@@ -10,6 +10,13 @@
     &:not(:empty) {
         padding-top: var(--space-s);
     }
+    &.list-picture-card {
+        padding-top: initial;
+    }
+}
+.list-picture-card {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 $item-border-width: 1px;
@@ -28,17 +35,49 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
     color: var(--upload-color, var(--color-control-typo-default));
     transition: border-color 0.2s ease;
 
-    &:hover {
-        border-color: var(
-            --upload-picture-item-bcolor-hover,
-            var(--color-control-bg-border-default-hover)
-        );
+    &__PictureCard {
+        height: 100%;
+        min-height: 108px;
+        &::before {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border: 1px solid
+                var(--upload-picture-item-bcolor, var(--color-control-bg-border-default));
+            border-radius: var(--upload-picture-item-bradius, var(--control-radius));
+            background-color: var(--color-bg-tone);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        &:hover {
+            border-color: var(
+                --upload-picture-item-bcolor-hover,
+                var(--color-control-bg-border-default-hover)
+            );
+            &::before {
+                opacity: 0.8;
+            }
+            .item_Actions {
+                opacity: 1;
+            }
+        }
     }
 
     &__Error {
         --upload-picture-item-bcolor: var(--color-bg-alert);
         --upload-picture-item-bcolor-hover: var(--color-bg-alert);
         --upload-color: var(--color-typo-alert);
+    }
+
+    &:global(.upload) {
+        display: block;
+        height: 100%;
+        border: none;
     }
 }
 
@@ -47,6 +86,9 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
     gap: var(--upload-picture-item-padding, $item-padding);
     align-items: center;
     height: 100%;
+    &__PictureCard {
+        position: relative;
+    }
 }
 
 .item_Name {
@@ -61,6 +103,17 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
     display: flex;
     flex-shrink: 0;
     gap: var(--space-2xs);
+
+    &__PictureCard {
+        opacity: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+    }
 }
 
 .item_Thumb {
@@ -85,6 +138,27 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
         width: 16px;
         height: auto;
     }
+
+    &__PictureCard {
+        width: 86px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg {
+            font-size: 50px;
+        }
+    }
+    &__DefaultPictureCardUpload {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 86px;
+        height: 100%;
+        min-height: 86px;
+    }
 }
 
 .item_Image {
@@ -94,6 +168,10 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
     height: 100%;
     z-index: 1;
     object-fit: cover;
+}
+
+.item_ActionButton {
+    --button-bg-focus: transparent;
 }
 
 :global {
@@ -110,6 +188,9 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
             &:hover {
                 background-color: var(--color-control-bg-clear-hover);
                 border-color: var(--color-control-bg-border-default-hover);
+            }
+            &-container {
+                height: 100%;
             }
         }
         &-btn {

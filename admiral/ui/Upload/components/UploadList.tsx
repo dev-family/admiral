@@ -5,22 +5,26 @@ import { previewImage, isImageUrl } from '../utils'
 import { useTransition, animated, config } from 'react-spring'
 import { UploadListProps, UploadFile } from '../interfaces'
 import styles from '../Upload.module.scss'
+import cn from 'classnames'
 
-// TODO: text/picture-card listType
+// TODO: text listType
 
 const UploadList: React.FC<UploadListProps> = ({
     listType,
     onRemove,
+    onPreview,
     locale,
     isImageUrl: isImgUrl,
     items = [],
     showRemoveIcon,
+    showPreviewIcon,
     itemRender,
     previewFile,
+    appendButton,
 }) => {
     const forceUpdate = useForceUpdate()
     useEffect(() => {
-        if (listType !== 'picture') {
+        if (listType !== 'picture' && listType !== 'picture-card') {
             return
         }
 
@@ -49,18 +53,33 @@ const UploadList: React.FC<UploadListProps> = ({
     const onInternalClose = (file: UploadFile) => {
         onRemove?.(file)
     }
+    const onInternalPreview = (e: React.MouseEvent, file: UploadFile) => {
+        if (!onPreview) {
+            return
+        }
+        e?.preventDefault()
+        return onPreview(file)
+    }
 
     const transitions = useTransition(items, {
-        initial: { opacity: 1, transform: 'translate3d(0px, 0%, 0px)', height: 60 },
+        initial: {
+            opacity: 1,
+            transform: 'translate3d(0px, 0%, 0px)',
+            height: listType === 'picture-card' ? 'auto' : 60,
+        },
         from: { opacity: 0, transform: 'translate3d(0px, 10%, 0px)' },
-        enter: { opacity: 1, transform: 'translate3d(0px, 0%, 0px)', height: 60 },
+        enter: {
+            opacity: 1,
+            transform: 'translate3d(0px, 0%, 0px)',
+            height: listType === 'picture-card' ? 'auto' : 60,
+        },
         leave: {
             opacity: 0,
             transform: 'translate3d(0px, -10%, 0px)',
             height: 0,
             config: { duration: 100 },
         },
-        update: { height: 60 },
+        update: { height: listType === 'picture-card' ? 'auto' : 60 },
         config: (book) => ({
             ...config.stiff,
             friction: 0,
@@ -70,7 +89,11 @@ const UploadList: React.FC<UploadListProps> = ({
     })
 
     return (
-        <div className={styles.list}>
+        <div
+            className={cn(styles.list, {
+                [styles['list-picture-card']]: listType === 'picture-card',
+            })}
+        >
             {transitions((style, file) => (
                 <animated.div style={style}>
                     <ListItem
@@ -80,11 +103,14 @@ const UploadList: React.FC<UploadListProps> = ({
                         listType={listType}
                         isImgUrl={isImgUrl}
                         showRemoveIcon={showRemoveIcon}
+                        showPreviewIcon={showPreviewIcon}
                         itemRender={itemRender}
                         onClose={onInternalClose}
+                        onPreview={onInternalPreview}
                     />
                 </animated.div>
             ))}
+            {appendButton}
         </div>
     )
 }

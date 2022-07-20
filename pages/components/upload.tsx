@@ -68,6 +68,10 @@ export default function UploadPage() {
         return fileList || []
     }, [])
 
+    const handlePreview = async (file: UploadFile) => {
+        console.log('handlePreview file', file)
+    }
+
     return (
         <Page title="Upload">
             <div
@@ -104,7 +108,40 @@ export default function UploadPage() {
                 >
                     <Button iconLeft={<FiUpload />}>Click to Upload</Button>
                 </Upload>
-                <h2>Default draggable</h2>
+                <br />
+                <h2>Picture cards (maxCount: 4)</h2>
+                <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={updateFileList}
+                    maxCount={4}
+                />
+                <h2>Picture cards (custom upload button)</h2>
+                <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={updateFileList}
+                >
+                    <>
+                        <b>Click here</b>
+                        <br />
+                        or <br />
+                        <b>Drop item</b> <br />
+                        to upload
+                    </>
+                </Upload>
+                <h2>Picture cards (disabled)</h2>
+                <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={updateFileList}
+                    disabled
+                />
+                <br />
+                <h2>Default draggable (maxCount 3)</h2>
                 <Dragger
                     onDrop={(e) => {
                         console.log('drop event', e)
@@ -112,6 +149,7 @@ export default function UploadPage() {
                     multiple
                     fileList={fileListMultiple}
                     onChange={updateFileListMultiple}
+                    maxCount={3}
                 />
                 <h2>Custom draggable (disabled)</h2>
                 <Dragger

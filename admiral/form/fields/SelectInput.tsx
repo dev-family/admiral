@@ -12,7 +12,7 @@ export interface SelectInputProps extends SelectProps, FormItemProps {
     name: string
 }
 
-const InternalSelectInput: React.FC<SelectInputProps> = ({
+const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = ({
     name,
     label,
     required = false,
@@ -54,13 +54,12 @@ const InternalSelectInput: React.FC<SelectInputProps> = ({
     )
 }
 
-type SelectInputType = typeof InternalSelectInput & {
+InternalSelectInput.inputName = 'SelectInput'
+
+export const SelectInput = InternalSelectInput as typeof InternalSelectInput & {
     Option: typeof Option
     OptGroup: typeof OptGroup
 }
 
-export const SelectInput = InternalSelectInput as InputComponentWithName<SelectInputType>
-
 SelectInput.Option = Option
 SelectInput.OptGroup = OptGroup
-SelectInput.inputName = 'SelectInput'

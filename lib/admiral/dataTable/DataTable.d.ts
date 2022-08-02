@@ -9,4 +9,4 @@ export declare type DataTableProps<RecordType> = {
 };
 export declare function DataTable<RecordType extends {
     id: number | string;
-}>({ resource, columns, initialSorter, dndRows, }: DataTableProps<RecordType>): JSX.Element;
+}>({ resource, columns, dndRows, }: DataTableProps<RecordType>): JSX.Element;

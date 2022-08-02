@@ -3,6 +3,9 @@ export interface Record {
     id: Identifier;
     [key: string]: any;
 }
+export interface FormRecord {
+    [key: string]: any;
+}
 export interface SortPayload {
     field: string;
     order: string;
@@ -27,8 +30,9 @@ export declare type DataProvider = {
     getList: <RecordType extends Record = Record>(resource: string, params: Partial<GetListParams>) => Promise<GetListResult<RecordType>>;
     reorderList: (resource: string, params: ReorderParams) => Promise<void>;
     getOne: <RecordType extends Record = Record>(resource: string, params: GetOneParams) => Promise<GetOneResult<RecordType>>;
-    getCreateFormData: <RecordType extends Record = Record>(resource: string) => Promise<GetOneResult<RecordType>>;
-    getUpdateFormData: <RecordType extends Record = Record>(resource: string, params: GetOneParams) => Promise<GetOneResult<RecordType>>;
+    getCreateFormData: <RecordType extends FormRecord = FormRecord>(resource: string) => Promise<GetFormDataResult<RecordType>>;
+    getUpdateFormData: <RecordType extends FormRecord = FormRecord>(resource: string, params: GetOneParams) => Promise<GetFormDataResult<RecordType>>;
+    getFiltersFormData: (resource: string) => Promise<GetFiltersFormDataResult>;
     update: <RecordType extends Record = Record>(resource: string, params: UpdateParams) => Promise<UpdateResult<RecordType>>;
     create: <RecordType extends Record = Record>(resource: string, params: CreateParams) => Promise<CreateResult<RecordType>>;
     deleteOne: <RecordType extends Record = Record>(resource: string, params: DeleteParams) => Promise<DeleteResult<RecordType>>;
@@ -49,11 +53,19 @@ export interface ReorderParams<T = any> {
 export interface GetOneParams {
     id: Identifier;
 }
+export interface RecordOptions {
+    [k: string]: OptionType[];
+}
 export interface GetOneResult<RecordType extends Record = Record> {
     data: RecordType;
-    values: {
-        [k: string]: OptionType[];
-    };
+    values: RecordOptions;
+}
+export interface GetFormDataResult<RecordType extends FormRecord = FormRecord> {
+    data: RecordType;
+    values: RecordOptions;
+}
+export interface GetFiltersFormDataResult {
+    options: RecordOptions;
 }
 export interface UpdateParams<T = any> {
     id: Identifier;

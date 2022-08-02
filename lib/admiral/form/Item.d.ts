@@ -6,6 +6,7 @@ export interface FormItemProps {
     required?: boolean;
     columnSpan?: 1 | 2;
     onLabelClick?: React.MouseEventHandler<HTMLLabelElement>;
+    labelAs?: string | React.JSXElementConstructor<any>;
 }
 declare const Item: React.FC<FormItemProps>;
 export default Item;

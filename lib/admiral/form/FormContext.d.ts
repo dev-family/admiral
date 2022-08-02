@@ -1,5 +1,6 @@
 import React from 'react';
 import { OptionType } from '../dataProvider';
+import { Locale } from './interfaces';
 export declare type FormErrorsType = Record<string, string[]>;
 export declare type FieldValues = Record<string, any>;
 export declare type FormContextValue<TFieldValues extends FieldValues> = {
@@ -10,6 +11,7 @@ export declare type FormContextValue<TFieldValues extends FieldValues> = {
     setValues: React.Dispatch<React.SetStateAction<any>>;
     isSubmitting: boolean;
     isFetching: boolean;
+    locale: Locale;
 };
 export declare type FormProviderProps<TFieldValues extends FieldValues> = {
     value: FormContextValue<TFieldValues>;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { RcFile, UploadRequestOption as RcCustomRequestOptions, UploadProps as RcUploadProps } from 'rc-upload/lib/interface';
 export type { RcFile };
-export declare type UploadFileStatus = 'error' | 'removed';
+export declare type UploadFileStatus = 'error' | 'removed' | 'uploading';
 export declare type UploadFileError = {
     message: string;
 };
@@ -25,14 +25,17 @@ export interface UploadChangeParam<T = UploadFile> {
 }
 export interface ShowUploadListInterface {
     showRemoveIcon?: boolean;
+    showPreviewIcon?: boolean;
 }
 export interface UploadLocale {
     removeFile?: string;
     previewFile?: string;
     uploadError?: string;
+    clickToUpload?: string;
+    pictureCardUpload?: string;
 }
 export declare type UploadType = 'drag' | 'select';
-export declare type UploadListType = 'picture';
+export declare type UploadListType = 'text' | 'picture' | 'picture-card';
 export declare type ItemRender<T = any> = (originNode: React.ReactElement, file: UploadFile, fileList: Array<UploadFile>, actions: {
     remove: () => void;
 }) => React.ReactNode;
@@ -48,6 +51,8 @@ export interface UploadProps<T = any> extends Pick<RcUploadProps, 'capture'> {
     accept?: string;
     beforeUpload?: (file: RcFile, FileList: RcFile[]) => BeforeUploadValueType | Promise<BeforeUploadValueType>;
     onChange?: (info: UploadChangeParam<UploadFile>) => void;
+    onPreview?: (file: UploadFile) => void;
+    onDrop?: (event: React.DragEvent<HTMLDivElement>) => void;
     listType?: UploadListType;
     className?: string;
     style?: React.CSSProperties;
@@ -70,12 +75,15 @@ declare type PreviewFileHandler = (file: File | Blob) => PromiseLike<string>;
 export interface UploadListProps<T = any> {
     listType?: UploadListType;
     onRemove?: (file: UploadFile) => void | boolean;
+    onPreview?: (file: UploadFile) => void | boolean;
     items?: Array<UploadFile>;
     showRemoveIcon?: boolean;
+    showPreviewIcon?: boolean;
     locale: UploadLocale;
     isImageUrl?: (file: UploadFile) => boolean;
     itemRender?: ItemRender<T>;
     previewFile?: PreviewFileHandler;
+    appendButton?: React.ReactNode;
 }
 export interface ListItemProps {
     locale: UploadLocale;
@@ -84,6 +92,8 @@ export interface ListItemProps {
     listType?: UploadListType;
     isImgUrl?: (file: UploadFile) => boolean;
     showRemoveIcon?: boolean;
+    showPreviewIcon?: boolean;
     itemRender?: ItemRender;
     onClose: (file: UploadFile) => void;
+    onPreview: (e: React.MouseEvent, file: UploadFile) => void;
 }

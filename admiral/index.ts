@@ -23,6 +23,7 @@ export type {
     ColumnsType as TableColumnsType,
     SortOrder,
 } from './ui/Table/interfaces'
+export * from './ui/Tabs/interfaces'
 export type { TextareaSizeType, TextareaProps } from './ui/Textarea/interfaces'
 export type { TooltipProps } from './ui/Tooltip/interfaces'
 export type {

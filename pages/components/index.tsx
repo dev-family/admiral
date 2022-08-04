@@ -42,6 +42,9 @@ export default function ComponentsPage() {
                 <Link to="components/drawer">
                     <Button component="span">Drawer</Button>
                 </Link>
+                <Link to="components/tabs">
+                    <Button component="span">Tabs</Button>
+                </Link>
             </div>
         </Page>
     )

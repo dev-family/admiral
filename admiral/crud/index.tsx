@@ -6,13 +6,14 @@ import { Link, useHistory, useLocation } from 'react-router-dom'
 import { CreateButton, BackButton, FilterButton } from '../actions'
 import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
-import React, { useCallback, useState, useEffect, useRef } from 'react'
+import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react'
 import { useDataTable } from '../dataTable/DataTableContext'
 import { CrudIndexPageContextProvider } from './CrudIndexPageContext'
 import { AppliedFilters, Filters } from '../filters'
 import { RouterLocationState } from '../router/interfaces'
 import { CRUDConfig } from './interfaces'
 import styles from './Crud.module.scss'
+import { PopupContainerContextProvider } from './PopupContainerContext'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
@@ -211,6 +212,7 @@ function UpdateDrawer<RecordType>({
     fetchInitialData: FormProps['fetchInitialData']
     submitData: FormProps['submitData']
 }) {
+    const drawerRef = useRef<React.ElementRef<typeof Drawer>>(null)
     const [visible, setVisible] = useState(false)
 
     useEffect(() => {
@@ -240,8 +242,16 @@ function UpdateDrawer<RecordType>({
         setVisible(false)
     }, [formRef])
 
+    const popupContainer = useMemo(
+        () =>
+            drawerRef.current?.bodyElement ??
+            (() => document.querySelector('#root > .Theme') as HTMLElement),
+        [drawerRef.current],
+    )
+
     return (
         <Drawer
+            ref={drawerRef}
             visible={visible}
             onClose={(e) => {
                 e.stopPropagation()
@@ -269,14 +279,16 @@ function UpdateDrawer<RecordType>({
             }}
             width={drawer?.width ?? 900}
         >
-            <Form
-                ref={formRef}
-                submitData={submitData}
-                fetchInitialData={fetchInitialData}
-                locale={locale?.form}
-            >
-                <Form.Fields>{fields}</Form.Fields>
-            </Form>
+            <PopupContainerContextProvider value={popupContainer}>
+                <Form
+                    ref={formRef}
+                    submitData={submitData}
+                    fetchInitialData={fetchInitialData}
+                    locale={locale?.form}
+                >
+                    <Form.Fields>{fields}</Form.Fields>
+                </Form>
+            </PopupContainerContextProvider>
         </Drawer>
     )
 }

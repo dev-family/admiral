@@ -5,6 +5,7 @@ import { Select } from '../../ui'
 import type { SelectProps } from '../../ui/Select/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
+import { usePopupContainer } from '../../crud/PopupContainerContext'
 
 const { OptGroup, Option } = Select
 
@@ -20,6 +21,7 @@ const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = 
     children,
     ...selectProps
 }) => {
+    const getPopupContainer = usePopupContainer()
     const { values, errors, options, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
@@ -47,7 +49,13 @@ const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = 
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
-            <Select {...selectProps} value={value} onChange={onChange} alert={!!error}>
+            <Select
+                getPopupContainer={getPopupContainer}
+                {...selectProps}
+                value={value}
+                onChange={onChange}
+                alert={!!error}
+            >
                 {renderChildren()}
             </Select>
         </Form.Item>

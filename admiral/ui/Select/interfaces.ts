@@ -28,7 +28,6 @@ export interface SelectProps<
         | 'clearIcon'
         | 'removeIcon'
         | 'menuItemSelectedIcon'
-        | 'getPopupContainer'
         | 'prefixCls'
     > {
     size?: SelectSizeType

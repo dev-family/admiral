@@ -5,6 +5,7 @@ import { ColorPicker } from '../../ui'
 import type { ColorPickerProps, ColorPickerResult } from '../../ui/ColorPicker/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
+import { usePopupContainer } from '../../crud/PopupContainerContext'
 
 export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps {
     name: string
@@ -20,6 +21,7 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
     outputValue = 'rgbString',
     ...colorPickerProps
 }) => {
+    const getPopupContainer = usePopupContainer()
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
@@ -42,7 +44,13 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
             columnSpan={columnSpan}
             onLabelClick={onLabelClick}
         >
-            <ColorPicker {...colorPickerProps} value={value} onChange={onChange} alert={!!error} />
+            <ColorPicker
+                appendTo={getPopupContainer}
+                {...colorPickerProps}
+                value={value}
+                onChange={onChange}
+                alert={!!error}
+            />
         </Form.Item>
     )
 }

@@ -6,6 +6,7 @@ import { PickerProps } from '../../ui/DatePicker/generatePicker/interfaces'
 import { FormItemProps } from '../Item'
 import parseISO from 'date-fns/parseISO'
 import { InputComponentWithName } from '../interfaces'
+import { usePopupContainer } from '../../crud/PopupContainerContext'
 
 export type DatePickerInputProps = FormItemProps & {
     name: string
@@ -18,6 +19,7 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
     columnSpan,
     ...pickerProps
 }) => {
+    const getPopupContainer = usePopupContainer()
     const { values, errors, setValues } = useForm()
 
     let value = values[name] ? parseISO(values[name]) : null
@@ -29,7 +31,13 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
-            <DatePicker {...pickerProps} value={value} onChange={onChange} alert={!!error} />
+            <DatePicker
+                getPopupContainer={getPopupContainer}
+                {...pickerProps}
+                value={value}
+                onChange={onChange}
+                alert={!!error}
+            />
         </Form.Item>
     )
 }

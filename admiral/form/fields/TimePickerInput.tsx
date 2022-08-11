@@ -7,6 +7,7 @@ import parse from 'date-fns/parse'
 import isValid from 'date-fns/isValid'
 import parseISO from 'date-fns/parseISO'
 import { InputComponentWithName } from '../interfaces'
+import { usePopupContainer } from '../../crud/PopupContainerContext'
 
 interface TimePickerProps extends Omit<BaseTimePickerProps, 'format'> {}
 
@@ -22,6 +23,7 @@ export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputPro
     columnSpan,
     ...pickerProps
 }) => {
+    const getPopupContainer = usePopupContainer()
     const { values, errors, setValues } = useForm()
 
     const value = values[name] ? parseValue(values[name], pickerProps.format) : null
@@ -34,7 +36,13 @@ export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputPro
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
-            <TimePicker {...pickerProps} value={value} onChange={onChange} alert={!!error} />
+            <TimePicker
+                getPopupContainer={getPopupContainer}
+                {...pickerProps}
+                value={value}
+                onChange={onChange}
+                alert={!!error}
+            />
         </Form.Item>
     )
 }

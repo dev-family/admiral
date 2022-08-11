@@ -23,6 +23,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         virtual = true,
         dropdownMatchSelectWidth = true,
         maxTagCount,
+        getPopupContainer: customizeGetPopupContainer,
         ...props
     }: SelectProps<OptionType>,
     ref: React.Ref<BaseSelectRef>,
@@ -82,7 +83,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
             removeIcon={removeIcon}
             clearIcon={clearIcon}
             notFoundContent={mergedNotFound}
-            getPopupContainer={getPopupContainer}
+            getPopupContainer={customizeGetPopupContainer || getPopupContainer}
             dropdownClassName={cn(
                 {
                     [`${prefixCls}-dropdown__SizeL`]: size === 'L',

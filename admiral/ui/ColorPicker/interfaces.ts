@@ -30,6 +30,7 @@ export type ColorPickerProps = {
     size?: ColorPickerSizeType
     disabled?: boolean
     alert?: boolean
+    appendTo?: () => HTMLElement
 }
 
 export interface ColorPickerResult {

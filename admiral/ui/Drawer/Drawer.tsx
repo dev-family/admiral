@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
 import { useTheme } from '../../../admiral/theme'
 import { FiX } from 'react-icons/fi'
 import RcDrawer from 'rc-drawer'
@@ -6,7 +6,11 @@ import cn from 'classnames'
 import type { DrawerProps } from './interfaces'
 import styles from './Drawer.module.scss'
 
-export const Drawer = (props: DrawerProps) => {
+export type DrawerRef = {
+    bodyElement: () => HTMLElement
+}
+
+export const Drawer = forwardRef<DrawerRef, DrawerProps>((props, ref) => {
     const {
         visible,
         onClose,
@@ -30,6 +34,14 @@ export const Drawer = (props: DrawerProps) => {
     const { themeClassNames } = useTheme()
     const bodyRef = useRef<HTMLDivElement>(null)
     const getContainer = () => document.querySelector('body') as HTMLBodyElement
+
+    useImperativeHandle(
+        ref,
+        () => ({
+            bodyElement: () => bodyRef.current as HTMLElement,
+        }),
+        [bodyRef.current],
+    )
 
     const getContentWrapperStyle = useCallback(() => {
         const contentWrapperStyle: React.CSSProperties = {}
@@ -102,7 +114,7 @@ export const Drawer = (props: DrawerProps) => {
             </div>
         </RcDrawer>
     )
-}
+})
 
 Drawer.defaultProps = {
     resetScrollPositionOnClose: true,

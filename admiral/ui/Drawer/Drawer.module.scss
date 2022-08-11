@@ -185,6 +185,7 @@ $prefix-class: 'drawer';
     }
 
     .body {
+        position: relative;
         flex-grow: 1;
         padding: var(--drawer-body-padding, var(--space-l));
         font-size: var(--drawer-body-fz, var(--size-text-m));

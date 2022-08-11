@@ -25,6 +25,7 @@ const ColorPicker = forwardRef(
             alert = false,
             onChange,
             onChangeComplete,
+            appendTo,
         }: ColorPickerProps,
         pickerRef,
     ) => {
@@ -78,6 +79,7 @@ const ColorPicker = forwardRef(
                 interactive
                 disabled={disabled}
                 mode="custom"
+                appendTo={appendTo}
             >
                 <button
                     ref={mergeRefs([pickerRef, ref])}

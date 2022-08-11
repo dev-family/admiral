@@ -16,6 +16,7 @@ export const Tooltip = ({
     content,
     children,
     invertTheme = true,
+    appendTo: customizeAppendTo,
     ...tippyProps
 }: TooltipProps) => {
     const appendTo = useCallback(
@@ -70,7 +71,7 @@ export const Tooltip = ({
                     </animated.div>
                 )
             }}
-            appendTo={appendTo}
+            appendTo={customizeAppendTo || appendTo}
             {...tippyProps}
         >
             {children}

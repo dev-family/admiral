@@ -2,9 +2,10 @@ import React, { useCallback } from 'react'
 import { Button } from '../ui'
 import { Link, useHistory } from 'react-router-dom'
 import { ButtonProps } from '../ui/Button/interfaces'
+import { RouterLocationState } from '../router/interfaces'
 
 export const BackButton = ({ basePath, children, ...buttonProps }: BackButtonProps) => {
-    const { length: historyLength, goBack } = useHistory()
+    const { length: historyLength, goBack } = useHistory<RouterLocationState>()
     const canGoBack = historyLength > 2
 
     const handleGoBack = useCallback(

@@ -1,6 +1,7 @@
 import React, { useMemo, useRef } from 'react'
 import { useLocation, useHistory } from 'react-router'
 import { parse, stringify } from 'qs'
+import { RouterLocationState } from '../../router/interfaces'
 
 export interface Options {
     navigateMode?: 'push' | 'replace'
@@ -15,7 +16,7 @@ const useUrlState = <S extends UrlState = UrlState>(
     type State = Partial<{ [key in keyof S]: any }>
     const { navigateMode = 'push' } = options || {}
 
-    const location = useLocation()
+    const location = useLocation<RouterLocationState>()
 
     const history = useHistory()
 

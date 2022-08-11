@@ -6,6 +6,7 @@ import { useDataProvider } from '../dataProvider'
 import { DataTableContextProvider } from './DataTableContext'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
+import { useTopLocation } from '../router'
 
 // TODO: pass table visual props
 // TODO: rowSelection config
@@ -16,9 +17,6 @@ export type DataTableProps<RecordType> = {
     initialSorter?: ControlledSorter
     dndRows?: boolean
 }
-
-const PAGE_DEFAULT = 1
-const PAGE_SIZE_DEFAULT = 10
 
 export function DataTable<RecordType extends { id: number | string }>({
     resource,
@@ -31,6 +29,7 @@ export function DataTable<RecordType extends { id: number | string }>({
     const [loading, setLoading] = useState(false)
     const [total, setTotal] = useState<number>()
     const { urlState, setUrlState } = useCrudIndex()
+    const shouldUpdate = useShouldUpdate()
 
     const sorter = useMemo(() => {
         const entries = Object.entries(urlState.sort)
@@ -84,6 +83,12 @@ export function DataTable<RecordType extends { id: number | string }>({
     useEffect(() => {
         fetch(resource, urlState)
     }, [resource, urlState])
+
+    useEffect(() => {
+        if (shouldUpdate) {
+            refresh()
+        }
+    }, [shouldUpdate])
 
     const onTableChange: TableProps<RecordType>['onChange'] = (pagination, sorter, extra) => {
         if (extra.action === 'paginate') {
@@ -155,4 +160,11 @@ export function DataTable<RecordType extends { id: number | string }>({
             />
         </DataTableContextProvider>
     )
+}
+
+const useShouldUpdate = () => {
+    const location = useTopLocation().state
+    const shouldUpdate = useMemo(() => location?.update?.dataTable ?? false, [location])
+
+    return shouldUpdate
 }

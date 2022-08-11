@@ -18,6 +18,7 @@ import { isObject } from '../utils/helpers'
 import { useSafeSetState } from '../utils/hooks'
 import { Locale } from './interfaces'
 import { enUS } from './locale'
+import { RouterLocationState } from '../router/interfaces'
 
 export type FormProps = {
     locale?: Locale
@@ -30,6 +31,7 @@ export type FormProps = {
 
 export type FormRef = {
     values: Record<any, any>
+    handleSubmit: (e?: FormEvent) => Promise<void>
 }
 
 const InternalForm = forwardRef<FormRef, FormProps>(
@@ -40,7 +42,7 @@ const InternalForm = forwardRef<FormRef, FormProps>(
         const [errors, setErrors] = useState({})
         const [isSubmitting, setIsSubmitting] = useSafeSetState(false)
         const [isFetching, setIsFetching] = useSafeSetState(true)
-        const history = useHistory()
+        const history = useHistory<RouterLocationState>()
 
         async function _fetchInitialData() {
             try {
@@ -59,8 +61,9 @@ const InternalForm = forwardRef<FormRef, FormProps>(
             ref,
             () => ({
                 values,
+                handleSubmit,
             }),
-            [values],
+            [values, handleSubmit],
         )
 
         useEffect(() => {
@@ -79,15 +82,19 @@ const InternalForm = forwardRef<FormRef, FormProps>(
             }
         }, [fetchInitialData])
 
-        async function handleSubmit(e: FormEvent) {
-            e.preventDefault()
+        async function handleSubmit(e?: FormEvent) {
+            e?.preventDefault()
 
             setIsSubmitting(true)
             try {
                 await submitData?.(values)
 
                 if (redirect) {
-                    history.push(redirect)
+                    history.push({
+                        pathname: redirect,
+                        // update table when drawer saved and closed
+                        state: { update: { dataTable: true } },
+                    })
                     return
                 }
 

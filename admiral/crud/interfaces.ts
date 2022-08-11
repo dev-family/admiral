@@ -4,8 +4,14 @@ import { ColumnsType } from '../ui/Table/interfaces'
 import { DrawerProps } from '../ui/Drawer/interfaces'
 
 export type CRUDLocale = {
+    actions: CRUDActionsLocale
     filters: FiltersLocale
     form: FormLocale
+}
+
+export type CRUDActionsLocale = {
+    submit: string
+    back: string
 }
 
 export type CRUDConfig<RecordType> = {

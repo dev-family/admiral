@@ -151,7 +151,7 @@ export class UserList {
 
     update(id: number | string, data: IUser) {
         this.users = this.users.map((user) => {
-            if (user.id === +id) return { ...user, ...data }
+            if (+user.id === +id) return { ...user, ...data }
             return user
         })
     }

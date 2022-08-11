@@ -236,5 +236,6 @@ export const UsersCRUD = createCRUD({
     },
     update: {
         title: (id: string) => `Edit User #${id}`,
+        view: 'drawer',
     },
 })

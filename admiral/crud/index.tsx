@@ -14,6 +14,7 @@ import { RouterLocationState } from '../router/interfaces'
 import { CRUDConfig } from './interfaces'
 import styles from './Crud.module.scss'
 import { PopupContainerContextProvider } from './PopupContainerContext'
+import { enUS as enUsActionsLocale } from './locale/actions'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
@@ -130,6 +131,8 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             return create(config.resource, { data: values })
         }, [])
 
+        const actionsLocale = config.locale?.actions ?? enUsActionsLocale
+
         return (
             <Page title={config.create.title}>
                 <Form
@@ -141,8 +144,8 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     <Form.Fields>{config.form.create.fields}</Form.Fields>
 
                     <Form.Footer>
-                        <BackButton basePath={config.path}>Назад</BackButton>
-                        <Form.Submit>Сохранить</Form.Submit>
+                        <BackButton basePath={config.path}>{actionsLocale.back}</BackButton>
+                        <Form.Submit>{actionsLocale.submit}</Form.Submit>
                     </Form.Footer>
                 </Form>
             </Page>
@@ -161,6 +164,8 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
         const submitData = useCallback((values) => {
             return update(config.resource, { data: values, id })
         }, [])
+
+        const actionsLocale = config.locale?.actions ?? enUsActionsLocale
 
         const {
             update: { title, view = 'page' },
@@ -192,8 +197,8 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     <Form.Fields>{fields}</Form.Fields>
 
                     <Form.Footer>
-                        <BackButton basePath={path}>Назад</BackButton>
-                        <Form.Submit>Сохранить</Form.Submit>
+                        <BackButton basePath={path}>{actionsLocale.back}</BackButton>
+                        <Form.Submit>{actionsLocale.submit}</Form.Submit>
                     </Form.Footer>
                 </Form>
             </Page>
@@ -223,6 +228,7 @@ function UpdateDrawer<RecordType>({
     const history = useHistory()
 
     const formRef = useRef<React.ElementRef<typeof Form>>(null)
+    const actionsLocale = config.locale?.actions ?? enUsActionsLocale
 
     const {
         update: { drawer },
@@ -261,10 +267,10 @@ function UpdateDrawer<RecordType>({
             footer={
                 <div className={styles.drawerFooter}>
                     <Button type="button" view="secondary" onClick={onBack} iconLeft={<FiX />}>
-                        Назад
+                        {actionsLocale.back}
                     </Button>
                     <Button type="button" onClick={onSubmit} iconLeft={<FiSave />}>
-                        Сохранить
+                        {actionsLocale.submit}
                     </Button>
                 </div>
             }

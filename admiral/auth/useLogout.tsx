@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useAuthProvider, defaultAuthParams } from './AuthContext'
 import { useHistory } from 'react-router-dom'
 import { LocationDescriptorObject } from 'history'
+import { RouterLocationState } from '../router/interfaces'
 
 const useLogout = (): Logout => {
     const authProvider = useAuthProvider()
@@ -10,7 +11,7 @@ const useLogout = (): Logout => {
      * We need the current location to pass in the router state
      * so that the login hook knows where to redirect to as next route after login.
      */
-    const history = useHistory()
+    const history = useHistory<RouterLocationState>()
 
     const logout = useCallback(
         (
@@ -25,7 +26,7 @@ const useLogout = (): Logout => {
                 // redirectTo can contain a query string, e.g. '/login?foo=bar'
                 // we must split the redirectTo to pass a structured location to history.push()
                 const redirectToParts = (redirectToFromProvider || redirectTo).split('?')
-                const newLocation: LocationDescriptorObject = {
+                const newLocation: LocationDescriptorObject<RouterLocationState> = {
                     pathname: redirectToParts[0],
                 }
                 if (

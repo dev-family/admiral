@@ -1,55 +1,23 @@
 import { DataTable } from '../dataTable'
-import { Form } from '../form'
-import { Page, Button } from '../ui'
-import { ColumnsType } from '../ui/Table/interfaces'
-import { FiTrash, FiEdit3 } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Form, FormProps } from '../form'
+import { Page, Button, Drawer } from '../ui'
+import { FiTrash, FiEdit3, FiX, FiSave } from 'react-icons/fi'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { CreateButton, BackButton, FilterButton } from '../actions'
 import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState, useEffect, useRef } from 'react'
 import { useDataTable } from '../dataTable/DataTableContext'
-import { Locale as FormLocale } from '../form/interfaces'
-import { Locale as FiltersLocale } from '../filters/interfaces'
 import { CrudIndexPageContextProvider } from './CrudIndexPageContext'
 import { AppliedFilters, Filters } from '../filters'
+import { RouterLocationState } from '../router/interfaces'
+import { CRUDConfig } from './interfaces'
+import styles from './Crud.module.scss'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
     gap: '2px',
     flexWrap: 'wrap',
-}
-
-export type CRUDConfig<RecordType> = {
-    path: string
-    actions?: React.ReactNode
-    resource: string
-    index: {
-        title: string
-        newButtonText: string
-        filterButtonText: string
-        tableOptions: ColumnsType<RecordType>
-    }
-    table?: { dndRows?: boolean }
-    form: {
-        create: {
-            fields: React.ReactNode
-        }
-        edit: {
-            fields: React.ReactNode
-        }
-    }
-    create: {
-        title: string
-    }
-    update: {
-        title: (id: string) => string
-    }
-    locale?: {
-        form: FormLocale
-        filters: FiltersLocale
-    }
-    filter?: { fields: JSX.Element }
 }
 
 function makeIndexPage<RecordType extends { id: number | string } = any>(
@@ -61,6 +29,10 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
             return getFiltersFormData(config.resource)
         }, [])
         const { dndRows } = config.table || {}
+        const { view, drawer } = config.update
+        const routePath = drawer?.routePath ?? ((path) => `${path}/:id`)
+
+        let location = useLocation<RouterLocationState>()
 
         return (
             <CrudIndexPageContextProvider filterFields={config.filter?.fields}>
@@ -98,7 +70,19 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
 
                                     return (
                                         <div style={operationsStyle}>
-                                            <Link to={`${config.path}/${record.id}`}>
+                                            <Link
+                                                to={{
+                                                    pathname: `${config.path}/${record.id}`,
+                                                    ...(view === 'drawer' && {
+                                                        state: {
+                                                            background: location,
+                                                            routeWithBackground: routePath(
+                                                                config.path,
+                                                            ),
+                                                        },
+                                                    }),
+                                                }}
+                                            >
                                                 <Button
                                                     view="clear"
                                                     size="S"
@@ -177,24 +161,124 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
             return update(config.resource, { data: values, id })
         }, [])
 
-        return (
-            <Page title={config.update.title(id)}>
+        const {
+            update: { title, view = 'page' },
+            path,
+            locale,
+            form: {
+                edit: { fields },
+            },
+        } = config
+
+        const { state } = useLocation<RouterLocationState>()
+        const background = state && state.background
+
+        return view === 'drawer' && !!background ? (
+            <UpdateDrawer
+                config={config}
+                title={title(id)}
+                fetchInitialData={fetchInitialData}
+                submitData={submitData}
+            />
+        ) : (
+            <Page title={title(id)}>
                 <Form
-                    redirect={config.path}
+                    redirect={path}
                     submitData={submitData}
                     fetchInitialData={fetchInitialData}
-                    locale={config.locale?.form}
+                    locale={locale?.form}
                 >
-                    <Form.Fields>{config.form.edit.fields}</Form.Fields>
+                    <Form.Fields>{fields}</Form.Fields>
 
                     <Form.Footer>
-                        <BackButton basePath={config.path}>Назад</BackButton>
+                        <BackButton basePath={path}>Назад</BackButton>
                         <Form.Submit>Сохранить</Form.Submit>
                     </Form.Footer>
                 </Form>
             </Page>
         )
     }
+}
+
+function UpdateDrawer<RecordType>({
+    config,
+    title,
+    fetchInitialData,
+    submitData,
+}: {
+    config: CRUDConfig<RecordType>
+    title: string
+    fetchInitialData: FormProps['fetchInitialData']
+    submitData: FormProps['submitData']
+}) {
+    const [visible, setVisible] = useState(false)
+
+    useEffect(() => {
+        setVisible(true)
+        return () => setVisible(false)
+    }, [])
+
+    const history = useHistory()
+
+    const formRef = useRef<React.ElementRef<typeof Form>>(null)
+
+    const {
+        update: { drawer },
+        path,
+        locale,
+        form: {
+            edit: { fields },
+        },
+    } = config
+
+    const onBack = useCallback(() => {
+        setVisible(false)
+    }, [])
+
+    const onSubmit = useCallback(async () => {
+        await formRef.current?.handleSubmit()
+        setVisible(false)
+    }, [formRef])
+
+    return (
+        <Drawer
+            visible={visible}
+            onClose={(e) => {
+                e.stopPropagation()
+                setVisible(false)
+            }}
+            title={title}
+            footer={
+                <div className={styles.drawerFooter}>
+                    <Button type="button" view="secondary" onClick={onBack} iconLeft={<FiX />}>
+                        Назад
+                    </Button>
+                    <Button type="button" onClick={onSubmit} iconLeft={<FiSave />}>
+                        Сохранить
+                    </Button>
+                </div>
+            }
+            afterVisibleChange={(visible) => {
+                if (!visible) {
+                    history.push({
+                        pathname: path,
+                        // update table when drawer saved and closed
+                        state: { update: { dataTable: false } },
+                    })
+                }
+            }}
+            width={drawer?.width ?? 900}
+        >
+            <Form
+                ref={formRef}
+                submitData={submitData}
+                fetchInitialData={fetchInitialData}
+                locale={locale?.form}
+            >
+                <Form.Fields>{fields}</Form.Fields>
+            </Form>
+        </Drawer>
+    )
 }
 
 export function createCRUD<RecordType extends { id: number | string } = any>(

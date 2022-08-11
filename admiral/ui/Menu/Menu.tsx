@@ -6,6 +6,7 @@ import * as Icons from 'react-icons/fi'
 import styles from './Menu.module.scss'
 import { Tooltip } from '../../ui'
 import cn from 'classnames'
+import { RouterLocationState } from '../../router/interfaces'
 
 export const Menu: React.FC<{
     items: IMenuItem[]
@@ -57,7 +58,7 @@ export const MenuItem = ({
     collapsible = true,
 }: IMenuItemProps) => {
     const { close, collapsed } = useNav()
-    const { pathname } = useLocation()
+    const { pathname } = useLocation<RouterLocationState>()
     const isActive = to === pathname
     const hasChildren = children && children.length > 0
     const hasActiveChild = children?.some((item) => item.to === pathname) ?? false

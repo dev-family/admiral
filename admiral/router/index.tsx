@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import { Switch, Route, Redirect, RouteProps, useLocation } from 'react-router-dom'
 import { useAuthProvider } from '../auth/AuthContext'
 import { useAuthState } from '../auth'
 import { LoginLayout, Login } from '../auth/components/Login'
 import { Layout } from '../ui'
+import { RouterLocationState } from './interfaces'
+import type { Location } from 'history'
 
 type RouteType = {
     name: string
@@ -52,52 +54,71 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
 
     const { path: loginRoutePath, Component: LoginComponent } = loginRoute
 
-    return () => (
-        <>
-            <RouteScrollTop />
+    return () => {
+        const location = useLocation<RouterLocationState>()
+        const { state: locationState } = location
+        const background = locationState && locationState.background
+        const routeWithBackgroundName = locationState && locationState.routeWithBackground
+        const routeWithBackground = routes.find((route) => route.path === routeWithBackgroundName)
 
-            <Switch>
-                {authRequired && (
+        return (
+            <TopLocationContextProvider value={location}>
+                <RouteScrollTop />
+
+                <Switch location={background || location}>
+                    {authRequired && (
+                        <Route
+                            key={loginRoutePath}
+                            path={loginRoutePath}
+                            exact
+                            render={({ match }) => (
+                                <LoginLayout key="login-layout">
+                                    <LoginComponent {...match.params} />
+                                </LoginLayout>
+                            )}
+                        />
+                    )}
+
+                    {routes.map(({ path, Component }) =>
+                        authRequired ? (
+                            <PrivateRoute
+                                key={path}
+                                path={path}
+                                exact
+                                render={({ match }) => (
+                                    <Layout key="layout">
+                                        <Component {...match.params} />
+                                    </Layout>
+                                )}
+                            />
+                        ) : (
+                            <Route
+                                key={path}
+                                path={path}
+                                exact
+                                render={({ match }) => (
+                                    <Layout key="layout">
+                                        <Component {...match.params} />
+                                    </Layout>
+                                )}
+                            />
+                        ),
+                    )}
+                </Switch>
+
+                {background && routeWithBackground && (
                     <Route
-                        key={loginRoutePath}
-                        path={loginRoutePath}
+                        key="routeWithBackground"
+                        path={routeWithBackground.path}
                         exact
                         render={({ match }) => (
-                            <LoginLayout key="login-layout">
-                                <LoginComponent {...match.params} />
-                            </LoginLayout>
+                            <routeWithBackground.Component key="background" {...match.params} />
                         )}
                     />
                 )}
-
-                {routes.map(({ path, Component }) =>
-                    authRequired ? (
-                        <PrivateRoute
-                            key={path}
-                            path={path}
-                            exact
-                            render={({ match }) => (
-                                <Layout key="layout">
-                                    <Component {...match.params} />
-                                </Layout>
-                            )}
-                        />
-                    ) : (
-                        <Route
-                            key={path}
-                            path={path}
-                            exact
-                            render={({ match }) => (
-                                <Layout key="layout">
-                                    <Component {...match.params} />
-                                </Layout>
-                            )}
-                        />
-                    ),
-                )}
-            </Switch>
-        </>
-    )
+            </TopLocationContextProvider>
+        )
+    }
 }
 
 function PrivateRoute({ children, render, ...rest }: RouteProps) {
@@ -127,7 +148,7 @@ function PrivateRoute({ children, render, ...rest }: RouteProps) {
 }
 
 function RouteScrollTop() {
-    const { pathname } = useLocation()
+    const { pathname } = useLocation<RouterLocationState>()
 
     useEffect(() => {
         window.scrollTo({
@@ -138,4 +159,19 @@ function RouteScrollTop() {
     }, [pathname])
 
     return null
+}
+
+type TopLocationContextValue = Location<RouterLocationState>
+
+export const TopLocationContext = createContext<TopLocationContextValue>({} as any)
+
+export const TopLocationContextProvider: React.FC<{ value: TopLocationContextValue }> = ({
+    value,
+    children,
+}) => {
+    return <TopLocationContext.Provider value={value}>{children}</TopLocationContext.Provider>
+}
+
+export function useTopLocation() {
+    return useContext(TopLocationContext)
 }

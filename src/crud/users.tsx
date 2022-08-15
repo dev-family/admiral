@@ -124,6 +124,7 @@ export const UsersCRUD = createCRUD({
                         label="Avatar"
                         name="avatar"
                         accept="image/*"
+                        maxCount={1}
                     />
                     <DraggerInput
                         columnSpan={2}
@@ -196,6 +197,7 @@ export const UsersCRUD = createCRUD({
                         label="Avatar"
                         name="avatar"
                         accept="image/*"
+                        maxCount={1}
                     />
                     <DraggerInput
                         columnSpan={2}

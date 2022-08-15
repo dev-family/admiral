@@ -75,7 +75,7 @@ const ListItem = React.forwardRef(
         const preview = [
             listType !== 'picture-card' ? (
                 <span key="view" className={styles.item_Name} title={file.name}>
-                    file.name
+                    {file.name}
                 </span>
             ) : null,
             actions,

@@ -1,8 +1,7 @@
 import { useCallback } from 'react'
 import { useAuthProvider, defaultAuthParams } from './AuthContext'
 import { useHistory } from 'react-router-dom'
-import { LocationDescriptorObject } from 'history'
-import { RouterLocationState } from '../router/interfaces'
+import { RouterLocationState, LocationDescriptorObject } from '../router/interfaces'
 
 const useLogout = (): Logout => {
     const authProvider = useAuthProvider()

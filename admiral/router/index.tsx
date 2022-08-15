@@ -4,8 +4,7 @@ import { useAuthProvider } from '../auth/AuthContext'
 import { useAuthState } from '../auth'
 import { LoginLayout, Login } from '../auth/components/Login'
 import { Layout } from '../ui'
-import { RouterLocationState } from './interfaces'
-import type { Location } from 'history'
+import { RouterLocationState, Location } from './interfaces'
 
 type RouteType = {
     name: string

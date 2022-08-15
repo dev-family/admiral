@@ -1,6 +1,5 @@
 import React from 'react';
-import { RouterLocationState } from './interfaces';
-import type { Location } from 'history';
+import { RouterLocationState, Location } from './interfaces';
 interface CreateRoutesConfig {
     withAuth?: boolean;
 }

@@ -11,6 +11,8 @@ export type FilePictureInputProps = FormItemProps & {
     name: string
 } & UploadProps
 
+const VALUE_DEFAULT: any[] = []
+
 export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputProps>> = ({
     name,
     label,
@@ -18,21 +20,36 @@ export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputP
     columnSpan,
     children,
     disabled,
+    maxCount,
     ...uploadProps
 }) => {
     const { values, errors, setValues } = useForm()
 
-    let value = values[name] ? [values[name]] : []
+    let value = values[name]
+
+    const isArrayValue = Array.isArray(value)
+    const hasValue = !!value
+    const normalizedValue = isArrayValue ? value : hasValue ? [value] : VALUE_DEFAULT
+
     const error = errors[name]?.[0]
 
-    const onChange = useCallback(({ fileList }) => {
-        const file = fileList[0] ?? null
-        setValues((values: any) => ({ ...values, [name]: file }))
-    }, [])
+    const onChange = useCallback(
+        ({ fileList }) => {
+            const firstFile = fileList[0] ?? null
+            const value = maxCount === 1 ? firstFile : fileList
+            setValues((values: any) => ({ ...values, [name]: value }))
+        },
+        [maxCount],
+    )
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
-            <Upload {...uploadProps} fileList={value} onChange={onChange} maxCount={1}>
+            <Upload
+                {...uploadProps}
+                fileList={normalizedValue}
+                onChange={onChange}
+                maxCount={maxCount}
+            >
                 <Button type="button" disabled={disabled} iconLeft={<FiUpload />}>
                     {children || 'Upload'}
                 </Button>

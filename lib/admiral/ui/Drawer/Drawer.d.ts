@@ -1,13 +1,6 @@
-/// <reference types="react" />
+import React from 'react';
 import type { DrawerProps } from './interfaces';
-export declare const Drawer: {
-    (props: DrawerProps): JSX.Element;
-    defaultProps: {
-        resetScrollPositionOnClose: boolean;
-        keyboard: boolean;
-        placement: string;
-        showMask: boolean;
-        maskClosable: boolean;
-        closable: boolean;
-    };
+export declare type DrawerRef = {
+    bodyElement: () => HTMLElement;
 };
+export declare const Drawer: React.ForwardRefExoticComponent<DrawerProps & React.RefAttributes<DrawerRef>>;

@@ -14,6 +14,7 @@ export * from './Select';
 export * from './Spin';
 export * from './Switch';
 export * from './Table';
+export * from './Tabs';
 export * from './Textarea';
 export * from './ThemeSwitch';
 export * from './Tooltip';

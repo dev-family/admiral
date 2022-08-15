@@ -12,6 +12,7 @@ export type { SelectProps, SelectSizeType, SelectValue, OptionProps } from './ui
 export type { SpinProps, SpinSizeType } from './ui/Spin/interfaces';
 export type { SwitchProps, SwitchSizeType } from './ui/Switch/interfaces';
 export type { TablePaginationConfig, TableProps, TableRowSelection, ColumnsType as TableColumnsType, SortOrder, } from './ui/Table/interfaces';
+export * from './ui/Tabs/interfaces';
 export type { TextareaSizeType, TextareaProps } from './ui/Textarea/interfaces';
 export type { TooltipProps } from './ui/Tooltip/interfaces';
 export type { UploadProps, UploadFile, UploadLocale, UploadType, ShowUploadListInterface, UploadListType, } from './ui/Upload/interfaces';

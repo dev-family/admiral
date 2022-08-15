@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { GetFormDataResult } from '../dataProvider';
 import { FieldValues, FormContextValue } from './FormContext';
 import Item from './Item';
@@ -14,6 +14,7 @@ export declare type FormProps = {
 };
 export declare type FormRef = {
     values: Record<any, any>;
+    handleSubmit: (e?: FormEvent) => Promise<void>;
 };
 declare const InternalForm: React.ForwardRefExoticComponent<FormProps & React.RefAttributes<FormRef>>;
 export declare type ControlledChildFormProps = FormContextValue<FieldValues> & {

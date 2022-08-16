@@ -81,6 +81,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                                                             routeWithBackground: routePath(
                                                                 config.path,
                                                             ),
+                                                            scrollTop: false,
                                                         },
                                                     }),
                                                 }}
@@ -279,7 +280,7 @@ function UpdateDrawer<RecordType>({
                     history.push({
                         pathname: path,
                         // update table when drawer saved and closed
-                        state: { update: { dataTable: false } },
+                        state: { update: { dataTable: false }, scrollTop: false },
                     })
                 }
             }}

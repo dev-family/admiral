@@ -147,14 +147,17 @@ function PrivateRoute({ children, render, ...rest }: RouteProps) {
 }
 
 function RouteScrollTop() {
-    const { pathname } = useLocation<RouterLocationState>()
+    const { pathname, state } = useLocation<RouterLocationState>()
+    const shouldScroll = (state && state.scrollTop) ?? true
 
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth',
-        })
+        if (shouldScroll) {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth',
+            })
+        }
     }, [pathname])
 
     return null

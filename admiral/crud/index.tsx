@@ -227,6 +227,7 @@ function UpdateDrawer<RecordType>({
     }, [])
 
     const history = useHistory()
+    const location = useLocation<RouterLocationState>()
 
     const formRef = useRef<React.ElementRef<typeof Form>>(null)
     const actionsLocale = config.locale?.actions ?? enUsActionsLocale
@@ -277,8 +278,10 @@ function UpdateDrawer<RecordType>({
             }
             afterVisibleChange={(visible) => {
                 if (!visible) {
+                    const backLocation = location?.state?.background
                     history.push({
-                        pathname: path,
+                        pathname: backLocation ? backLocation.pathname : path,
+                        search: backLocation?.search ?? undefined,
                         // update table when drawer saved and closed
                         state: { update: { dataTable: false }, scrollTop: false },
                     })

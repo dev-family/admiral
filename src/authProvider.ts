@@ -21,11 +21,10 @@ const authProvider = (apiUrl: string): AuthProvider => ({
             storage.set(tokenStorageKey, data.token)
         })
     },
-    checkAuth: ({ token }) => {
-        const url = `${apiUrl}/checkAuth`
-
-        if (storage.get(tokenStorageKey)) {
-            return _.get(url)({ data: { token } })
+    checkAuth: () => {
+        const token = storage.get(tokenStorageKey)
+        if (!!token) {
+            return Promise.resolve()
         } else {
             return Promise.reject()
         }

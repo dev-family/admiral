@@ -1,3 +1,6 @@
 import React from 'react';
-declare const LayoutAside: React.FC;
+import { UserIdentity } from '../../../auth/interfaces';
+declare const LayoutAside: React.FC<{
+    user: UserIdentity | null;
+}>;
 export default LayoutAside;

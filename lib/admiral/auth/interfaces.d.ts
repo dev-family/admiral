@@ -1,3 +1,4 @@
+/// <reference types="react" />
 export interface AuthProvider {
     login: (params: any) => Promise<any>;
     logout: (params: any) => Promise<void | false | string>;
@@ -11,4 +12,14 @@ export interface UserIdentity {
     avatar?: string;
     email?: string;
     [key: string]: any;
+}
+export interface UserContextStateValue {
+    loading: boolean;
+    loaded: boolean;
+    identity: UserIdentity | null;
+    error?: any;
+}
+export interface UserContextValue {
+    user: UserContextStateValue;
+    setUser: React.Dispatch<React.SetStateAction<UserContextStateValue>>;
 }

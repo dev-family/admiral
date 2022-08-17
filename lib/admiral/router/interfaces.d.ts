@@ -13,6 +13,7 @@ export interface RouterLocationState {
     update?: {
         dataTable?: boolean;
     };
+    scrollTop?: boolean;
 }
 export declare type Pathname = string;
 export declare type Search = string;

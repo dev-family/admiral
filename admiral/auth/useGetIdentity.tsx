@@ -1,25 +1,12 @@
 import { useEffect } from 'react'
 import { useAuthProvider } from './AuthContext'
-import { UserIdentity } from './interfaces'
-import { useSafeSetState } from '../utils/hooks'
-
-interface GetIdentityState {
-    loading: boolean
-    loaded: boolean
-    identity: UserIdentity | null
-    error?: any
-}
+import { useUserContext } from './UserContext'
 
 /**
  * Return the current user identity by calling authProvider.getIdentity() on mount
  */
 const useGetIdentity = () => {
-    const [state, setState] = useSafeSetState<GetIdentityState>({
-        loading: true,
-        loaded: false,
-        identity: null,
-    })
-
+    const { user: state, setUser: setState } = useUserContext()
     const authProvider = useAuthProvider()
 
     useEffect(() => {
@@ -41,8 +28,11 @@ const useGetIdentity = () => {
             }
         }
 
-        callAuthProvider()
-    }, [authProvider, setState])
+        const hasIdentity = !!state.identity
+        if (!hasIdentity) {
+            callAuthProvider()
+        }
+    }, [authProvider])
 
     return state
 }

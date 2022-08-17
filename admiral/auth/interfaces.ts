@@ -13,3 +13,15 @@ export interface UserIdentity {
     email?: string
     [key: string]: any
 }
+
+export interface UserContextStateValue {
+    loading: boolean
+    loaded: boolean
+    identity: UserIdentity | null
+    error?: any
+}
+
+export interface UserContextValue {
+    user: UserContextStateValue
+    setUser: React.Dispatch<React.SetStateAction<UserContextStateValue>>
+}

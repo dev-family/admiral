@@ -1,17 +1,16 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Menu, Button, ThemeSwitch } from '../../../ui'
 import { useNav } from '../../../navigation/NavContext'
 import cn from 'classnames'
 import { UserCard } from '../../../auth/components/User'
-import { useLogout, useGetIdentity } from '../../../auth'
+import { useLogout } from '../../../auth'
 import { useSafeSetState } from '../../../utils/hooks'
+import { UserIdentity } from '../../../auth/interfaces'
 import { FiLogOut } from 'react-icons/fi'
 import styles from '../Layout.module.scss'
 
-const LayoutAside: React.FC = ({ children }) => {
+const LayoutAside: React.FC<{ user: UserIdentity | null }> = ({ user, children }) => {
     const { visible, items } = useNav()
-    const { loaded, identity } = useGetIdentity()
-    const user = useMemo(() => (loaded ? identity : null), [loaded, identity])
 
     return (
         <>

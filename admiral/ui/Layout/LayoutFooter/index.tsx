@@ -1,17 +1,16 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useNav } from '../../../navigation/NavContext'
 import { ThemeSwitch, Tooltip, Button } from '../../../ui'
 import { FiSettings } from 'react-icons/fi'
 import cn from 'classnames'
-import { useGetIdentity, useLogout } from '../../../auth'
+import { useLogout } from '../../../auth'
 import { UserCard } from '../../../auth/components/User'
 import { useSafeSetState } from '../../../utils/hooks'
+import { UserIdentity } from '../../../auth/interfaces'
 import styles from '../Layout.module.scss'
 
-const LayoutFooter: React.FC = () => {
+const LayoutFooter: React.FC<{ user: UserIdentity | null }> = ({ user }) => {
     const { collapsed } = useNav()
-    const { loaded, identity } = useGetIdentity()
-    const user = useMemo(() => (loaded ? identity : null), [loaded, identity])
 
     return (
         <footer className={styles.panel_Footer}>

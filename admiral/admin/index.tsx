@@ -7,6 +7,7 @@ import { NavProvider } from '../navigation/NavContext'
 import { LogoType } from '../ui/Layout/LayoutHeader'
 import { DataProviderContextProvider, DataProvider } from '../dataProvider'
 import { AuthContextProvider } from '../auth/AuthContext'
+import { UserContextProvider } from '../auth/UserContext'
 import type { AuthProvider } from '../auth/interfaces'
 import { ConfigContextProvider } from '../config/ConfigContext'
 
@@ -32,11 +33,13 @@ export const Admin: React.FC<AdminProps> = ({
         <AuthContextProvider value={authProvider}>
             <DataProviderContextProvider value={dataProvider}>
                 <ConfigContextProvider value={{ logo, loginLogo, asideContent }}>
-                    <Router>
-                        <ThemeProvider>
-                            <NavProvider items={menu}>{children}</NavProvider>
-                        </ThemeProvider>
-                    </Router>
+                    <UserContextProvider>
+                        <Router>
+                            <ThemeProvider>
+                                <NavProvider items={menu}>{children}</NavProvider>
+                            </ThemeProvider>
+                        </Router>
+                    </UserContextProvider>
                 </ConfigContextProvider>
             </DataProviderContextProvider>
         </AuthContextProvider>

@@ -1,5 +1,4 @@
-import React, { useContext, useState, createContext, useCallback } from 'react'
-import { IMenuItem } from '../ui'
+import React, { useContext, useState, createContext, useCallback, ComponentType } from 'react'
 import { useLocalStorageState } from 'ahooks'
 import noScroll from 'no-scroll'
 
@@ -10,22 +9,25 @@ export interface ContextState {
     close: () => void
     collapsed: boolean
     toggleCollapsed: () => void
-    items: IMenuItem[]
+    menu: ComponentType
 }
 
 const NavContext = createContext({} as ContextState)
 
 type NavProviderProps = {
-    items: IMenuItem[]
+    menu: ComponentType
     children: React.ReactNode
 }
 
 export const menuCollapsedStorageKey = 'df_admin_menu_collapsed'
 
-export function NavProvider({ items, children }: NavProviderProps) {
+export function NavProvider({ menu, children }: NavProviderProps) {
+    // sidebar state
     const [collapsed, setCollapsed] = useLocalStorageState(menuCollapsedStorageKey, {
         defaultValue: false,
     })
+
+    // mobile nav visibiliy
     const [visible, setVisible] = useState(false)
 
     const toggleCollapsed = useCallback(() => {
@@ -56,7 +58,7 @@ export function NavProvider({ items, children }: NavProviderProps) {
                 close,
                 collapsed,
                 toggleCollapsed,
-                items,
+                menu,
             }}
         >
             {children}

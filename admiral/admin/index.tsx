@@ -1,6 +1,5 @@
 import '../assets/global.css'
-import React from 'react'
-import type { IMenuItem } from '../ui'
+import React, { ComponentType } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from '../theme'
 import { NavProvider } from '../navigation/NavContext'
@@ -12,7 +11,7 @@ import type { AuthProvider } from '../auth/interfaces'
 import { ConfigContextProvider } from '../config/ConfigContext'
 
 export type AdminProps = {
-    menu: IMenuItem[]
+    menu: ComponentType
     logo?: LogoType
     loginLogo?: LogoType
     asideContent?: React.ReactNode
@@ -36,7 +35,7 @@ export const Admin: React.FC<AdminProps> = ({
                     <UserContextProvider>
                         <Router>
                             <ThemeProvider>
-                                <NavProvider items={menu}>{children}</NavProvider>
+                                <NavProvider menu={menu}>{children}</NavProvider>
                             </ThemeProvider>
                         </Router>
                     </UserContextProvider>

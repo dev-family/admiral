@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Button, ThemeSwitch } from '../../../ui'
+import { Button, ThemeSwitch } from '../../../ui'
 import { useNav } from '../../../navigation/NavContext'
 import cn from 'classnames'
 import { UserCard } from '../../../auth/components/User'
@@ -10,12 +10,12 @@ import { FiLogOut } from 'react-icons/fi'
 import styles from '../Layout.module.scss'
 
 const LayoutAside: React.FC<{ user: UserIdentity | null }> = ({ user, children }) => {
-    const { visible, items } = useNav()
+    const { visible, menu: Menu } = useNav()
 
     return (
         <>
             <div className={cn(styles.panel_Content)}>
-                <Menu items={items} />
+                <Menu />
                 {children}
             </div>
 
@@ -34,7 +34,7 @@ const LayoutAside: React.FC<{ user: UserIdentity | null }> = ({ user, children }
                         )}
 
                         <div className={styles.modal_Menu}>
-                            <Menu type="modal" items={items} />
+                            <Menu />
                         </div>
                         {children}
                     </div>

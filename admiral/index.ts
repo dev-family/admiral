@@ -11,6 +11,7 @@ export type {
 } from './ui/DatePicker/generatePicker/interfaces'
 export type { DrawerProps } from './ui/Drawer/interfaces'
 export type { InputProps, InputSizeType } from './ui/Input/interfaces'
+export * from './ui/Menu/interfaces'
 export type { LogoComponentType, LogoType } from './ui/Layout/LayoutHeader'
 export type { PaginationProps } from './ui/Pagination/interfaces'
 export type { SelectProps, SelectSizeType, SelectValue, OptionProps } from './ui/Select/interfaces'

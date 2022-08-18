@@ -76,7 +76,7 @@
         transition: opacity 0.2s;
     }
 
-    &__Open {
+    &__Active {
         &::after {
             opacity: 1;
         }

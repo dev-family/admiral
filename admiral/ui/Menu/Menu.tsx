@@ -4,7 +4,7 @@ import { useNav } from '../../navigation/NavContext'
 import { useTheme } from '../../theme'
 import * as Icons from 'react-icons/fi'
 import styles from './Menu.module.scss'
-import { Tooltip } from '../../ui'
+import { Badge, Tooltip } from '../../ui'
 import cn from 'classnames'
 import { RouterLocationState } from '../../router/interfaces'
 import { MenuItemLinkProps, MenuItemContentProps, SubMenuProps } from './interfaces'
@@ -37,7 +37,7 @@ const TooltipMenu: React.FC = ({ children }) => {
     )
 }
 
-export const SubMenu = ({ icon, name, to, children }: SubMenuProps) => {
+export const SubMenu = ({ icon, name, to, badge, children }: SubMenuProps) => {
     const { pathname } = useLocation<RouterLocationState>()
 
     const { collapsed, visible } = useNav()
@@ -80,7 +80,13 @@ export const SubMenu = ({ icon, name, to, children }: SubMenuProps) => {
                         setAccordionOpened((prev) => !prev)
                     }}
                 >
-                    <MenuItemContent icon={icon} name={name} arrow />
+                    <MenuItemContent
+                        collapsed={collapsed && !visible}
+                        icon={icon}
+                        name={name}
+                        badge={badge}
+                        arrow
+                    />
                 </div>
             </Tooltip>
 
@@ -89,7 +95,7 @@ export const SubMenu = ({ icon, name, to, children }: SubMenuProps) => {
     )
 }
 
-export const MenuItemLink = ({ icon, name, to, exact = false }: MenuItemLinkProps) => {
+export const MenuItemLink = ({ icon, name, to, exact = false, badge }: MenuItemLinkProps) => {
     const { close, collapsed, visible } = useNav()
 
     return (
@@ -113,14 +119,19 @@ export const MenuItemLink = ({ icon, name, to, exact = false }: MenuItemLinkProp
                         close()
                     }}
                 >
-                    <MenuItemContent icon={icon} name={name} />
+                    <MenuItemContent
+                        icon={icon}
+                        name={name}
+                        badge={badge}
+                        collapsed={collapsed && !visible}
+                    />
                 </NavLink>
             </Tooltip>
         </li>
     )
 }
 
-const TooltipMenuItemLink = ({ icon, name, to, exact = false }: MenuItemLinkProps) => {
+const TooltipMenuItemLink = ({ icon, name, to, exact = false, badge }: MenuItemLinkProps) => {
     const { close } = useNav()
 
     return (
@@ -134,20 +145,49 @@ const TooltipMenuItemLink = ({ icon, name, to, exact = false }: MenuItemLinkProp
                     close()
                 }}
             >
-                <MenuItemContent icon={icon} name={name} />
+                <MenuItemContent collapsed={false} icon={icon} name={name} badge={badge} />
             </NavLink>
         </li>
     )
 }
 
-const MenuItemContent = ({ icon = 'FiFileText', name, arrow = false }: MenuItemContentProps) => {
+const MenuItemContent = ({
+    icon = 'FiFileText',
+    name,
+    arrow = false,
+    badge,
+    collapsed,
+}: MenuItemContentProps) => {
+    const withBadge = !!badge
     const Icon = Icons[icon]
     const Arrow = Icons['FiChevronDown']
 
+    const title = <span className={styles.link_Title}>{name}</span>
+    const iconNode = <Icon name={icon} className={styles.link_Icon} />
+
     return (
         <>
-            <Icon name={icon} className={styles.link_Icon} />
-            <span className={styles.link_Title}>{name}</span>
+            {withBadge && collapsed ? (
+                <Badge {...badge} size="XS" className={cn(styles.link_BadgeIconWrapper)}>
+                    {iconNode}
+                </Badge>
+            ) : (
+                iconNode
+            )}
+
+            <div className={styles.link_TitleWrapper}>
+                {withBadge && badge.dot ? (
+                    <Badge {...badge} size="XS" className={styles.link_DotBadge}>
+                        {title}
+                    </Badge>
+                ) : (
+                    <>
+                        {title}
+                        {withBadge && <Badge size="S" {...badge} />}
+                    </>
+                )}
+            </div>
+
             {arrow && (
                 <div className={styles.link_Arrow}>
                     <Arrow />

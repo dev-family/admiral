@@ -4,9 +4,19 @@ import { Menu, SubMenu, MenuItemLink } from '../../admiral'
 const CustomMenu = () => {
     return (
         <Menu>
-            <MenuItemLink icon="FiUsers" name="Users" to="/crud-users" />
-            <SubMenu icon="FiSettings" name="Components" to="/components">
-                <MenuItemLink icon="FiBox" name="Table" to="/components/table" />
+            <MenuItemLink
+                icon="FiUsers"
+                name="Users"
+                to="/crud-users"
+                badge={{ count: 15, status: 'error' }}
+            />
+            <SubMenu icon="FiSettings" name="Components" to="/components" badge={{ dot: true }}>
+                <MenuItemLink
+                    icon="FiBox"
+                    name="Table"
+                    to="/components/table"
+                    badge={{ count: 5 }}
+                />
                 <MenuItemLink icon="FiBox" name="Checkbox" to="/components/checkbox" />
                 <MenuItemLink icon="FiBox" name="Pagination" to="/components/pagination" />
                 <MenuItemLink icon="FiBox" name="Switch" to="/components/switch" />

@@ -1,0 +1,155 @@
+.badge {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    width: fit-content;
+    line-height: 1;
+
+    &__View {
+        &Filled {
+            --badge-color: var(--color-typo-primary);
+
+            &.badge__StatusSystem {
+                color: var(--color-typo-secondary);
+            }
+        }
+        &Stroked {
+            --badge-color: var(--badge-text-color);
+
+            &.badge__StatusSystem {
+                --badge-text-color: var(--color-typo-system);
+            }
+
+            .count {
+                background: transparent;
+                box-shadow: inset 0 0 0 1px var(--badge-border-color);
+            }
+        }
+    }
+
+    &__Size {
+        &XS {
+            --badge-size: var(--control-box-size-m);
+            --badge-text-size: calc(var(--size-text-m) / 2);
+
+            .count {
+                padding: 0 var(--space-2xs);
+            }
+        }
+        &S {
+            --badge-size: var(--control-box-size-l);
+            --badge-text-size: var(--size-text-2xs);
+            .count {
+                padding: 0 var(--space-2xs);
+            }
+        }
+        &M {
+            --badge-size: var(--control-height-xs);
+            --badge-text-size: var(--size-text-xs);
+        }
+        &L {
+            --badge-size: var(--control-height-s);
+            --badge-text-size: var(--size-text-s);
+        }
+    }
+
+    &__Status {
+        &Normal {
+            --badge-bg-color: var(--color-bg-normal);
+            --badge-text-color: var(--color-typo-normal);
+            --badge-border-color: var(--color-bg-normal);
+        }
+        &Success {
+            --badge-bg-color: var(--color-bg-success);
+            --badge-text-color: var(--color-typo-success);
+            --badge-border-color: var(--color-bg-success);
+        }
+        &Error {
+            --badge-bg-color: var(--color-bg-alert);
+            --badge-text-color: var(--color-typo-alert);
+            --badge-border-color: var(--color-bg-alert);
+        }
+        &Warning {
+            --badge-bg-color: var(--color-bg-warning);
+            --badge-text-color: var(--color-typo-warning);
+            --badge-border-color: var(--color-bg-warning);
+        }
+        &System {
+            --badge-bg-color: var(--color-bg-system);
+            --badge-border-color: var(--color-bg-system);
+        }
+    }
+
+    &__NotWrapper {
+        .scrollNumber_Custom,
+        .count {
+            transform: none;
+        }
+
+        .scrollNumber_Custom,
+        .scrollNumber {
+            position: relative;
+            top: auto;
+            display: block;
+            transform-origin: 50% 50%;
+        }
+    }
+}
+
+.count {
+    z-index: var(--badge-count-z-index, auto);
+    min-width: var(--badge-size);
+    height: var(--badge-size);
+    padding: 0 var(--space-xs);
+    font-size: var(--badge-text-size);
+    font-weight: var(--font-weight-text-semibold);
+    line-height: var(--badge-size);
+    color: var(--badge-color);
+    background: var(--badge-bg-color);
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 99em;
+}
+
+.dot {
+    z-index: var(--badge-dot-z-index, auto);
+    width: calc(var(--badge-size) / 2);
+    min-width: calc(var(--badge-size) / 2);
+    height: calc(var(--badge-size) / 2);
+    border-radius: 100%;
+    background: var(--badge-bg-color);
+
+    &.scrollNumber {
+        transition: background 1.5s;
+    }
+}
+
+.count,
+.dot,
+.scrollNumber_Custom {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    transform-origin: 100% 0%;
+}
+
+.scrollNumber {
+    overflow: hidden;
+
+    &_Only {
+        position: relative;
+        display: inline-flex;
+        height: var(--badge-size);
+        transition: all 0.3s;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+
+        &Unit {
+            height: var(--badge-size);
+            margin: 0;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+    }
+}

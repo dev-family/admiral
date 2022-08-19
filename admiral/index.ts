@@ -1,4 +1,10 @@
 export * from './ui'
+export type {
+    BadgeProps,
+    BadgeSizeType,
+    BadgeViewType,
+    BadgeStatusType,
+} from './ui/Badge/interfaces'
 export type { ButtonSizeType, ButtonViewType, ButtonProps } from './ui/Button/interfaces'
 export type { CheckboxProps } from './ui/Checkbox/interfaces'
 export type { ChoiceChangeEvent, ChoiceProps } from './ui/Choice/interfaces'

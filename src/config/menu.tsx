@@ -20,6 +20,7 @@ const CustomMenu = () => {
                 <MenuItemLink icon="FiBox" name="Typography" to="/components/typography" />
                 <MenuItemLink icon="FiBox" name="Drawer" to="/components/drawer" />
                 <MenuItemLink icon="FiBox" name="Tabs" to="/components/tabs" />
+                <MenuItemLink icon="FiBox" name="Badge" to="/components/badge" />
             </SubMenu>
         </Menu>
     )

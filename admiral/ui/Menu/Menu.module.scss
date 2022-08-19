@@ -125,7 +125,8 @@
             grid-template-columns: 20px;
             justify-content: center;
 
-            .link_Title {
+            .link_Title,
+            .link_TitleWrapper {
                 display: none;
             }
 
@@ -152,11 +153,24 @@
     }
 }
 
+.link_BadgeIconWrapper {
+    --badge-count-z-index: 1;
+    --badge-dot-z-index: 1;
+}
+
 .link_Icon {
     position: relative;
     z-index: 1;
-    width: 100%;
+    width: 20px;
     height: auto;
+}
+
+.link_TitleWrapper {
+    --badge-count-z-index: 1;
+    --badge-dot-z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .link_Title {
@@ -165,6 +179,10 @@
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
+}
+
+.link_DotBadge {
+    padding-right: 4px;
 }
 
 .link_Arrow {

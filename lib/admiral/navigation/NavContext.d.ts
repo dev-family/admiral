@@ -1,5 +1,4 @@
-import React from 'react';
-import { IMenuItem } from '../ui';
+import React, { ComponentType } from 'react';
 export interface ContextState {
     visible: boolean;
     toggle: () => void;
@@ -7,13 +6,13 @@ export interface ContextState {
     close: () => void;
     collapsed: boolean;
     toggleCollapsed: () => void;
-    items: IMenuItem[];
+    menu: ComponentType;
 }
 declare type NavProviderProps = {
-    items: IMenuItem[];
+    menu: ComponentType;
     children: React.ReactNode;
 };
 export declare const menuCollapsedStorageKey = "df_admin_menu_collapsed";
-export declare function NavProvider({ items, children }: NavProviderProps): JSX.Element;
+export declare function NavProvider({ menu, children }: NavProviderProps): JSX.Element;
 export declare function useNav(): ContextState;
 export {};

@@ -9,6 +9,7 @@ import { AuthContextProvider } from '../auth/AuthContext'
 import { UserContextProvider } from '../auth/UserContext'
 import type { AuthProvider } from '../auth/interfaces'
 import { ConfigContextProvider } from '../config/ConfigContext'
+import { ThemePreset } from '../theme/interfaces'
 
 export type AdminProps = {
     menu: ComponentType
@@ -17,6 +18,7 @@ export type AdminProps = {
     asideContent?: React.ReactNode
     dataProvider: DataProvider
     authProvider?: AuthProvider
+    themePresets?: { light: ThemePreset; dark: ThemePreset }
 }
 
 export const Admin: React.FC<AdminProps> = ({
@@ -26,6 +28,7 @@ export const Admin: React.FC<AdminProps> = ({
     menu,
     dataProvider,
     authProvider,
+    themePresets,
     children,
 }) => {
     return (
@@ -34,7 +37,7 @@ export const Admin: React.FC<AdminProps> = ({
                 <ConfigContextProvider value={{ logo, loginLogo, asideContent }}>
                     <UserContextProvider>
                         <Router>
-                            <ThemeProvider>
+                            <ThemeProvider presets={themePresets}>
                                 <NavProvider menu={menu}>{children}</NavProvider>
                             </ThemeProvider>
                         </Router>

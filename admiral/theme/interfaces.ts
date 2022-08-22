@@ -8,6 +8,7 @@ export interface ContextState {
 }
 export interface ProviderProps {
     presetName?: ThemeName
+    presets?: { light: ThemePreset; dark: ThemePreset }
 }
 
 export type ThemeName = 'light' | 'dark'

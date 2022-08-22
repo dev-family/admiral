@@ -6,18 +6,22 @@ import { useLocalStorageState } from 'ahooks'
 import themeLight from './presets/themeLight'
 import themeDark from './presets/themeDark'
 
-function getPreset(themeName: ThemeName): ThemePreset {
-    const obj = {
+function getPreset(
+    themeName: ThemeName,
+    presets?: { light: ThemePreset; dark: ThemePreset },
+): ThemePreset {
+    const _presets = presets || {
         light: themeLight,
         dark: themeDark,
     }
-    return obj[themeName] || themeLight
+
+    return _presets[themeName] || _presets.light
 }
 
 const ThemeContext = createContext({} as ContextState)
 export const themeStorageKey = 'df_admin_theme'
 
-export const ThemeProvider: React.FC<ProviderProps> = ({ children, presetName }) => {
+export const ThemeProvider: React.FC<ProviderProps> = ({ children, presetName, presets }) => {
     const prefersMode = useMedia(['(prefers-color-scheme: dark)'], ['dark'], 'light') as ThemeName
     const [name, setName] = useLocalStorageState(themeStorageKey, {
         defaultValue: presetName || prefersMode || 'light',
@@ -27,7 +31,7 @@ export const ThemeProvider: React.FC<ProviderProps> = ({ children, presetName })
         if (name) setName(name)
     }, [])
 
-    const preset = useMemo(() => getPreset(name), [name])
+    const preset = useMemo(() => getPreset(name, presets), [name, presets])
 
     return (
         <Theme preset={preset}>

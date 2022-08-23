@@ -4,6 +4,7 @@ import { Menu, SubMenu, MenuItemLink } from '../../admiral'
 const CustomMenu = () => {
     return (
         <Menu>
+            <MenuItemLink icon="FiCircle" name="Base CRUD" to="/base-crud" />
             <MenuItemLink
                 icon="FiUsers"
                 name="Users"

@@ -65,7 +65,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                     <DataTable
                         resource={config.resource}
                         columns={[
-                            ...config.index.tableOptions,
+                            ...config.index.tableColumns,
                             {
                                 title: actionsLocale.tableColumn,
                                 key: 'operation',

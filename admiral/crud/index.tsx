@@ -30,7 +30,6 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
         const fetchInitialFiltersData = useCallback(() => {
             return getFiltersFormData(config.resource)
         }, [])
-        const { dndRows } = config.table || {}
         const { view, drawer } = config.update
         const { locale } = config
         const routePath = drawer?.routePath ?? ((path) => `${path}/:id`)
@@ -112,7 +111,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                                 },
                             },
                         ]}
-                        dndRows={dndRows}
+                        config={config.index.tableConfig}
                         locale={{ table: tableLocale, pagination: paginationLocale }}
                     />
                     {!!config.filter && (

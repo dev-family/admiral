@@ -9,25 +9,29 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { useTopLocation } from '../router'
 
-// TODO: pass table visual props
 // TODO: rowSelection config
 
 export type DataTableProps<RecordType> = {
     resource: string
     columns: ColumnsType<RecordType>
     initialSorter?: ControlledSorter
-    dndRows?: boolean
     locale?: Partial<{
         table: TableLocale
         pagination: PaginationLocale & { total: (total: number) => string }
     }>
+    config?: DataTableConfig<RecordType>
 }
+
+export type DataTableConfig<RecordType> = Pick<
+    TableProps<RecordType>,
+    'dndRows' | 'showSorterTooltip' | 'bordered' | 'size' | 'title' | 'footer'
+>
 
 export function DataTable<RecordType extends { id: number | string }>({
     resource,
     columns,
-    dndRows = false,
     locale,
+    config,
 }: DataTableProps<RecordType>) {
     const { getList, reorderList } = useDataProvider()
     const [data, setData] = useState<RecordType[]>([])
@@ -144,6 +148,7 @@ export function DataTable<RecordType extends { id: number | string }>({
     return (
         <DataTableContextProvider value={{ refresh }}>
             <Table
+                {...config}
                 dataSource={data}
                 rowKey="id"
                 columns={columns}
@@ -162,7 +167,6 @@ export function DataTable<RecordType extends { id: number | string }>({
                 }}
                 loading={loading}
                 onChange={onTableChange}
-                dndRows={dndRows}
                 onDragEnd={onDragEnd}
                 locale={locale?.table}
             />

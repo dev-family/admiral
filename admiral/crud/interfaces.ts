@@ -28,7 +28,7 @@ export type CRUDConfig<RecordType> = {
         title: string
         newButtonText: string
         filterButtonText: string
-        tableOptions: ColumnsType<RecordType>
+        tableColumns: ColumnsType<RecordType>
     }
     table?: { dndRows?: boolean }
     form: {

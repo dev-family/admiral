@@ -4,6 +4,7 @@ import { Locale as FiltersLocale } from '../filters/interfaces'
 import { ColumnsType, TableLocale } from '../ui/Table/interfaces'
 import { DrawerProps } from '../ui/Drawer/interfaces'
 import { PaginationLocale } from '../ui/Pagination/interfaces'
+import { DataTableConfig } from '../dataTable'
 
 export type CRUDLocale = {
     actions: CRUDActionsLocale
@@ -29,8 +30,8 @@ export type CRUDConfig<RecordType> = {
         newButtonText: string
         filterButtonText: string
         tableColumns: ColumnsType<RecordType>
+        tableConfig?: DataTableConfig<RecordType>
     }
-    table?: { dndRows?: boolean }
     form: {
         create: {
             fields: React.ReactNode

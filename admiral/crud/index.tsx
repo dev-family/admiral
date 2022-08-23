@@ -59,6 +59,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                             </TopToolbar>
                         )
                     }
+                    topContent={config.topContent}
                 >
                     <AppliedFilters />
                     <DataTable
@@ -122,6 +123,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                             {config.filter.fields}
                         </Filters>
                     )}
+                    {config.bottomContent}
                 </Page>
             </CrudIndexPageContextProvider>
         )

@@ -5,6 +5,7 @@ import { RecordOptions, SortOrder } from '../../../admiral'
 export interface IUser {
     id: number | string
     key: number | string
+    age: number | string
     name: string
     email: string
     password: string
@@ -13,6 +14,7 @@ export interface IUser {
     avatar: UploadFile | null
     schedule: any[]
     active: boolean
+    address?: string
 }
 
 export class UserList {
@@ -51,6 +53,8 @@ export class UserList {
                 id: i,
                 key: i,
                 name: `User ${i}`,
+                age: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+                address: `London Park no. ${i}`,
                 email: 'test@test.com',
                 password: '12345',
                 group: randomFromValues([['project_manager'], ['admin']]),
@@ -119,6 +123,7 @@ export class UserList {
         const newId = data.id || ++this.id
         const newUser = {
             name: '',
+            age: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
             email: '',
             password: '12345',
             group: ['project_manager'],

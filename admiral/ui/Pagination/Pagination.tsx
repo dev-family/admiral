@@ -61,14 +61,10 @@ const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => 
     return element
 }
 
-export const Pagination = ({
-    size,
-    className,
-    locale: localeName,
-    localeConfig,
-    ...restProps
-}: PaginationProps) => {
-    const locale = localeConfig ? localeConfig : localeName === 'enUs' ? enUs : ruRu
+const defaultLocale = enUs
+
+export const Pagination = ({ size, className, locale, ...restProps }: PaginationProps) => {
+    const paginationLocale = { ...defaultLocale, ...locale }
     const isSmall = size === 'small'
 
     const extendedClassName = cn(
@@ -84,7 +80,7 @@ export const Pagination = ({
             {...restProps}
             prefixCls="pagination"
             className={extendedClassName}
-            locale={locale}
+            locale={paginationLocale}
             itemRender={itemRender}
             selectComponentClass={isSmall ? MiniSelect : MiddleSelect}
         />

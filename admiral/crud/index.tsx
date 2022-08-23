@@ -32,7 +32,14 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
         }, [])
         const { dndRows } = config.table || {}
         const { view, drawer } = config.update
+        const { locale } = config
         const routePath = drawer?.routePath ?? ((path) => `${path}/:id`)
+        const actionsLocale = locale?.actions ?? enUsActionsLocale
+        const tableLocale = locale?.table
+        const paginationLocale = {
+            ...(locale?.pagination ?? {}),
+            total: actionsLocale.paginationTotal,
+        }
 
         let location = useLocation<RouterLocationState>()
 
@@ -59,7 +66,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                         columns={[
                             ...config.index.tableOptions,
                             {
-                                title: 'Действия',
+                                title: actionsLocale.tableColumn,
                                 key: 'operation',
                                 fixed: 'right',
                                 width: 120,
@@ -105,6 +112,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                             },
                         ]}
                         dndRows={dndRows}
+                        locale={{ table: tableLocale, pagination: paginationLocale }}
                     />
                     {!!config.filter && (
                         <Filters

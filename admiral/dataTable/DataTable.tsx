@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Table } from '../ui'
-import { ColumnsType, TableProps } from '../ui/Table/interfaces'
+import { ColumnsType, TableLocale, TableProps } from '../ui/Table/interfaces'
+import { PaginationLocale } from '../ui/Pagination/interfaces'
 import { ControlledSorter } from '../ui/Table/hooks/useSorter'
 import { useDataProvider } from '../dataProvider'
 import { DataTableContextProvider } from './DataTableContext'
@@ -16,12 +17,17 @@ export type DataTableProps<RecordType> = {
     columns: ColumnsType<RecordType>
     initialSorter?: ControlledSorter
     dndRows?: boolean
+    locale?: Partial<{
+        table: TableLocale
+        pagination: PaginationLocale & { total: (total: number) => string }
+    }>
 }
 
 export function DataTable<RecordType extends { id: number | string }>({
     resource,
     columns,
     dndRows = false,
+    locale,
 }: DataTableProps<RecordType>) {
     const { getList, reorderList } = useDataProvider()
     const [data, setData] = useState<RecordType[]>([])
@@ -152,11 +158,13 @@ export function DataTable<RecordType extends { id: number | string }>({
                     total,
                     showTotal: (total) => `Всего ${total}`,
                     showSizeChanger: !!total && total > 10,
+                    locale: locale?.pagination,
                 }}
                 loading={loading}
                 onChange={onTableChange}
                 dndRows={dndRows}
                 onDragEnd={onDragEnd}
+                locale={locale?.table}
             />
         </DataTableContextProvider>
     )

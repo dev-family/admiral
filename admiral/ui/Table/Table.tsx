@@ -36,8 +36,6 @@ import { DraggableRow, DraggableWrapper, DragHandle } from './components'
 import mergeRefs from 'react-merge-refs'
 import useTableSize from './hooks/useTableSize'
 
-// TODO: sorter tooltip
-// TODO: table locale
 // TODO: docs: sortDirections/sorter (Table props), sortDirections/defaultSortOrder/sorter (Column props)
 // TODO: docs: rowSelection properties
 // TODO: disable d&d if other sort choosen

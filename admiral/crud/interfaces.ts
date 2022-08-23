@@ -1,17 +1,22 @@
 import { Locale as FormLocale } from '../form/interfaces'
 import { Locale as FiltersLocale } from '../filters/interfaces'
-import { ColumnsType } from '../ui/Table/interfaces'
+import { ColumnsType, TableLocale } from '../ui/Table/interfaces'
 import { DrawerProps } from '../ui/Drawer/interfaces'
+import { PaginationLocale } from '../ui/Pagination/interfaces'
 
 export type CRUDLocale = {
     actions: CRUDActionsLocale
     filters: FiltersLocale
     form: FormLocale
+    table: TableLocale
+    pagination: PaginationLocale
 }
 
 export type CRUDActionsLocale = {
     submit: string
     back: string
+    tableColumn: string
+    paginationTotal: (total: number) => string
 }
 
 export type CRUDConfig<RecordType> = {

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Locale as FormLocale } from '../form/interfaces'
 import { Locale as FiltersLocale } from '../filters/interfaces'
 import { ColumnsType, TableLocale } from '../ui/Table/interfaces'
@@ -48,4 +49,6 @@ export type CRUDConfig<RecordType> = {
     }
     locale?: CRUDLocale
     filter?: { fields: JSX.Element }
+    topContent?: ReactNode
+    bottomContent?: ReactNode
 }

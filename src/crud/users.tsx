@@ -25,7 +25,7 @@ export const UsersCRUD = createCRUD({
         title: 'Users CRUD',
         newButtonText: 'Create New User',
         filterButtonText: 'Filter',
-        tableOptions: [
+        tableColumns: [
             {
                 title: 'Avatar',
                 dataIndex: 'avatar',
@@ -66,8 +66,8 @@ export const UsersCRUD = createCRUD({
                 render: (value) => (value ? 'Yes' : 'No'),
             },
         ],
+        tableConfig: { dndRows: true },
     },
-    table: { dndRows: true },
     filter: {
         fields: (
             <>

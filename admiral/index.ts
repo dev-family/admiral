@@ -60,6 +60,8 @@ export * from './crud'
 
 export * from './utils/hooks'
 
+export { TopToolbar } from './layout'
+
 export { createRoutesFrom } from './router'
 
 export { useTheme, useThemeVars } from './theme'

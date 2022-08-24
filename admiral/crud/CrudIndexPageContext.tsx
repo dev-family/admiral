@@ -45,7 +45,8 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
             return []
         }
 
-        return (filterFields.props.children ?? [])
+        const children = filterFields.props.children ?? []
+        return (Array.isArray(children) ? children : [children])
             .filter((child: any) => {
                 if (typeof child === 'object') {
                     return typeof child.type === 'function'

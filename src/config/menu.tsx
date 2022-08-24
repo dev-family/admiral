@@ -5,6 +5,7 @@ const CustomMenu = () => {
     return (
         <Menu>
             <MenuItemLink icon="FiCircle" name="Base CRUD" to="/base-crud" />
+            <MenuItemLink icon="FiStar" name="Advanced Edit Page" to="/advanced-edit-page" />
             <MenuItemLink
                 icon="FiUsers"
                 name="Users"

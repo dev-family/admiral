@@ -1,0 +1,26 @@
+@use 'admiral/assets/mixins' as *;
+
+.link {
+    display: inline-flex;
+    font-size: var(--size-text-m);
+    color: var(--color-typo-secondary);
+    background-image: linear-gradient(
+        to bottom,
+        var(--color-typo-secondary),
+        var(--color-typo-secondary)
+    );
+    background-position: bottom;
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    white-space: nowrap;
+    transition: color 0.16s ease;
+
+    @include noTouchHover() {
+        color: var(--color-typo-link-hover);
+        background-image: linear-gradient(
+            to bottom,
+            var(--color-typo-link-hover),
+            var(--color-typo-link-hover)
+        );
+    }
+}

@@ -333,6 +333,8 @@ $table-class: 'admiral-table';
             }
 
             .#{$table-class}-container {
+                display: grid;
+
                 &::before,
                 &::after {
                     position: absolute;

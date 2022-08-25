@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Locale as FormLocale } from '../form/interfaces'
 import { Locale as FiltersLocale } from '../filters/interfaces'
-import { ColumnsType, TableLocale } from '../ui/Table/interfaces'
+import { ColumnsType, ColumnType, TableLocale } from '../ui/Table/interfaces'
 import { DrawerProps } from '../ui/Drawer/interfaces'
 import { PaginationLocale } from '../ui/Pagination/interfaces'
 import { DataTableConfig } from '../dataTable'
@@ -30,6 +30,7 @@ export type CRUDConfig<RecordType> = {
         newButtonText: string
         filterButtonText: string
         tableColumns: ColumnsType<RecordType>
+        tableActions?: ColumnType<RecordType> | null
         tableConfig?: DataTableConfig<RecordType>
     }
     form: {

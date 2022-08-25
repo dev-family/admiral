@@ -9,6 +9,10 @@
     gap: var(--space-s);
     flex-wrap: wrap;
     margin-bottom: var(--space-l);
+
+    &:empty {
+        margin-bottom: 0;
+    }
 }
 
 .appliedFilters_Remove {

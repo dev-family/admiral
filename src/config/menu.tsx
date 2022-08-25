@@ -11,6 +11,7 @@ const CustomMenu = () => {
                 name="Table without actions"
                 to="/table-without-actions"
             />
+            <MenuItemLink icon="FiCheckSquare" name="Bulk actions" to="/bulk-actions" />
             <MenuItemLink
                 icon="FiUsers"
                 name="Users"

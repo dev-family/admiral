@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Table } from '../ui'
-import { ColumnsType, TableLocale, TableProps } from '../ui/Table/interfaces'
+import { ColumnsType, TableLocale, TableProps, Key } from '../ui/Table/interfaces'
 import { PaginationLocale } from '../ui/Pagination/interfaces'
 import { ControlledSorter } from '../ui/Table/hooks/useSorter'
 import { useDataProvider } from '../dataProvider'
@@ -8,8 +8,6 @@ import { DataTableContextProvider } from './DataTableContext'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { useTopLocation } from '../router'
-
-// TODO: rowSelection config
 
 export type DataTableProps<RecordType> = {
     resource: string
@@ -22,10 +20,18 @@ export type DataTableProps<RecordType> = {
     config?: DataTableConfig<RecordType>
 }
 
-export type DataTableConfig<RecordType> = Pick<
-    TableProps<RecordType>,
-    'dndRows' | 'showSorterTooltip' | 'bordered' | 'size' | 'title' | 'footer'
->
+export interface DataTableConfig<RecordType>
+    extends Pick<
+        TableProps<RecordType>,
+        'dndRows' | 'showSorterTooltip' | 'bordered' | 'size' | 'title' | 'footer'
+    > {
+    rowSelection?: DataTableRowSelectionConfig<RecordType>
+}
+
+export type DataTableRowSelectionConfig<RecordType> = {
+    render: (selectedRowKeys: Key[], selectedRows: RecordType[]) => React.ReactNode
+    onSelectionChange?: (selectedRowKeys: Key[], selectedRows: RecordType[]) => void
+}
 
 export function DataTable<RecordType extends { id: number | string }>({
     resource,
@@ -35,6 +41,22 @@ export function DataTable<RecordType extends { id: number | string }>({
 }: DataTableProps<RecordType>) {
     const { getList, reorderList } = useDataProvider()
     const [data, setData] = useState<RecordType[]>([])
+
+    const { rowSelection, title, ...tableConfig } = config || {}
+
+    const [selectedKeys, setSelectedKeys] = useState<Key[]>([])
+    const [selectedRows, setSelectedRows] = useState<RecordType[]>([])
+
+    const onSelectionChange = useCallback(
+        (selectedRowKeys: Key[], selectedRows: RecordType[]) => {
+            setSelectedKeys(selectedRowKeys)
+            setSelectedRows(selectedRows)
+            if (rowSelection) {
+                rowSelection.onSelectionChange?.(selectedRowKeys, selectedRows)
+            }
+        },
+        [rowSelection],
+    )
 
     const [loading, setLoading] = useState(false)
     const [total, setTotal] = useState<number>()
@@ -145,10 +167,41 @@ export function DataTable<RecordType extends { id: number | string }>({
         [data, urlState, reorder, resource],
     )
 
+    const rowSelectionAndTitleConfig = useMemo(() => {
+        const config: {
+            title?: TableProps<RecordType>['title']
+            rowSelection?: TableProps<RecordType>['rowSelection']
+        } = {}
+        const hasRowSelectionConfig = typeof rowSelection === 'object'
+        const hasTitle = !!title
+
+        if (hasRowSelectionConfig) {
+            config.rowSelection = { selectedRowKeys: selectedKeys, onChange: onSelectionChange }
+            config.title = (data) => {
+                const customTitle = title?.(data)
+                const rowSelectionNode = hasRowSelectionConfig
+                    ? rowSelection.render(selectedKeys, selectedRows)
+                    : null
+
+                return (
+                    <>
+                        {customTitle}
+                        {rowSelectionNode}
+                    </>
+                )
+            }
+        } else if (hasTitle) {
+            config.title = title
+        }
+
+        return config
+    }, [rowSelection, title, selectedKeys, selectedRows, onSelectionChange])
+
     return (
         <DataTableContextProvider value={{ refresh }}>
             <Table
-                {...config}
+                {...tableConfig}
+                {...rowSelectionAndTitleConfig}
                 dataSource={data}
                 rowKey="id"
                 columns={columns}

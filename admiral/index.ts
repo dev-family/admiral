@@ -28,6 +28,7 @@ export type {
     TableProps,
     TableRowSelection,
     ColumnsType as TableColumnsType,
+    ColumnType as TableColumnType,
     SortOrder,
 } from './ui/Table/interfaces'
 export * from './ui/Tabs/interfaces'

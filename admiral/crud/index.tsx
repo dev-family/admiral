@@ -15,6 +15,7 @@ import { CRUDConfig } from './interfaces'
 import styles from './Crud.module.scss'
 import { PopupContainerContextProvider } from './PopupContainerContext'
 import { enUS as enUsActionsLocale } from './locale/actions'
+import { ColumnType } from '../ui/Table/interfaces'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
@@ -41,6 +42,47 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
         }
 
         let location = useLocation<RouterLocationState>()
+        const tableActions = config.index.tableActions
+
+        const tableActionsDefault: ColumnType<RecordType> = {
+            title: actionsLocale.tableColumn,
+            key: 'operation',
+            fixed: 'right',
+            width: 120,
+            render: (_value, record) => {
+                const { refresh } = useDataTable()
+                const handleDelete = useCallback(async () => {
+                    await deleteOne(config.resource, { id: record.id })
+                    refresh()
+                }, [])
+
+                return (
+                    <div style={operationsStyle}>
+                        <Link
+                            to={{
+                                pathname: `${config.path}/${record.id}`,
+                                ...(view === 'drawer' && {
+                                    state: {
+                                        background: location,
+                                        routeWithBackground: routePath(config.path),
+                                        scrollTop: false,
+                                    },
+                                }),
+                            }}
+                        >
+                            <Button view="clear" size="S" iconRight={<FiEdit3 />} />
+                        </Link>
+
+                        <Button
+                            onClick={handleDelete}
+                            view="clear"
+                            size="S"
+                            iconRight={<FiTrash />}
+                        />
+                    </div>
+                )
+            },
+        }
 
         return (
             <CrudIndexPageContextProvider filterFields={config.filter?.fields}>
@@ -65,51 +107,11 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                         resource={config.resource}
                         columns={[
                             ...config.index.tableColumns,
-                            {
-                                title: actionsLocale.tableColumn,
-                                key: 'operation',
-                                fixed: 'right',
-                                width: 120,
-                                render: (_value, record) => {
-                                    const { refresh } = useDataTable()
-                                    const handleDelete = useCallback(async () => {
-                                        await deleteOne(config.resource, { id: record.id })
-                                        refresh()
-                                    }, [])
-
-                                    return (
-                                        <div style={operationsStyle}>
-                                            <Link
-                                                to={{
-                                                    pathname: `${config.path}/${record.id}`,
-                                                    ...(view === 'drawer' && {
-                                                        state: {
-                                                            background: location,
-                                                            routeWithBackground: routePath(
-                                                                config.path,
-                                                            ),
-                                                            scrollTop: false,
-                                                        },
-                                                    }),
-                                                }}
-                                            >
-                                                <Button
-                                                    view="clear"
-                                                    size="S"
-                                                    iconRight={<FiEdit3 />}
-                                                />
-                                            </Link>
-
-                                            <Button
-                                                onClick={handleDelete}
-                                                view="clear"
-                                                size="S"
-                                                iconRight={<FiTrash />}
-                                            />
-                                        </div>
-                                    )
-                                },
-                            },
+                            ...(tableActions === null
+                                ? []
+                                : tableActions
+                                ? [tableActions]
+                                : [tableActionsDefault]),
                         ]}
                         config={config.index.tableConfig}
                         locale={{ table: tableLocale, pagination: paginationLocale }}

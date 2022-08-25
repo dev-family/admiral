@@ -360,6 +360,8 @@ $table-class: 'admiral-table';
                     position: relative;
 
                     &::before {
+                        border-top-left-radius: var(--table-top-left-radius, var(--radius-m));
+                        border-bottom-left-radius: var(--table-bottom-left-radius, var(--radius-m));
                         box-shadow: inset 10px 0 8px -8px rgba(var(--color-nums-shadow), 0.14);
                     }
                 }
@@ -379,6 +381,11 @@ $table-class: 'admiral-table';
                     position: relative;
 
                     &::after {
+                        border-top-right-radius: var(--table-top-right-radius, var(--radius-m));
+                        border-bottom-right-radius: var(
+                            --table-bottom-right-radius,
+                            var(--radius-m)
+                        );
                         box-shadow: inset -10px 0 8px -8px rgba(var(--color-nums-shadow), 0.14);
                     }
                 }

@@ -13,6 +13,11 @@ const CustomMenu = () => {
             />
             <MenuItemLink icon="FiCheckSquare" name="Bulk actions" to="/bulk-actions" />
             <MenuItemLink
+                icon="FiSidebar"
+                name="CRUD with custom drawer"
+                to="/crud-with-custom-drawer"
+            />
+            <MenuItemLink
                 icon="FiUsers"
                 name="Users"
                 to="/crud-users"

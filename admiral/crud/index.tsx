@@ -1,13 +1,12 @@
 import { DataTable } from '../dataTable'
 import { Form, FormProps } from '../form'
 import { Page, Button, Drawer } from '../ui'
-import { FiTrash, FiEdit3, FiX, FiSave } from 'react-icons/fi'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { FiX, FiSave } from 'react-icons/fi'
+import { useHistory, useLocation } from 'react-router-dom'
 import { CreateButton, BackButton, FilterButton } from '../actions'
 import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react'
-import { useDataTable } from '../dataTable/DataTableContext'
 import { CrudIndexPageContextProvider } from './CrudIndexPageContext'
 import { AppliedFilters, Filters } from '../filters'
 import { RouterLocationState } from '../router/interfaces'
@@ -16,6 +15,7 @@ import styles from './Crud.module.scss'
 import { PopupContainerContextProvider } from './PopupContainerContext'
 import { enUS as enUsActionsLocale } from './locale/actions'
 import { ColumnType } from '../ui/Table/interfaces'
+import { DeleteAction, EditAction } from '../dataTable/actions'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
@@ -27,7 +27,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
     config: CRUDConfig<RecordType>,
 ) {
     return () => {
-        const { deleteOne, getFiltersFormData } = useDataProvider()
+        const { getFiltersFormData } = useDataProvider()
         const fetchInitialFiltersData = useCallback(() => {
             return getFiltersFormData(config.resource)
         }, [])
@@ -40,8 +40,6 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
             ...(locale?.pagination ?? {}),
             total: actionsLocale.paginationTotal,
         }
-
-        let location = useLocation<RouterLocationState>()
         const tableActions = config.index.tableActions
 
         const tableActionsDefault: ColumnType<RecordType> = {
@@ -50,35 +48,16 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
             fixed: 'right',
             width: 120,
             render: (_value, record) => {
-                const { refresh } = useDataTable()
-                const handleDelete = useCallback(async () => {
-                    await deleteOne(config.resource, { id: record.id })
-                    refresh()
-                }, [])
-
                 return (
                     <div style={operationsStyle}>
-                        <Link
-                            to={{
-                                pathname: `${config.path}/${record.id}`,
-                                ...(view === 'drawer' && {
-                                    state: {
-                                        background: location,
-                                        routeWithBackground: routePath(config.path),
-                                        scrollTop: false,
-                                    },
-                                }),
-                            }}
-                        >
-                            <Button view="clear" size="S" iconRight={<FiEdit3 />} />
-                        </Link>
-
-                        <Button
-                            onClick={handleDelete}
-                            view="clear"
-                            size="S"
-                            iconRight={<FiTrash />}
+                        <EditAction
+                            pathname={`${config.path}/${record.id}`}
+                            {...(view === 'drawer' && {
+                                behavior: 'backgroundRoute',
+                                mainRoutePath: routePath(config.path),
+                            })}
                         />
+                        <DeleteAction resource={config.resource} id={record.id} />
                     </div>
                 )
             },

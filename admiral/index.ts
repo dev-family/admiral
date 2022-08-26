@@ -46,6 +46,7 @@ export type {
 export * from './form'
 
 export * from './dataTable/fields'
+export * from './dataTable/actions'
 
 export * as filtersLocale from './filters/locale'
 

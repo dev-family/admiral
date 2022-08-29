@@ -31,7 +31,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
         const fetchInitialFiltersData = useCallback(() => {
             return getFiltersFormData(config.resource)
         }, [])
-        const { view, drawer } = config.update
+        const { view, drawer } = config.update || {}
         const { locale } = config
         const routePath = drawer?.routePath ?? ((path) => `${path}/:id`)
         const actionsLocale = locale?.actions ?? enUsActionsLocale
@@ -114,6 +114,12 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
 
 function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
     return () => {
+        const title = config.create?.title ?? 'Create'
+
+        if (!!config.form.create.fields && !config.create?.title) {
+            console.error('Please provide "create.title"')
+        }
+
         const { getCreateFormData, create } = useDataProvider()
 
         const fetchInitialData = useCallback(() => {
@@ -127,7 +133,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
         const actionsLocale = config.locale?.actions ?? enUsActionsLocale
 
         return (
-            <Page title={config.create.title}>
+            <Page title={title}>
                 <Form
                     submitData={submitData}
                     redirect={config.path}
@@ -161,13 +167,17 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
         const actionsLocale = config.locale?.actions ?? enUsActionsLocale
 
         const {
-            update: { title, view = 'page' },
             path,
             locale,
             form: {
                 edit: { fields },
             },
         } = config
+        const { title = (id: string) => `Update #${id}`, view = 'page' } = config.update || {}
+
+        if (!!config.form.create.fields && !config.update?.title) {
+            console.error('Please provide "update.title"')
+        }
 
         const { state } = useLocation<RouterLocationState>()
         const background = state && state.background
@@ -225,13 +235,13 @@ function UpdateDrawer<RecordType>({
     const actionsLocale = config.locale?.actions ?? enUsActionsLocale
 
     const {
-        update: { drawer },
         path,
         locale,
         form: {
             edit: { fields },
         },
     } = config
+    const { drawer } = config.update || {}
 
     const onBack = useCallback(() => {
         setVisible(false)

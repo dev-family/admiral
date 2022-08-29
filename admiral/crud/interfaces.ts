@@ -40,11 +40,11 @@ export type CRUDConfig<RecordType> = {
             fields: React.ReactNode
         }
     }
-    create: {
-        title: string
+    create?: {
+        title?: string
     }
-    update: {
-        title: (id: string) => string
+    update?: {
+        title?: (id: string) => string
         view?: 'page' | 'drawer'
         drawer?: DrawerProps & { routePath?: (path: string) => string }
     }

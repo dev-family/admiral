@@ -17,6 +17,7 @@ const CustomMenu = () => {
                 name="CRUD with custom drawer"
                 to="/crud-with-custom-drawer"
             />
+            <MenuItemLink icon="FiCodepen" name="Custom Interface" to="/custom-interface" />
             <MenuItemLink
                 icon="FiUsers"
                 name="Users"

@@ -457,6 +457,33 @@ export default {
 
 ❗**Note**: postcss plugins are used for color transformation in admiral [presets example](https://github.com/dev-family/admiral/tree/master/admiral/theme/presets). If you want to reproduce, setup [postcss](https://github.com/postcss/postcss) and [postcss-color-mod-function plugin](https://github.com/csstools/postcss-color-mod-function).
 
+### Roles
+
+To get user info and depending on this to show/hide menu items or some interface elements, use `useGetIdentity` hook:
+
+```jsx
+import React from 'react'
+import { Menu, MenuItemLink, useGetIdentity } from '../../admiral'
+
+const CustomMenu = () => {
+    const { identity } = useGetIdentity()
+
+    const role = identity?.role ?? null
+
+    return (
+        <Menu>
+            <MenuItemLink icon="FiCircle" name="Base CRUD" to="/base-crud" />
+            <MenuItemLink icon="FiStar" name="Advanced Edit Page" to="/advanced-edit-page" />
+            {role === 'admin' && (
+                <MenuItemLink icon="FiCodepen" name="Custom Interface" to="/custom-interface" />
+            )}
+        </Menu>
+    )
+}
+
+export default CustomMenu
+```
+
 ---
 
 ## ⌨️ Development

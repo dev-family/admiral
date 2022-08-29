@@ -71,7 +71,9 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                         config.actions || (
                             <TopToolbar>
                                 {!!config.filter && (
-                                    <FilterButton>{config.index.filterButtonText}</FilterButton>
+                                    <FilterButton>
+                                        {config.filter.topToolbarButtonText}
+                                    </FilterButton>
                                 )}
                                 <CreateButton basePath={config.path}>
                                     {config.index.newButtonText}

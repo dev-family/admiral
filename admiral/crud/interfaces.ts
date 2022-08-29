@@ -28,7 +28,6 @@ export type CRUDConfig<RecordType> = {
     index: {
         title: string
         newButtonText: string
-        filterButtonText: string
         tableColumns: ColumnsType<RecordType>
         tableActions?: ColumnType<RecordType> | null
         tableConfig?: DataTableConfig<RecordType>
@@ -50,7 +49,7 @@ export type CRUDConfig<RecordType> = {
         drawer?: DrawerProps & { routePath?: (path: string) => string }
     }
     locale?: CRUDLocale
-    filter?: { fields: JSX.Element }
+    filter?: { topToolbarButtonText: string; fields: JSX.Element }
     topContent?: ReactNode
     bottomContent?: ReactNode
 }

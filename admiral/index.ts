@@ -59,6 +59,7 @@ export * from './dataProvider/interfaces'
 export * from './auth/interfaces'
 
 export * from './crud'
+export * from './crud/interfaces'
 
 export * from './utils/hooks'
 

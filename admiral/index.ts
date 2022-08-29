@@ -56,6 +56,8 @@ export * from './admin'
 
 export { useDataProvider } from './dataProvider'
 export * from './dataProvider/interfaces'
+
+export { useGetIdentity } from './auth'
 export * from './auth/interfaces'
 
 export * from './crud'

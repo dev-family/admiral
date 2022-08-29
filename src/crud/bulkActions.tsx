@@ -16,7 +16,6 @@ export const CRUD = createCRUD({
     index: {
         title: 'Bulk Actions',
         newButtonText: 'Create New User',
-        filterButtonText: 'Filter',
         tableColumns: [
             {
                 title: 'Avatar',

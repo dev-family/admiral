@@ -18,7 +18,6 @@ export const CRUD = createCRUD({
     index: {
         title: 'CRUD with custom drawer',
         newButtonText: 'Create New User',
-        filterButtonText: 'Filter',
         tableColumns,
         tableActions: {
             title: 'Actions',
@@ -63,6 +62,7 @@ export const CRUD = createCRUD({
         },
     },
     filter: {
+        topToolbarButtonText: 'Filter',
         fields: filterFields,
     },
     form: {

@@ -15,7 +15,6 @@ export const CRUD = createCRUD({
     index: {
         title: 'Table without actions',
         newButtonText: 'Create New User',
-        filterButtonText: 'Filter',
         tableColumns: [
             {
                 title: 'Avatar',
@@ -84,6 +83,7 @@ export const CRUD = createCRUD({
         tableActions: null,
     },
     filter: {
+        topToolbarButtonText: 'Filter',
         fields: (
             <>
                 <TextInput label="Name" name="name" placeholder="Name" />

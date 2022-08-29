@@ -11,7 +11,6 @@ export const CRUD = createCRUD({
     index: {
         title: 'Custom Interface',
         newButtonText: 'Create new theme',
-        filterButtonText: 'Filter',
         tableColumns: [
             {
                 title: 'ID',

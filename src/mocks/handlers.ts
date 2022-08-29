@@ -1,12 +1,15 @@
 import { rest } from 'msw'
 import { IUser, UserList } from './data/users'
+import { ITheme, ThemeList } from './data/themes'
 import zipObjectDeep from 'lodash.zipobjectdeep'
 import { UploadFile } from 'admiral/ui/Upload/interfaces'
 import qs from 'qs'
 
 const userList = new UserList()
+const themeList = new ThemeList()
 
 export const handlers = [
+    // users
     rest.get('/api/users', (req, res, ctx) => {
         const page = Number(req.url.searchParams.get('page')) || 1
         const pageSize = Number(req.url.searchParams.get('perPage')) || 10
@@ -69,6 +72,51 @@ export const handlers = [
 
         return res(ctx.delay(160), ctx.status(200), ctx.json({ data }))
     }),
+    // themes
+    rest.get('/api/themes', (req, res, ctx) => {
+        const page = Number(req.url.searchParams.get('page')) ?? 1
+        const pageSize = Number(req.url.searchParams.get('perPage')) ?? 10
+
+        const from = page * pageSize - pageSize
+        const to = page * pageSize
+
+        const [items, all] = themeList.getThemes(from, to)
+
+        return res(
+            ctx.delay(1600),
+            ctx.status(200),
+            ctx.json({
+                items,
+                meta: { current: page, total: all.length, page_size: pageSize },
+            }),
+        )
+    }),
+    rest.post('/api/themes', (req, res, ctx) => {
+        const data = toObj(req.body as any)
+        const theme = themeList.add(data as Partial<ITheme>)
+
+        return res(ctx.delay(160), ctx.status(201), ctx.json({ data: theme }))
+    }),
+    rest.delete('/api/themes/:id', (req, res, ctx) => {
+        const { id } = req.params
+        themeList.delete(id as string)
+
+        return res(ctx.delay(160), ctx.status(204))
+    }),
+    rest.post('/api/themes/:id', (req, res, ctx) => {
+        const { id } = req.params
+        const data = toObj(req.body as any)
+        themeList.update(id as string, data as ITheme)
+
+        return res(ctx.delay(160), ctx.status(200), ctx.json({ data }))
+    }),
+    rest.get('/api/themes/:id/update', (req, res, ctx) => {
+        const { id } = req.params
+        const theme = themeList.getThemeById(id as string)
+
+        return res(ctx.delay(160), ctx.status(200), ctx.json({ data: theme, values: {} }))
+    }),
+    // auth
     rest.post('/api/login', (req, res, ctx) => {
         const data = req.body as { user: string; password: string }
 

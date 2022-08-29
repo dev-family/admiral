@@ -1,0 +1,116 @@
+@use 'admiral/assets/scss-variables' as *;
+@use 'admiral/assets/mixins' as *;
+
+$contentLimit: 340px;
+
+.container {
+    margin-bottom: var(--space-l);
+}
+
+.settings {
+    display: grid;
+    grid-template-columns: minmax(0, $contentLimit) minmax(0, 510px);
+    grid-gap: var(--space-m) var(--space-l);
+    --button-width: 100%;
+
+    @include maxWidth($bp-mTablet - 1) {
+        grid-template-columns: minmax(0, $contentLimit);
+    }
+
+    @include maxWidth($bp-mobile) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.color {
+    --form-item-mb: 0;
+
+    &:not(:last-child) {
+        margin-bottom: var(--space-l);
+    }
+}
+
+.color_Title {
+    margin-bottom: var(--space-xs);
+}
+
+.color_Row {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    grid-gap: var(--space-l);
+    align-items: flex-start;
+}
+
+.image {
+    display: flex;
+    align-items: flex-start;
+    width: fit-content;
+    max-width: 100%;
+    padding: var(--space-l);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-m);
+
+    @include maxWidth($bp-mTablet - 1) {
+        order: -1;
+    }
+}
+
+.imageStickyContent {
+    position: sticky;
+    top: var(--space-l);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+
+    @include maxWidth($bp-tablet) {
+        top: calc(var(--layout-header-height) + var(--space-l));
+    }
+
+    svg {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+.block {
+    &:not(:last-child) {
+        margin-bottom: var(--space-2xl);
+    }
+}
+
+.childBlock {
+    &:not(:last-child) {
+        margin-bottom: var(--space-xl);
+    }
+}
+
+.label {
+    display: block;
+    margin-bottom: var(--space-xs);
+}
+
+div.footer {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    max-width: $contentLimit;
+    margin-top: var(--space-2xl);
+    --button-width: 100%;
+
+    @include maxWidth($bp-mobile) {
+        max-width: 100%;
+    }
+}
+
+.contentImage {
+    position: relative;
+
+    &_Logo {
+        position: absolute;
+        top: 27.42%;
+        left: 4.748%;
+        z-index: 1;
+        width: 50.44%;
+        height: 45.16%;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}

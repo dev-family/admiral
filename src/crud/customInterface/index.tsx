@@ -33,12 +33,6 @@ export const CRUD = createCRUD({
             fields: null,
         },
     },
-    create: {
-        title: 'Create new theme',
-    },
-    update: {
-        title: (id: string) => `Edit theme #${id}`,
-    },
     topContent: <PageTopContent />,
 })
 

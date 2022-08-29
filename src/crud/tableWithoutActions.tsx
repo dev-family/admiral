@@ -154,9 +154,6 @@ export const CRUD = createCRUD({
     create: {
         title: 'Create New User',
     },
-    update: {
-        title: (id: string) => `Edit User #${id}`,
-    },
     topContent: <PageTopContent />,
 })
 

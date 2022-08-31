@@ -1,6 +1,6 @@
 import { arrayMove } from '@dnd-kit/sortable'
 import { UploadFile } from 'admiral/ui/Upload/interfaces'
-import { RecordOptions, SortOrder } from '../../../admiral'
+import { OptionType, RecordOptions, SortOrder } from '../../../admiral'
 
 export interface IUser {
     id: number | string
@@ -257,8 +257,40 @@ export class UserList {
         return this.users.find((user) => user.id == id)
     }
 
-    getOptions() {
-        return this.options
+    getOptions(initialValues?: Record<keyof IUser, any>) {
+        let options = { ...this.options }
+        if (initialValues?.role) {
+            const fieldOptions = options.role
+            const value: string = initialValues.role
+            const option = this.getAllOptions('role').find((opt) => opt.value == value)
+            if (!!option && fieldOptions && fieldOptions.every((opt) => opt.value != value)) {
+                options['role'] = [option, ...options['role']]
+            }
+        }
+        return options
+    }
+
+    private getAllOptions(field: keyof IUser): OptionType[] {
+        if (field === 'role') {
+            return [
+                { label: 'Бухгалтер', value: 'accountant' },
+                { label: 'Кадровик', value: 'recruiter' },
+                { label: 'Программист', value: 'programmer' },
+                { label: 'Менеджер', value: 'manager' },
+                { label: 'Уборщик', value: 'janitor' },
+                { label: 'Директор', value: 'director' },
+                { label: 'Тестировщик', value: 'tester' },
+            ]
+        }
+        return []
+    }
+
+    searchOptions(field: keyof IUser, query: string): OptionType[] {
+        if (field === 'role') {
+            const allOptions = this.getAllOptions(field)
+            return allOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()))
+        }
+        return this.options[field] ?? []
     }
 
     get length() {

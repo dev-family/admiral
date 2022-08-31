@@ -34,4 +34,9 @@ export interface SelectProps<
     mode?: 'multiple' | 'tags'
     borderless?: boolean
     alert?: boolean
+    locale?: SelectLocale
+}
+
+export interface SelectLocale {
+    notFound: string
 }

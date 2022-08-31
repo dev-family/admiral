@@ -6,8 +6,10 @@ import type { BaseOptionType, DefaultOptionType } from 'rc-select/lib/Select'
 import { SelectProps } from './interfaces'
 import getIcons from './utils/getIcons'
 import './Select.scss'
+import { enUs } from './locales'
 
 const prefixCls = 'select'
+const defaultLocale = enUs
 
 const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(
     {
@@ -25,10 +27,12 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         maxTagCount,
         getPopupContainer: customizeGetPopupContainer,
         loading,
+        locale,
         ...props
     }: SelectProps<OptionType>,
     ref: React.Ref<BaseSelectRef>,
 ) => {
+    const selectLocale = { ...defaultLocale, ...locale }
     const getPopupContainer = useCallback(
         () => document.querySelector('#root > .Theme') as HTMLDivElement,
         [],
@@ -43,7 +47,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
     })()
 
     // ===================== Empty =====================
-    let mergedNotFound: React.ReactNode = notFoundContent || 'Не найдено'
+    let mergedNotFound: React.ReactNode = notFoundContent || selectLocale.notFound
 
     // ===================== Icons =====================
     const { suffixIcon, itemIcon, removeIcon, clearIcon } = getIcons({

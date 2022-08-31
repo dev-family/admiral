@@ -327,6 +327,10 @@ $dropdown-list-space-s: var(--space-2xs);
             transition: all 0.3s;
         }
 
+        .#{$prefix-class}-selection-placeholder {
+            transition: transform 0.3s;
+        }
+
         .#{$prefix-class}-selection-item {
             position: relative;
             user-select: none;
@@ -528,7 +532,7 @@ $dropdown-list-space-s: var(--space-2xs);
             font-size: var(--select-selection-item-fz);
             overflow: hidden;
             transform: translateY(-50%);
-            transition: all 0.3s;
+            transition: transform 0.3s;
         }
     }
 

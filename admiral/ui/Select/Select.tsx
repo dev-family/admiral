@@ -24,6 +24,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         dropdownMatchSelectWidth = true,
         maxTagCount,
         getPopupContainer: customizeGetPopupContainer,
+        loading,
         ...props
     }: SelectProps<OptionType>,
     ref: React.Ref<BaseSelectRef>,
@@ -46,6 +47,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
 
     // ===================== Icons =====================
     const { suffixIcon, itemIcon, removeIcon, clearIcon } = getIcons({
+        loading,
         multiple: isMultiple,
         prefixCls,
     })

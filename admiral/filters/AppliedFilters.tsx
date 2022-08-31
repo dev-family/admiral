@@ -33,7 +33,8 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     return `${label || name}: ${value}`
                 }
 
-                case 'TextInput': {
+                case 'TextInput':
+                case 'SlugInput': {
                     return label ? `${label}: ${value}` : value
                 }
 

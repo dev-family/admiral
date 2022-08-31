@@ -12,6 +12,7 @@ import {
     DraggerInput,
     DatePickerInput,
     AjaxSelectInput,
+    SlugInput,
 } from '../../admiral'
 import api from '../api'
 
@@ -28,7 +29,6 @@ export const UsersCRUD = createCRUD({
     index: {
         title: 'Users CRUD',
         newButtonText: 'Create New User',
-
         tableColumns: [
             {
                 title: 'Avatar',
@@ -107,6 +107,7 @@ export const UsersCRUD = createCRUD({
                 <>
                     <TextInput label="Id" name="id" placeholder="Id" required />
                     <TextInput label="Name" name="name" placeholder="Name" />
+                    <SlugInput label="Slug" name="slug" placeholder="Slug" from="name" />
                     <TextInput label="Email" name="email" placeholder="Email" required />
                     <TextInput
                         label="Password"
@@ -180,6 +181,7 @@ export const UsersCRUD = createCRUD({
             fields: (
                 <>
                     <TextInput label="Name" name="name" placeholder="Name" />
+                    <SlugInput label="Slug" name="slug" placeholder="Slug" from="name" disabled />
                     <TextInput label="Email" name="email" placeholder="Email" required />
                     <TextInput
                         label="Password"

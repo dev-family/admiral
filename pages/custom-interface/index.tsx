@@ -1,3 +1,3 @@
-import { CRUD } from '../../src/crud/customInterface'
+import ThemePage from '../../src/crud/customInterface'
 
-export default CRUD.IndexPage
+export default ThemePage

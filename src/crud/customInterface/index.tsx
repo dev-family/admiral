@@ -1,40 +1,9 @@
 import React, { useCallback } from 'react'
-import { createCRUD, Typography, useDataProvider } from '../../../admiral'
-import ThemePage from './ThemePage'
-
-export const path = '/custom-interface'
-export const resource = 'themes'
-
-export const CRUD = createCRUD({
-    path,
-    resource,
-    index: {
-        title: 'Custom Interface',
-        newButtonText: 'Create new theme',
-        tableColumns: [
-            {
-                title: 'ID',
-                dataIndex: 'id',
-                key: 'id',
-                width: 90,
-            },
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                key: 'name',
-            },
-        ],
-    },
-    form: {
-        create: {
-            fields: null,
-        },
-        edit: {
-            fields: null,
-        },
-    },
-    topContent: <PageTopContent />,
-})
+import { Page, Typography, Form } from '../../../admiral'
+import validateColorValues from './validateColorValues'
+import ThemeForm from './ThemeForm'
+import styles from './Theme.module.scss'
+import api from '../../api'
 
 function PageTopContent() {
     return (
@@ -48,33 +17,25 @@ function PageTopContent() {
     )
 }
 
-export function CreatePage() {
-    const { create } = useDataProvider()
-
-    const submitData = useCallback((values) => {
-        return create(resource, { data: values })
-    }, [])
-
-    return <ThemePage path={path} title="Create new theme" submitData={submitData} />
-}
-
-export function UpdatePage({ id }: { id: string }) {
-    const { getUpdateFormData, update } = useDataProvider()
-
+export default function CustomInterfacePage() {
     const fetchInitialData = useCallback(() => {
-        return getUpdateFormData(resource, { id })
+        return api.getTheme()
     }, [])
 
-    const submitData = useCallback((values) => {
-        return update(resource, { data: values, id })
+    const _onSubmit = useCallback((values) => {
+        const validatedValues = validateColorValues(values)
+        return api.updateTheme(validatedValues)
     }, [])
 
     return (
-        <ThemePage
-            path={path}
-            title={`Edit theme #${id}`}
-            fetchInitialData={fetchInitialData}
-            submitData={submitData}
-        />
+        <Page title="Custom Interface" topContent={<PageTopContent />}>
+            <Form submitData={_onSubmit} fetchInitialData={fetchInitialData}>
+                <ThemeForm />
+
+                <Form.Footer className={styles.footer}>
+                    <Form.Submit>Save</Form.Submit>
+                </Form.Footer>
+            </Form>
+        </Page>
     )
 }

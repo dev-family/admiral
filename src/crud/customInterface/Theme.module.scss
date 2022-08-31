@@ -1,7 +1,7 @@
 @use 'admiral/assets/scss-variables' as *;
 @use 'admiral/assets/mixins' as *;
 
-$contentLimit: 340px;
+$contentLimit: 400px;
 
 .container {
     margin-bottom: var(--space-l);
@@ -89,8 +89,6 @@ $contentLimit: 340px;
 }
 
 div.footer {
-    display: grid;
-    grid-template-columns: 80px minmax(0, 1fr);
     max-width: $contentLimit;
     margin-top: var(--space-2xl);
     --button-width: 100%;

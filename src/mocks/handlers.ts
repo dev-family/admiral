@@ -1,12 +1,12 @@
 import { rest } from 'msw'
 import { IUser, UserList } from './data/users'
-import { ITheme, ThemeList } from './data/themes'
+import { ITheme, Theme } from './data/theme'
 import zipObjectDeep from 'lodash.zipobjectdeep'
 import qs from 'qs'
 import { UploadFile, OptionType } from '../../admiral'
 
 const userList = new UserList()
-const themeList = new ThemeList()
+const theme = new Theme()
 
 export const handlers = [
     // users
@@ -83,48 +83,14 @@ export const handlers = [
         return res(ctx.delay(160), ctx.status(200), ctx.json(options))
     }),
     // themes
-    rest.get('/api/themes', (req, res, ctx) => {
-        const page = Number(req.url.searchParams.get('page')) ?? 1
-        const pageSize = Number(req.url.searchParams.get('perPage')) ?? 10
-
-        const from = page * pageSize - pageSize
-        const to = page * pageSize
-
-        const [items, all] = themeList.getThemes(from, to)
-
-        return res(
-            ctx.delay(1600),
-            ctx.status(200),
-            ctx.json({
-                items,
-                meta: { current: page, total: all.length, page_size: pageSize },
-            }),
-        )
+    rest.get('/api/theme', (req, res, ctx) => {
+        return res(ctx.delay(1600), ctx.status(200), ctx.json({ data: theme.data, values: {} }))
     }),
-    rest.post('/api/themes', (req, res, ctx) => {
+    rest.post('/api/theme/update', (req, res, ctx) => {
         const data = toObj(req.body as any)
-        const theme = themeList.add(data as Partial<ITheme>)
-
-        return res(ctx.delay(160), ctx.status(201), ctx.json({ data: theme }))
-    }),
-    rest.delete('/api/themes/:id', (req, res, ctx) => {
-        const { id } = req.params
-        themeList.delete(id as string)
-
-        return res(ctx.delay(160), ctx.status(204))
-    }),
-    rest.post('/api/themes/:id', (req, res, ctx) => {
-        const { id } = req.params
-        const data = toObj(req.body as any)
-        themeList.update(id as string, data as ITheme)
+        theme.update(data as ITheme)
 
         return res(ctx.delay(160), ctx.status(200), ctx.json({ data }))
-    }),
-    rest.get('/api/themes/:id/update', (req, res, ctx) => {
-        const { id } = req.params
-        const theme = themeList.getThemeById(id as string)
-
-        return res(ctx.delay(160), ctx.status(200), ctx.json({ data: theme, values: {} }))
     }),
     // auth
     rest.post('/api/login', (req, res, ctx) => {

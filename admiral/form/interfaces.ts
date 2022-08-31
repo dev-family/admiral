@@ -24,6 +24,7 @@ export const INPUT_NAMES = {
     select: 'SelectInput',
     text: 'TextInput',
     timePicker: 'TimePickerInput',
+    slug: 'SlugInput',
 } as const
 
 const inputTypes = tuple(...Object.values(INPUT_NAMES))

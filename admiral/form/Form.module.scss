@@ -127,3 +127,37 @@
 .arrayInput_Footer {
     padding-left: var(--space-m);
 }
+
+.slugInput {
+    &__Size {
+        &L {
+            --slug-input-icon-px: calc(var(--control-space-l) * 0.5);
+        }
+
+        &S {
+            --slug-input-icon-px: calc(var(--control-space-s) * 0.5);
+        }
+
+        &XS {
+            --slug-input-icon-px: calc(var(--control-space-xs) * 0.5);
+        }
+    }
+}
+
+.slugInput_Icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 var(--slug-input-icon-px, calc(var(--control-space-m) * 0.5));
+    color: var(--color-control-bg-border-default);
+    transition: color 0.2s;
+
+    &:hover {
+        color: var(--color-control-bg-border-default-hover);
+    }
+
+    svg {
+        width: var(--slug-input-icon-width, 20px);
+    }
+}

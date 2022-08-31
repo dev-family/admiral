@@ -12,6 +12,7 @@ import {
 } from '../../../admiral'
 import Table from './Table'
 import { path, resource } from '.'
+import CustomTab from './CustomTab'
 
 export default function EditPage({ id }: { id: string }) {
     const { getUpdateFormData, update } = useDataProvider()
@@ -76,7 +77,9 @@ export default function EditPage({ id }: { id: string }) {
                 <Tabs.TabPane tab="Related Items" key="2">
                     <Table />
                 </Tabs.TabPane>
-                <Tabs.TabPane tab="Custom" key="3"></Tabs.TabPane>
+                <Tabs.TabPane tab="Custom" key="3">
+                    <CustomTab />
+                </Tabs.TabPane>
             </Tabs>
         </Page>
     )

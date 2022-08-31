@@ -28,8 +28,8 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
 ) {
     return () => {
         const { getFiltersFormData } = useDataProvider()
-        const fetchInitialFiltersData = useCallback(() => {
-            return getFiltersFormData(config.resource)
+        const fetchInitialFiltersData = useCallback((urlState?: Record<string, any>) => {
+            return getFiltersFormData(config.resource, urlState)
         }, [])
         const { view, drawer } = config.update || {}
         const { locale } = config

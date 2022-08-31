@@ -51,7 +51,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     }
 
                     const optionName = options
-                        ? options.find((n) => n.value === value)?.label
+                        ? options.find((n) => n.value === value)?.label ?? value
                         : value
                     return label ? `${label}: ${optionName}` : optionName
                 }

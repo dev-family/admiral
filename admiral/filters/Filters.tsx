@@ -10,7 +10,7 @@ import { GetFiltersFormDataResult } from '../dataProvider'
 
 export type FiltersProps = {
     locale?: Locale
-    fetchInitialData?: () => Promise<GetFiltersFormDataResult>
+    fetchInitialData?: (urlState: Record<string, any>) => Promise<GetFiltersFormDataResult>
 }
 
 export const Filters: React.FC<FiltersProps> = ({ locale = enUS, fetchInitialData, children }) => {
@@ -26,7 +26,7 @@ export const Filters: React.FC<FiltersProps> = ({ locale = enUS, fetchInitialDat
 
     useEffect(() => {
         const fetch = async () => {
-            const options = (await fetchInitialData?.())?.options ?? {}
+            const options = (await fetchInitialData?.(urlState.filter))?.options ?? {}
             setFilterOptions((prev) => ({ ...prev, ...options }))
         }
         fetch()
@@ -48,7 +48,7 @@ export const Filters: React.FC<FiltersProps> = ({ locale = enUS, fetchInitialDat
     }, [setUrlState, hideDrawer, formRef])
 
     const _fetchInitialData: FormProps['fetchInitialData'] = useCallback(async () => {
-        const options = (await fetchInitialData?.())?.options ?? {}
+        const options = (await fetchInitialData?.(urlState.filter))?.options ?? {}
 
         return {
             data: { ...urlState.filter },

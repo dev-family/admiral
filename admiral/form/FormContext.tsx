@@ -12,6 +12,7 @@ export type FormContextValue<TFieldValues extends FieldValues> = {
     errors: Record<string, string[]>
     setErrors: React.Dispatch<React.SetStateAction<FormErrorsType>>
     setValues: React.Dispatch<React.SetStateAction<any>>
+    setOptions: React.Dispatch<React.SetStateAction<any>>
     isSubmitting: boolean
     isFetching: boolean
     locale: Locale
@@ -23,6 +24,7 @@ const FormContext = createContext<FormContextValue<FieldValues>>({
     errors: {},
     setErrors: () => {},
     setValues: () => {},
+    setOptions: () => {},
     isSubmitting: false,
     isFetching: true,
     locale: enUS,

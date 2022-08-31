@@ -6,7 +6,7 @@ import { Button } from '../../ui'
 import { FiPlus, FiX } from 'react-icons/fi'
 import { nanoid } from 'nanoid'
 import cn from 'classnames'
-import type { Record as DataProviderRecord } from '../../dataProvider'
+import type { IRecord as DataProviderRecord } from '../../dataProvider'
 import styles from '../Form.module.scss'
 import { InputComponentWithName } from '../interfaces'
 
@@ -29,7 +29,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
     disableAdd = false,
     children,
 }) => {
-    const { values, options, setValues, errors, setErrors, ...formProps } = useForm()
+    const { values, options, setOptions, setValues, errors, setErrors, ...formProps } = useForm()
 
     const forms: DataProviderRecord[] = values[name] ?? [{}]
     const formsErrors = getFormErrorsByIndex(errors, name)
@@ -126,6 +126,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                             values={form}
                             setValues={createSetValuesFn(idx)}
                             options={formOptions}
+                            setOptions={setOptions}
                             errors={formErrors}
                             setErrors={createSetErrorsFn(idx)}
                             {...formProps}

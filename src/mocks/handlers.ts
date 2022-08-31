@@ -2,8 +2,8 @@ import { rest } from 'msw'
 import { IUser, UserList } from './data/users'
 import { ITheme, ThemeList } from './data/themes'
 import zipObjectDeep from 'lodash.zipobjectdeep'
-import { UploadFile } from 'admiral/ui/Upload/interfaces'
 import qs from 'qs'
+import { UploadFile, OptionType } from '../../admiral'
 
 const userList = new UserList()
 const themeList = new ThemeList()
@@ -54,7 +54,8 @@ export const handlers = [
         return res(ctx.delay(160), ctx.status(200), ctx.json({ data: {}, values: options }))
     }),
     rest.get('/api/users/filters', (req, res, ctx) => {
-        const options = userList.getOptions()
+        const urlState = qs.parse(req.url.searchParams.toString())
+        const options = userList.getOptions(urlState as any)
 
         return res(ctx.delay(160), ctx.status(200), ctx.json({ options }))
     }),
@@ -71,6 +72,15 @@ export const handlers = [
         userList.update(id as string, data as IUser)
 
         return res(ctx.delay(160), ctx.status(200), ctx.json({ data }))
+    }),
+    rest.get('/api/users/ajax-select/:field', (req, res, ctx) => {
+        const { field } = req.params
+        const query = req.url.searchParams.get('query')
+        let options: OptionType[] = !query
+            ? []
+            : userList.searchOptions(field as keyof IUser, query)
+
+        return res(ctx.delay(160), ctx.status(200), ctx.json(options))
     }),
     // themes
     rest.get('/api/themes', (req, res, ctx) => {

@@ -11,6 +11,7 @@ import {
     BooleanInput,
     DraggerInput,
     DatePickerInput,
+    AjaxSelectInput,
 } from '../../admiral'
 import api from '../api'
 
@@ -18,9 +19,12 @@ const onImageUpload = (file: Blob) => {
     return api.editorImageUpload('editorUpload', { file })
 }
 
+export const path = '/crud-users'
+export const resource = 'users'
+
 export const UsersCRUD = createCRUD({
-    path: '/crud-users',
-    resource: 'users',
+    path,
+    resource,
     index: {
         title: 'Users CRUD',
         newButtonText: 'Create New User',
@@ -73,7 +77,14 @@ export const UsersCRUD = createCRUD({
         fields: (
             <>
                 <TextInput label="Name" name="name" placeholder="Name" />
-                <SelectInput label="Role" name="role" placeholder="Choose Role" allowClear />
+                <AjaxSelectInput
+                    label="Role"
+                    name="role"
+                    placeholder="Choose Role"
+                    fetchOptions={(field, query) =>
+                        api.getAjaxSelectOptions(resource, field, query)
+                    }
+                />
                 <BooleanInput label="Active?" name="active" />
                 <TimePickerInput label="Time" name="time" placeholder="Time" format="HH:mm" />
                 <DatePickerInput label="Date" name="date" placeholder="Date" />
@@ -189,10 +200,14 @@ export const UsersCRUD = createCRUD({
                             Проектные менеджеры
                         </SelectInput.Option>
                     </SelectInput>
-                    <SelectInput label="Role" name="role" placeholder="Choose Role" required>
-                        <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
-                        <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
-                    </SelectInput>
+                    <AjaxSelectInput
+                        label="Role"
+                        name="role"
+                        placeholder="Choose Role"
+                        fetchOptions={(field, query) =>
+                            api.getAjaxSelectOptions(resource, field, query)
+                        }
+                    />
                     <FilePictureInput
                         columnSpan={2}
                         label="Avatar"

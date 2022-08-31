@@ -247,6 +247,10 @@ $dropdown-list-space-s: var(--space-2xs);
             width: var(--select-arrow-width);
             height: var(--select-arrow-width);
         }
+
+        .#{$prefix-class}-spin {
+            animation: spin 1.4s linear infinite;
+        }
     }
 
     // ========================== Clear ==========================
@@ -787,5 +791,14 @@ $dropdown-list-space-s: var(--space-2xs);
         transform: translateY(-6px);
         transform-origin: 100% 100%;
         opacity: 0;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }

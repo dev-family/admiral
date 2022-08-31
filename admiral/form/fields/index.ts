@@ -1,3 +1,4 @@
+export * from './AjaxSelectInput'
 export * from './ArrayInput'
 export * from './BooleanInput'
 export * from './ColorPickerInput'

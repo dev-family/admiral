@@ -16,4 +16,8 @@ export interface SelectProps<ValueType = any, OptionType extends BaseOptionType 
     mode?: 'multiple' | 'tags';
     borderless?: boolean;
     alert?: boolean;
+    locale?: SelectLocale;
+}
+export interface SelectLocale {
+    notFound: string;
 }

@@ -1,5 +1,5 @@
 export declare type Identifier = string | number;
-export interface Record {
+export interface IRecord {
     id: Identifier;
     [key: string]: any;
 }
@@ -27,15 +27,15 @@ export declare type OptionType = {
     label: string;
 };
 export declare type DataProvider = {
-    getList: <RecordType extends Record = Record>(resource: string, params: Partial<GetListParams>) => Promise<GetListResult<RecordType>>;
+    getList: <RecordType extends IRecord = IRecord>(resource: string, params: Partial<GetListParams>) => Promise<GetListResult<RecordType>>;
     reorderList: (resource: string, params: ReorderParams) => Promise<void>;
-    getOne: <RecordType extends Record = Record>(resource: string, params: GetOneParams) => Promise<GetOneResult<RecordType>>;
+    getOne: <RecordType extends IRecord = IRecord>(resource: string, params: GetOneParams) => Promise<GetOneResult<RecordType>>;
     getCreateFormData: <RecordType extends FormRecord = FormRecord>(resource: string) => Promise<GetFormDataResult<RecordType>>;
     getUpdateFormData: <RecordType extends FormRecord = FormRecord>(resource: string, params: GetOneParams) => Promise<GetFormDataResult<RecordType>>;
-    getFiltersFormData: (resource: string) => Promise<GetFiltersFormDataResult>;
-    update: <RecordType extends Record = Record>(resource: string, params: UpdateParams) => Promise<UpdateResult<RecordType>>;
-    create: <RecordType extends Record = Record>(resource: string, params: CreateParams) => Promise<CreateResult<RecordType>>;
-    deleteOne: <RecordType extends Record = Record>(resource: string, params: DeleteParams) => Promise<DeleteResult<RecordType>>;
+    getFiltersFormData: (resource: string, urlState?: Record<string, any>) => Promise<GetFiltersFormDataResult>;
+    update: <RecordType extends IRecord = IRecord>(resource: string, params: UpdateParams) => Promise<UpdateResult<RecordType>>;
+    create: <RecordType extends IRecord = IRecord>(resource: string, params: CreateParams) => Promise<CreateResult<RecordType>>;
+    deleteOne: <RecordType extends IRecord = IRecord>(resource: string, params: DeleteParams) => Promise<DeleteResult<RecordType>>;
     [key: string]: any;
 };
 export interface GetListParams {
@@ -43,7 +43,7 @@ export interface GetListParams {
     sort: SortPayload;
     filter: any;
 }
-export interface GetListResult<RecordType extends Record = Record> {
+export interface GetListResult<RecordType extends IRecord = IRecord> {
     items: RecordType[];
     meta: PaginationResponse;
 }
@@ -56,7 +56,7 @@ export interface GetOneParams {
 export interface RecordOptions {
     [k: string]: OptionType[];
 }
-export interface GetOneResult<RecordType extends Record = Record> {
+export interface GetOneResult<RecordType extends IRecord = IRecord> {
     data: RecordType;
     values: RecordOptions;
 }
@@ -71,18 +71,18 @@ export interface UpdateParams<T = any> {
     id: Identifier;
     data: T;
 }
-export interface UpdateResult<RecordType extends Record = Record> {
+export interface UpdateResult<RecordType extends IRecord = IRecord> {
     data: RecordType;
 }
 export interface CreateParams<T = any> {
     data: T;
 }
-export interface CreateResult<RecordType extends Record = Record> {
+export interface CreateResult<RecordType extends IRecord = IRecord> {
     data: RecordType;
 }
 export interface DeleteParams {
     id: Identifier;
 }
-export interface DeleteResult<RecordType extends Record = Record> {
+export interface DeleteResult<RecordType extends IRecord = IRecord> {
     data: RecordType;
 }

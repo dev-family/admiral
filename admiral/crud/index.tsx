@@ -222,6 +222,7 @@ function UpdateDrawer<RecordType>({
 }) {
     const drawerRef = useRef<React.ElementRef<typeof Drawer>>(null)
     const [visible, setVisible] = useState(false)
+    const [submitInProgress, setSubmitInProgress] = useState(false)
 
     useEffect(() => {
         setVisible(true)
@@ -249,6 +250,7 @@ function UpdateDrawer<RecordType>({
 
     const onSubmit = useCallback(async () => {
         await formRef.current?.handleSubmit()
+        setSubmitInProgress(true)
         setVisible(false)
     }, [formRef])
 
@@ -285,8 +287,9 @@ function UpdateDrawer<RecordType>({
                         pathname: backLocation ? backLocation.pathname : path,
                         search: backLocation?.search ?? undefined,
                         // update table when drawer saved and closed
-                        state: { update: { dataTable: false }, scrollTop: false },
+                        state: { update: { dataTable: submitInProgress }, scrollTop: false },
                     })
+                    setSubmitInProgress(false)
                 }
             }}
             width={drawer?.width ?? 900}

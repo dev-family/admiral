@@ -1,4 +1,6 @@
-export const ruRu = {
+import { PaginationLocale } from '../interfaces'
+
+export const ruRu: PaginationLocale = {
     items_per_page: '/ стр.',
     jump_to: 'Перейти',
     jump_to_confirm: 'подтвердить',
@@ -9,5 +11,4 @@ export const ruRu = {
     next_5: 'Следующие 5',
     prev_3: 'Предыдущие 3',
     next_3: 'Следующие 3',
-    page_size: 'размер страницы',
 }

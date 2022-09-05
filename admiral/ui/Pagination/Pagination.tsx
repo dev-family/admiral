@@ -1,13 +1,11 @@
 import React from 'react'
 import RcPagination, { PaginationProps as RcPaginationProps } from 'rc-pagination'
-import { enUs, ruRu } from './locales'
+import { enUs } from './locales'
 import styles from './Pagination.module.scss'
 import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
 import cn from 'classnames'
 import { PaginationProps } from './interfaces'
 import { MiniSelect, MiddleSelect } from './PaginationSelect'
-
-// TODO: showQuickJumper (after Input ready)
 
 const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => {
     const ellipsis = <span className={styles.control_Ellipsis}>•••</span>

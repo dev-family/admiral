@@ -1,4 +1,6 @@
-export const enUs = {
+import { PaginationLocale } from '../interfaces'
+
+export const enUs: PaginationLocale = {
     items_per_page: '/ page',
     jump_to: 'Go to',
     jump_to_confirm: 'confirm',
@@ -9,5 +11,4 @@ export const enUs = {
     next_5: 'Next 5 Pages',
     prev_3: 'Previous 3 Pages',
     next_3: 'Next 3 Pages',
-    page_size: 'Page Size',
 }

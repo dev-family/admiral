@@ -7,6 +7,7 @@ import { FiPlus, FiX } from 'react-icons/fi'
 import { nanoid } from 'nanoid'
 import cn from 'classnames'
 import type { IRecord as DataProviderRecord } from '../../dataProvider'
+import { enUS } from '../locale'
 import styles from '../Form.module.scss'
 import { InputComponentWithName } from '../interfaces'
 
@@ -29,7 +30,17 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
     disableAdd = false,
     children,
 }) => {
-    const { values, options, setOptions, setValues, errors, setErrors, ...formProps } = useForm()
+    const {
+        values,
+        options,
+        setOptions,
+        setValues,
+        errors,
+        setErrors,
+        locale: formLocale,
+        ...formProps
+    } = useForm()
+    const locale = { ...enUS.fields.array, ...formLocale.fields.array }
 
     const forms: DataProviderRecord[] = values[name] ?? [{}]
     const formsErrors = getFormErrorsByIndex(errors, name)
@@ -129,6 +140,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                             setOptions={setOptions}
                             errors={formErrors}
                             setErrors={createSetErrorsFn(idx)}
+                            locale={formLocale}
                             {...formProps}
                         >
                             <div
@@ -147,7 +159,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                                         disabled={forms.length <= 1}
                                         onClick={handleRemove(idx)}
                                     >
-                                        Remove
+                                        {locale.remove}
                                     </Button>
                                 )}
                             </div>
@@ -165,7 +177,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                         view="secondary"
                         onClick={handleAdd}
                     >
-                        Add
+                        {locale.add}
                     </Button>
                 </div>
             )}

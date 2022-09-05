@@ -484,6 +484,46 @@ const CustomMenu = () => {
 export default CustomMenu
 ```
 
+### CRUD Locales
+
+To setup crud locale provide `locale` property in `createCRUD` function.
+
+```jsx
+// in src/crud/users.tsx
+import React from 'react'
+import { createCRUD } from 'admiral'
+
+export const UsersCRUD = createCRUD({
+    // ... /
+    locale: {
+        actions: {
+            submit: 'Сохранить',
+            back: 'Назад',
+            tableColumn: 'Действия',
+            paginationTotal: (total) => `Всего ${total}`,
+        },
+        pagination: {
+            items_per_page: '/ стр.',
+            jump_to: 'Перейти',
+            jump_to_confirm: 'подтвердить',
+            page: 'Страница',
+            prev_page: 'Назад',
+            next_page: 'Вперед',
+            prev_5: 'Предыдущие 5',
+            next_5: 'Следующие 5',
+            prev_3: 'Предыдущие 3',
+            next_3: 'Следующие 3',
+        },
+        filters: { // FiltersLocale }
+        form: { // FormLocale }
+        table: { // TableLocale }
+    },
+    // ... /
+})
+```
+
+See also [actions](https://github.com/dev-family/admiral/blob/master/admiral/crud/interfaces.ts#L17-L22), [pagination](https://github.com/dev-family/admiral/blob/master/admiral/ui/Pagination/interfaces.ts#L6), [filters](https://github.com/dev-family/admiral/blob/master/admiral/filters/interfaces.ts#L1-L5), [form](https://github.com/dev-family/admiral/blob/master/admiral/form/interfaces.ts#L3-L7), [table](https://github.com/dev-family/admiral/blob/master/admiral/ui/Table/interfaces.ts#L75-L93) types.
+
 ---
 
 ## ⌨️ Development

@@ -13,32 +13,55 @@ import {
     DatePickerInput,
     AjaxSelectInput,
     SlugInput,
-} from '../../admiral'
-import api from '../api'
+} from '../../../admiral'
+import api from '../../api'
 
 const onImageUpload = (file: Blob) => {
     return api.editorImageUpload('editorUpload', { file })
 }
 
-export const path = '/crud-users'
+export const path = '/crud-users/ru'
 export const resource = 'users'
 
 export const UsersCRUD = createCRUD({
     path,
     resource,
+    locale: {
+        actions: {
+            submit: 'Сохранить',
+            back: 'Назад',
+            tableColumn: 'Действия',
+            paginationTotal: (total) => `Всего ${total}`,
+        },
+        pagination: {
+            items_per_page: '/ стр.',
+            jump_to: 'Перейти',
+            jump_to_confirm: 'подтвердить',
+            page: 'Страница',
+            prev_page: 'Назад',
+            next_page: 'Вперед',
+            prev_5: 'Предыдущие 5',
+            next_5: 'Следующие 5',
+            prev_3: 'Предыдущие 3',
+            next_3: 'Следующие 3',
+        },
+        form: {
+            fields: { array: { add: 'Добавить', remove: 'Удалить' } },
+        },
+    },
     index: {
-        title: 'Users CRUD',
-        newButtonText: 'Create New User',
+        title: 'Пользователи',
+        newButtonText: 'Создать',
         tableColumns: [
             {
-                title: 'Avatar',
+                title: 'Фото',
                 dataIndex: 'avatar',
                 key: 'avatar',
                 width: 90,
                 render: (value) => <FileField {...value} />,
             },
             {
-                title: 'Name',
+                title: 'Имя',
                 dataIndex: 'name',
                 key: 'name',
                 width: 200,
@@ -50,53 +73,54 @@ export const UsersCRUD = createCRUD({
                 key: 'email',
             },
             {
-                title: 'Group',
+                title: 'Группа',
                 dataIndex: 'group',
                 key: 'group',
                 render: (value) => (Array.isArray(value) ? value.join(', ') : value),
             },
             {
-                title: 'Role',
+                title: 'Роль',
                 dataIndex: 'role',
                 key: 'role',
                 width: 150,
                 ellipsis: true,
             },
             {
-                title: 'Active',
+                title: 'Активен',
                 dataIndex: 'active',
                 key: 'active',
                 width: 150,
-                render: (value) => (value ? 'Yes' : 'No'),
+                render: (value) => (value ? 'Да' : 'Нет'),
             },
         ],
         tableConfig: { dndRows: true },
     },
     filter: {
-        topToolbarButtonText: 'Filter',
+        topToolbarButtonText: 'Фильтры',
         fields: (
             <>
-                <TextInput label="Name" name="name" placeholder="Name" />
+                <TextInput label="Имя" name="name" placeholder="Name" />
                 <AjaxSelectInput
-                    label="Role"
+                    label="Должность"
                     name="role"
-                    placeholder="Choose Role"
+                    placeholder="Выберите должность"
                     fetchOptions={(field, query) =>
                         api.getAjaxSelectOptions(resource, field, query)
                     }
                 />
-                <BooleanInput label="Active?" name="active" />
-                <TimePickerInput label="Time" name="time" placeholder="Time" format="HH:mm" />
-                <DatePickerInput label="Date" name="date" placeholder="Date" />
-                <SelectInput label="Group" name="group" placeholder="Choose Group" mode="multiple">
-                    <SelectInput.Option value="admin">Admins</SelectInput.Option>
+                <BooleanInput label="Активен?" name="active" />
+                <TimePickerInput label="Время" name="time" placeholder="Время" format="HH:mm" />
+                <DatePickerInput label="Дата" name="date" placeholder="Дата" />
+                <SelectInput
+                    label="Группа"
+                    name="group"
+                    placeholder="Выберите группу"
+                    mode="multiple"
+                >
+                    <SelectInput.Option value="admin">Админ</SelectInput.Option>
                     <SelectInput.Option value="project_manager">
-                        Project Managers
+                        Менеджер проекта
                     </SelectInput.Option>
-                </SelectInput>
-                <SelectInput label="Role 2" name="role 2" placeholder="Choose Role 2">
-                    <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
-                    <SelectInput.Option value="recruiter">Recruiter</SelectInput.Option>
                 </SelectInput>
             </>
         ),
@@ -106,20 +130,20 @@ export const UsersCRUD = createCRUD({
             fields: (
                 <>
                     <TextInput label="Id" name="id" placeholder="Id" required />
-                    <TextInput label="Name" name="name" placeholder="Name" />
-                    <SlugInput label="Slug" name="slug" placeholder="Slug" from="name" />
+                    <TextInput label="Имя" name="name" placeholder="Имя" />
+                    <SlugInput label="Слаг" name="slug" placeholder="Слаг" from="name" />
                     <TextInput label="Email" name="email" placeholder="Email" required />
                     <TextInput
-                        label="Password"
+                        label="Пароль"
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Пароль"
                         required
                     />
                     <SelectInput
-                        label="Group"
+                        label="Группа"
                         name="group"
-                        placeholder="Choose Group"
+                        placeholder="Выберите группу"
                         required
                         mode="multiple"
                     >
@@ -128,27 +152,32 @@ export const UsersCRUD = createCRUD({
                             Проектные менеджеры
                         </SelectInput.Option>
                     </SelectInput>
-                    <SelectInput label="Role" name="role" placeholder="Choose Role" required>
+                    <SelectInput
+                        label="Должнось"
+                        name="role"
+                        placeholder="Выберите должность"
+                        required
+                    >
                         <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
                         <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
                     </SelectInput>
                     <FilePictureInput
                         columnSpan={2}
-                        label="Avatar"
+                        label="Фото"
                         name="avatar"
                         accept="image/*"
                         maxCount={1}
                     />
                     <DraggerInput
                         columnSpan={2}
-                        label="Images"
+                        label="Изображения"
                         name="images"
                         accept="image/*"
                         multiple
                     />
                     <EditorInput
                         columnSpan={2}
-                        label="Description"
+                        label="Описание"
                         name="description"
                         onImageUpload={onImageUpload}
                     />
@@ -173,15 +202,15 @@ export const UsersCRUD = createCRUD({
                         />
                         <BooleanInput label="Выходной?" name="day_off" />
                     </ArrayInput>
-                    <BooleanInput label="Active?" name="active" />
+                    <BooleanInput label="Активен?" name="active" />
                 </>
             ),
         },
         edit: {
             fields: (
                 <>
-                    <TextInput label="Name" name="name" placeholder="Name" />
-                    <SlugInput label="Slug" name="slug" placeholder="Slug" from="name" disabled />
+                    <TextInput label="Имя" name="name" placeholder="Имя" />
+                    <SlugInput label="Слаг" name="slug" placeholder="Слаг" from="name" disabled />
                     <TextInput label="Email" name="email" placeholder="Email" required />
                     <TextInput
                         label="Password"
@@ -191,9 +220,9 @@ export const UsersCRUD = createCRUD({
                         required
                     />
                     <SelectInput
-                        label="Group"
+                        label="Группа"
                         name="group"
-                        placeholder="Choose Group"
+                        placeholder="Выберите группу"
                         required
                         mode="multiple"
                     >
@@ -203,30 +232,30 @@ export const UsersCRUD = createCRUD({
                         </SelectInput.Option>
                     </SelectInput>
                     <AjaxSelectInput
-                        label="Role"
+                        label="Должность"
                         name="role"
-                        placeholder="Choose Role"
+                        placeholder="Выберите должность"
                         fetchOptions={(field, query) =>
                             api.getAjaxSelectOptions(resource, field, query)
                         }
                     />
                     <FilePictureInput
                         columnSpan={2}
-                        label="Avatar"
+                        label="Фото"
                         name="avatar"
                         accept="image/*"
                         maxCount={1}
                     />
                     <DraggerInput
                         columnSpan={2}
-                        label="Images"
+                        label="Изображения"
                         name="images"
                         accept="image/*"
                         multiple
                     />
                     <EditorInput
                         columnSpan={2}
-                        label="Description"
+                        label="Описание"
                         name="description"
                         onImageUpload={onImageUpload}
                     />
@@ -246,16 +275,16 @@ export const UsersCRUD = createCRUD({
                         />
                         <BooleanInput label="Выходной?" name="day_off" />
                     </ArrayInput>
-                    <BooleanInput label="Active?" name="active" />
+                    <BooleanInput label="Активен?" name="active" />
                 </>
             ),
         },
     },
     create: {
-        title: 'Create New User',
+        title: 'Создать нового пользователя',
     },
     update: {
-        title: (id: string) => `Edit User #${id}`,
+        title: (id: string) => `Редактировать пользователя #${id}`,
         view: 'drawer',
     },
 })

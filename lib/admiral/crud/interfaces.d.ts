@@ -47,7 +47,7 @@ export declare type CRUDConfig<RecordType> = {
             routePath?: (path: string) => string;
         };
     };
-    locale?: CRUDLocale;
+    locale?: Partial<CRUDLocale>;
     filter?: {
         topToolbarButtonText: string;
         fields: JSX.Element;

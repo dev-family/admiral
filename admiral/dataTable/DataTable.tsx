@@ -197,6 +197,11 @@ export function DataTable<RecordType extends { id: number | string }>({
         return config
     }, [rowSelection, title, selectedKeys, selectedRows, onSelectionChange])
 
+    const {
+        total: paginationShowTotal = (total: number) => `Total ${total}`,
+        ...paginationLocale
+    } = locale?.pagination ?? {}
+
     return (
         <DataTableContextProvider value={{ refresh }}>
             <Table
@@ -214,9 +219,9 @@ export function DataTable<RecordType extends { id: number | string }>({
                     current: +urlState.page,
                     pageSize: +urlState.page_size,
                     total,
-                    showTotal: (total) => `Всего ${total}`,
+                    showTotal: paginationShowTotal,
                     showSizeChanger: !!total && total > 10,
-                    locale: locale?.pagination,
+                    locale: paginationLocale,
                 }}
                 loading={loading}
                 onChange={onTableChange}

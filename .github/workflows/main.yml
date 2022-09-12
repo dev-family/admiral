@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
 
 env:
-    DEPLOY_PATH: /home/deploy/htdocs/admiral/
+    DEPLOY_PATH: /root/app/other-projects/admiral/
     BUILD_SCRIPT_OUTPUT: dist
 
 jobs:
@@ -32,4 +32,4 @@ jobs:
                   target: ${{ env.DEPLOY_PATH }}
                   strip_components: 1
             - name: Done
-              run: echo "Deployed at https://admiral.websecret.by"
+              run: echo "Deployed at https://admiral.dev.family"

@@ -137,12 +137,12 @@ export const UsersCRUD = createCRUD({
     index: {
         title: 'Users',
         newButtonText: 'Create New User',
-        filterButtonText: 'Filter',
         tableOptions: [
             // table columns
         ],
     },
     filter: {
+        topToolbarButtonText: 'Filter',
         fields: <>// form inputs</>,
     },
     form: {
@@ -276,6 +276,7 @@ import { createCRUD } from 'admiral'
 export const UsersCRUD = createCRUD({
     // ... /
     filter: {
+        topToolbarButtonText: 'Filter',
         fields: (
             <>
                 <TextInput label="Name" name="name" placeholder="Name" />

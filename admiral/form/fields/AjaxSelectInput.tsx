@@ -15,6 +15,7 @@ export interface AjaxSelectInputProps
     name: string
     fetchOptions: (field: string, query?: string) => Promise<OptionType[]>
     fetchTimeout?: number
+    onChange?: (value: any) => void
 }
 
 export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputProps>> = ({
@@ -24,6 +25,7 @@ export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputPro
     columnSpan,
     fetchOptions,
     fetchTimeout = 500,
+    onChange,
     ...selectProps
 }) => {
     const getPopupContainer = usePopupContainer()
@@ -41,8 +43,9 @@ export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputPro
         if (Array.isArray(optionsByName) && !fetched.current) setOptions(optionsByName)
     }, [optionsByName])
 
-    const onChange = useCallback((value) => {
+    const _onChange = useCallback((value) => {
         setValues((values: any) => ({ ...values, [name]: value }))
+        if (onChange) onChange(value)
     }, [])
 
     const fetchResults = async (query = '') => {
@@ -75,7 +78,7 @@ export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputPro
                 loading={loading}
                 {...selectProps}
                 value={value}
-                onChange={onChange}
+                onChange={_onChange}
                 alert={!!error}
                 filterOption={false}
                 options={options}

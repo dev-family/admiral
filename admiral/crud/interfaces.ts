@@ -48,7 +48,6 @@ export type CRUDConfig<RecordType> = {
         view?: 'page' | 'drawer'
         drawer?: DrawerProps & { routePath?: (path: string) => string }
     }
-    locale?: Partial<CRUDLocale>
     filter?: { topToolbarButtonText: string; fields: JSX.Element }
     topContent?: ReactNode
     bottomContent?: ReactNode

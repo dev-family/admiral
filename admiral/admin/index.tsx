@@ -10,6 +10,8 @@ import { UserContextProvider } from '../auth/UserContext'
 import type { AuthProvider } from '../auth/interfaces'
 import { ConfigContextProvider } from '../config/ConfigContext'
 import { ThemePreset } from '../theme/interfaces'
+import { LocaleContextProvider } from '../crud/locale/LocaleContext'
+import { CRUDLocale } from '../crud/interfaces'
 
 export type AdminProps = {
     menu: ComponentType
@@ -19,6 +21,7 @@ export type AdminProps = {
     dataProvider: DataProvider
     authProvider?: AuthProvider
     themePresets?: { light: ThemePreset; dark: ThemePreset }
+    locale?: Partial<CRUDLocale>
 }
 
 export const Admin: React.FC<AdminProps> = ({
@@ -29,19 +32,22 @@ export const Admin: React.FC<AdminProps> = ({
     dataProvider,
     authProvider,
     themePresets,
+    locale,
     children,
 }) => {
     return (
         <AuthContextProvider value={authProvider}>
             <DataProviderContextProvider value={dataProvider}>
                 <ConfigContextProvider value={{ logo, loginLogo, asideContent }}>
-                    <UserContextProvider>
-                        <Router>
-                            <ThemeProvider presets={themePresets}>
-                                <NavProvider menu={menu}>{children}</NavProvider>
-                            </ThemeProvider>
-                        </Router>
-                    </UserContextProvider>
+                    <LocaleContextProvider value={locale}>
+                        <UserContextProvider>
+                            <Router>
+                                <ThemeProvider presets={themePresets}>
+                                    <NavProvider menu={menu}>{children}</NavProvider>
+                                </ThemeProvider>
+                            </Router>
+                        </UserContextProvider>
+                    </LocaleContextProvider>
                 </ConfigContextProvider>
             </DataProviderContextProvider>
         </AuthContextProvider>

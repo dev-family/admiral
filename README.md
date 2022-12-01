@@ -460,14 +460,14 @@ export default {
 
 ### Roles
 
-To get user info and depending on this to show/hide menu items or some interface elements, use `useGetIdentity` hook:
+To get user info and depending on this to show/hide menu items or some interface elements, use `useIdentityState` hook:
 
 ```jsx
 import React from 'react'
-import { Menu, MenuItemLink, useGetIdentity } from '../../admiral'
+import { Menu, MenuItemLink, useIdentityState } from '../../admiral'
 
 const CustomMenu = () => {
-    const { identity } = useGetIdentity()
+    const identity = useIdentityState()
 
     const role = identity?.role ?? null
 

@@ -215,14 +215,17 @@ export function DataTable<RecordType extends { id: number | string }>({
                     x: scrollX,
                 }}
                 sticky
-                pagination={{
-                    current: +urlState.page,
-                    pageSize: +urlState.page_size,
-                    total,
-                    showTotal: paginationShowTotal,
-                    showSizeChanger: !!total && total > 10,
-                    locale: paginationLocale,
-                }}
+                pagination={
+                    !!total &&
+                    total > +urlState.page_size && {
+                        current: +urlState.page,
+                        pageSize: +urlState.page_size,
+                        total,
+                        showTotal: paginationShowTotal,
+                        showSizeChanger: !!total && total > 10,
+                        locale: paginationLocale,
+                    }
+                }
                 loading={loading}
                 onChange={onTableChange}
                 onDragEnd={onDragEnd}

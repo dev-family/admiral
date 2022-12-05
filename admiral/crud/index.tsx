@@ -57,7 +57,11 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                                 mainRoutePath: routePath(config.path),
                             })}
                         />
-                        <DeleteAction resource={config.resource} id={record.id} />
+                        <DeleteAction
+                            resource={config.resource}
+                            id={record.id}
+                            locale={locale?.popconfirm}
+                        />
                     </div>
                 )
             },

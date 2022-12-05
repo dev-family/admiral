@@ -5,6 +5,7 @@ import { ColumnsType, ColumnType, TableLocale } from '../ui/Table/interfaces'
 import { DrawerProps } from '../ui/Drawer/interfaces'
 import { PaginationLocale } from '../ui/Pagination/interfaces'
 import { DataTableConfig } from '../dataTable'
+import { DeleteActionLocale } from 'admiral/dataTable/actions'
 
 export type CRUDLocale = {
     actions: CRUDActionsLocale
@@ -12,6 +13,7 @@ export type CRUDLocale = {
     form: FormLocale
     table: TableLocale
     pagination: PaginationLocale
+    popconfirm: DeleteActionLocale
 }
 
 export type CRUDActionsLocale = {

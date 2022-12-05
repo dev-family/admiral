@@ -14,7 +14,7 @@ export type PageProps = {
 export const Page: React.FC<PageProps> = ({ children, title, actions, topContent }) => {
     return (
         <div className={styles.page}>
-            <Card>
+            <Card className={styles.card}>
                 <Title className={styles.title}>{title}</Title>
 
                 {topContent}

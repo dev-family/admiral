@@ -4,6 +4,15 @@
 .page {
     padding: var(--space-xl);
     color: var(--color-typo-primary);
+    @include maxWidth($bp-tablet - 1) {
+        padding: 0;
+    }
+}
+
+.card {
+    @include maxWidth($bp-tablet - 1) {
+        border-radius: 0;
+    }
 }
 
 .title {

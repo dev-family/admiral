@@ -17,6 +17,7 @@ type LanguageType = {
 }
 export interface TranslatableInputProps extends FormItemProps {
     name: string
+    placeholder?: string | undefined
     languages: LanguageType[]
     tabType?: TabsType
     field?: 'text' | 'multilineText' | 'editor'
@@ -35,6 +36,7 @@ export const TranslatableInput: InputComponentWithName<React.FC<TranslatableInpu
     languages,
     tabType = 'card',
     field = 'text',
+    ...props
 }) => {
     const { values, setValues, errors, setErrors, ...formProps } = useForm()
     const [activeTabKey, setActiveTabKey] = useState<string>(languages[0]?.value)
@@ -113,7 +115,7 @@ export const TranslatableInput: InputComponentWithName<React.FC<TranslatableInpu
                                     setErrors={createSetErrorsFn}
                                     {...formProps}
                                 >
-                                    <Component name={value} />
+                                    <Component name={value} {...props} />
                                 </Form.ChildForm>
                             </Tabs.TabPane>
                         )

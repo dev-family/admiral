@@ -35,6 +35,7 @@ const CustomMenu = () => {
                 <MenuItemLink icon="FiBox" name="Pagination" to="/components/pagination" />
                 <MenuItemLink icon="FiBox" name="Switch" to="/components/switch" />
                 <MenuItemLink icon="FiBox" name="Textarea" to="/components/textarea" />
+                <MenuItemLink icon="FiBox" name="Translatable" to="/components/translatable" />
                 <MenuItemLink icon="FiBox" name="Datepicker" to="/components/datepicker" />
                 <MenuItemLink icon="FiBox" name="Timepicker" to="/components/timepicker" />
                 <MenuItemLink icon="FiBox" name="Upload" to="/components/upload" />

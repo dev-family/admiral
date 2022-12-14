@@ -7,4 +7,5 @@ export const enUS: Locale = {
             remove: 'Remove',
         },
     },
+    successMessage: 'Data saved successfully!',
 }

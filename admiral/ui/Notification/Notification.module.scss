@@ -44,7 +44,7 @@ $notification-width: 456px;
         display: block;
         width: var(--size-notification-content);
         max-width: calc(100vw - var(--space-2xl));
-        margin: var(--space-xs) 0;
+        margin: var(--space-xs);
         padding: var(--space-m);
         color: var(--color-base-base);
         line-height: 1.5;

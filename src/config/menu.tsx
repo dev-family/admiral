@@ -45,6 +45,7 @@ const CustomMenu = () => {
                 <MenuItemLink icon="FiBox" name="Drawer" to="/components/drawer" />
                 <MenuItemLink icon="FiBox" name="Tabs" to="/components/tabs" />
                 <MenuItemLink icon="FiBox" name="Badge" to="/components/badge" />
+                <MenuItemLink icon="FiBox" name="Notification" to="/components/notification" />
             </SubMenu>
         </Menu>
     )

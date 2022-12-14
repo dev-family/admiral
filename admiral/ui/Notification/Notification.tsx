@@ -8,7 +8,6 @@ import { FiCheckCircle, FiInfo, FiXCircle, FiAlertCircle, FiX } from 'react-icon
 
 import styles from './Notification.module.scss'
 import { getPlacementStyle } from './util'
-import { useTheme } from '../../../admiral/theme'
 
 const prefixCls = 'notification'
 const defaultPlacement: NotificationPlacement = 'topLeft'
@@ -32,19 +31,6 @@ export const NotificationContent: React.FC<NotificationContentProps> = ({
     message,
     description,
 }) => {
-    const { themeClassNames } = useTheme()
-    console.log('themeClassNames', themeClassNames)
-
-    // const notificationClassName = cn(
-    //     themeClassNames.color.primary,
-    //     themeClassNames.control,
-    //     themeClassNames.font,
-    //     themeClassNames.shadow,
-    //     themeClassNames.size,
-    //     themeClassNames.space,
-    //     styles[`${prefixCls}-content`],
-    // )
-
     let iconNode: React.ReactNode = null
 
     if (icon) {

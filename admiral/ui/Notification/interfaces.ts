@@ -13,13 +13,13 @@ export interface NotificationContentProps {
     message: React.ReactNode
     description?: React.ReactNode
     type?: IconType
+    closable?: boolean
 }
 
 export interface NotificationProps extends NotificationContentProps {
     placement?: NotificationPlacement
     top?: number
     bottom?: number
-    closable?: boolean
     duration?: number | null
     message: React.ReactNode
     description?: React.ReactNode

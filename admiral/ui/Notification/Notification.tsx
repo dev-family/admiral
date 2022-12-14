@@ -8,6 +8,7 @@ import { FiCheckCircle, FiInfo, FiXCircle, FiAlertCircle, FiX } from 'react-icon
 
 import styles from './Notification.module.scss'
 import { getPlacementStyle } from './util'
+import { ThemeProvider } from '../../theme'
 
 const prefixCls = 'notification'
 const defaultPlacement: NotificationPlacement = 'topLeft'
@@ -30,6 +31,7 @@ export const NotificationContent: React.FC<NotificationContentProps> = ({
     type,
     message,
     description,
+    closable,
 }) => {
     let iconNode: React.ReactNode = null
 
@@ -42,7 +44,12 @@ export const NotificationContent: React.FC<NotificationContentProps> = ({
     }
 
     return (
-        <div className={cn({ [styles[`${prefixCls}-with-icon`]]: iconNode })}>
+        <div
+            className={cn(styles[`${prefixCls}-content`], {
+                [styles[`${prefixCls}-with-icon`]]: iconNode,
+                [styles[`${prefixCls}-closable`]]: closable,
+            })}
+        >
             {iconNode}
             <div className={styles[`${prefixCls}-message`]}>{message}</div>
             {description && <div className={styles[`${prefixCls}-description`]}>{description}</div>}
@@ -87,6 +94,14 @@ function getNotificationInstance(
     })
 }
 
+const NotificationContentWrapper = (args: NotificationProps) => {
+    return (
+        <ThemeProvider>
+            <NotificationContent {...args} />
+        </ThemeProvider>
+    )
+}
+
 export const Notification = (args: NotificationProps) => {
     return getNotificationInstance(args, ({ instance }) => {
         const { icon, type, description, message, duration, closable = true } = args
@@ -95,9 +110,8 @@ export const Notification = (args: NotificationProps) => {
             closable,
             duration,
             closeIcon: <FiX />,
-            className: cn(styles.notification, { [`${prefixCls}-${type}`]: !!type }),
             content: (
-                <NotificationContent
+                <NotificationContentWrapper
                     icon={icon}
                     type={type}
                     message={message}

@@ -13,9 +13,9 @@ import { RouterLocationState } from '../router/interfaces'
 import { CRUDConfig } from './interfaces'
 import styles from './Crud.module.scss'
 import { PopupContainerContextProvider } from './PopupContainerContext'
-import { enUS as enUsActionsLocale } from './locale/actions'
 import { ColumnType } from '../ui/Table/interfaces'
 import { DeleteAction, EditAction } from '../dataTable/actions'
+import { useLocaleProvider } from './locale/LocaleContext'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
@@ -28,14 +28,14 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
 ) {
     return () => {
         const { getFiltersFormData } = useDataProvider()
+        const locale = useLocaleProvider()
         const fetchInitialFiltersData = useCallback((urlState?: Record<string, any>) => {
             return getFiltersFormData(config.resource, urlState)
         }, [])
         const { view, drawer } = config.update || {}
-        const { locale } = config
         const routePath = drawer?.routePath ?? ((path) => `${path}/:id`)
-        const actionsLocale = locale?.actions ?? enUsActionsLocale
-        const tableLocale = locale?.table
+        const actionsLocale = locale.actions
+        const tableLocale = locale.table
         const paginationLocale = {
             ...(locale?.pagination ?? {}),
             total: actionsLocale.paginationTotal,
@@ -102,10 +102,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                         locale={{ table: tableLocale, pagination: paginationLocale }}
                     />
                     {!!config.filter && (
-                        <Filters
-                            fetchInitialData={fetchInitialFiltersData}
-                            locale={config.locale?.filters}
-                        >
+                        <Filters fetchInitialData={fetchInitialFiltersData} locale={locale.filters}>
                             {config.filter.fields}
                         </Filters>
                     )}
@@ -118,6 +115,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
 
 function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
     return () => {
+        const locale = useLocaleProvider()
         const title = config.create?.title ?? 'Create'
 
         if (!!config.form.create.fields && !config.create?.title) {
@@ -134,7 +132,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             return create(config.resource, { data: values })
         }, [])
 
-        const actionsLocale = config.locale?.actions ?? enUsActionsLocale
+        const actionsLocale = locale.actions
 
         return (
             <Page title={title}>
@@ -142,7 +140,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     submitData={submitData}
                     redirect={config.path}
                     fetchInitialData={fetchInitialData}
-                    locale={config.locale?.form}
+                    locale={locale.form}
                 >
                     <Form.Fields>{config.form.create.fields}</Form.Fields>
 
@@ -159,6 +157,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
 function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
     return ({ id }: { id: string }) => {
         const { getUpdateFormData, update } = useDataProvider()
+        const locale = useLocaleProvider()
 
         const fetchInitialData = useCallback(() => {
             return getUpdateFormData(config.resource, { id })
@@ -168,11 +167,10 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
             return update(config.resource, { data: values, id })
         }, [])
 
-        const actionsLocale = config.locale?.actions ?? enUsActionsLocale
+        const actionsLocale = locale.actions
 
         const {
             path,
-            locale,
             form: {
                 edit: { fields },
             },
@@ -199,7 +197,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     redirect={path}
                     submitData={submitData}
                     fetchInitialData={fetchInitialData}
-                    locale={locale?.form}
+                    locale={locale.form}
                 >
                     <Form.Fields>{fields}</Form.Fields>
 
@@ -224,6 +222,7 @@ function UpdateDrawer<RecordType>({
     fetchInitialData: FormProps['fetchInitialData']
     submitData: FormProps['submitData']
 }) {
+    const locale = useLocaleProvider()
     const drawerRef = useRef<React.ElementRef<typeof Drawer>>(null)
     const [visible, setVisible] = useState(false)
     const [submitInProgress, setSubmitInProgress] = useState(false)
@@ -237,11 +236,10 @@ function UpdateDrawer<RecordType>({
     const location = useLocation<RouterLocationState>()
 
     const formRef = useRef<React.ElementRef<typeof Form>>(null)
-    const actionsLocale = config.locale?.actions ?? enUsActionsLocale
+    const actionsLocale = locale.actions
 
     const {
         path,
-        locale,
         form: {
             edit: { fields },
         },
@@ -303,7 +301,7 @@ function UpdateDrawer<RecordType>({
                     ref={formRef}
                     submitData={submitData}
                     fetchInitialData={fetchInitialData}
-                    locale={locale?.form}
+                    locale={locale.form}
                 >
                     <Form.Fields>{fields}</Form.Fields>
                 </Form>

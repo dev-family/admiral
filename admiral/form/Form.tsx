@@ -9,7 +9,7 @@ import React, {
 import { GetFormDataResult } from '../dataProvider'
 import { useHistory } from 'react-router-dom'
 import { FieldValues, FormContextValue, FormProvider, useForm } from './FormContext'
-import { Button } from '../ui'
+import { Button, Notification } from '../ui'
 import styles from './Form.module.scss'
 import Item from './Item'
 import Error from './Error'
@@ -89,6 +89,11 @@ const InternalForm = forwardRef<FormRef, FormProps>(
             try {
                 await submitData?.(values)
 
+                Notification({
+                    message: locale.successMessage,
+                    type: 'success',
+                })
+
                 if (redirect) {
                     history.push({
                         pathname: redirect,
@@ -103,6 +108,11 @@ const InternalForm = forwardRef<FormRef, FormProps>(
                 if (e.response.status === 422) {
                     mounted.current && setErrors(e.response.data.errors)
                 }
+
+                Notification({
+                    message: e.response.data.message,
+                    type: 'error',
+                })
             }
             setIsSubmitting(false)
         }

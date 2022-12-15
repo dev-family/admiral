@@ -48,6 +48,9 @@ export default function ComponentsPage() {
                 <Link to="components/badge">
                     <Button component="span">Badge</Button>
                 </Link>
+                <Link to="components/notification">
+                    <Button component="span">Notification</Button>
+                </Link>
             </div>
         </Page>
     )

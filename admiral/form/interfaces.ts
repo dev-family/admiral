@@ -1,6 +1,7 @@
 import { tuple } from '../utils/type'
 
 export type Locale = {
+    successMessage: string
     fields: {
         array: ArrayInputLocale
     }

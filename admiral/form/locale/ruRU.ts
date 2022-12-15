@@ -7,4 +7,5 @@ export const ruRU: Locale = {
             remove: 'Удалить',
         },
     },
+    successMessage: 'Данные успешно сохранены!',
 }

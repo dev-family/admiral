@@ -1,0 +1,11 @@
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    justify-content: flex-end;
+    margin-top: var(--space-m);
+}
+
+// .content {
+//     max-width: 150px;
+// }

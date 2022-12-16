@@ -11,6 +11,24 @@ import {
 import parseISO from 'date-fns/parseISO'
 import isBefore from 'date-fns/isBefore'
 import endOfToday from 'date-fns/endOfToday'
+import CalendarLocale from 'rc-picker/lib/locale/ru_RU'
+import { PickerLocale } from 'lib/admiral'
+
+const locale: PickerLocale = {
+    lang: {
+        placeholder: 'Выберите дату',
+        yearPlaceholder: 'Выберите год',
+        quarterPlaceholder: 'Выберите квартал',
+        monthPlaceholder: 'Выберите месяц',
+        weekPlaceholder: 'Выберите неделю',
+        rangePlaceholder: ['Начальная дата', 'Конечная дата'],
+        rangeYearPlaceholder: ['Начальный год', 'Год окончания'],
+        rangeMonthPlaceholder: ['Начальный месяц', 'Конечный месяц'],
+        rangeWeekPlaceholder: ['Начальная неделя', 'Конечная неделя'],
+        ...CalendarLocale,
+        locale: 'ru',
+    },
+}
 
 function range(start: number, end: number) {
     const result = []
@@ -100,6 +118,9 @@ export default function DatePickerPage() {
                         return isBefore(current, Date.now())
                     }}
                 />
+
+                <h2>Locale</h2>
+                <DatePicker onChange={onChange} locale={locale} />
             </div>
         </Page>
     )

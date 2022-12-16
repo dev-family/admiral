@@ -60,6 +60,8 @@ export default function EditorPage() {
                         highlightOnSearch: true,
                     }}
                 />
+                <h2>Locale</h2>
+                <Editor locale="ru" />
             </div>
         </Page>
     )

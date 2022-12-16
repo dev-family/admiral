@@ -490,37 +490,75 @@ export default CustomMenu
 To setup crud locale provide `locale` property in `createCRUD` function.
 
 ```jsx
-// in src/crud/users.tsx
-import React from 'react'
-import { createCRUD } from 'admiral'
+// in App.tsx
+import CalendarLocale from 'rc-picker/lib/locale/ru_RU'
 
-export const UsersCRUD = createCRUD({
-    // ... /
-    locale: {
-        actions: {
-            submit: 'Сохранить',
-            back: 'Назад',
-            tableColumn: 'Действия',
-            paginationTotal: (total) => `Всего ${total}`,
-        },
-        pagination: {
-            items_per_page: '/ стр.',
-            jump_to: 'Перейти',
-            jump_to_confirm: 'подтвердить',
-            page: 'Страница',
-            prev_page: 'Назад',
-            next_page: 'Вперед',
-            prev_5: 'Предыдущие 5',
-            next_5: 'Следующие 5',
-            prev_3: 'Предыдущие 3',
-            next_3: 'Следующие 3',
-        },
-        filters: { // FiltersLocale }
-        form: { // FormLocale }
-        table: { // TableLocale }
-    },
-    // ... /
-})
+function App() {
+    return (
+        <Admin
+            // ... /
+            locale={{
+                actions: {
+                    submit: 'Сохранить',
+                    back: 'Назад',
+                    tableColumn: 'Действия',
+                    paginationTotal: (total) => `Всего ${total}`,
+                },
+                pagination: {
+                    items_per_page: '/ стр.',
+                    jump_to: 'Перейти',
+                    jump_to_confirm: 'подтвердить',
+                    page: 'Страница',
+                    prev_page: 'Назад',
+                    next_page: 'Вперед',
+                    prev_5: 'Предыдущие 5',
+                    next_5: 'Следующие 5',
+                    prev_3: 'Предыдущие 3',
+                    next_3: 'Следующие 3',
+                },
+                form: {
+                    fields: {
+                        array: {
+                            add: 'Добавить',
+                            remove: 'Удалить',
+                        },
+                        editor: 'ru',
+                        datePicker: {
+                            lang: {
+                                placeholder: 'Выберите дату',
+                                yearPlaceholder: 'Выберите год',
+                                quarterPlaceholder: 'Выберите квартал',
+                                monthPlaceholder: 'Выберите месяц',
+                                weekPlaceholder: 'Выберите неделю',
+                                rangePlaceholder: ['Начальная дата', 'Конечная дата'],
+                                rangeYearPlaceholder: ['Начальный год', 'Год окончания'],
+                                rangeMonthPlaceholder: ['Начальный месяц', 'Конечный месяц'],
+                                rangeWeekPlaceholder: ['Начальная неделя', 'Конечная неделя'],
+                                ...CalendarLocale,
+                                locale: 'ru',
+                            },
+                        },
+                        select: {
+                            notFound: 'не найдено',
+                        },
+                        upload: {
+                            removeFile: 'Удалить файл',
+                            previewFile: 'Предпросмотр файла',
+                            uploadError: 'При загрузке произошла ошибка',
+                            clickToUpload: 'Кликните или перетащите файл в это окно для загрузки',
+                            pictureCardUpload: 'Загрузить',
+                        },
+                    },
+                },
+                filters: { // FiltersLocale }
+                layout: { // LayoutLocale},
+                table: { // TableLocale }
+            }}
+        >
+            <Routes />
+        </Admin>
+    )
+}
 ```
 
 See also [actions](https://github.com/dev-family/admiral/blob/master/admiral/crud/interfaces.ts#L17-L22), [pagination](https://github.com/dev-family/admiral/blob/master/admiral/ui/Pagination/interfaces.ts#L6), [filters](https://github.com/dev-family/admiral/blob/master/admiral/filters/interfaces.ts#L1-L5), [form](https://github.com/dev-family/admiral/blob/master/admiral/form/interfaces.ts#L3-L7), [table](https://github.com/dev-family/admiral/blob/master/admiral/ui/Table/interfaces.ts#L75-L93) types.

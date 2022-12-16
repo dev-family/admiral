@@ -485,9 +485,9 @@ const CustomMenu = () => {
 export default CustomMenu
 ```
 
-### CRUD Locales
+### Locales
 
-To setup crud locale provide `locale` property in `createCRUD` function.
+To setup crud locale provide `locale` property in App.
 
 ```jsx
 // in App.tsx
@@ -549,10 +549,12 @@ function App() {
                             pictureCardUpload: 'Загрузить',
                         },
                     },
+                    successMessage: 'Данные успешно сохранены!'
                 },
                 filters: { // FiltersLocale }
-                layout: { // LayoutLocale},
+                layout: { // LayoutLocale },
                 table: { // TableLocale }
+                popconfirm: { // Popconfirm },
             }}
         >
             <Routes />

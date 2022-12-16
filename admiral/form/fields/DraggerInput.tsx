@@ -19,7 +19,8 @@ export const DraggerInput: InputComponentWithName<React.FC<DraggerInputProps>> =
     disabled,
     ...uploadProps
 }) => {
-    const { values, errors, setValues } = useForm()
+    const { values, errors, setValues, locale: formLocale } = useForm()
+    const locale = formLocale.fields.upload
 
     const value = values[name]
     const arrayValue = Array.isArray(value) ? value : value ? [value] : []
@@ -43,7 +44,12 @@ export const DraggerInput: InputComponentWithName<React.FC<DraggerInputProps>> =
             error={error}
             columnSpan={columnSpan}
         >
-            <Upload.Dragger {...uploadProps} fileList={arrayValue} onChange={onChange} />
+            <Upload.Dragger
+                {...uploadProps}
+                locale={locale}
+                fileList={arrayValue}
+                onChange={onChange}
+            />
         </Form.Item>
     )
 }

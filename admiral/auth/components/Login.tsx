@@ -9,11 +9,13 @@ import { useConfig } from '../../config/ConfigContext'
 import { useTheme } from '../../theme'
 import { ThemeName } from '../../theme/interfaces'
 import Icon from '../../assets/icons'
+import { useLocaleProvider } from '../../crud/locale/LocaleContext'
 
 export const LoginLayout: React.FC = ({ children }) => <div className={styles.wrap}>{children}</div>
 
 export const Login: React.FC = () => {
     const { themeName } = useTheme()
+    const { layout: locale } = useLocaleProvider()
     const checkAuth = useCheckAuth()
     const history = useHistory()
     const { loginLogo = LogoDefault } = useConfig()
@@ -50,21 +52,21 @@ export const Login: React.FC = () => {
                 <Form submitData={submit}>
                     <Form.Fields singleColumn>
                         <TextInput
-                            label="Email"
+                            label={locale.email}
                             name="email"
                             inputMode="email"
-                            placeholder="Email"
+                            placeholder={locale.email}
                         />
                         <PasswordInput
-                            label="Пароль"
+                            label={locale.password}
                             name="password"
-                            placeholder="Пароль"
+                            placeholder={locale.password}
                             type="password"
                         />
                     </Form.Fields>
 
                     <div className={styles.footer}>
-                        <Form.Submit>Войти</Form.Submit>
+                        <Form.Submit>{locale.login}</Form.Submit>
                     </div>
                 </Form>
             </Card>

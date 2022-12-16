@@ -13,11 +13,13 @@ import { AiFillCloseCircle } from 'react-icons/ai'
 import RCPicker from 'rc-picker'
 import { PickerMode } from 'rc-picker/lib/interface'
 import { GenerateConfig } from 'rc-picker/lib/generate/index'
-import ruRU from '../locale/ru_RU'
+import enUs from '../locale/en_US'
 import { getPlaceholder } from '../util'
 import { PickerProps, getTimeProps, PickerComponentClass } from './interfaces'
 import PickerButton from '../PickerButton'
 import PickerTag from '../PickerTag'
+
+const defaultLocale = enUs
 
 export default function generatePicker<DateType>(generateConfig: GenerateConfig<DateType>) {
     type DatePickerProps = PickerProps<DateType>
@@ -50,8 +52,10 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
                     borderless = false,
                     placeholder,
                     alert,
+                    locale,
                     ...restProps
                 } = this.props
+                const pickerLocale = { ...defaultLocale, ...locale }
                 const { format, showTime } = this.props as any
                 const prefixCls = cn('admiral-picker')
                 const getPopupContainer = () =>
@@ -80,7 +84,7 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
                 return (
                     <RCPicker<DateType>
                         ref={this.pickerRef}
-                        placeholder={getPlaceholder(mergedPicker, ruRU, placeholder)}
+                        placeholder={getPlaceholder(mergedPicker, pickerLocale, placeholder)}
                         suffixIcon={mergedPicker === 'time' ? <FiClock /> : <FiCalendar />}
                         clearIcon={<AiFillCloseCircle />}
                         prevIcon={
@@ -120,7 +124,7 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
                         {...additionalProps}
                         {...restProps}
                         {...additionalOverrideProps}
-                        locale={ruRU.lang}
+                        locale={pickerLocale.lang}
                         className={cn(
                             {
                                 [`${prefixCls}__SizeL`]: size === 'L',

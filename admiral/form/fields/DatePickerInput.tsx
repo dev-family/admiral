@@ -20,7 +20,8 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
     ...pickerProps
 }) => {
     const getPopupContainer = usePopupContainer()
-    const { values, errors, setValues } = useForm()
+    const { values, errors, setValues, locale: formLocale } = useForm()
+    const locale = formLocale.fields.datePicker
 
     let value = values[name] ? parseISO(values[name]) : null
     const error = errors[name]?.[0]
@@ -34,6 +35,7 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
             <DatePicker
                 getPopupContainer={getPopupContainer}
                 {...pickerProps}
+                locale={locale}
                 value={value}
                 onChange={onChange}
                 alert={!!error}

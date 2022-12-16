@@ -17,6 +17,7 @@ const Editor = ({
     init,
     autocompleter,
     height = 300,
+    locale,
     ...rest
 }: EditorProps) => {
     const { themeName } = useTheme()
@@ -49,7 +50,7 @@ const Editor = ({
             toolbar_mode: 'floating',
             toolbar_sticky: true,
             contextmenu: 'link charmap emoticons',
-            language: 'ru',
+            language: locale,
             block_formats:
                 'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6;',
             plugins: 'link autolink lists code table image charmap emoticons fullscreen',

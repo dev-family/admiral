@@ -14,6 +14,7 @@ type ProgressFn = (percent: number) => void
 export type EditorUploadHandler = (blobInfo: BlobInfo, progress: ProgressFn) => Promise<string>
 
 export type EditorSizeType = 'L' | 'M' | 'S' | 'XS'
+export type EditorLocaleType = 'ru' | undefined
 
 export interface EditorProps extends Omit<TinyEditorProps, 'onChange' | 'onEditorChange'> {
     height?: number
@@ -26,6 +27,7 @@ export interface EditorProps extends Omit<TinyEditorProps, 'onChange' | 'onEdito
     alert?: boolean
     onImageUpload?: (file: Blob) => Promise<string>
     autocompleter?: AutocompleterConfig | AutocompleterConfig[]
+    locale?: EditorLocaleType
 }
 
 export type AutocompleterItem = {

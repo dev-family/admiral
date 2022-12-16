@@ -22,7 +22,9 @@ const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = 
     ...selectProps
 }) => {
     const getPopupContainer = usePopupContainer()
-    const { values, errors, options, setValues } = useForm()
+    const { values, errors, options, setValues, locale: formLocale } = useForm()
+    const locale = formLocale.fields.select
+
     const value = values[name]
     const error = errors[name]?.[0]
     const opts = options[name]
@@ -52,6 +54,7 @@ const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = 
             <Select
                 getPopupContainer={getPopupContainer}
                 {...selectProps}
+                locale={locale}
                 value={value}
                 onChange={onChange}
                 alert={!!error}

@@ -17,7 +17,9 @@ export const EditorInput: InputComponentWithName<React.FC<EditorInputProps>> = (
     columnSpan,
     ...editorProps
 }) => {
-    const { values, errors, setValues } = useForm()
+    const { values, errors, setValues, locale: formLocale } = useForm()
+    const locale = formLocale.fields.editor
+
     const value = values[name]
     const error = errors[name]?.[0]
 
@@ -27,7 +29,13 @@ export const EditorInput: InputComponentWithName<React.FC<EditorInputProps>> = (
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
-            <Editor {...editorProps} value={value} onChange={onChange} alert={!!error} />
+            <Editor
+                {...editorProps}
+                value={value}
+                locale={locale}
+                onChange={onChange}
+                alert={!!error}
+            />
         </Form.Item>
     )
 }

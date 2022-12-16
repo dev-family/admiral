@@ -24,7 +24,8 @@ export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputPro
     ...pickerProps
 }) => {
     const getPopupContainer = usePopupContainer()
-    const { values, errors, setValues } = useForm()
+    const { values, errors, setValues, locale: formLocale } = useForm()
+    const locale = formLocale.fields.datePicker
 
     const value = values[name] ? parseValue(values[name], pickerProps.format) : null
 
@@ -39,6 +40,7 @@ export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputPro
             <TimePicker
                 getPopupContainer={getPopupContainer}
                 {...pickerProps}
+                locale={locale}
                 value={value}
                 onChange={onChange}
                 alert={!!error}

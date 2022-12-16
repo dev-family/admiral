@@ -1,9 +1,17 @@
+import { SelectLocale } from '../ui/Select/interfaces'
+import { PickerLocale } from '../ui/DatePicker/generatePicker/interfaces'
+import { EditorLocaleType } from '../ui/Editor/interfaces'
+import { UploadLocale } from '../ui/Upload/interfaces'
 import { tuple } from '../utils/type'
 
 export type Locale = {
     successMessage: string
     fields: {
         array: ArrayInputLocale
+        editor?: EditorLocaleType
+        datePicker: PickerLocale
+        select: SelectLocale
+        upload: UploadLocale
     }
 }
 

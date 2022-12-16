@@ -7,6 +7,7 @@ import { enUS as enUsFiltersLocale } from '../../filters/locale'
 import { enUS as enUsFormLocale } from '../../form/locale'
 import { enUs as enUsTableLocale } from '../../ui/Table/locales'
 import { enUs as enUsPopconfirmLocale } from '../../dataTable/locale/enUS'
+import { enUs as enEsLayoutLocale } from '../../ui/Layout/locale/enUs'
 
 const defaultLocale: CRUDLocale = {
     actions: enUsActionsLocale,
@@ -15,6 +16,7 @@ const defaultLocale: CRUDLocale = {
     form: enUsFormLocale,
     table: enUsTableLocale,
     popconfirm: enUsPopconfirmLocale,
+    layout: enEsLayoutLocale,
 }
 
 export const LocaleContext = createContext<CRUDLocale>({ ...defaultLocale })

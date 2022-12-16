@@ -23,7 +23,8 @@ export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputP
     maxCount,
     ...uploadProps
 }) => {
-    const { values, errors, setValues } = useForm()
+    const { values, errors, setValues, locale: formLocale } = useForm()
+    const locale = formLocale.fields.upload
 
     let value = values[name]
 
@@ -46,6 +47,7 @@ export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputP
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
             <Upload
                 {...uploadProps}
+                locale={locale}
                 fileList={normalizedValue}
                 onChange={onChange}
                 maxCount={maxCount}

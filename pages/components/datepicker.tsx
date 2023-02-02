@@ -7,12 +7,12 @@ import {
     WeekPicker,
     QuarterPicker,
     YearPicker,
+    PickerLocale,
 } from '../../admiral'
 import parseISO from 'date-fns/parseISO'
 import isBefore from 'date-fns/isBefore'
 import endOfToday from 'date-fns/endOfToday'
 import CalendarLocale from 'rc-picker/lib/locale/ru_RU'
-import { PickerLocale } from 'lib/admiral'
 
 const locale: PickerLocale = {
     lang: {

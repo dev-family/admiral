@@ -1,11 +1,11 @@
 import { Request } from 'express';
 
 type AuthContext = {
-    userId: number,
-}
+    userId: number;
+};
 
 class AuthHttpContext {
-    private bindings = new WeakMap<Request, AuthContext>;
+    private bindings = new WeakMap<Request, AuthContext>();
 
     public bind(req: Request, context: AuthContext) {
         this.bindings.set(req, context);

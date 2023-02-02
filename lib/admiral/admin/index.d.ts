@@ -4,6 +4,7 @@ import { LogoType } from '../ui/Layout/LayoutHeader';
 import { DataProvider } from '../dataProvider';
 import type { AuthProvider } from '../auth/interfaces';
 import { ThemePreset } from '../theme/interfaces';
+import { CRUDLocale } from '../crud/interfaces';
 export declare type AdminProps = {
     menu: ComponentType;
     logo?: LogoType;
@@ -15,5 +16,6 @@ export declare type AdminProps = {
         light: ThemePreset;
         dark: ThemePreset;
     };
+    locale?: Partial<CRUDLocale>;
 };
 export declare const Admin: React.FC<AdminProps>;

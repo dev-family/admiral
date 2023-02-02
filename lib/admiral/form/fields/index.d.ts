@@ -12,3 +12,4 @@ export * from './SelectInput';
 export * from './SlugInput';
 export * from './TextInput';
 export * from './TimePickerInput';
+export * from './TranslatableInput';

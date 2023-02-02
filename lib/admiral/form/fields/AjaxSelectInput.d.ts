@@ -7,5 +7,6 @@ export interface AjaxSelectInputProps extends Omit<SelectProps, 'showSearch' | '
     name: string;
     fetchOptions: (field: string, query?: string) => Promise<OptionType[]>;
     fetchTimeout?: number;
+    onChange?: (value: any) => void;
 }
 export declare const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputProps>>;

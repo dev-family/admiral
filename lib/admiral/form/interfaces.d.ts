@@ -1,6 +1,15 @@
+import { SelectLocale } from '../ui/Select/interfaces';
+import { PickerLocale } from '../ui/DatePicker/generatePicker/interfaces';
+import { EditorLocaleType } from '../ui/Editor/interfaces';
+import { UploadLocale } from '../ui/Upload/interfaces';
 export declare type Locale = {
+    successMessage: string;
     fields: {
         array: ArrayInputLocale;
+        editor?: EditorLocaleType;
+        datePicker: PickerLocale;
+        select: SelectLocale;
+        upload: UploadLocale;
     };
 };
 export declare type ArrayInputLocale = {
@@ -21,8 +30,9 @@ export declare const INPUT_NAMES: {
     readonly text: "TextInput";
     readonly timePicker: "TimePickerInput";
     readonly slug: "SlugInput";
+    readonly translatable: "TranslatableInput";
 };
-declare const inputTypes: ("ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput")[];
+declare const inputTypes: ("ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput" | "TranslatableInput")[];
 export declare type FormInputType = typeof inputTypes[number];
 export declare type InputComponentWithName<T> = T & {
     inputName: FormInputType;

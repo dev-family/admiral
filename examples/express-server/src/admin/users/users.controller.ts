@@ -11,12 +11,11 @@ export default {
 
         const query = querySchema.parse(req.query);
 
-        const [count, items] = await usersService.index(
-            query,
-        );
+        const [count, items] = await usersService.index(query);
 
         res.json({
-            items, meta: {
+            items,
+            meta: {
                 total: count,
             },
         });
@@ -58,7 +57,7 @@ export default {
             id: z.number(),
             name: z.string(),
             email: z.string().email(),
-            password: z.string(),
+            password: z.string().optional(),
             role: z.enum(['admin', 'user']),
         });
 

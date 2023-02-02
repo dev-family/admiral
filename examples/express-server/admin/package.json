@@ -24,7 +24,7 @@
         ]
     },
     "dependencies": {
-        "admiral": "github:dev-family/admiral#v4.0.0",
+        "admiral": "git+ssh://git@github.com:dev-family/admiral.git#v5.0.0",
         "axios": "^0.26.1",
         "classnames": "^2.3.1",
         "qs": "^6.10.3",

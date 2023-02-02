@@ -497,9 +497,9 @@
     "@rollup/pluginutils" "^4.1.1"
     react-refresh "^0.10.0"
 
-"admiral@github:dev-family/admiral#v4.0.0":
+"admiral@git+ssh://git@github.com:dev-family/admiral.git#v5.0.0":
   version "0.1.0"
-  resolved "git+ssh://git@github.com/dev-family/admiral.git#92e7909d0d3f9ebc1a80ca2af212a361f69976bb"
+  resolved "git+ssh://git@github.com:dev-family/admiral.git#666f11fcb64b04c3a0f54b3a9d3e8619c8333333"
   dependencies:
     "@consta/uikit" "^3.18.0"
     "@dnd-kit/core" "^5.0.3"
@@ -517,6 +517,7 @@
     no-scroll "^2.1.1"
     qs "^6.10.3"
     rc-drawer "^4.4.3"
+    rc-notification "^4.6.1"
     rc-pagination "^3.1.14"
     rc-picker "^2.6.4"
     rc-select "^14.0.0-alpha.25"
@@ -1516,7 +1517,7 @@ rc-menu@~9.6.0:
     rc-util "^5.12.0"
     shallowequal "^1.1.0"
 
-rc-motion@^2.0.0, rc-motion@^2.0.1, rc-motion@^2.4.3:
+rc-motion@^2.0.0, rc-motion@^2.0.1, rc-motion@^2.2.0, rc-motion@^2.4.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rc-motion/-/rc-motion-2.6.3.tgz#e6d8ca06591c2c1bcd3391a8e7a822ebc4d94e9c"
   integrity sha512-xFLkes3/7VL/J+ah9jJruEW/Akbx5F6jVa2wG5o/ApGKQKSOd5FR3rseHLL9+xtJg4PmCwo6/1tqhDO/T+jFHA==
@@ -1524,6 +1525,16 @@ rc-motion@^2.0.0, rc-motion@^2.0.1, rc-motion@^2.4.3:
     "@babel/runtime" "^7.11.1"
     classnames "^2.2.1"
     rc-util "^5.21.0"
+
+rc-notification@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/rc-notification/-/rc-notification-4.6.1.tgz#068e8674f4bd7926a447eca512915d4b41b15c91"
+  integrity sha512-NSmFYwrrdY3+un1GvDAJQw62Xi9LNMSsoQyo95tuaYrcad5Bn9gJUL8AREufRxSQAQnr64u3LtP3EUyLYT6bhw==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    rc-motion "^2.2.0"
+    rc-util "^5.20.1"
 
 rc-overflow@^1.0.0, rc-overflow@^1.2.0:
   version "1.2.8"
@@ -1636,6 +1647,14 @@ rc-util@^5.0.1, rc-util@^5.12.0, rc-util@^5.15.0, rc-util@^5.16.1, rc-util@^5.17
   version "5.27.1"
   resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.27.1.tgz#d12f02b9577b04299c0f1a235c8acbcf56e2824b"
   integrity sha512-PsjHA+f+KBCz+YTZxrl3ukJU5RoNKoe3KSNMh0xGiISbR67NaM9E9BiMjCwxa3AcCUOg/rZ+V0ZKLSimAA+e3w==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    react-is "^16.12.0"
+
+rc-util@^5.20.1:
+  version "5.27.2"
+  resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.27.2.tgz#472a7bab26a62856c2c016d18dc6356e46d01012"
+  integrity sha512-8XHRbeJOWlTR2Hk1K2xLaPOf7lZu+3taskAGuqOPccA676vB3ygrz3ZgdrA3wml40CzR9RlIEHDWwI7FZT3wBQ==
   dependencies:
     "@babel/runtime" "^7.18.3"
     react-is "^16.12.0"

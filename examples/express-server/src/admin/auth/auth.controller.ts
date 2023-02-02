@@ -12,7 +12,9 @@ export default {
 
         const data = bodySchema.parse(req.body);
 
-        const token = await authService.login(data);
+        const token = await authService.login(data).catch(error => {
+            res.status(401).json({ message: 'Invalid Credentials' });
+        });
 
         res.json({ token: token });
     },
@@ -27,7 +29,6 @@ export default {
         const data = await authService.getIdentity(userId);
 
         res.json({ user: data });
-
     },
 
     async checkAuth(req: Request, res: Response) {

@@ -5,7 +5,7 @@ import { ColumnsType, ColumnType, TableLocale } from '../ui/Table/interfaces';
 import { DrawerProps } from '../ui/Drawer/interfaces';
 import { PaginationLocale } from '../ui/Pagination/interfaces';
 import { DataTableConfig } from '../dataTable';
-import { DeleteActionLocale } from 'admiral/dataTable/actions';
+import { DeleteActionLocale } from '../dataTable/actions';
 import { LayoutLocale } from '../ui/Layout/interfaces';
 export declare type CRUDLocale = {
     actions: CRUDActionsLocale;

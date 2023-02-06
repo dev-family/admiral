@@ -109,6 +109,16 @@ export default function UploadPage() {
                     <Button iconLeft={<FiUpload />}>Click to Upload</Button>
                 </Upload>
                 <br />
+                <h2>Text listType:</h2>
+                <Upload
+                    fileList={fileList}
+                    listType="text"
+                    onPreview={handlePreview}
+                    onChange={updateFileList}
+                >
+                    <Button iconLeft={<FiUpload />}>Click to Upload</Button>
+                </Upload>
+                <br />
                 <h2>Picture cards (maxCount: 4)</h2>
                 <Upload
                     listType="picture-card"

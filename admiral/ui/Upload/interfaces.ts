@@ -38,6 +38,7 @@ export interface ShowUploadListInterface {
 export interface UploadLocale {
     removeFile?: string
     previewFile?: string
+    downloadFile?: string
     uploadError?: string
     clickToUpload?: string
     pictureCardUpload?: string
@@ -74,6 +75,8 @@ export interface UploadProps<T = any> extends Pick<RcUploadProps, 'capture'> {
     ) => BeforeUploadValueType | Promise<BeforeUploadValueType>
     onChange?: (info: UploadChangeParam<UploadFile>) => void
     onPreview?: (file: UploadFile) => void
+    onDownload?: (file: UploadFile) => void
+    showDownloadIcon?: boolean
     onDrop?: (event: React.DragEvent<HTMLDivElement>) => void
     listType?: UploadListType
     className?: string
@@ -101,9 +104,11 @@ export interface UploadListProps<T = any> {
     listType?: UploadListType
     onRemove?: (file: UploadFile) => void | boolean
     onPreview?: (file: UploadFile) => void | boolean
+    onDownload?: (file: UploadFile) => void
     items?: Array<UploadFile>
     showRemoveIcon?: boolean
     showPreviewIcon?: boolean
+    showDownloadIcon?: boolean
     locale: UploadLocale
     isImageUrl?: (file: UploadFile) => boolean
     itemRender?: ItemRender<T>
@@ -119,7 +124,9 @@ export interface ListItemProps {
     isImgUrl?: (file: UploadFile) => boolean
     showRemoveIcon?: boolean
     showPreviewIcon?: boolean
+    showDownloadIcon?: boolean
     itemRender?: ItemRender
     onClose: (file: UploadFile) => void
     onPreview: (e: React.MouseEvent, file: UploadFile) => void
+    onDownload?: (file: UploadFile) => void
 }

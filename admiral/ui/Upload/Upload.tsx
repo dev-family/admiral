@@ -23,6 +23,8 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         listType,
         onChange,
         onPreview,
+        onDownload,
+        showDownloadIcon = true,
         onDrop,
         disabled = false,
         locale = enUS,
@@ -112,8 +114,10 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
                     items={mergedFileList}
                     onRemove={handleRemove}
                     onPreview={onPreview}
+                    onDownload={onDownload}
                     showRemoveIcon={!disabled && showRemoveIcon}
                     showPreviewIcon={!!onPreview}
+                    showDownloadIcon={showDownloadIcon}
                     locale={locale}
                     isImageUrl={isImageUrl}
                     itemRender={itemRender}
@@ -124,7 +128,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     }
 
     const renderUploadButton = (
-        buttonType?: 'basic' | 'drag' | 'picture-card',
+        buttonType?: 'basic' | 'drag' | 'picture-card' | 'text',
         uploadButtonStyle?: React.CSSProperties,
     ) => {
         if (buttonType === 'drag' || buttonType === 'picture-card') {
@@ -213,7 +217,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         )
     }
 
-    const buttonType = 'basic'
+    const buttonType = listType === 'text' ? listType : 'basic'
 
     return (
         <span className={className}>

@@ -13,6 +13,9 @@
     &.list-picture-card {
         padding-top: initial;
     }
+    &__TextType {
+        grid-gap: var(--space-3xs);
+    }
 }
 .list-picture-card {
     display: flex;
@@ -67,6 +70,20 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
             }
         }
     }
+    &__TextType {
+        --upload-text-type-item-bcolor-hover: var(--color-control-bg-clear-hover);
+        padding: unset;
+        padding-right: $item-padding;
+        border: none;
+        height: 100%;
+        transition: background-color 0.2s;
+        &:hover {
+            background-color: var(--upload-text-type-item-bcolor-hover);
+            .item_Actions__TextType {
+                opacity: 1;
+            }
+        }
+    }
 
     &__Error {
         --upload-picture-item-bcolor: var(--color-bg-alert);
@@ -102,7 +119,7 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
 .item_Actions {
     display: flex;
     flex-shrink: 0;
-    gap: var(--space-2xs);
+    gap: var(--space-3xs);
 
     &__PictureCard {
         opacity: 0;
@@ -113,6 +130,10 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
         justify-content: center;
         align-items: center;
         z-index: 2;
+    }
+    &__TextType {
+        transition: opacity 0.2s;
+        opacity: 0;
     }
 }
 
@@ -137,6 +158,10 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
         position: absolute;
         width: 16px;
         height: auto;
+    }
+
+    &__TextType {
+        background-color: initial;
     }
 
     &__PictureCard {

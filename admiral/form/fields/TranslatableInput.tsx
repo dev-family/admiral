@@ -11,23 +11,32 @@ import { TextInput } from './TextInput'
 import { EditorInput } from './EditorInput'
 import { MultilineTextInput } from './MultilineTextInput'
 
-type LanguageType = {
-    label: string
-    value: string
-}
-export interface TranslatableInputProps extends FormItemProps {
-    name: string
-    placeholder?: string | undefined
-    languages: LanguageType[]
-    tabType?: TabsType
-    field?: 'text' | 'multilineText' | 'editor'
-}
-
 const fields = {
     editor: EditorInput,
     multilineText: MultilineTextInput,
     text: TextInput,
+} as const
+
+type LanguageType = {
+    label: string
+    value: string
 }
+
+type TranslatableInputType = {
+    name: string
+    placeholder?: string | undefined
+    languages: LanguageType[]
+    tabType?: TabsType
+}
+
+type InputTypes = {
+    [K in keyof typeof fields]: {
+        fieldName: K
+        fieldProps?: Omit<React.ComponentProps<typeof fields[K]>, 'name'>
+    }
+}[keyof typeof fields]
+
+export type TranslatableInputProps = TranslatableInputType & FormItemProps & InputTypes
 
 export const TranslatableInput: InputComponentWithName<React.FC<TranslatableInputProps>> = ({
     name,
@@ -35,13 +44,15 @@ export const TranslatableInput: InputComponentWithName<React.FC<TranslatableInpu
     required,
     languages,
     tabType = 'card',
-    field = 'text',
+    fieldName,
+    fieldProps,
     ...props
 }) => {
     const { values, setValues, errors, setErrors, ...formProps } = useForm()
     const [activeTabKey, setActiveTabKey] = useState<string>(languages[0]?.value)
 
-    const Component = fields[field]
+    const Component = fields[fieldName]
+    const componentProps = { ...(fieldProps && fieldProps) }
 
     const forms: DataProviderRecord = values[name] ?? {}
     const formsErrors = getFormErrors(errors, name)
@@ -115,7 +126,7 @@ export const TranslatableInput: InputComponentWithName<React.FC<TranslatableInpu
                                     setErrors={createSetErrorsFn}
                                     {...formProps}
                                 >
-                                    <Component name={value} {...props} />
+                                    <Component name={value} {...props} {...componentProps} />
                                 </Form.ChildForm>
                             </Tabs.TabPane>
                         )

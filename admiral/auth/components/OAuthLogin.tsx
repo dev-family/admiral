@@ -45,7 +45,7 @@ const OAuthLoginComponent = () => {
                     return (
                         <Button
                             key={provider}
-                            onClick={handleOAuthLogin.bind(null, provider)}
+                            onClick={() => handleOAuthLogin(provider)}
                             className={styles.socialLoginButton}
                             iconLeft={iconForProvider(provider)}
                         >

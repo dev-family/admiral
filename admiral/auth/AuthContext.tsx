@@ -11,6 +11,8 @@ const defaultProvider: AuthProvider = {
     logout: () => Promise.resolve(),
     checkAuth: () => Promise.resolve(),
     getIdentity: () => Promise.reject(),
+    oauthLogin: () => Promise.reject(),
+    oauthCallback: () => Promise.resolve(),
 }
 
 type AuthContextValue = AuthProvider & { isDefault: boolean }

@@ -42,3 +42,35 @@
     margin-top: var(--space-2xl);
     --button-width: 100%;
 }
+
+.socialLogin {
+    margin-top: var(--space-m);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.socialLoginButtons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    button {
+        width: fit-content;
+        height: fit-content;
+    }
+}
+
+.socialLoginButton {
+    margin-bottom: var(--space-m);
+    width: 100%;
+}
+
+.socialLoginButton:last-child {
+    margin-bottom: 0;
+}
+
+.socialLoginTitle {
+    margin-bottom: var(--space-m);
+}

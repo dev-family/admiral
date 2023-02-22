@@ -12,6 +12,7 @@ import { ConfigContextProvider } from '../config/ConfigContext'
 import { ThemePreset } from '../theme/interfaces'
 import { LocaleContextProvider } from '../crud/locale/LocaleContext'
 import { CRUDLocale } from '../crud/interfaces'
+import { OAuthProvidersEnum } from '../auth/interfaces'
 
 export type AdminProps = {
     menu: ComponentType
@@ -22,6 +23,7 @@ export type AdminProps = {
     authProvider?: AuthProvider
     themePresets?: { light: ThemePreset; dark: ThemePreset }
     locale?: Partial<CRUDLocale>
+    oauthProviders?: OAuthProvidersEnum[]
 }
 
 export const Admin: React.FC<AdminProps> = ({
@@ -34,11 +36,12 @@ export const Admin: React.FC<AdminProps> = ({
     themePresets,
     locale,
     children,
+    oauthProviders,
 }) => {
     return (
         <AuthContextProvider value={authProvider}>
             <DataProviderContextProvider value={dataProvider}>
-                <ConfigContextProvider value={{ logo, loginLogo, asideContent }}>
+                <ConfigContextProvider value={{ logo, loginLogo, asideContent, oauthProviders }}>
                     <LocaleContextProvider value={locale}>
                         <UserContextProvider>
                             <Router>

@@ -25,21 +25,13 @@ const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
 
 function App() {
     return (
-        <Admin
-            dataProvider={dataProvider(apiUrl)}
-            authProvider={authProvider(apiUrl)}
-            menu={Menu}
-        >
+        <Admin dataProvider={dataProvider(apiUrl)} authProvider={authProvider(apiUrl)} menu={Menu}>
             <Routes />
         </Admin>
     )
 }
 
-
-ReactDOM.render(>
-    <App />,
-    document.getElementById('root'),
-)
+ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
 ### Communication with API
@@ -91,7 +83,46 @@ const authProvider = {
     logout: () => Promise.resolve(),
     // get the user's profile
     getIdentity: () => Promise.resolve(),
+    // method is used to initiate the OAuth authentication flow for the specified provider.
+    oauthLogin: (provider) => Promise.reject(),
+    // method is used to handle the OAuth callback for the specified provider.
+    oauthCallback: (provider) => Promise.resolve(),
 }
+```
+
+In order to use OAuth authentication, you need to specify the list of OAuth providers in the `oauthProviders` prop of the `Admin` component.
+
+```jsx
+// in app.ts
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Admin, createRoutesFrom } from 'admiral'
+import dataProvider from './config/dataProvider'
+import authProvider from './config/authProvider'
+import Menu from './config/menu'
+import 'admiral/style.css'
+
+const apiUrl = '/api'
+const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
+
+function App() {
+    return (
+        <Admin
+            dataProvider={dataProvider(apiUrl)}
+            authProvider={authProvider(apiUrl)}
+            menu={Menu}
+            oauthProviders={[
+                OAuthProvidersEnum.Google,
+                OAuthProvidersEnum.Github,
+                OAuthProvidersEnum.Jira,
+            ]}
+        >
+            <Routes />
+        </Admin>
+    )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
 Example of [AuthProvider](https://github.com/dev-family/admiral/blob/master/src/authProvider.ts).

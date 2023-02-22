@@ -120,6 +120,26 @@ export const handlers = [
             }),
         )
     }),
+    rest.get('/api/auth/social-login/:provider', (req, res, ctx) => {
+        const { provider } = req.params
+
+        return res(
+            ctx.delay(160),
+            ctx.status(201),
+            ctx.json({
+                redirect: `http://localhost:3001/oauth/${provider}`,
+            }),
+        )
+    }),
+    rest.post('/api/auth/social-login/:provider/callback', (req, res, ctx) => {
+        const data = req.body as { user: string; password: string }
+
+        return res(
+            ctx.delay(160),
+            ctx.status(201),
+            ctx.json({ data: { user: data.user, token: `${Math.random()}` } }),
+        )
+    }),
     rest.post('/api/editorUpload', (req, res, ctx) => {
         return res(
             ctx.delay(160),

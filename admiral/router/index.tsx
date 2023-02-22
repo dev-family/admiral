@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useEffect } from 'react'
-import { Switch, Route, Redirect, RouteProps, useLocation } from 'react-router-dom'
+import { Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
 import { useAuthProvider } from '../auth/AuthContext'
 import { useAuthState } from '../auth'
-import { LoginLayout, Login } from '../auth/components/Login'
+import { Login, LoginLayout } from '../auth/components/Login'
 import { Layout } from '../ui'
-import { RouterLocationState, Location } from './interfaces'
+import { Location, RouterLocationState } from './interfaces'
+import { OAuthLoginCallback } from '../auth/components/OAuthLoginCallback'
 
 type RouteType = {
     name: string
@@ -20,6 +21,12 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
         name: 'login',
         path: '/login',
         Component: Login,
+    }
+
+    const oauthRoute: RouteType = {
+        name: 'oauth',
+        path: '/oauth/:provider',
+        Component: <OAuthLoginCallback />,
     }
 
     const routes = Object.keys(modules)
@@ -65,6 +72,13 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
                 <RouteScrollTop />
 
                 <Switch location={background || location}>
+                    <Route
+                        key={oauthRoute.path}
+                        path={oauthRoute.path}
+                        exact
+                        render={({ match }) => oauthRoute.Component}
+                    />
+
                     {authRequired && (
                         <Route
                             key={loginRoutePath}

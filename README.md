@@ -125,6 +125,8 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
+Example callback URL - localhost:3000/oauth/{your_provider_name}
+
 Example of [AuthProvider](https://github.com/dev-family/admiral/blob/master/src/authProvider.ts).
 
 See also [AuthProvider methods types](https://github.com/dev-family/admiral/blob/master/admiral/auth/interfaces.ts#L1-L7).

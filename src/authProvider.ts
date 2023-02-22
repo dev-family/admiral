@@ -1,4 +1,4 @@
-import { AuthProvider } from '../admiral/auth/interfaces'
+import { AuthProvider } from '../admiral'
 import _ from './request'
 
 export const tokenStorageKey = 'df_admin_session_token'
@@ -23,6 +23,7 @@ const authProvider = (apiUrl: string): AuthProvider => ({
     },
     checkAuth: () => {
         const token = storage.get(tokenStorageKey)
+
         if (!!token) {
             return Promise.resolve()
         } else {
@@ -38,6 +39,20 @@ const authProvider = (apiUrl: string): AuthProvider => ({
     getIdentity: () => {
         const url = `${apiUrl}/getIdentity`
         return _.get(url)()
+    },
+    oauthLogin: (provider: string) => {
+        const url = `${apiUrl}/auth/social-login/${provider}`
+
+        return _.get(url)().then(({ redirect }) => {
+            return { redirect }
+        })
+    },
+    oauthCallback: (provider: string, data: string) => {
+        const url = `${apiUrl}/auth/social-login/${provider}/callback`
+
+        return _.post(url)({ data }).then(({ data }) => {
+            storage.set(tokenStorageKey, data.token)
+        })
     },
 })
 

@@ -10,6 +10,7 @@ import { useTheme } from '../../theme'
 import { ThemeName } from '../../theme/interfaces'
 import Icon from '../../assets/icons'
 import { useLocaleProvider } from '../../crud/locale/LocaleContext'
+import OAuthLoginComponent from './OAuthLogin'
 
 export const LoginLayout: React.FC = ({ children }) => <div className={styles.wrap}>{children}</div>
 
@@ -69,6 +70,7 @@ export const Login: React.FC = () => {
                         <Form.Submit>{locale.login}</Form.Submit>
                     </div>
                 </Form>
+                <OAuthLoginComponent />
             </Card>
         </div>
     )

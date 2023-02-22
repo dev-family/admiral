@@ -1,4 +1,4 @@
-import {AuthProvider} from 'admiral'
+import { AuthProvider } from 'admiral'
 import _ from './request'
 
 export const tokenStorageKey = 'admiral_global_admin_session_token'
@@ -15,9 +15,9 @@ export const storage = {
 }
 
 const authProvider = (apiUrl: string): AuthProvider => ({
-    login: ({email, password}) => {
+    login: ({ email, password }) => {
         const url = `${apiUrl}/auth/login`
-        return _.post(url)({data: {email, password}}).then(({token}) => {
+        return _.post(url)({ data: { email, password } }).then(({ token }) => {
             storage.set(tokenStorageKey, token)
         })
     },
@@ -40,16 +40,12 @@ const authProvider = (apiUrl: string): AuthProvider => ({
         const url = `${apiUrl}/auth/get-identity`
 
         return _.get(url)()
-            .catch(
-                () => {
-                    storage.remove(tokenStorageKey)
-                    return Promise.reject(
-                        new Error('Your session has expired. Please login again.')
-                    )
-                }
-            )
-            .then(({user}) => {
-                return {...user, fullName: user.name}
+            .catch(() => {
+                storage.remove(tokenStorageKey)
+                return Promise.reject(new Error('Your session has expired. Please login again.'))
+            })
+            .then(({ user }) => {
+                return { ...user, fullName: user.name }
             })
     },
 })

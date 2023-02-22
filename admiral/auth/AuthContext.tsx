@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo } from 'react'
-import { AuthProvider } from './interfaces'
+import { AuthProvider, OAuthProvidersEnum } from './interfaces'
 
 export const defaultAuthParams = {
     loginUrl: '/login',
@@ -11,6 +11,8 @@ const defaultProvider: AuthProvider = {
     logout: () => Promise.resolve(),
     checkAuth: () => Promise.resolve(),
     getIdentity: () => Promise.reject(),
+    oauthLogin: (provider: OAuthProvidersEnum) => Promise.resolve({ redirect: provider }),
+    oauthCallback: (provider: OAuthProvidersEnum, data: string) => Promise.resolve(),
 }
 
 type AuthContextValue = AuthProvider & { isDefault: boolean }

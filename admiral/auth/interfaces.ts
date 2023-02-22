@@ -1,8 +1,17 @@
+export enum OAuthProvidersEnum {
+    Google = 'Google',
+    Github = 'Github',
+    Jira = 'Jira',
+}
+
 export interface AuthProvider {
     login: (params: any) => Promise<any>
     logout: (params: any) => Promise<void | false | string>
     checkAuth: (params: any) => Promise<void>
     getIdentity: () => Promise<UserIdentity>
+    oauthLogin?: (provider: OAuthProvidersEnum) => Promise<{ redirect: string }>
+    oauthCallback?: (provider: OAuthProvidersEnum, data: string) => Promise<any>
+
     [key: string]: any
 }
 
@@ -11,6 +20,7 @@ export interface UserIdentity {
     fullName?: string
     avatar?: string
     email?: string
+
     [key: string]: any
 }
 

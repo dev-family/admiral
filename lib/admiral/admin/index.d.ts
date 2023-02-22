@@ -5,6 +5,7 @@ import { DataProvider } from '../dataProvider';
 import type { AuthProvider } from '../auth/interfaces';
 import { ThemePreset } from '../theme/interfaces';
 import { CRUDLocale } from '../crud/interfaces';
+import { OAuthProvidersEnum } from '../auth/interfaces';
 export declare type AdminProps = {
     menu: ComponentType;
     logo?: LogoType;
@@ -17,5 +18,6 @@ export declare type AdminProps = {
         dark: ThemePreset;
     };
     locale?: Partial<CRUDLocale>;
+    oauthProviders?: OAuthProvidersEnum[];
 };
 export declare const Admin: React.FC<AdminProps>;

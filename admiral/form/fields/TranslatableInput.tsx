@@ -5,17 +5,40 @@ import { FormItemProps } from '../Item'
 import { Tabs } from '../../ui'
 
 import type { IRecord as DataProviderRecord } from '../../dataProvider'
-import { InputComponentWithName } from '../interfaces'
 import { TabsType } from '../../ui/Tabs/interfaces'
-import { TextInput } from './TextInput'
-import { EditorInput } from './EditorInput'
-import { MultilineTextInput } from './MultilineTextInput'
+import { TextInput, TextInputProps } from './TextInput'
+import { EditorInput, EditorInputProps } from './EditorInput'
+import { MultilineTextInput, MultilineTextInputProps } from './MultilineTextInput'
 
-const fields = {
+type FieldMap = {
+    editor: EditorInputProps
+    text: TextInputProps
+    multilineText: MultilineTextInputProps
+}
+
+type FieldProps<K extends keyof FieldMap> = {
+    field: K
+    props?: Omit<
+        FieldMap[K],
+        | 'label'
+        | 'error'
+        | 'showError'
+        | 'required'
+        | 'columnSpan'
+        | 'onLabelClick'
+        | 'labelAs'
+        | 'name'
+    >
+}
+
+type RenderFunc<K extends keyof FieldMap> = (props: FieldMap[K]) => ReturnType<React.FC>
+type RenderFuncMap = { [K in keyof FieldMap]: RenderFunc<K> }
+
+const fields: RenderFuncMap = {
     editor: EditorInput,
     multilineText: MultilineTextInput,
     text: TextInput,
-} as const
+}
 
 type LanguageType = {
     label: string
@@ -29,30 +52,14 @@ type TranslatableInputType = {
     tabType?: TabsType
 }
 
-type InputTypes = {
-    [K in keyof typeof fields]: {
-        fieldName: K
-        fieldProps?: Omit<React.ComponentProps<typeof fields[K]>, 'name'>
-    }
-}[keyof typeof fields]
-
-export type TranslatableInputProps = TranslatableInputType & FormItemProps & InputTypes
-
-export const TranslatableInput: InputComponentWithName<React.FC<TranslatableInputProps>> = ({
-    name,
-    label,
-    required,
-    languages,
-    tabType = 'card',
-    fieldName,
-    fieldProps,
-    ...props
-}) => {
+export const TranslatableInput = <K extends keyof FieldMap>(
+    props: FieldProps<K> & TranslatableInputType & FormItemProps,
+) => {
+    const { name, label, required, languages, tabType = 'card', field, props: filedProps } = props
     const { values, setValues, errors, setErrors, ...formProps } = useForm()
     const [activeTabKey, setActiveTabKey] = useState<string>(languages[0]?.value)
 
-    const Component = fields[fieldName]
-    const componentProps = { ...(fieldProps && fieldProps) }
+    const Component = fields[field]
 
     const forms: DataProviderRecord = values[name] ?? {}
     const formsErrors = getFormErrors(errors, name)
@@ -116,7 +123,6 @@ export const TranslatableInput: InputComponentWithName<React.FC<TranslatableInpu
                 <Tabs type={tabType} activeKey={activeTabKey} onChange={onTabChange}>
                     {languages.map(({ label, value }) => {
                         const formErrors = formsErrors[value] ?? {}
-
                         return (
                             <Tabs.TabPane tab={label} key={value}>
                                 <Form.ChildForm
@@ -126,7 +132,10 @@ export const TranslatableInput: InputComponentWithName<React.FC<TranslatableInpu
                                     setErrors={createSetErrorsFn}
                                     {...formProps}
                                 >
-                                    <Component name={value} {...props} {...componentProps} />
+                                    {React.createElement(Component, {
+                                        ...filedProps,
+                                        name: value,
+                                    } as React.Attributes & FieldMap[K] & { name: string })}
                                 </Form.ChildForm>
                             </Tabs.TabPane>
                         )

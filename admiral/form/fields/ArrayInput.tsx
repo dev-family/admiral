@@ -42,7 +42,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
     } = useForm()
     const locale = { ...enUS.fields.array, ...formLocale.fields.array }
 
-    const forms: DataProviderRecord[] = values[name] ?? [{}]
+    const forms: DataProviderRecord[] = values[name] ?? (required ? [{}] : [])
     const formsErrors = getFormErrorsByIndex(errors, name)
     const formOptions = getFormOptions(options, name)
 
@@ -97,13 +97,10 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
         (idx: number) => () => {
             setValues((values: any) => {
                 const forms: DataProviderRecord[] = values[name] ?? []
-
-                return forms.length > 1
-                    ? {
-                          ...values,
-                          [name]: [...forms.slice(0, idx), ...forms.slice(idx + 1)],
-                      }
-                    : values
+                return {
+                    ...values,
+                    [name]: [...forms.slice(0, idx), ...forms.slice(idx + 1)],
+                }
             })
         },
         [],
@@ -156,7 +153,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                                         size="S"
                                         iconLeft={<FiX />}
                                         view="ghost"
-                                        disabled={forms.length <= 1}
+                                        disabled={forms.length <= 1 && required}
                                         onClick={handleRemove(idx)}
                                     >
                                         {locale.remove}

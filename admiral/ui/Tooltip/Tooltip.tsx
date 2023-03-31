@@ -15,7 +15,7 @@ export const Tooltip = ({
     onHide,
     content,
     children,
-    invertTheme = true,
+    invertTheme = false,
     appendTo: customizeAppendTo,
     ...tippyProps
 }: TooltipProps) => {

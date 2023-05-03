@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useForm } from '../FormContext'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { FieldValues, useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Input } from '../../ui'
 import type { InputProps } from '../../ui/Input/interfaces'
@@ -13,6 +13,7 @@ import styles from '../Form.module.scss'
 export interface SlugInputProps extends InputProps, FormItemProps {
     name: string
     from: string
+    slugLang?: string
     options?: SlygifyOptions
 }
 
@@ -25,6 +26,23 @@ export type SlygifyOptions = {
     trim?: boolean
 }
 
+const getFromFieldValue = (from: string, values: FieldValues, slugLang?: string) => {
+    const keys = from.split('[')
+
+    if (keys.length === 1) {
+        if (slugLang) {
+            return values[keys[0]]?.[slugLang]
+        }
+        const value = values?.[keys[0]]
+        return typeof value === 'string' ? value : ''
+    }
+    const mainKey = keys[0]
+    const subKey = keys[1].replace(']', '')
+    const value = values[mainKey]?.[subKey]
+
+    return value || ''
+}
+
 export const SlugInput: InputComponentWithName<React.FC<SlugInputProps>> = ({
     name,
     label,
@@ -34,13 +52,13 @@ export const SlugInput: InputComponentWithName<React.FC<SlugInputProps>> = ({
     columnSpan,
     options,
     size,
+    slugLang,
     ...inputProps
 }) => {
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
-    const fromFieldValue = values[from]
-
+    const fromFieldValue = useMemo(() => getFromFieldValue(from, values, slugLang), [values])
     const [isLocked, setIsLocked] = useState(disabled)
 
     useEffect(() => {

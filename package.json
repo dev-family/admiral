@@ -36,6 +36,7 @@
         "classnames": "^2.3.1",
         "date-fns": "^2.28.0",
         "history": "^4.10.1",
+        "js-file-download": "^0.4.12",
         "lodash.throttle": "^4.1.1",
         "lodash.zipobjectdeep": "^4.4.2",
         "nanoid": "^4.0.0",

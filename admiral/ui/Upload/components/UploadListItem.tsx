@@ -2,13 +2,12 @@ import React from 'react'
 import cn from 'classnames'
 import { Tooltip } from '../../Tooltip'
 import { Button } from '../../Button'
-import { FiTrash, FiFile, FiVideo, FiImage, FiEye } from 'react-icons/fi'
+import { FiTrash, FiFile, FiVideo, FiImage, FiEye, FiPaperclip, FiDownload } from 'react-icons/fi'
 import { isVideoUrl } from '../utils'
 import { ListItemProps } from '../interfaces'
 import styles from '../Upload.module.scss'
-
 import { useTheme } from '../../../theme'
-
+import { internalDownloadFile } from '../../../utils/helpers'
 // TODO: show preview with modal
 
 const ListItem = React.forwardRef(
@@ -22,8 +21,10 @@ const ListItem = React.forwardRef(
             isImgUrl,
             showRemoveIcon,
             showPreviewIcon = true,
+            showDownloadIcon,
             onClose,
             onPreview,
+            onDownload,
         }: ListItemProps,
         ref: React.Ref<HTMLDivElement>,
     ) => {
@@ -60,13 +61,31 @@ const ListItem = React.forwardRef(
             />
         ) : null
 
+        const downloadIcon = showDownloadIcon ? (
+            <Button
+                view="clear"
+                size="S"
+                type="button"
+                iconLeft={<FiDownload />}
+                title={locale.downloadFile}
+                onClick={() => (!!onDownload ? onDownload(file) : internalDownloadFile(file))}
+                disabled={file?.url ? false : true}
+                className={cn(styles.item_ActionButton, {
+                    [themeClassNames.color.invert]:
+                        listType === 'picture-card' && themeName === 'light',
+                })}
+            />
+        ) : null
+
         const actions = (
             <span
                 key="actions"
                 className={cn(styles.item_Actions, {
                     [styles.item_Actions__PictureCard]: listType === 'picture-card',
+                    [styles.item_Actions__TextType]: listType === 'text',
                 })}
             >
+                {downloadIcon}
                 {previewIcon}
                 {removeIcon}
             </span>
@@ -85,6 +104,7 @@ const ListItem = React.forwardRef(
             <div
                 className={cn(styles.item, {
                     [styles.item__PictureCard]: listType === 'picture-card',
+                    [styles.item__TextType]: listType === 'text',
                     [styles.item__Error]: file.status === 'error',
                 })}
             >
@@ -141,7 +161,15 @@ const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listTyp
     listType,
 }) => {
     const iconNode =
-        isImgUrl && isImgUrl(file) ? <FiImage /> : isVideoUrl(file) ? <FiVideo /> : <FiFile />
+        listType === 'text' ? (
+            <FiPaperclip />
+        ) : isImgUrl && isImgUrl(file) ? (
+            <FiImage />
+        ) : isVideoUrl(file) ? (
+            <FiVideo />
+        ) : (
+            <FiFile />
+        )
 
     let node = <></>
     if (listType === 'picture' || listType === 'picture-card') {
@@ -180,6 +208,19 @@ const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listTyp
                 </div>
             )
         }
+    }
+    if (listType === 'text') {
+        const thumbnail = iconNode
+        node = (
+            <div
+                className={cn({
+                    [styles.item_Thumb]: true,
+                    [styles.item_Thumb__TextType]: true,
+                })}
+            >
+                {thumbnail}
+            </div>
+        )
     }
 
     return node

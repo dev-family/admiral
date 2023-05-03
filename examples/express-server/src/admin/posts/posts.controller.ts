@@ -1,7 +1,6 @@
 import type { Response, Request } from 'express';
 import { z } from 'zod';
 import postsService from './posts.service';
-import usersService from '../users/users.service';
 
 export default {
     async index(req: Request, res: Response) {
@@ -12,11 +11,9 @@ export default {
 
         const query = querySchema.parse(req.query);
 
-        const [count, items] = await postsService.index(
-            query,
-        );
+        const [count, items] = await postsService.index(query);
 
-        const itemsData = items.map((item) => {
+        const itemsData = items.map(item => {
             return {
                 ...item,
                 user: item.user.name,
@@ -53,14 +50,15 @@ export default {
         const data = await postsService.createShow();
 
         res.json({
-            data: {}, values: {
-                userId: data.users.map((user) => {
+            data: {},
+            values: {
+                userId: data.users.map(user => {
                     return {
                         label: user.name,
                         value: user.id,
                     };
                 }),
-                categoryId: data.categories.map((category) => {
+                categoryId: data.categories.map(category => {
                     return {
                         label: category.name,
                         value: category.id,
@@ -80,15 +78,20 @@ export default {
         const data = await postsService.show(params);
 
         res.json({
-            data: data, values: {
-                userId: [{
-                    value: data.userId,
-                    label: data.user.name,
-                }],
-                categoryId: [{
-                    value: data.categoryId,
-                    label: data.category.name,
-                }],
+            data: data,
+            values: {
+                userId: [
+                    {
+                        value: data.userId,
+                        label: data.user.name,
+                    },
+                ],
+                categoryId: [
+                    {
+                        value: data.categoryId,
+                        label: data.category.name,
+                    },
+                ],
             },
         });
     },
@@ -143,10 +146,11 @@ export default {
 
         const items = await postsService.ajaxSelect(query, params);
 
-        res.json(items.map((item) => ({
-            value: item.id,
-            label: item.name,
-        })));
+        res.json(
+            items.map(item => ({
+                value: item.id,
+                label: item.name,
+            })),
+        );
     },
-
 };

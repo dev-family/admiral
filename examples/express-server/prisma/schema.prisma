@@ -34,3 +34,10 @@ model Post {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
 }
+
+model Brand {
+  id    Int     @id @default(autoincrement())
+  name  String
+  slug  String
+  description String
+}

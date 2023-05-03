@@ -127,7 +127,7 @@ export const handlers = [
             ctx.delay(160),
             ctx.status(201),
             ctx.json({
-                redirect: `http://localhost:3001/oauth/${provider}`,
+                redirect: `/oauth/${provider}`,
             }),
         )
     }),

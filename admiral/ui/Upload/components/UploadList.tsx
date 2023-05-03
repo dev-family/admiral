@@ -13,11 +13,13 @@ const UploadList: React.FC<UploadListProps> = ({
     listType,
     onRemove,
     onPreview,
+    onDownload,
     locale,
     isImageUrl: isImgUrl,
     items = [],
     showRemoveIcon,
     showPreviewIcon,
+    showDownloadIcon,
     itemRender,
     previewFile,
     appendButton,
@@ -65,13 +67,13 @@ const UploadList: React.FC<UploadListProps> = ({
         initial: {
             opacity: 1,
             transform: 'translate3d(0px, 0%, 0px)',
-            height: listType === 'picture-card' ? 'auto' : 60,
+            height: listType !== 'picture' ? 'auto' : 60,
         },
         from: { opacity: 0, transform: 'translate3d(0px, 10%, 0px)' },
         enter: {
             opacity: 1,
             transform: 'translate3d(0px, 0%, 0px)',
-            height: listType === 'picture-card' ? 'auto' : 60,
+            height: listType !== 'picture' ? 'auto' : 60,
         },
         leave: {
             opacity: 0,
@@ -79,7 +81,7 @@ const UploadList: React.FC<UploadListProps> = ({
             height: 0,
             config: { duration: 100 },
         },
-        update: { height: listType === 'picture-card' ? 'auto' : 60 },
+        update: { height: listType !== 'picture' ? 'auto' : 60 },
         config: (book) => ({
             ...config.stiff,
             friction: 0,
@@ -91,25 +93,30 @@ const UploadList: React.FC<UploadListProps> = ({
     return (
         <div
             className={cn(styles.list, {
+                [styles.list__TextType]: listType === 'text',
                 [styles['list-picture-card']]: listType === 'picture-card',
             })}
         >
-            {transitions((style, file) => (
-                <animated.div style={style}>
-                    <ListItem
-                        locale={locale}
-                        file={file}
-                        items={items}
-                        listType={listType}
-                        isImgUrl={isImgUrl}
-                        showRemoveIcon={showRemoveIcon}
-                        showPreviewIcon={showPreviewIcon}
-                        itemRender={itemRender}
-                        onClose={onInternalClose}
-                        onPreview={onInternalPreview}
-                    />
-                </animated.div>
-            ))}
+            {transitions((style, file) => {
+                return (
+                    <animated.div style={style}>
+                        <ListItem
+                            locale={locale}
+                            file={file}
+                            items={items}
+                            listType={listType}
+                            isImgUrl={isImgUrl}
+                            showRemoveIcon={showRemoveIcon}
+                            showPreviewIcon={showPreviewIcon}
+                            showDownloadIcon={showDownloadIcon}
+                            itemRender={itemRender}
+                            onClose={onInternalClose}
+                            onPreview={onInternalPreview}
+                            onDownload={onDownload}
+                        />
+                    </animated.div>
+                )
+            })}
             {appendButton}
         </div>
     )

@@ -251,9 +251,14 @@ function UpdateDrawer<RecordType>({
     }, [])
 
     const onSubmit = useCallback(async () => {
-        await formRef.current?.handleSubmit()
-        setSubmitInProgress(true)
-        setVisible(false)
+        await formRef.current
+            ?.handleSubmit()
+            .then(() => {
+                setVisible(false)
+            })
+            .finally(() => {
+                setSubmitInProgress(true)
+            })
     }, [formRef])
 
     const popupContainer = useMemo(

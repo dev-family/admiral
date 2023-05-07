@@ -17,6 +17,7 @@ const defaultUrlState: CrudIndexUrlState = {
     page_size: PAGE_SIZE_DEFAULT,
     filter: {},
     sort: {},
+    search: '',
 }
 
 export const CrudIndexPageContext = createContext<CrudIndexPageValueType>({
@@ -37,6 +38,7 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
         page_size: '10',
         sort: {},
         filter: {},
+        search: '',
     })
     const [filterOptions, setFilterOptions] = useState<RecordOptions>({})
 

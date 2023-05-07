@@ -43,7 +43,7 @@ export const Filters: React.FC<FiltersProps> = ({ locale = enUS, fetchInitialDat
 
     const onSubmit = useCallback(() => {
         const filters = formRef.current?.values ?? {}
-        setUrlState({ filter: filters, page: undefined })
+        setUrlState({ ...urlState, filter: filters, page: undefined })
         hideDrawer()
     }, [setUrlState, hideDrawer, formRef])
 

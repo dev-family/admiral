@@ -77,11 +77,11 @@ export function DataTable<RecordType extends { id: number | string }>({
         setLoading(true)
         try {
             const [sortField, sortOrder] = Object.entries(state.sort)[0] || []
-
             const response = await getList(resource, {
                 pagination: { perPage: +state.page_size, page: +state.page },
-                filter: state.filter,
                 ...(sortField && sortOrder && { sort: { field: sortField, order: sortOrder } }),
+                filter: state.filter,
+                search: state.search,
             })
 
             setData(response.items as any)

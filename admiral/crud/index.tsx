@@ -3,7 +3,7 @@ import { Form, FormProps } from '../form'
 import { Page, Button, Drawer } from '../ui'
 import { FiX, FiSave } from 'react-icons/fi'
 import { useHistory, useLocation } from 'react-router-dom'
-import { CreateButton, BackButton, FilterButton } from '../actions'
+import { CreateButton, BackButton, FilterButton, Search } from '../actions'
 import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react'
@@ -74,6 +74,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                     actions={
                         config.actions || (
                             <TopToolbar>
+                                <Search />
                                 {!!config.filter && (
                                     <FilterButton>
                                         {config.filter.topToolbarButtonText}

@@ -37,6 +37,7 @@
         "date-fns": "^2.28.0",
         "history": "^4.10.1",
         "js-file-download": "^0.4.12",
+        "lodash.debounce": "^4.0.8",
         "lodash.throttle": "^4.1.1",
         "lodash.zipobjectdeep": "^4.4.2",
         "nanoid": "^4.0.0",
@@ -66,6 +67,7 @@
     },
     "devDependencies": {
         "@types/history": "^4.7.11",
+        "@types/lodash.debounce": "^4.0.7",
         "@types/lodash.throttle": "^4.1.6",
         "@types/lodash.zipobjectdeep": "^4.4.3",
         "@types/no-scroll": "^2.1.0",

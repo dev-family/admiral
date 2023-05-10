@@ -14,7 +14,7 @@ export type AppliedFiltersProps = {}
 export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
     const {
         setUrlState,
-        urlState: { filter },
+        urlState: { filter, search },
         filter: { fields: filterFields, options: filterOptions },
     } = useCrudIndex()
 
@@ -76,7 +76,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
         [filterOptions],
     )
 
-    const filters = Object.entries(filter)
+    const filters = Object.entries({ ...filter, ...(search ? { search } : {}) })
         .filter(([name]) => filterFields.some((field) => field.name === name))
         .map(([name, value]) => {
             const field = filterFields.find((field) => field.name === name)
@@ -96,10 +96,12 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
 
     const onRemove = useCallback(
         (name: string) => () => {
+            const isFilterName = name !== 'search'
             setUrlState((prev) => ({
                 ...prev,
                 page: '1',
-                filter: { ...filter, [name]: undefined },
+                filter: isFilterName ? { ...filter, [name]: undefined } : filter,
+                search: isFilterName ? search : undefined,
             }))
         },
         [setUrlState],

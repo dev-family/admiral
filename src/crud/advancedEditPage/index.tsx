@@ -6,6 +6,10 @@ import {
     FilePictureInput,
     FileField,
     BooleanInput,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    SearchField,
 } from '../../../admiral'
 import OrdersLinkField from './OrdersLinkField'
 import PageTopContent from './PageTopContent'
@@ -17,6 +21,13 @@ export const resource = 'users'
 export const CRUD = createCRUD({
     path,
     resource,
+    actions: (
+        <TopToolbar>
+            <SearchField />
+            <FilterButton>Filters</FilterButton>
+            <CreateButton basePath={path}>Create New User</CreateButton>
+        </TopToolbar>
+    ),
     index: {
         title: 'Advanced Edit Page',
         newButtonText: 'Create New User',

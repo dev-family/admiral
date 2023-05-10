@@ -15,11 +15,12 @@ export const handlers = [
         const pageSize = Number(req.url.searchParams.get('perPage')) || 10
         const sort = JSON.parse(req.url.searchParams.get('sort') || '{}') as Record<any, any>
         const filter = (qs.parse(req.url.searchParams.toString()).filter || {}) as Record<any, any>
+        const search = (qs.parse(req.url.searchParams.toString()).search || '') as string
 
         const from = page * pageSize - pageSize
         const to = page * pageSize
 
-        const [items, all] = userList.getUsers(from, to, Object.entries(sort)[0], filter)
+        const [items, all] = userList.getUsers(from, to, Object.entries(sort)[0], filter, search)
 
         return res(
             ctx.delay(1600),

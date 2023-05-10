@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import { OnDragEndResponder } from 'react-beautiful-dnd'
 import RcUpload, { UploadProps as RcUploadProps } from 'rc-upload'
 import useMergedState from 'rc-util/lib/hooks/useMergedState'
 import cn from 'classnames'
@@ -35,6 +36,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         type,
         itemRender,
         maxCount,
+        isDraggable,
     } = props
     const [dragState, setDragState] = useState<string>('drop')
     const [mergedFileList, setMergedFileList] = useMergedState([], {
@@ -88,6 +90,23 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
             onInternalChange({ ...file, status: 'removed' }, removedFileList)
         }
     }
+    const onDragEnd: OnDragEndResponder = (data) => {
+        if (!data.destination) return
+
+        const startIndex = data.source.index
+        const endIndex = data.destination.index
+
+        const fileListCopy = [...mergedFileList]
+        const [movedFile] = fileListCopy.splice(startIndex, 1)
+        fileListCopy.splice(endIndex, 0, movedFile)
+        const result = fileListCopy.map((file, index) => Object.assign(file, { order: index }))
+        const changeInfo: UploadChangeParam<UploadFile> = {
+            file: mergedFileList[data.source.index] as UploadFile,
+            fileList: result,
+        }
+        // setMergedFileList(result)
+        onChange?.(changeInfo)
+    }
 
     const prefixCls = cn('upload')
 
@@ -115,6 +134,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
                     onRemove={handleRemove}
                     onPreview={onPreview}
                     onDownload={onDownload}
+                    onDragEnd={isDraggable ? onDragEnd : undefined}
                     showRemoveIcon={!disabled && showRemoveIcon}
                     showPreviewIcon={!!onPreview}
                     showDownloadIcon={showDownloadIcon}

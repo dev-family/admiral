@@ -84,6 +84,10 @@ export default function UploadPage() {
                 <Upload fileList={fileList} onChange={updateFileList}>
                     <Button iconLeft={<FiUpload />}>Click to Upload</Button>
                 </Upload>
+                <h2>With drag and drop</h2>
+                <Upload fileList={fileList} onChange={updateFileList} isDraggable>
+                    <Button iconLeft={<FiUpload />}>Click to Upload</Button>
+                </Upload>
                 <h2>Disabled</h2>
                 <Upload disabled fileList={fileList} onChange={updateFileList}>
                     <Button disabled iconLeft={<FiUpload />}>
@@ -142,6 +146,14 @@ export default function UploadPage() {
                         to upload
                     </>
                 </Upload>
+                <h2>Picture cards with drag and drop</h2>
+                <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={updateFileList}
+                    isDraggable
+                />
                 <h2>Picture cards (disabled)</h2>
                 <Upload
                     listType="picture-card"

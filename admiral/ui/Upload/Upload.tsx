@@ -104,7 +104,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
             file: mergedFileList[data.source.index] as UploadFile,
             fileList: result,
         }
-        // setMergedFileList(result)
+        setMergedFileList(result)
         onChange?.(changeInfo)
     }
 

@@ -2,22 +2,36 @@
     width: fit-content;
 }
 
-.list {
+.droppable {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-gap: var(--space-xs);
 
     &:not(:empty) {
         padding-top: var(--space-s);
     }
-    &.list-picture-card {
+
+    &.droppable-picture-card {
         padding-top: initial;
     }
-    &__TextType {
-        grid-gap: var(--space-3xs);
+
+    &__item {
+        margin: 0 0 8px;
+
+        &--dragged {
+            filter: brightness(90%);
+        }
+
+        &--picture_card {
+            margin: 0 8px 0 0;
+        }
+
+        &--text_type {
+            margin: 0 0 2px;
+        }
     }
 }
-.list-picture-card {
+
+.droppable-picture-card {
     display: flex;
     flex-wrap: wrap;
 }
@@ -39,8 +53,10 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
     transition: border-color 0.2s ease;
 
     &__PictureCard {
+        position: relative;
         height: 100%;
         min-height: 108px;
+
         &::before {
             content: '';
             position: absolute;
@@ -62,14 +78,17 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
                 --upload-picture-item-bcolor-hover,
                 var(--color-control-bg-border-default-hover)
             );
+
             &::before {
                 opacity: 0.8;
             }
+
             .item_Actions {
                 opacity: 1;
             }
         }
     }
+
     &__TextType {
         --upload-text-type-item-bcolor-hover: var(--color-control-bg-clear-hover);
         padding: unset;
@@ -77,8 +96,10 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
         border: none;
         height: 100%;
         transition: background-color 0.2s;
+
         &:hover {
             background-color: var(--upload-text-type-item-bcolor-hover);
+
             .item_Actions__TextType {
                 opacity: 1;
             }
@@ -103,6 +124,7 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
     gap: var(--upload-picture-item-padding, $item-padding);
     align-items: center;
     height: 100%;
+
     &__PictureCard {
         position: relative;
     }
@@ -131,6 +153,7 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
         align-items: center;
         z-index: 2;
     }
+
     &__TextType {
         transition: opacity 0.2s;
         opacity: 0;
@@ -170,10 +193,12 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
         display: flex;
         justify-content: center;
         align-items: center;
+
         svg {
             font-size: 50px;
         }
     }
+
     &__DefaultPictureCardUpload {
         display: flex;
         flex-direction: column;
@@ -214,16 +239,19 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
                 background-color: var(--color-control-bg-clear-hover);
                 border-color: var(--color-control-bg-border-default-hover);
             }
+
             &-container {
                 height: 100%;
             }
         }
+
         &-btn {
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: var(--space-l);
         }
+
         &-disabled {
             background-color: var(--color-control-bg-disable);
             border-color: transparent;

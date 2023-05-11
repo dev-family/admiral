@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useNav } from '../../../navigation/NavContext'
 import { ThemeSwitch, Tooltip, Button } from '../../../ui'
 import { FiSettings } from 'react-icons/fi'
@@ -9,7 +9,12 @@ import { useSafeSetState } from '../../../utils/hooks'
 import { UserIdentity } from '../../../auth/interfaces'
 import styles from '../Layout.module.scss'
 
-const LayoutFooter: React.FC<{ user: UserIdentity | null }> = ({ user }) => {
+interface Props {
+    user: UserIdentity | null
+    menuPopupExtraComponents: ReactNode
+}
+
+const LayoutFooter: React.FC<Props> = ({ user, menuPopupExtraComponents }) => {
     const { collapsed } = useNav()
 
     return (
@@ -20,9 +25,14 @@ const LayoutFooter: React.FC<{ user: UserIdentity | null }> = ({ user }) => {
                     placement="right"
                     content={
                         <div className={styles.userTooltip}>
-                            {user && <Logout />}
-                            <div className={styles.themeSwitch}>
-                                <ThemeSwitch />
+                            <div className={styles.userTooltip__extra}>
+                                {menuPopupExtraComponents ? menuPopupExtraComponents : <></>}
+                            </div>
+                            <div className={styles.userTooltip__default}>
+                                {user && <Logout />}
+                                <div className={styles.themeSwitch}>
+                                    <ThemeSwitch />
+                                </div>
                             </div>
                         </div>
                     }

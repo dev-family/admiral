@@ -1,11 +1,12 @@
 import { LogoType, OAuthProvidersEnum } from '../../admiral'
-import React, { createContext, useContext } from 'react'
+import React, { ReactNode, createContext, useContext } from 'react'
 
 type ConfigContextValue = {
     logo?: LogoType
     loginLogo?: LogoType
     asideContent?: React.ReactNode
     oauthProviders?: OAuthProvidersEnum[]
+    menuPopupExtraComponents?: ReactNode
 }
 
 export const ConfigContext = createContext<ConfigContextValue>({})

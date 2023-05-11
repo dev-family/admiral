@@ -256,9 +256,19 @@
 }
 
 .userTooltip {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) max-content;
-    grid-gap: var(--space-s);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &__default {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) max-content;
+        grid-gap: var(--space-s);
+    }
+
+    &__extra {
+        max-width: 300px;
+    }
 }
 
 .themeSwitch {

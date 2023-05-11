@@ -10,7 +10,7 @@ import cn from 'classnames'
 
 export const Layout: React.FC = ({ children }) => {
     const { collapsed } = useNav()
-    const { logo, asideContent } = useConfig()
+    const { logo, asideContent, menuPopupExtraComponents } = useConfig()
     const { loaded, identity } = useGetIdentity()
     const user = useMemo(() => (loaded ? identity : null), [loaded, identity])
 
@@ -23,7 +23,7 @@ export const Layout: React.FC = ({ children }) => {
             <div className={styles.panel}>
                 <LayoutHeader logo={logo} />
                 <LayoutAside user={user}>{asideContent}</LayoutAside>
-                <LayoutFooter user={user} />
+                <LayoutFooter user={user} menuPopupExtraComponents={menuPopupExtraComponents} />
             </div>
 
             <main className={styles.content}>{children}</main>

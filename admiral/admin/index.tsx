@@ -1,5 +1,5 @@
 import '../assets/global.css'
-import React, { ComponentType } from 'react'
+import React, { ComponentType, ReactNode } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from '../theme'
 import { NavProvider } from '../navigation/NavContext'
@@ -16,6 +16,7 @@ import { OAuthProvidersEnum } from '../auth/interfaces'
 
 export type AdminProps = {
     menu: ComponentType
+    menuPopupExtraComponents: ReactNode
     logo?: LogoType
     loginLogo?: LogoType
     asideContent?: React.ReactNode
@@ -31,6 +32,7 @@ export const Admin: React.FC<AdminProps> = ({
     loginLogo,
     asideContent,
     menu,
+    menuPopupExtraComponents,
     dataProvider,
     authProvider,
     themePresets,
@@ -41,7 +43,15 @@ export const Admin: React.FC<AdminProps> = ({
     return (
         <AuthContextProvider value={authProvider}>
             <DataProviderContextProvider value={dataProvider}>
-                <ConfigContextProvider value={{ logo, loginLogo, asideContent, oauthProviders }}>
+                <ConfigContextProvider
+                    value={{
+                        logo,
+                        loginLogo,
+                        asideContent,
+                        oauthProviders,
+                        menuPopupExtraComponents,
+                    }}
+                >
                     <LocaleContextProvider value={locale}>
                         <UserContextProvider>
                             <Router>

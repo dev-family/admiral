@@ -77,7 +77,13 @@ export function Logout() {
     }
 
     return (
-        <Button type="button" view="ghost" loading={loading} onClick={onClick}>
+        <Button
+            className={styles.logout_button}
+            type="button"
+            view="ghost"
+            loading={loading}
+            onClick={onClick}
+        >
             Выход
         </Button>
     )

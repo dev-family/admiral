@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import cn from 'classnames'
 import debounce from 'lodash.debounce'
 import { VscChromeClose } from 'react-icons/vsc'
@@ -23,7 +23,7 @@ export const SearchField = ({ className }: Props) => {
         })
     }
 
-    const debouncedSearch = useRef(debounce(search, 500)).current
+    const debouncedSearch = useCallback(debounce(search, 500), [urlState])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         debouncedSearch(e.target.value)

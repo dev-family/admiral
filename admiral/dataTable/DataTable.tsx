@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { Table } from '../ui'
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import { FaPlay, FaPause } from 'react-icons/fa'
+import { Button, Table } from '../ui'
 import { ColumnsType, TableLocale, TableProps, Key } from '../ui/Table/interfaces'
 import { PaginationLocale } from '../ui/Pagination/interfaces'
 import { ControlledSorter } from '../ui/Table/hooks/useSorter'
@@ -8,6 +9,7 @@ import { DataTableContextProvider } from './DataTableContext'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { useTopLocation } from '../router'
+import styles from './DataTable.module.scss'
 
 export type DataTableProps<RecordType> = {
     resource: string
@@ -18,6 +20,7 @@ export type DataTableProps<RecordType> = {
         pagination: PaginationLocale & { total: (total: number) => string }
     }>
     config?: DataTableConfig<RecordType>
+    autoupdateTime?: number
 }
 
 export interface DataTableConfig<RecordType>
@@ -26,6 +29,7 @@ export interface DataTableConfig<RecordType>
         'dndRows' | 'showSorterTooltip' | 'bordered' | 'size' | 'title' | 'footer'
     > {
     rowSelection?: DataTableRowSelectionConfig<RecordType>
+    autoupdateTime?: number
 }
 
 export type DataTableRowSelectionConfig<RecordType> = {
@@ -38,9 +42,11 @@ export function DataTable<RecordType extends { id: number | string }>({
     columns,
     locale,
     config,
+    autoupdateTime,
 }: DataTableProps<RecordType>) {
     const { getList, reorderList } = useDataProvider()
     const [data, setData] = useState<RecordType[]>([])
+    const [isAutoupdateTurnOn, setIsAutoupdateTurnOn] = useState<boolean>(!!config?.autoupdateTime)
 
     const { rowSelection, title, ...tableConfig } = config || {}
 
@@ -58,10 +64,15 @@ export function DataTable<RecordType extends { id: number | string }>({
         [rowSelection],
     )
 
+    const isFetching = useRef(false)
     const [loading, setLoading] = useState(false)
     const [total, setTotal] = useState<number>()
     const { urlState, setUrlState } = useCrudIndex()
     const shouldUpdate = useShouldUpdate()
+
+    const toggleTableAutoupdate = () => {
+        setIsAutoupdateTurnOn((prev) => !prev)
+    }
 
     const sorter = useMemo(() => {
         const entries = Object.entries(urlState.sort)
@@ -74,6 +85,11 @@ export function DataTable<RecordType extends { id: number | string }>({
     }, [urlState])
 
     async function fetch(resource: string, state: typeof urlState) {
+        if (isFetching.current) {
+            return
+        }
+        // useState does not have time to update if we call fetch several times at the same time
+        isFetching.current = true
         setLoading(true)
         try {
             const [sortField, sortOrder] = Object.entries(state.sort)[0] || []
@@ -87,6 +103,7 @@ export function DataTable<RecordType extends { id: number | string }>({
             setData(response.items as any)
             setTotal(response.meta.total)
         } catch (error) {}
+        isFetching.current = false
         setLoading(false)
     }
 
@@ -121,6 +138,31 @@ export function DataTable<RecordType extends { id: number | string }>({
             refresh()
         }
     }, [shouldUpdate])
+
+    const timerRef = useRef<NodeJS.Timeout | undefined>()
+
+    const clearTimer = () => {
+        if (timerRef.current) {
+            clearTimeout(timerRef.current)
+        }
+    }
+
+    const fetchData = useCallback(async () => {
+        await fetch(resource, urlState)
+        clearTimer()
+
+        timerRef.current = setTimeout(fetchData, autoupdateTime)
+    }, [resource, urlState, autoupdateTime])
+
+    useEffect(() => {
+        if (autoupdateTime && isAutoupdateTurnOn) {
+            fetchData()
+        }
+
+        return () => {
+            clearTimer()
+        }
+    }, [isAutoupdateTurnOn, fetchData])
 
     const onTableChange: TableProps<RecordType>['onChange'] = (pagination, sorter, extra) => {
         if (extra.action === 'paginate') {
@@ -168,34 +210,54 @@ export function DataTable<RecordType extends { id: number | string }>({
     )
 
     const rowSelectionAndTitleConfig = useMemo(() => {
-        const config: {
+        const configuration: {
             title?: TableProps<RecordType>['title']
             rowSelection?: TableProps<RecordType>['rowSelection']
         } = {}
         const hasRowSelectionConfig = typeof rowSelection === 'object'
         const hasTitle = !!title
+        const hasTableAutoupdate = !!config?.autoupdateTime
+        const AutoupdateIcon = hasTableAutoupdate ? (isAutoupdateTurnOn ? FaPause : FaPlay) : null
 
-        if (hasRowSelectionConfig) {
-            config.rowSelection = { selectedRowKeys: selectedKeys, onChange: onSelectionChange }
-            config.title = (data) => {
+        if (hasRowSelectionConfig || hasTableAutoupdate) {
+            configuration.rowSelection = {
+                selectedRowKeys: selectedKeys,
+                onChange: onSelectionChange,
+            }
+            configuration.title = (data) => {
                 const customTitle = title?.(data)
                 const rowSelectionNode = hasRowSelectionConfig
                     ? rowSelection.render(selectedKeys, selectedRows)
                     : null
 
                 return (
-                    <>
-                        {customTitle}
-                        {rowSelectionNode}
-                    </>
+                    <header className={styles.table__header}>
+                        <div>
+                            {customTitle}
+                            {rowSelectionNode ? rowSelectionNode : <></>}
+                        </div>
+                        {AutoupdateIcon ? (
+                            <div className={styles.table__header_autoupdate}>
+                                <p>Autoupdate</p>
+                                <Button
+                                    onClick={toggleTableAutoupdate}
+                                    view="clear"
+                                    size="S"
+                                    iconRight={<AutoupdateIcon />}
+                                />
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+                    </header>
                 )
             }
         } else if (hasTitle) {
-            config.title = title
+            configuration.title = title
         }
 
-        return config
-    }, [rowSelection, title, selectedKeys, selectedRows, onSelectionChange])
+        return configuration
+    }, [rowSelection, title, selectedKeys, selectedRows, onSelectionChange, isAutoupdateTurnOn])
 
     const {
         total: paginationShowTotal = (total: number) => `Total ${total}`,

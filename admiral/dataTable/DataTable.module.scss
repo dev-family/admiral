@@ -1,0 +1,13 @@
+.table {
+    &__header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        &_autoupdate {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+    }
+}

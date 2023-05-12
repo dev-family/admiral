@@ -102,6 +102,7 @@ export const CRUD = createCRUD({
         tableConfig: {
             title: () => 'Custom header here. 8 users, 4 golden users, 2 blocked users.',
             footer: () => 'Custom footer here.',
+            autoupdateTime: 7000,
         },
     },
     filter: {

@@ -10,12 +10,11 @@ _Здесь видео и картинки, влюбляющие в пакет �
 
 -   [ℹ️ About](#ℹ️about)
 -   [✨ Features](#✨-features)
--   [🚨 Какие проблемы решаем](#🚨-Какие-проблемы-решаем)
+-   [🚨 What problems do we solve](#🚨-what-problems-do-we-solve)
 -   [🔨 Installation](#🔨-installation)
 -   [📦 Usage](#📦-usage)
-    -   [📦 Interaction with API](#📦-interaction-with-api)
-        -   [📦 Auth](#auth)
-        -   [📦 CRUD](#crud)
+    -   [📦 Interaction with API](#interaction-with-api)
+    -   [📦 Routing](#routing)
     -   [📦 Menu](#menu)
     -   [📦 Themes](#📦-themes)
     -   [📦 Icons](#📦-icons)
@@ -39,7 +38,7 @@ Admiral - это фронтенд фреймворк для создания а�
 -   👨‍🎨 Потрясающий дизайн: интерфейс библиотеки имеет современный дизайн, который обеспечивает удобство использования.
 -   🎨 Темы оформления: библиотека поддерживает темы оформления, которые позволяют изменять цветовую схему интерфейса.
 
-## 🚨 Какие проблемы решаем
+## 🚨What problems do we solve
 
 Admiral решает ряд проблем, связанных с созданием административных интерфейсов на React. Вот некоторые из этих проблем:
 
@@ -59,11 +58,13 @@ Admiral решает ряд проблем, связанных с создани
 
 ```bash
 npx create-admiral-app
-
-# or
-
-npx create-admiral-app my-app
 ```
+
+Далее следуйте инструкциям в терминале.
+
+Обратите внимание, что вам нужно будет ввести имя вашего проекта и выбрать, необходимо ли вам предустановить backend (Express Server). Подробная инструкция по установке и запуску находится в [Express Server](examples/express-server/README.md).
+
+Все переменные окружения будут настроены автоматически. Если вы хотите настроить их вручную, то перейдите в папку проекта и откройте файл .env.
 
 ### 📦 Использовать один из наших examples
 
@@ -128,6 +129,8 @@ export interface AuthProvider {
 ```
 
 Пример реализации можно посмотреть в [authProvider.ts](src/authProvider.ts).
+Сам интерфейс можно реализовать по своему усмотрению, но важно соблюдать контракт, который он предоставляет.
+Подробное описание контракта можно найти в [AuthProvider](admiral/auth/interfaces.ts).
 
 Разберем основные методы реализации в таблице:
 
@@ -146,29 +149,83 @@ export interface AuthProvider {
 
 ```ts
 export interface DataProvider {
-    getList: (resource: string, params: any) => Promise<any>
-    getOne: (resource: string, params: any) => Promise<any>
-    getMany: (resource: string, params: any) => Promise<any>
-    getManyReference: (resource: string, params: any) => Promise<any>
-    create: (resource: string, params: any) => Promise<any>
-    update: (resource: string, params: any) => Promise<any>
-    updateMany: (resource: string, params: any) => Promise<any>
-    delete: (resource: string, params: any) => Promise<any>
-    deleteMany: (resource: string, params: any) => Promise<any>
+    getList: (
+        resource: string,
+        params: Partial<GetListParams>,
+    ) => Promise<GetListResult<RecordType>>
+    reorderList: (resource: string, params: ReorderParams) => Promise<void>
+    getOne: (resource: string, params: GetOneParams) => Promise<GetOneResult<RecordType>>
+    getCreateFormData: (resource: string) => Promise<GetFormDataResult<RecordType>>
+    getFiltersFormData: (
+        resource: string,
+        urlState?: Record<string, any>,
+    ) => Promise<GetFiltersFormDataResult>
+    create: (resource: string, params: CreateParams) => Promise<CreateResult<RecordType>>
+    getUpdateFormData: (
+        resource: string,
+        params: GetOneParams,
+    ) => Promise<GetFormDataResult<RecordType>>
+    update: (resource: string, params: UpdateParams) => Promise<UpdateResult<RecordType>>
+    deleteOne: (resource: string, params: DeleteParams) => Promise<DeleteResult<RecordType>>
 
     [key: string]: any
 }
 ```
 
+Пример реализации можно посмотреть в [dataProvider.ts](src/dataProvider.ts).
+Подробное описание контракта можно найти в [DataProvider](admiral/dataProvider/interfaces.ts).
+
 Разберем основные методы реализации в таблице:
 
-| Метод   | Название                   | Описание                                                                                                                           | Параметры                                                                                          |
-| ------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| getList | Получение списка сущностей | Делает GET запрос на `/api/${resource}` и возвращает объект с данными, которые будут использоваться в компоненте `List`            | `resource` - название ресурса, `params` - объект с параметрами запроса                             |
-| getOne  | Получение сущности         | Делает GET запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Show`      | `resource` - название ресурса, `id` - идентификатор сущности                                       |
-| create  | Создание сущности          | Делает POST запрос на `/api/${resource}` и возвращает объект с данными, которые будут использоваться в компоненте `Create`         | `resource` - название ресурса, `params` - объект с данными сущности                                |
-| update  | Обновление сущности        | Делает PUT запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Edit`      | `resource` - название ресурса, `id` - идентификатор сущности, `params` - объект с данными сущности |
-| delete  | Удаление сущности          | Делает DELETE запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Delete` | `resource` - название ресурса, `id` - идентификатор сущности                                       |
+| Метод              | Название                                                                | Описание                                                                                                                             | Параметры                                                                                                                    |
+| ------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| getList            | Получение списка сущностей                                              | Делает GET запрос на `/api/${resource}` и возвращает объект с данными, которые будут использоваться в компоненте `List`              | `resource` - название ресурса, `params` - объект с параметрами запроса                                                       |
+| reorderList        | Изменение порядка сущностей                                             | Делает POST запрос на `/api/${resource}/reorder` и возвращает объект с данными, которые будут использоваться в компоненте `List`     | `resource` - название ресурса, `params` - объект с параметрами запроса                                                       |
+| getOne             | Получение сущности                                                      | Делает GET запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Show`        | `resource` - название ресурса, `id` - идентификатор сущности                                                                 |
+| getCreateFormData  | Получение данных для формы создания сущности (Select, AjaxSelect)       | Делает GET запрос на `/api/${resource}/create` и возвращает объект с данными, которые будут использоваться в компоненте `Create`     | `resource` - название ресурса                                                                                                |
+| getFiltersFormData | Получение данных для фильтров                                           | Делает GET запрос на `/api/${resource}/filters` и возвращает объект с данными, которые будут использоваться в компоненте `Filters`   | `resource` - название ресурса, `urlState` - объект с параметрами из url, которые будут использоваться в компоненте `Filters` |
+| create             | Создание сущности                                                       | Делает POST запрос на `/api/${resource}` и возвращает объект с данными, которые будут использоваться в компоненте `Create`           | `resource` - название ресурса, `params` - объект с данными сущности                                                          |
+| getUpdateFormData  | Получение данных для формы редактирования сущности (Select, AjaxSelect) | Делает GET запрос на `/api/${resource}/${id}/update` и возвращает объект с данными, которые будут использоваться в компоненте `Edit` | `resource` - название ресурса, `id` - идентификатор сущности                                                                 |
+| update             | Обновление сущности                                                     | Делает POST запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Edit`       | `resource` - название ресурса, `id` - идентификатор сущности, `params` - объект с данными сущности                           |
+| delete             | Удаление сущности                                                       | Делает DELETE запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Delete`   | `resource` - название ресурса, `id` - идентификатор сущности                                                                 |
+
+#### Pagination
+
+Pagination work with `getList` method. You can pass `page` and `perPage` params to `getList` method, and it will return `PaginationResult` object with `items` and `meta` fields.
+
+#### Filters
+
+Filters work with `getList` method. You can pass `filter[$field]` param to `getList` method, and it will return `PaginationResult` object with `items` and `meta` fields.
+
+#### Sorting
+
+Sorting work with `getList` method. You can pass `sort[$field]` param to `getList` method, and it will return `PaginationResult` object with `items` and `meta` fields.
+
+### Routing
+
+Admiral has a **file-system based** router.
+
+A page is a React Component exported from a .js, .jsx, .ts, or .tsx file in the pages' directory. When a file is added to the pages' directory, it's automatically available as a route.
+[react-router-dom](https://v5.reactrouter.com/web/guides/quick-start) is used under the hood.
+
+#### Index routes
+
+The router will automatically route files named index to the root of the directory.
+
+`pages/index.ts → /`  
+`pages/users/index.ts → /users`
+
+#### Nested routes
+
+The router supports nested files. If you create a nested folder structure, files will automatically be routed in the same way still.
+
+`pages/users/create.ts → /users/create`
+
+#### Dynamic route segments
+
+To match a dynamic segment, you can use the bracket syntax. This allows you to match named parameters.
+
+`pages/users/[id].ts → /users/:id (/users/42)`
 
 ### Menu
 
@@ -195,18 +252,115 @@ export default CustomMenu
 
 Icons used in Admiral are from [React Icons](https://react-icons.github.io/react-icons/).
 
+### Custom theme
+
+ThemeProvider uses [@consta/uikit](https://github.com/consta-design-system/uikit) [Theme component](https://github.com/consta-design-system/uikit/tree/master/src/components/Theme) under the hood.
+
+You can pass your presets to `Admin` component with `themePresets` prop:
+
+```jsx
+import React from 'react'
+import { Admin, createRoutesFrom } from '../admiral'
+import Menu from './config/menu'
+import dataProvider from './dataProvider'
+import authProvider from './authProvider'
+import themeLight from './theme/presets/themeLight'
+import themeDark from './theme/presets/themeDark'
+
+const apiUrl = '/api'
+const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
+
+function App() {
+    return (
+        <Admin
+            dataProvider={dataProvider(apiUrl)}
+            authProvider={authProvider(apiUrl)}
+            menu={Menu}
+            themePresets={{ light: themeLight, dark: themeDark }}
+        >
+            <Routes />
+        </Admin>
+    )
+}
+```
+
+#### To create your own preset:
+
+1. Create a directory for presets. Inside make folders for each modifier - the same as in the [Theme component](https://github.com/dev-family/admiral/tree/master/admiral/theme/presets).
+2. Create CSS files. In the folders with the modifiers put the CSS files that will be responsible for those modifiers.  
+   You will get something similar:
+
+```
+presets/
+  _color/
+    _Theme_color_themeDark.css
+    _Theme_color_themeLight.css
+  _control/
+    _Theme_control_themeLight.css
+  _font/
+    _Theme_font_themeLight.css
+  _size/
+    _Theme_size_themeLight.css
+  _space/
+    _Theme_space_themeLight.css
+  _shadow/
+    _Theme_shadow_themeLight.css
+  themeLight.ts
+  themeDark.ts
+```
+
+3. Configure the variables in CSS files.
+4. Create a preset files (themeLight, themeDark).  
+   Import the CSS files you are going to use.  
+   Create a preset object. Specify which values (i.e. CSS files) for which modifiers to use in the preset. You will get something similar:
+
+```js
+// in presets/themeLight.ts
+import './_color/_Theme_color_themeLight.css'
+import './_color/_Theme_color_themeDark.css'
+import './_control/_Theme_control_themeLight.css'
+import './_font/_Theme_font_themeLight.css'
+import './_size/_Theme_size_themeLight.css'
+import './_space/_Theme_space_themeLight.css'
+import './_shadow/_Theme_shadow_themeLight.css'
+
+export default {
+    color: {
+        primary: 'themeLight',
+        accent: 'themeDark',
+        invert: 'themeDark',
+    },
+    control: 'themeLight',
+    font: 'themeLight',
+    size: 'themeLight',
+    space: 'themeLight',
+    shadow: 'themeLight',
+}
+```
+
+5. Pass your presets to `Admin` component as in the example above.
+
+❗**Note**: postcss plugins are used for color transformation in admiral [presets example](https://github.com/dev-family/admiral/tree/master/admiral/theme/presets). If you want to reproduce, setup [postcss](https://github.com/postcss/postcss) and [postcss-color-mod-function plugin](https://github.com/csstools/postcss-color-mod-function).
+
+## Roadmap
+
+-   [x] Routing
+-   [x] Menu
+-   [x] Icons
+-   [x] Custom theme
+-   [x] OAuth
+-   [ ] Custom login page
+-   [ ] Laravel Example
+-   [ ] Websockets
+
 ## 🤝 Contributing
 
-Если вы хотите внести свой вклад в развитие Admiral, то просто сделайте форк репозитория, внесите свои изменения и отправьте pull request. Мы будем рады рассмотреть ваши предложения!
+Если вы хотите внести свой вклад в развитие Admiral, то просто сделайте Fork репозитория, внесите свои изменения и отправьте pull request. Мы будем рады рассмотреть ваши предложения!
 
 ## ©️ License
 
-Эта библиотека распространяется под лицензией MIT. Подробности можно узнать в файле LICENSE.\_
+Эта библиотека распространяется под лицензией MIT.
 
 ## 📚 Contact
 
 Если у вас есть какие-либо вопросы, пожалуйста, свяжитесь с нами по адресу: <a href="mailto:admiral@dev.family">admiral@dev.family</a>
-
-## 📚 Authors
-
--   **Alexandra Kashina** - _Initial work_ - <a href="https://github.com/alexandrakashina">alexandrakashina</a>

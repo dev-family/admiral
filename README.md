@@ -8,20 +8,22 @@ _Здесь видео и картинки, влюбляющие в пакет �
 
 ## 📖 Table of Contents
 
--   [ℹ️ About](#ℹ️about)
--   [✨ Features](#✨-features)
--   [🚨 What problems do we solve](#🚨-what-problems-do-we-solve)
--   [🔨 Installation](#🔨-installation)
--   [📦 Usage](#📦-usage)
-    -   [📦 Interaction with API](#interaction-with-api)
-    -   [📦 Routing](#routing)
+-   [ℹ️ About](#ℹabout)
+-   [✨ Features](#-features)
+-   [🚨 What problems do we solve](#what-problems-do-we-solve)
+-   [🔨 Installation](#-installation)
+    -   [NPX](#-npx)
+    -   [Использовать один из наших examples](#-использовать-один-из-наших-examples)
+    -   [git clone](#-git-clone)
+-   [📦 Usage](#-usage)
+    -   [📦 Interaction with API](#взаимодействие-с-api)
     -   [📦 Menu](#menu)
-    -   [📦 Themes](#📦-themes)
-    -   [📦 Icons](#📦-icons)
--   [🤝 Contributing](#contributing)
--   [© License](#license)
--   [📚 Contact](#contact)
--   [📚 Authors](#authors)
+    -   [📦 Icons](#icons)
+    -   [📦 Custom Theme](#custom-theme)
+-   [🗺️ Roadmap](#-roadmap)
+-   [🤝 Contributing](#-contributing)
+-   [© License](#-license)
+-   [📚 Contact](#-contact)
 
 ## ℹ️About
 
@@ -73,6 +75,17 @@ npx create-admiral-app
 -   [Express Server](examples/express-server/README.md)
 
 Затем откройте ваш браузер и посетите страницу http://localhost:3000.
+
+### 📦 Git Clone
+
+Да, все верно. Вы просто можете клонировать себе этот репозиторий и ввести следующие команды:
+
+```bash
+yarn
+yarn dev
+```
+
+После этого перейдите по адресу http://localhost:3000 и вам будет доступен Admiral с mock-данными.
 
 ## 📦 Usage
 
@@ -188,6 +201,67 @@ export interface DataProvider {
 | getUpdateFormData  | Получение данных для формы редактирования сущности (Select, AjaxSelect) | Делает GET запрос на `/api/${resource}/${id}/update` и возвращает объект с данными, которые будут использоваться в компоненте `Edit` | `resource` - название ресурса, `id` - идентификатор сущности                                                                 |
 | update             | Обновление сущности                                                     | Делает POST запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Edit`       | `resource` - название ресурса, `id` - идентификатор сущности, `params` - объект с данными сущности                           |
 | delete             | Удаление сущности                                                       | Делает DELETE запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Delete`   | `resource` - название ресурса, `id` - идентификатор сущности                                                                 |
+
+##### getList Query Example [Receive 10 Users per page with filter by id=1]
+
+Query:
+
+```http request
+http://localhost/admin/users?page=1&perPage=10&filter%5Bid%5D=1
+```
+
+Result:
+
+```json
+{
+    "items": [
+        {
+            "id": 1,
+            "name": "Dev family",
+            "email": "info@dev.family",
+            "role": "Administrator",
+            "created_at": "2023-05-05 14:17:51"
+        }
+    ],
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 1,
+        "per_page": 10,
+        "to": 1,
+        "total": 1
+    }
+}
+```
+
+##### getOne Query Example [Receive User where id=1]
+
+Query:
+
+```http request
+http://localhost/admin/users/1/update?id=1
+```
+
+Result:
+
+```json
+{
+    "data": {
+        "id": 1,
+        "name": "Dev family",
+        "email": "info@dev.family",
+        "role_id": 1
+    },
+    "values": {
+        "role_id": [
+            {
+                "label": "Administrator",
+                "value": 1
+            }
+        ]
+    }
+}
+```
 
 #### Pagination
 
@@ -342,7 +416,7 @@ export default {
 
 ❗**Note**: postcss plugins are used for color transformation in admiral [presets example](https://github.com/dev-family/admiral/tree/master/admiral/theme/presets). If you want to reproduce, setup [postcss](https://github.com/postcss/postcss) and [postcss-color-mod-function plugin](https://github.com/csstools/postcss-color-mod-function).
 
-## Roadmap
+## 🗺️ Roadmap
 
 -   [x] Routing
 -   [x] Menu

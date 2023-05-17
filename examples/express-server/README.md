@@ -24,19 +24,32 @@ This is a simple example of how to use Admiral with an Express server.
     ```shell
     yarn install
     ```
-4. **Start Admiral.**
+4. **Setup Database.**
+    ```shell
+    yarn prisma:generate
+    yarn prisma:migrate
+    yarn prisma:seed
+    ```
+5. **Start Express Server.**
+
+    ```shell
+    yarn dev
+    ```
+
+6. **Start Admiral.**
     ```shell
     cd admin
     yarn dev
     ```
-5. **Setup Database.**
-    ```shell
-    yarn prisma:generate
-    yarn prisma:seed
+7. **Enjoy Admiral.**
+
+    Visit http://localhost:3000
+
+    Credentials:
+
     ```
-6. **Start Express Server.**
-    ```shell
-    yarn dev
+    Login: admin@dev.family
+    Password: password
     ```
 
 ## 📝 Notes

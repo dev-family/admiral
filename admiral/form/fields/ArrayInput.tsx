@@ -41,7 +41,6 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
         ...formProps
     } = useForm()
     const locale = { ...enUS.fields.array, ...formLocale.fields.array }
-
     const forms: DataProviderRecord[] = values[name] ?? (required ? [{}] : [])
     const formsErrors = getFormErrorsByIndex(errors, name)
     const formOptions = getFormOptions(options, name)
@@ -108,11 +107,14 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
 
     const handleAdd = () => {
         setValues((values: any) => {
-            const forms: DataProviderRecord[] = values[name] ?? []
-
+            const forms: DataProviderRecord[] = values?.[name] ?? []
             return {
                 ...values,
-                [name]: [...forms, { id: nanoid() }],
+                [name]: [
+                    ...forms,
+                    { id: nanoid() },
+                    ...(!forms.length && required ? [{ id: nanoid() }] : []),
+                ],
             }
         })
     }

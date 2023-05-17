@@ -8,7 +8,7 @@ _Здесь видео и картинки, влюбляющие в пакет �
 
 ## 📖 Table of Contents
 
--   [ℹ️ About](#ℹabout)
+-   [ℹ️ About](#ℹ-about)
 -   [✨ Features](#-features)
 -   [🚨 What problems do we solve](#what-problems-do-we-solve)
 -   [🔨 Installation](#-installation)
@@ -25,7 +25,7 @@ _Здесь видео и картинки, влюбляющие в пакет �
 -   [© License](#-license)
 -   [📚 Contact](#-contact)
 
-## ℹ️About
+## ℹ️ About
 
 Admiral - это фронтенд фреймворк для создания административных интерфейсов на React. Он предоставляет готовые компоненты и инструменты, которые помогают упростить и ускорить процесс разработки административных интерфейсов.
 
@@ -364,53 +364,53 @@ function App() {
 2. Create CSS files. In the folders with the modifiers put the CSS files that will be responsible for those modifiers.  
    You will get something similar:
 
-```
-presets/
-  _color/
-    _Theme_color_themeDark.css
-    _Theme_color_themeLight.css
-  _control/
-    _Theme_control_themeLight.css
-  _font/
-    _Theme_font_themeLight.css
-  _size/
-    _Theme_size_themeLight.css
-  _space/
-    _Theme_space_themeLight.css
-  _shadow/
-    _Theme_shadow_themeLight.css
-  themeLight.ts
-  themeDark.ts
-```
+    ```
+    presets/
+      _color/
+        _Theme_color_themeDark.css
+        _Theme_color_themeLight.css
+      _control/
+        _Theme_control_themeLight.css
+      _font/
+        _Theme_font_themeLight.css
+      _size/
+        _Theme_size_themeLight.css
+      _space/
+        _Theme_space_themeLight.css
+      _shadow/
+        _Theme_shadow_themeLight.css
+      themeLight.ts
+      themeDark.ts
+    ```
 
 3. Configure the variables in CSS files.
 4. Create a preset files (themeLight, themeDark).  
    Import the CSS files you are going to use.  
    Create a preset object. Specify which values (i.e. CSS files) for which modifiers to use in the preset. You will get something similar:
 
-```js
-// in presets/themeLight.ts
-import './_color/_Theme_color_themeLight.css'
-import './_color/_Theme_color_themeDark.css'
-import './_control/_Theme_control_themeLight.css'
-import './_font/_Theme_font_themeLight.css'
-import './_size/_Theme_size_themeLight.css'
-import './_space/_Theme_space_themeLight.css'
-import './_shadow/_Theme_shadow_themeLight.css'
+    ```js
+    // in presets/themeLight.ts
+    import './_color/_Theme_color_themeLight.css'
+    import './_color/_Theme_color_themeDark.css'
+    import './_control/_Theme_control_themeLight.css'
+    import './_font/_Theme_font_themeLight.css'
+    import './_size/_Theme_size_themeLight.css'
+    import './_space/_Theme_space_themeLight.css'
+    import './_shadow/_Theme_shadow_themeLight.css'
 
-export default {
-    color: {
-        primary: 'themeLight',
-        accent: 'themeDark',
-        invert: 'themeDark',
-    },
-    control: 'themeLight',
-    font: 'themeLight',
-    size: 'themeLight',
-    space: 'themeLight',
-    shadow: 'themeLight',
-}
-```
+    export default {
+        color: {
+            primary: 'themeLight',
+            accent: 'themeDark',
+            invert: 'themeDark',
+        },
+        control: 'themeLight',
+        font: 'themeLight',
+        size: 'themeLight',
+        space: 'themeLight',
+        shadow: 'themeLight',
+    }
+    ```
 
 5. Pass your presets to `Admin` component as in the example above.
 

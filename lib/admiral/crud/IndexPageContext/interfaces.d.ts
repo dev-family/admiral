@@ -7,6 +7,7 @@ export declare type CrudIndexUrlState = {
     page_size: string;
     filter: Record<string, any>;
     sort: Record<string, SortOrder>;
+    search: string;
 } & {
     [x: string]: any;
 };

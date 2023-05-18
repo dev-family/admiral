@@ -1,5 +1,6 @@
 import React from 'react';
 import { RcFile, UploadRequestOption as RcCustomRequestOptions, UploadProps as RcUploadProps } from 'rc-upload/lib/interface';
+import { OnDragEndResponder } from 'react-beautiful-dnd';
 export type { RcFile };
 export declare type UploadFileStatus = 'error' | 'removed' | 'uploading';
 export declare type UploadFileError = {
@@ -69,6 +70,7 @@ export interface UploadProps<T = any> extends Pick<RcUploadProps, 'capture'> {
     itemRender?: ItemRender<T>;
     /** Config max count of `fileList`. Will replace current one when `maxCount` is 1 */
     maxCount?: number;
+    isDraggable?: boolean;
 }
 export interface UploadState<T = any> {
     fileList: UploadFile[];
@@ -80,6 +82,7 @@ export interface UploadListProps<T = any> {
     onRemove?: (file: UploadFile) => void | boolean;
     onPreview?: (file: UploadFile) => void | boolean;
     onDownload?: (file: UploadFile) => void;
+    onDragEnd?: OnDragEndResponder;
     items?: Array<UploadFile>;
     showRemoveIcon?: boolean;
     showPreviewIcon?: boolean;
@@ -89,6 +92,7 @@ export interface UploadListProps<T = any> {
     itemRender?: ItemRender<T>;
     previewFile?: PreviewFileHandler;
     appendButton?: React.ReactNode;
+    isDraggable?: boolean;
 }
 export interface ListItemProps {
     locale: UploadLocale;

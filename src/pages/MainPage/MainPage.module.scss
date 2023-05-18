@@ -1,0 +1,49 @@
+@use 'admiral/assets/scss-variables' as *;
+@use 'admiral/assets/mixins' as *;
+
+.page {
+    height: 100%;
+    width: 100%;
+    padding: var(--space-xl);
+    display: flex;
+    align-items: center;
+    color: var(--color-typo-primary);
+
+    @include maxWidth($bp-tablet - 1) {
+        padding: 0;
+    }
+
+    &__container {
+        margin: 0 134px;
+        max-width: 755px;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__title {
+        // font-family: 'Roboto';
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 40px;
+        display: flex;
+        align-items: center;
+        color: #171a22;
+    }
+
+    &__descr {
+        margin: 12px 0 24px;
+        // font-family: 'Roboto';
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #22272b;
+    }
+
+    &__image {
+        margin-top: 90px;
+    }
+}

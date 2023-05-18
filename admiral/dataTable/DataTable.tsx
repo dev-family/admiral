@@ -238,7 +238,7 @@ export function DataTable<RecordType extends { id: number | string }>({
                         </div>
                         {AutoupdateIcon ? (
                             <div className={styles.table__header_autoupdate}>
-                                <p>Autoupdate</p>
+                                <p>Autorefresh</p>
                                 <Button
                                     onClick={toggleTableAutoupdate}
                                     view="clear"

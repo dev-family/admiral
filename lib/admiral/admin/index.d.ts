@@ -8,7 +8,7 @@ import { CRUDLocale } from '../crud/interfaces';
 import { OAuthProvidersEnum } from '../auth/interfaces';
 export declare type AdminProps = {
     menu: ComponentType;
-    menuPopupExtraComponents: ReactNode;
+    menuPopupExtraComponents?: ReactNode;
     logo?: LogoType;
     loginLogo?: LogoType;
     asideContent?: React.ReactNode;

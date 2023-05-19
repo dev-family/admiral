@@ -16,7 +16,7 @@ import { OAuthProvidersEnum } from '../auth/interfaces'
 
 export type AdminProps = {
     menu: ComponentType
-    menuPopupExtraComponents: ReactNode
+    menuPopupExtraComponents?: ReactNode
     logo?: LogoType
     loginLogo?: LogoType
     asideContent?: React.ReactNode

@@ -11,7 +11,7 @@ import styles from '../Layout.module.scss'
 
 interface Props {
     user: UserIdentity | null
-    menuPopupExtraComponents: ReactNode
+    menuPopupExtraComponents?: ReactNode
 }
 
 const LayoutFooter: React.FC<Props> = ({ user, menuPopupExtraComponents }) => {
@@ -25,9 +25,13 @@ const LayoutFooter: React.FC<Props> = ({ user, menuPopupExtraComponents }) => {
                     placement="right"
                     content={
                         <div className={styles.userTooltip}>
-                            <div className={styles.userTooltip__extra}>
-                                {menuPopupExtraComponents ? menuPopupExtraComponents : <></>}
-                            </div>
+                            {menuPopupExtraComponents ? (
+                                <div className={styles.userTooltip__extra}>
+                                    {menuPopupExtraComponents}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
                             <div className={styles.userTooltip__default}>
                                 {user && <Logout />}
                                 <div className={styles.themeSwitch}>

@@ -53,12 +53,14 @@ export const Login: React.FC = () => {
                 <Form submitData={submit}>
                     <Form.Fields singleColumn>
                         <TextInput
+                            autoComplete="on"
                             label={locale.email}
                             name="email"
                             inputMode="email"
                             placeholder={locale.email}
                         />
                         <PasswordInput
+                            autoComplete="on"
                             label={locale.password}
                             name="password"
                             placeholder={locale.password}

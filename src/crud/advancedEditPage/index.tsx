@@ -10,9 +10,10 @@ import {
     FilterButton,
     CreateButton,
     SearchField,
+    Typography,
 } from '../../../admiral'
+import PageTopContent from '../../components/PageTopContent'
 import OrdersLinkField from './OrdersLinkField'
-import PageTopContent from './PageTopContent'
 import StatusField from './StatusField'
 
 export const path = '/advanced-edit-page'
@@ -150,14 +151,14 @@ export const CRUD = createCRUD({
                         required
                         mode="multiple"
                     >
-                        <SelectInput.Option value="admin">Aдминистрация</SelectInput.Option>
+                        <SelectInput.Option value="admin">Administration</SelectInput.Option>
                         <SelectInput.Option value="project_manager">
-                            Проектные менеджеры
+                            Project managers
                         </SelectInput.Option>
                     </SelectInput>
                     <SelectInput label="Role" name="role" placeholder="Choose Role" required>
-                        <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
-                        <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
+                        <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
+                        <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
                     </SelectInput>
                     <FilePictureInput
                         columnSpan={2}
@@ -177,5 +178,33 @@ export const CRUD = createCRUD({
     create: {
         title: 'Create New User',
     },
-    topContent: <PageTopContent />,
+    topContent: (
+        <PageTopContent
+            title="Unlike base crud, here we've expanded the functionality of the table."
+            descr={
+                <>
+                    <Typography.Paragraph>
+                        Now it has select right in it. For example, you can change order status
+                        directly from the table, and we've added a link that leads to the associated
+                        entity.
+                    </Typography.Paragraph>
+                    <Typography.Paragraph>
+                        In this example, we've made a separate view for the edit page, and it's
+                        different from the create page.
+                    </Typography.Paragraph>
+                    <Typography.Paragraph>
+                        On the example edit page, we've added tabs that you can use entirely for
+                        your functionality. As an example, we left the edit form in the first tab.
+                        In the second tab we've output a table which can be used to display related
+                        entities, e.g., the composition of the order in the online store. And in the
+                        third tab we showed that the page is easy to customize and use as you like.
+                    </Typography.Paragraph>
+                </>
+            }
+            link={{
+                href: 'https://github.com/dev-family/admiral/tree/master/src/crud/advancedEditPage ',
+                text: 'Code to implement the page',
+            }}
+        />
+    ),
 })

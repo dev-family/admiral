@@ -36,12 +36,12 @@ export class UserList {
                 { label: 'Воскресенье', value: '7' },
             ],
             group: [
-                { label: 'Aдминистрация', value: 'admin' },
-                { label: 'Проектные менеджеры', value: 'project_manager' },
+                { label: 'Administration', value: 'admin' },
+                { label: 'Project managers', value: 'project_manager' },
             ],
             role: [
-                { label: 'Бухгалтер', value: 'accountant' },
-                { label: 'Кадровик', value: 'recruiter' },
+                { label: 'Accountant', value: 'accountant' },
+                { label: 'HR Officer', value: 'recruiter' },
             ],
         }
     }
@@ -277,8 +277,8 @@ export class UserList {
     private getAllOptions(field: keyof IUser): OptionType[] {
         if (field === 'role') {
             return [
-                { label: 'Бухгалтер', value: 'accountant' },
-                { label: 'Кадровик', value: 'recruiter' },
+                { label: 'Accountant', value: 'accountant' },
+                { label: 'HR Officer', value: 'recruiter' },
                 { label: 'Программист', value: 'programmer' },
                 { label: 'Менеджер', value: 'manager' },
                 { label: 'Уборщик', value: 'janitor' },

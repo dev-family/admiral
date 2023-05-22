@@ -88,7 +88,7 @@ export function Logout() {
             loading={loading}
             onClick={onClick}
         >
-            Выход
+            Exit
         </Button>
     )
 }

@@ -13,9 +13,11 @@ export declare type DataTableProps<RecordType> = {
         };
     }>;
     config?: DataTableConfig<RecordType>;
+    autoupdateTime?: number;
 };
 export interface DataTableConfig<RecordType> extends Pick<TableProps<RecordType>, 'dndRows' | 'showSorterTooltip' | 'bordered' | 'size' | 'title' | 'footer'> {
     rowSelection?: DataTableRowSelectionConfig<RecordType>;
+    autoupdateTime?: number;
 }
 export declare type DataTableRowSelectionConfig<RecordType> = {
     render: (selectedRowKeys: Key[], selectedRows: RecordType[]) => React.ReactNode;
@@ -23,4 +25,4 @@ export declare type DataTableRowSelectionConfig<RecordType> = {
 };
 export declare function DataTable<RecordType extends {
     id: number | string;
-}>({ resource, columns, locale, config, }: DataTableProps<RecordType>): JSX.Element;
+}>({ resource, columns, locale, config, autoupdateTime, }: DataTableProps<RecordType>): JSX.Element;

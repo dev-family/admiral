@@ -31,7 +31,7 @@ export default function CustomInterfacePage() {
                         </>
                     }
                     link={{
-                        href: '#',
+                        href: 'https://github.com/dev-family/admiral/tree/master/src/crud/customInterface',
                         text: 'Code to implement the page',
                     }}
                 />

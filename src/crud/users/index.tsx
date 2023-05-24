@@ -152,26 +152,26 @@ export const UsersCRUD = createCRUD({
                         name="description"
                         onImageUpload={onImageUpload}
                     />
-                    <ArrayInput label="Расписание" name="schedule" required>
+                    <ArrayInput label="Schedule" name="schedule" required>
                         <SelectInput
-                            label="День недели"
+                            label="Day of the week"
                             name="day"
-                            placeholder="День недели"
+                            placeholder="Day of the week"
                             required
                         />
                         <TimePickerInput
-                            label="Время открытия"
+                            label="Opening time"
                             name="start_time"
-                            placeholder="Время открытия"
+                            placeholder="Opening time"
                             format="HH:mm"
                         />
                         <TimePickerInput
-                            label="Время закрытия"
+                            label="Closing time"
                             name="end_time"
-                            placeholder="Время закрытия"
+                            placeholder="Closing time"
                             format="HH:mm"
                         />
-                        <BooleanInput label="Выходной?" name="day_off" />
+                        <BooleanInput label="Day off?" name="day_off" />
                     </ArrayInput>
                     <BooleanInput label="Active?" name="active" />
                 </>
@@ -230,21 +230,25 @@ export const UsersCRUD = createCRUD({
                         name="description"
                         onImageUpload={onImageUpload}
                     />
-                    <ArrayInput label="Расписание" name="schedule" required>
-                        <SelectInput label="День недели" name="day" placeholder="День недели" />
+                    <ArrayInput label="Schedule" name="schedule" required>
+                        <SelectInput
+                            label="Day of the week"
+                            name="day"
+                            placeholder="Day of the week"
+                        />
                         <TimePickerInput
-                            label="Время открытия"
+                            label="Opening time"
                             name="start_time"
-                            placeholder="Время открытия"
+                            placeholder="Opening time"
                             format="HH:mm"
                         />
                         <TimePickerInput
-                            label="Время закрытия"
+                            label="Closing time"
                             name="end_time"
-                            placeholder="Время закрытия"
+                            placeholder="Closing time"
                             format="HH:mm"
                         />
-                        <BooleanInput label="Выходной?" name="day_off" />
+                        <BooleanInput label="Day off?" name="day_off" />
                     </ArrayInput>
                     <BooleanInput label="Active?" name="active" />
                 </>

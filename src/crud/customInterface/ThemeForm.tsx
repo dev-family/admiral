@@ -15,15 +15,15 @@ export default function ThemeForm() {
     return (
         <Spin spinning={isFetching}>
             <div className={styles.block}>
-                <Title level={2}>Базовые цвета</Title>
+                <Title level={2}>Basic colors</Title>
 
                 <div className={styles.settings}>
                     <div>
-                        <Color title="Основной" name="color_typo_primary" />
-                        <Color title="Второстепенный" name="color_typo_secondary" />
-                        <Color title="Акцентный" name="color_typo_alert" />
-                        <Color title="Цвет кнопок" name="color_control_bg_system" />
-                        <Color title="Цвет текста кнопок" name="color_control_typo_system" />
+                        <Color title="Main" name="color_typo_primary" />
+                        <Color title="Secondary" name="color_typo_secondary" />
+                        <Color title="Accent" name="color_typo_alert" />
+                        <Color title="Button color" name="color_control_bg_system" />
+                        <Color title="Button text color" name="color_control_typo_system" />
                     </div>
 
                     <div className={styles.image}>
@@ -41,23 +41,22 @@ export default function ThemeForm() {
             </div>
 
             <div className={styles.block}>
-                <Title level={2}>Настройка компонентов</Title>
+                <Title level={2}>Configuring Components</Title>
                 <div className={styles.childBlock}>
-                    <Title level={3}>Шапка</Title>
+                    <Title level={3}>Header</Title>
                     <div className={styles.settings}>
                         <div>
                             <div className={styles.container}>
                                 <Text strong className={styles.label}>
-                                    Загрузите логотип:
+                                    Upload the logo:
                                 </Text>
                                 <FilePictureInput name="logo" accept="image/*" maxCount={1} />
-                                <TextInput name="logo_text" placeholder="И/или введите текст" />
                             </div>
 
-                            <Color title="Цвет логотипа" name="color_logo" />
-                            <Color title="Цвет шапки" name="color_header" />
-                            <Color title="Цвет кнопок" name="color_header_control_bg" />
-                            <Color title="Цвет текста кнопок" name="color_header_control_typo" />
+                            <Color title="Logo color" name="color_logo" />
+                            <Color title="Header color" name="color_header" />
+                            <Color title="Button color" name="color_header_control_bg" />
+                            <Color title="Button text color" name="color_header_control_typo" />
                         </div>
 
                         <div className={styles.image}>
@@ -84,13 +83,13 @@ export default function ThemeForm() {
                 </div>
 
                 <div className={styles.childBlock}>
-                    <Title level={3}>Всплывающие окна</Title>
+                    <Title level={3}>Modals</Title>
                     <div className={styles.settings}>
                         <div>
-                            <Color title="Цвет шапки" name="color_modal_header_bg" />
-                            <Color title="Цвет текста шапки" name="color_modal_header_typo" />
-                            <Color title="Цвет кнопок" name="color_control_bg_primary" />
-                            <Color title="Цвет текста кнопок" name="color_control_typo_primary" />
+                            <Color title="Header color" name="color_modal_header_bg" />
+                            <Color title="Header text color" name="color_modal_header_typo" />
+                            <Color title="Button color" name="color_control_bg_primary" />
+                            <Color title="Button text color" name="color_control_typo_primary" />
                         </div>
 
                         <div className={styles.image}>
@@ -98,7 +97,6 @@ export default function ThemeForm() {
                                 <ModalImage
                                     headerTypo={values['color_modal_header_typo']}
                                     headerBg={values['color_modal_header_bg']}
-                                    typoPrimary={values['color_typo_primary']}
                                     controlTypoPrimary={values['color_control_typo_primary']}
                                     controlBgPrimary={values['color_control_bg_primary']}
                                 />

@@ -8,6 +8,7 @@ import { tableColumns } from './tableColumns'
 import { filterFields } from './filterFields'
 import { createFields } from './createFields'
 import { editFields } from './editFields'
+import PageTopContent from '../../components/PageTopContent'
 
 export const path = '/crud-with-custom-drawer'
 export const resource = 'users'
@@ -80,20 +81,25 @@ export const CRUD = createCRUD({
         title: (id: string) => `Edit User #${id}`,
         view: 'drawer',
     },
-    topContent: <PageTopContent />,
+    topContent: (
+        <PageTopContent
+            title="In this example, we demonstrate how to create your custom actions, such as your drawer."
+            descr={
+                <>
+                    <Typography.Paragraph>
+                        The most popular use case is entity viewer. So we've created a separate view
+                        action and a completely custom drawer in which we can display any
+                        information.
+                    </Typography.Paragraph>
+                </>
+            }
+            link={{
+                href: 'https://github.com/dev-family/admiral/tree/master/src/crud/customDrawer',
+                text: 'Code to implement the page',
+            }}
+        />
+    ),
 })
-
-function PageTopContent() {
-    return (
-        <Typography>
-            <Typography.Title level={2}>Introduction</Typography.Title>
-            <Typography.Paragraph>
-                Блок текста сначала, где я буду расписывать сценарии и вводное слово, что на этой
-                странице. Все на английском.
-            </Typography.Paragraph>
-        </Typography>
-    )
-}
 
 const useDrawer = (): [boolean, () => void, () => void] => {
     const [visible, setVisible] = useState(false)

@@ -50,14 +50,14 @@ export default function EditPage({ id }: { id: string }) {
                             required
                             mode="multiple"
                         >
-                            <SelectInput.Option value="admin">Aдминистрация</SelectInput.Option>
+                            <SelectInput.Option value="admin">Administration</SelectInput.Option>
                             <SelectInput.Option value="project_manager">
-                                Проектные менеджеры
+                                Project managers
                             </SelectInput.Option>
                         </SelectInput>
                         <SelectInput label="Role" name="role" placeholder="Choose Role" required>
-                            <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
-                            <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
+                            <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
+                            <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
                         </SelectInput>
                         <FilePictureInput
                             columnSpan={2}

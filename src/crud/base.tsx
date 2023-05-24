@@ -1,5 +1,5 @@
 import React from 'react'
-import { FiGift } from 'react-icons/fi'
+import { FiGift, FiInfo } from 'react-icons/fi'
 import {
     createCRUD,
     TopToolbar,
@@ -13,6 +13,7 @@ import {
     Button,
     Typography,
 } from '../../admiral'
+import PageTopContent from '../components/PageTopContent'
 
 export const BaseCRUD = createCRUD({
     path: '/base-crud',
@@ -150,14 +151,14 @@ export const BaseCRUD = createCRUD({
                         required
                         mode="multiple"
                     >
-                        <SelectInput.Option value="admin">Aдминистрация</SelectInput.Option>
+                        <SelectInput.Option value="admin">Administration</SelectInput.Option>
                         <SelectInput.Option value="project_manager">
-                            Проектные менеджеры
+                            Project managers
                         </SelectInput.Option>
                     </SelectInput>
                     <SelectInput label="Role" name="role" placeholder="Choose Role" required>
-                        <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
-                        <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
+                        <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
+                        <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
                     </SelectInput>
                     <FilePictureInput
                         columnSpan={2}
@@ -189,14 +190,14 @@ export const BaseCRUD = createCRUD({
                         required
                         mode="multiple"
                     >
-                        <SelectInput.Option value="admin">Aдминистрация</SelectInput.Option>
+                        <SelectInput.Option value="admin">Administration</SelectInput.Option>
                         <SelectInput.Option value="project_manager">
-                            Проектные менеджеры
+                            Project managers
                         </SelectInput.Option>
                     </SelectInput>
                     <SelectInput label="Role" name="role" placeholder="Choose Role" required>
-                        <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
-                        <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
+                        <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
+                        <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
                     </SelectInput>
                     <FilePictureInput
                         columnSpan={2}
@@ -217,23 +218,41 @@ export const BaseCRUD = createCRUD({
         title: (id: string) => `Edit User #${id}`,
         view: 'drawer',
     },
-    topContent: <PageTopContent />,
+    topContent: (
+        <PageTopContent
+            title="A basic CRUD that is most often used in projects."
+            descr={
+                <>
+                    <Typography.Paragraph>
+                        The table displays data from different types of fields, including images and
+                        pagination.
+                    </Typography.Paragraph>
+                    <Typography.Paragraph>
+                        The table may have an additional description in the header and footer.
+                    </Typography.Paragraph>
+                    <Typography.Paragraph>
+                        Different types of fields are represented in the filter.
+                    </Typography.Paragraph>
+                    <Typography.Paragraph>
+                        It is possible to add a custom button that will perform the action you want,
+                        such as running synchronization, background processes.
+                    </Typography.Paragraph>
+                    <Typography.Paragraph>
+                        The form is represented by the most popular fields.
+                    </Typography.Paragraph>
+                    <Typography.Paragraph>
+                        Entity creation page opens on a separate page.
+                    </Typography.Paragraph>
+                    <Typography.Paragraph>
+                        The edit page opens in the drawer for easy access and has the same set of
+                        fields as the entity creation page.
+                    </Typography.Paragraph>
+                </>
+            }
+            link={{
+                href: 'https://github.com/dev-family/admiral/blob/master/src/crud/base.tsx',
+                text: 'Code to implement the page',
+            }}
+        />
+    ),
 })
-
-function PageTopContent() {
-    return (
-        <Typography>
-            <Typography.Title level={2}>Introduction</Typography.Title>
-            <Typography.Paragraph>
-                Блок текста сначала, где я буду расписывать сценарии и вводное слово, что на этой
-                странице. Все на английском.
-            </Typography.Paragraph>
-            <Typography.Paragraph>
-                Хочу обычную таблицу с{' '}
-                <Typography.Text strong>разными набором полей</Typography.Text> в таблице. Создание
-                открывается в новой странице, редактирование в дровере, в фильтре несколько видов
-                компонентов.
-            </Typography.Paragraph>
-        </Typography>
-    )
-}

@@ -41,15 +41,15 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
         ...formProps
     } = useForm()
     const locale = { ...enUS.fields.array, ...formLocale.fields.array }
-    const forms: DataProviderRecord[] = values[name] ?? (required ? [{}] : [])
+    const forms: DataProviderRecord[] = values?.[name] ?? (required ? [{}] : [])
     const formsErrors = getFormErrorsByIndex(errors, name)
     const formOptions = getFormOptions(options, name)
 
     const createSetValuesFn = useCallback(
         (idx: number) => (param: any) => {
             setValues((values: any) => {
-                const forms: DataProviderRecord[] = values[name] ?? []
-                const form = forms[idx]
+                const forms: DataProviderRecord[] = values?.[name] ?? []
+                const form = forms?.[idx]
 
                 let newState: any
                 if (typeof param === 'function') {
@@ -70,7 +70,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
     const createSetErrorsFn = useCallback(
         (idx: number) => (value: any) => {
             setErrors((errors: any) => {
-                const formErrors = getFormErrorsByIndex(errors, name)[idx] ?? {}
+                const formErrors = getFormErrorsByIndex(errors, name)?.[idx] ?? {}
 
                 let newState: Record<string, string[]>
                 if (typeof value === 'function') {
@@ -95,7 +95,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
     const handleRemove = useCallback(
         (idx: number) => () => {
             setValues((values: any) => {
-                const forms: DataProviderRecord[] = values[name] ?? []
+                const forms: DataProviderRecord[] = values?.[name] ?? []
                 return {
                     ...values,
                     [name]: [...forms.slice(0, idx), ...forms.slice(idx + 1)],

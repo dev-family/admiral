@@ -20,25 +20,25 @@ const onImageUpload = (file: Blob) => {
     return api.editorImageUpload('editorUpload', { file })
 }
 
-export const path = '/crud-users/ru'
+export const path = '/crud-users/es'
 export const resource = 'users'
 
 export const UsersCRUD = createCRUD({
     path,
     resource,
     index: {
-        title: 'Пользователи',
-        newButtonText: 'Создать',
+        title: 'Usuarios',
+        newButtonText: 'Crear',
         tableColumns: [
             {
-                title: 'Фото',
+                title: 'Foto',
                 dataIndex: 'avatar',
                 key: 'avatar',
                 width: 90,
                 render: (value) => <FileField {...value} />,
             },
             {
-                title: 'Имя',
+                title: 'Nombre',
                 dataIndex: 'name',
                 key: 'name',
                 width: 200,
@@ -50,53 +50,53 @@ export const UsersCRUD = createCRUD({
                 key: 'email',
             },
             {
-                title: 'Группа',
+                title: 'Grupo',
                 dataIndex: 'group',
                 key: 'group',
                 render: (value) => (Array.isArray(value) ? value.join(', ') : value),
             },
             {
-                title: 'Роль',
+                title: 'Rol',
                 dataIndex: 'role',
                 key: 'role',
                 width: 150,
                 ellipsis: true,
             },
             {
-                title: 'Активен',
+                title: 'Activo',
                 dataIndex: 'active',
                 key: 'active',
                 width: 150,
-                render: (value) => (value ? 'Да' : 'Нет'),
+                render: (value) => (value ? 'Sí' : 'No'),
             },
         ],
         tableConfig: { dndRows: true },
     },
     filter: {
-        topToolbarButtonText: 'Фильтры',
+        topToolbarButtonText: 'Filtros',
         fields: (
             <>
-                <TextInput label="Имя" name="name" placeholder="Name" />
+                <TextInput label="Nombre" name="name" placeholder="Nombre" />
                 <AjaxSelectInput
-                    label="Должность"
+                    label="Puesto"
                     name="role"
-                    placeholder="Выберите должность"
+                    placeholder="Selecciona un puesto"
                     fetchOptions={(field, query) =>
                         api.getAjaxSelectOptions(resource, field, query)
                     }
                 />
-                <BooleanInput label="Активен?" name="active" />
-                <TimePickerInput label="Время" name="time" placeholder="Время" format="HH:mm" />
-                <DatePickerInput label="Дата" name="date" placeholder="Дата" />
+                <BooleanInput label="Activo?" name="active" />
+                <TimePickerInput label="Hora" name="time" placeholder="Hora" format="HH:mm" />
+                <DatePickerInput label="Fecha" name="date" placeholder="Fecha" />
                 <SelectInput
-                    label="Группа"
+                    label="Grupo"
                     name="group"
-                    placeholder="Выберите группу"
+                    placeholder="Selecciona un grupo"
                     mode="multiple"
                 >
-                    <SelectInput.Option value="admin">Админ</SelectInput.Option>
+                    <SelectInput.Option value="admin">Administrador</SelectInput.Option>
                     <SelectInput.Option value="project_manager">
-                        Менеджер проекта
+                        Gerente de proyecto
                     </SelectInput.Option>
                 </SelectInput>
             </>
@@ -107,165 +107,167 @@ export const UsersCRUD = createCRUD({
             fields: (
                 <>
                     <TextInput label="Id" name="id" placeholder="Id" required />
-                    <TextInput label="Имя" name="name" placeholder="Имя" />
-                    <SlugInput label="Слаг" name="slug" placeholder="Слаг" from="name" />
+                    <TextInput label="Nombre" name="name" placeholder="Nombre" />
+                    <SlugInput label="Slug" name="slug" placeholder="Slug" from="name" />
                     <TextInput label="Email" name="email" placeholder="Email" required />
                     <TextInput
-                        label="Пароль"
+                        label="Contraseña"
                         type="password"
                         name="password"
-                        placeholder="Пароль"
+                        placeholder="Contraseña"
                         required
                     />
                     <SelectInput
-                        label="Группа"
+                        label="Grupo"
                         name="group"
-                        placeholder="Выберите группу"
+                        placeholder="Selecciona un grupo"
                         required
                         mode="multiple"
                     >
-                        <SelectInput.Option value="admin">Administration</SelectInput.Option>
+                        <SelectInput.Option value="admin">Administración</SelectInput.Option>
                         <SelectInput.Option value="project_manager">
-                            Project managers
+                            Gerentes de proyecto
                         </SelectInput.Option>
                     </SelectInput>
                     <SelectInput
-                        label="Должнось"
+                        label="Puesto"
                         name="role"
-                        placeholder="Выберите должность"
+                        placeholder="Selecciona un puesto"
                         required
                     >
-                        <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
-                        <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
+                        <SelectInput.Option value="accountant">Contador</SelectInput.Option>
+                        <SelectInput.Option value="recruiter">
+                            Oficial de Recursos Humanos
+                        </SelectInput.Option>
                     </SelectInput>
                     <FilePictureInput
                         columnSpan={2}
-                        label="Фото"
+                        label="Foto"
                         name="avatar"
                         accept="image/*"
                         maxCount={1}
                     />
                     <DraggerInput
                         columnSpan={2}
-                        label="Изображения"
+                        label="Imágenes"
                         name="images"
                         accept="image/*"
                         multiple
                     />
                     <EditorInput
                         columnSpan={2}
-                        label="Описание"
+                        label="Descripción"
                         name="description"
                         onImageUpload={onImageUpload}
                     />
-                    <ArrayInput label="Schedule" name="schedule" required>
+                    <ArrayInput label="Horario" name="schedule" required>
                         <SelectInput
-                            label="Day of the week"
+                            label="Día de la semana"
                             name="day"
-                            placeholder="Day of the week"
+                            placeholder="Día de la semana"
                             required
                         />
                         <TimePickerInput
-                            label="Opening time"
+                            label="Hora de apertura"
                             name="start_time"
-                            placeholder="Opening time"
+                            placeholder="Hora de apertura"
                             format="HH:mm"
                         />
                         <TimePickerInput
-                            label="Closing time"
+                            label="Hora de cierre"
                             name="end_time"
-                            placeholder="Closing time"
+                            placeholder="Hora de cierre"
                             format="HH:mm"
                         />
-                        <BooleanInput label="Day off?" name="day_off" />
+                        <BooleanInput label="¿Día libre?" name="day_off" />
                     </ArrayInput>
-                    <BooleanInput label="Активен?" name="active" />
+                    <BooleanInput label="Activo?" name="active" />
                 </>
             ),
         },
         edit: {
             fields: (
                 <>
-                    <TextInput label="Имя" name="name" placeholder="Имя" />
-                    <SlugInput label="Слаг" name="slug" placeholder="Слаг" from="name" disabled />
+                    <TextInput label="Nombre" name="name" placeholder="Nombre" />
+                    <SlugInput label="Slug" name="slug" placeholder="Slug" from="name" disabled />
                     <TextInput label="Email" name="email" placeholder="Email" required />
                     <TextInput
-                        label="Password"
+                        label="Contraseña"
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Contraseña"
                         required
                     />
                     <SelectInput
-                        label="Группа"
+                        label="Grupo"
                         name="group"
-                        placeholder="Выберите группу"
+                        placeholder="Selecciona un grupo"
                         required
                         mode="multiple"
                     >
-                        <SelectInput.Option value="admin">Administration</SelectInput.Option>
+                        <SelectInput.Option value="admin">Administración</SelectInput.Option>
                         <SelectInput.Option value="project_manager">
-                            Project managers
+                            Gerentes de proyecto
                         </SelectInput.Option>
                     </SelectInput>
                     <AjaxSelectInput
-                        label="Должность"
+                        label="Puesto"
                         name="role"
-                        placeholder="Выберите должность"
+                        placeholder="Selecciona un puesto"
                         fetchOptions={(field, query) =>
                             api.getAjaxSelectOptions(resource, field, query)
                         }
                     />
                     <FilePictureInput
                         columnSpan={2}
-                        label="Фото"
+                        label="Foto"
                         name="avatar"
                         accept="image/*"
                         maxCount={1}
                     />
                     <DraggerInput
                         columnSpan={2}
-                        label="Изображения"
+                        label="Imágenes"
                         name="images"
                         accept="image/*"
                         multiple
                     />
                     <EditorInput
                         columnSpan={2}
-                        label="Описание"
+                        label="Descripción"
                         name="description"
                         onImageUpload={onImageUpload}
                     />
-                    <ArrayInput label="Schedule" name="schedule" required>
+                    <ArrayInput label="Horario" name="schedule" required>
                         <SelectInput
-                            label="Day of the week"
+                            label="Día de la semana"
                             name="day"
-                            placeholder="Day of the week"
+                            placeholder="Día de la semana"
                         />
                         <TimePickerInput
-                            label="Opening time"
+                            label="Hora de apertura"
                             name="start_time"
-                            placeholder="Opening time"
+                            placeholder="Hora de apertura"
                             format="HH:mm"
                         />
                         <TimePickerInput
-                            label="Closing time"
+                            label="Hora de cierre"
                             name="end_time"
-                            placeholder="Closing time"
+                            placeholder="Hora de cierre"
                             format="HH:mm"
                         />
-                        <BooleanInput label="Day off?" name="day_off" />
+                        <BooleanInput label="¿Día libre?" name="day_off" />
                     </ArrayInput>
-                    <BooleanInput label="Активен?" name="active" />
+                    <BooleanInput label="Activo?" name="active" />
                 </>
             ),
         },
     },
     create: {
-        title: 'Создать нового пользователя',
+        title: 'Crear nuevo usuario',
     },
     update: {
-        title: (id: string) => `Редактировать пользователя #${id}`,
+        title: (id: string) => `Editar usuario #${id}`,
         view: 'drawer',
     },
 })

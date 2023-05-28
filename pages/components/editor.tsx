@@ -61,7 +61,7 @@ export default function EditorPage() {
                     }}
                 />
                 <h2>Locale</h2>
-                <Editor locale="ru" />
+                <Editor locale="en" />
             </div>
         </Page>
     )

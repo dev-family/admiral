@@ -1,2 +1,2 @@
 export * from './enUS';
-export * from './ruRu';
+export * from './esES';

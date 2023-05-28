@@ -11,7 +11,7 @@ export interface BlobInfo {
 declare type ProgressFn = (percent: number) => void;
 export declare type EditorUploadHandler = (blobInfo: BlobInfo, progress: ProgressFn) => Promise<string>;
 export declare type EditorSizeType = 'L' | 'M' | 'S' | 'XS';
-export declare type EditorLocaleType = 'ru' | undefined;
+export declare type EditorLocaleType = 'es' | undefined;
 export interface EditorProps extends Omit<TinyEditorProps, 'onChange' | 'onEditorChange'> {
     height?: number;
     imageUploadUrl?: string;

@@ -1,8 +1,10 @@
-export declare const ruRu: {
+export declare const esEs: {
     filterTitle: string;
     filterConfirm: string;
     filterReset: string;
     filterEmptyText: string;
+    filterCheckall: string;
+    filterSearchPlaceholder: string;
     emptyText: string;
     selectAll: string;
     selectInvert: string;

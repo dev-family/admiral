@@ -4,44 +4,38 @@ This is a simple example of how to use Admiral with an Express server.
 
 ## 🚀 Running the example
 
-1. **Run docker-compose.**
-
-    ```shell
-    docker-compose up
-    ```
-
-2. **Install dependencies for Admiral.**
+1. **Install dependencies for Admiral.**
 
     Navigate into the example’s directory and install it’s dependencies.
 
     ```shell
-    cd admin
+    cd admiral
     yarn install
     yarn build
     ```
 
-3. **Install dependencies for the Express Server.**
+2. **Install dependencies for the Express Server.**
     ```shell
     yarn install
     ```
-4. **Setup Database.**
+3. **Setup Database.**
     ```shell
     yarn prisma:generate
     yarn prisma:migrate
     yarn prisma:seed
     ```
-5. **Start Express Server.**
+4. **Start Express Server.**
 
     ```shell
     yarn dev
     ```
 
-6. **Start Admiral.**
+5. **Start Admiral.**
     ```shell
-    cd admin
+    cd admiral
     yarn dev
     ```
-7. **Enjoy Admiral.**
+6. **Enjoy Admiral.**
 
     Visit http://localhost:3000
 
@@ -59,8 +53,8 @@ This is a simple example of how to use Admiral with an Express server.
 
 ## 🧐 What’s inside?
 
--   `admin/` - Admiral Admin
+-   `admiral/` - Admiral Admin
 -   `src/` - Express Server
--   `prisma/` - Prisma Database
+-   `src/prisma/` - Prisma Database
 -   `package.json` - dependencies and scripts
 -   `tsconfig.json` - TypeScript configuration

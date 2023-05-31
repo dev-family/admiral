@@ -1,17 +1,8 @@
 export default {
     build: process.env.NODE_ENV,
-    prisma: {
-        port: parseInt(process.env.PRISMA_STUDIO_PORT as string, 10),
-    },
     server: {
-        port: 8080,
-        host: 'localhost',
-    },
-    postgresql: {
-        port: parseInt(process.env.POSTGRES_PORT as string, 10),
-        user: process.env.POSTGRES_USER as string,
-        password: process.env.DATABASE_PASSWORD as string,
-        database: process.env.POSTGRES_DB as string,
+        port: parseInt(process.env.PORT as string) || 8080,
+        host: process.env.HOST || 'localhost',
     },
     jwt: {
         secret: 'secret',

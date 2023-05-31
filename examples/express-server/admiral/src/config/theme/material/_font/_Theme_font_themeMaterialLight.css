@@ -1,0 +1,14 @@
+.Theme_font_themeMaterialLight {
+    --font-primary: 'Roboto Flex', 'Roboto', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    //--font-primary: 'Roboto Flex';
+    --font-mono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-family: var(--font-primary);
+}
+
+@font-face {
+    font-family: 'Roboto Flex';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Roboto Flex'), url('RobotoFlex.ttf') format('truetype');
+}

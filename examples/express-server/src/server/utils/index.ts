@@ -2,7 +2,6 @@ import config from '../../config';
 
 const {
     server: { port, host },
-    prisma,
 } = config;
 
 type BaseUriParts = {
@@ -16,9 +15,5 @@ export const buildHttpUri = ({ host, port }: BaseUriParts): string => {
 };
 
 export const setupServer = (): void => {
-    console.log(
-        `🔥Server is started: ${buildHttpUri({ port, host })}.`,
-    );
-
-    console.log(`🛡Prisma Studio available: ${buildHttpUri({ port: prisma.port, host })}`);
+    console.log(`🔥Server is started: ${buildHttpUri({ port, host })}.`);
 };

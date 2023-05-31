@@ -57,7 +57,6 @@ Admiral решает ряд проблем, связанных с создани
 **Требования:**
 
 -   Node.js >14.21.3
--   Docker (для Backend)
 
 Вы можете воспользоваться несколькими способами установки Admiral:
 
@@ -75,13 +74,12 @@ npx create-admiral-app@latest
 -   Install the template without backend.
 
 При выборе варианта "**Install the template with backend on Express.js**", на ваше устройство будет установлен полностью настроенный шаблон с backend на Express.js.
-Перед выбором данного типа установки, убедитесь, что у вас установлен и запущен **Docker**, так как он необходим для поднятия базы данных.
 Подробная инструкция по установке и запуску находится в [Express Server](examples/express-server/README.md).
 Все переменные окружения будут настроены автоматически. Если вы хотите настроить их вручную, то перейдите в папку проекта и откройте файл **.env.**
-У вас со старта будет 3 CRUD - **Users**, **Categories** и **Posts**. Посмотреть их можете по пути - `admin/src/crud/{users/categories/posts}/index.tsx`
+У вас со старта будет 3 CRUD - **Users**, **Categories** и **Posts**. Посмотреть их можете по пути - `admiral/src/crud/{users/categories/posts}/index.tsx`
 
 Если вы выбрали вариант без backend, у вас будет лишь frontend-оболочка Admiral
-в папке admin с одним CRUD - **Users**, который вы можете найти по пути - `admin/src/crud/users/index.tsx`. Позаботьтесь о backend, изучив подробную API документацию - [Interaction with API](#взаимодействие-с-api)
+в папке admiral с одним CRUD - **Users**, который вы можете найти по пути - `admiral/src/crud/users/index.tsx`. Позаботьтесь о backend, изучив подробную API документацию - [Interaction with API](#взаимодействие-с-api)
 
 Admiral будет доступен по адресу http://localhost:3000. В случае, если порт 3000 будет занят - будет выбран любой другой свободный порт.
 

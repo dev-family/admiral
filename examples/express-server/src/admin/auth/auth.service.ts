@@ -1,13 +1,14 @@
 import { jwtManager } from '../../features';
 import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
+import { CustomError } from '../../server/errors/custom.error';
 
 const prisma = new PrismaClient();
 
 const expiresIn = '27d';
 
 export default {
-    async login(data: { email: string, password: string }) {
+    async login(data: { email: string; password: string }) {
         const user = await prisma.user.findUnique({
             where: {
                 email: data.email,
@@ -15,11 +16,11 @@ export default {
         });
 
         if (!user) {
-            throw new Error('User not found');
+            throw new CustomError('Not Found', 404);
         }
 
         if (crypto.createHash('sha256').update(data.password).digest('hex') !== user.password) {
-            throw new Error('Password is incorrect');
+            throw new CustomError('Password is incorrect', 400);
         }
 
         return await jwtManager.generate({ userId: user.id, expiresIn });

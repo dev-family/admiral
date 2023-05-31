@@ -4,7 +4,23 @@ This is a simple example of how to use Admiral with an Express server.
 
 ## 🚀 Running the example
 
-1. **Install dependencies for Admiral.**
+1. **Install dependencies for the Express Server.**
+    ```shell
+    yarn install
+    ```
+2. **Setup Database.**
+    ```shell
+    yarn prisma:generate
+    yarn prisma:migrate
+    yarn prisma:seed
+    ```
+3. **Start Express Server.**
+
+    ```shell
+    yarn dev
+    ```
+
+4. **Install dependencies for Admiral.**
 
     Navigate into the example’s directory and install it’s dependencies.
 
@@ -12,22 +28,6 @@ This is a simple example of how to use Admiral with an Express server.
     cd admiral
     yarn install
     yarn build
-    ```
-
-2. **Install dependencies for the Express Server.**
-    ```shell
-    yarn install
-    ```
-3. **Setup Database.**
-    ```shell
-    yarn prisma:generate
-    yarn prisma:migrate
-    yarn prisma:seed
-    ```
-4. **Start Express Server.**
-
-    ```shell
-    yarn dev
     ```
 
 5. **Start Admiral.**

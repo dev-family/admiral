@@ -49,7 +49,7 @@ This is a simple example of how to use Admiral with an Express server.
 ## 📝 Notes
 
 -   The example uses [Express](https://expressjs.com/) to serve API.
--   The example uses [Prisma](https://www.prisma.io/) to manage the database. You can find the schema in `prisma/schema.prisma`. You can also find the seed data in `prisma/seed.ts`.
+-   The example uses [Prisma](https://www.prisma.io/) to manage the database. You can find the schema in `src/prisma/schema.prisma`. You can also find the seed data in `src/prisma/seed.ts`.
 
 ## 🧐 What’s inside?
 

@@ -19,23 +19,19 @@ This is a simple example of how to use Admiral with an Express server.
     yarn dev
     ```
 
-4. **Install dependencies for Admiral.**
+4. **Install dependencies & start Admiral.**
 
     Navigate into the example’s directory and install its dependencies.
 
     ```shell
     cd admiral
-    yarn install
-    yarn build
+    npm install
+    npm run build
+    cp .env.example .env
+    npm run dev
     ```
 
-5. **Start Admiral.**
-    ```shell
-    cd admiral
-    cp .env.example .env
-    yarn dev
-    ```
-6. **Enjoy Admiral.**
+5. **Enjoy Admiral.**
 
     Visit http://localhost:3000
 

@@ -12,7 +12,6 @@ This is a simple example of how to use Admiral with an Express server.
     ```shell
     yarn prisma:generate
     yarn prisma:migrate dev
-    yarn prisma:seed
     ```
 3. **Start Express Server.**
 
@@ -22,7 +21,7 @@ This is a simple example of how to use Admiral with an Express server.
 
 4. **Install dependencies for Admiral.**
 
-    Navigate into the example’s directory and install it’s dependencies.
+    Navigate into the example’s directory and install its dependencies.
 
     ```shell
     cd admiral
@@ -33,6 +32,7 @@ This is a simple example of how to use Admiral with an Express server.
 5. **Start Admiral.**
     ```shell
     cd admiral
+    cp .env.example .env
     yarn dev
     ```
 6. **Enjoy Admiral.**

@@ -11,7 +11,7 @@ This is a simple example of how to use Admiral with an Express server.
 2. **Setup Database.**
     ```shell
     yarn prisma:generate
-    yarn prisma:migrate
+    yarn prisma:migrate dev
     yarn prisma:seed
     ```
 3. **Start Express Server.**

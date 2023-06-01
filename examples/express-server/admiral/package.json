@@ -5,7 +5,7 @@
         "dev": "vite --host",
         "build": "tsc && vite build",
         "serve": "vite preview",
-        "prepare": "cd ../.. && husky install admin/.husky",
+        "prepare": "cd ../.. && husky install admiral/.husky",
         "prettier:check": "prettier --check .",
         "prettier:write": "prettier --write ."
     },

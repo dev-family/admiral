@@ -25,10 +25,10 @@ This is a simple example of how to use Admiral with an Express server.
 
     ```shell
     cd admiral
-    npm install
-    npm run build
+    yarn install
+    yarn build
     cp .env.example .env
-    npm run dev
+    yarn dev
     ```
 
 5. **Enjoy Admiral.**

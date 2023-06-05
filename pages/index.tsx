@@ -1,8 +1,8 @@
-import { Page } from '../admiral'
 import React from 'react'
+import MainPage from '../src/pages/MainPage'
 
 const Home: React.FC = () => {
-    return <Page title="Главная" />
+    return <MainPage />
 }
 
 export default Home

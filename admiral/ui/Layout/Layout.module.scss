@@ -3,7 +3,7 @@
 
 .wrap {
     --layout-header-height: 70px;
-    --layout-aside-width: 220px;
+    --layout-aside-width: 236px;
 
     display: flex;
     flex-direction: column;
@@ -56,11 +56,12 @@
     flex-shrink: 0;
     width: 100%;
     height: var(--layout-header-height);
-    padding: var(--space-s) var(--space-xl);
+    padding: var(--space-s) var(--space-2xl) var(--space-s) var(--space-m);
     border-bottom: 1px solid var(--color-bg-border);
 
     @include minWidth($bp-tablet) {
         &__Collapsed {
+            padding: var(--space-s) var(--space-m);
             justify-content: center;
 
             .logo {
@@ -101,12 +102,14 @@
     align-items: center;
     flex-shrink: 0;
     height: 100%;
+    width: 100%;
+    max-width: 95px;
     transition: opacity 0.2s, width 0.2s, height 0.2s;
 
     img,
     svg {
         max-height: 100%;
-        width: auto;
+        width: 100%;
     }
 
     &:hover {
@@ -132,7 +135,7 @@
     }
 
     svg {
-        width: 32px;
+        width: 18px;
         height: auto;
     }
 
@@ -256,9 +259,19 @@
 }
 
 .userTooltip {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) max-content;
-    grid-gap: var(--space-s);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &__default {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) max-content;
+        grid-gap: var(--space-s);
+    }
+
+    &__extra {
+        max-width: 300px;
+    }
 }
 
 .themeSwitch {
@@ -268,4 +281,8 @@
     &:only-child {
         grid-column: 1 / -1;
     }
+}
+
+.logout_button {
+    width: 100%;
 }

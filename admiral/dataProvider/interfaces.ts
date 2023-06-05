@@ -78,6 +78,7 @@ export interface GetListParams {
     pagination: PaginationPayload
     sort: SortPayload
     filter: any
+    search: string
 }
 export interface GetListResult<RecordType extends IRecord = IRecord> {
     items: RecordType[]

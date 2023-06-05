@@ -91,8 +91,8 @@
     grid-template-columns: 18px minmax(0, 1fr);
     grid-gap: 0 10px;
     align-items: center;
-    height: 48px;
-    padding: 0 var(--space-xl);
+    height: 52px;
+    padding: 0 var(--space-xl) 4px var(--space-2xl);
     overflow: hidden;
     cursor: pointer;
     user-select: none;
@@ -102,10 +102,10 @@
         content: '';
         position: absolute;
         top: 3px;
-        left: 8px;
+        left: 16px;
         z-index: 0;
-        width: calc(100% - 16px);
-        height: calc(100% - 6px);
+        width: calc(100% - 32px);
+        height: calc(100% - 10px);
         display: block;
         border-radius: var(--control-radius);
         background-color: var(--color-bg-secondary);

@@ -24,6 +24,7 @@ const dataProvider = (apiUrl: string): DataProvider => ({
             perPage,
             sort: params.sort,
             filter: params.filter,
+            search: params.search,
         }
 
         const url = `${apiUrl}/${resource}`

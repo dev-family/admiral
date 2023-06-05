@@ -23,10 +23,14 @@ export const Filters: React.FC<FiltersProps> = ({ locale = enUS, fetchInitialDat
     } = useCrudIndex()
 
     const formRef = useRef<React.ElementRef<typeof Form>>(null)
+    const paramsToFetchInitialData = {
+        ...urlState.filter,
+        ...(urlState.search ? { search: urlState.search } : {}),
+    }
 
     useEffect(() => {
         const fetch = async () => {
-            const options = (await fetchInitialData?.(urlState.filter))?.options ?? {}
+            const options = (await fetchInitialData?.(paramsToFetchInitialData))?.options ?? {}
             setFilterOptions((prev) => ({ ...prev, ...options }))
         }
         fetch()
@@ -43,15 +47,16 @@ export const Filters: React.FC<FiltersProps> = ({ locale = enUS, fetchInitialDat
 
     const onSubmit = useCallback(() => {
         const filters = formRef.current?.values ?? {}
-        setUrlState({ filter: filters, page: undefined })
+        const { search, ...filterValues } = filters
+        setUrlState({ ...urlState, filter: filterValues, search, page: undefined })
         hideDrawer()
     }, [setUrlState, hideDrawer, formRef])
 
     const _fetchInitialData: FormProps['fetchInitialData'] = useCallback(async () => {
-        const options = (await fetchInitialData?.(urlState.filter))?.options ?? {}
+        const options = (await fetchInitialData?.(paramsToFetchInitialData))?.options ?? {}
 
         return {
-            data: { ...urlState.filter },
+            data: paramsToFetchInitialData,
             values: options,
         }
     }, [urlState, fetchInitialData])

@@ -1,0 +1,45 @@
+.section {
+    padding: 13px 18px;
+    background: var(--color-bg-secondary);
+    border-radius: 8px;
+
+    &__header {
+        margin-bottom: 6px;
+        display: flex;
+        align-items: flex-start;
+        gap: 7.42px;
+
+        &_icon {
+            color: var(--color-control-bg-primary);
+
+            &__wrapper {
+                flex-shrink: 0;
+            }
+        }
+    }
+
+    .title {
+        margin: 0;
+    }
+
+    &__descr {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 19px;
+        color: var(--color-typo-primary);
+
+        div {
+            margin: 0;
+        }
+    }
+
+    &__link {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 120%;
+        color: var(--color-control-bg-primary);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+}

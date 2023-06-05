@@ -60,6 +60,7 @@ const Input = forwardRef((props: InputProps, inputRef) => {
             })}
         >
             <input
+                autoComplete="off"
                 {...inputProps}
                 value={fixControlledValue(value)}
                 type={type}

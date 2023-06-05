@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Page, Table } from '../../admiral'
 import type { TableColumnsType, TableProps } from '../../admiral'
-import { ruRu } from '../../admiral/ui/Table/locales'
+import { esEs } from '../../admiral/ui/Table/locales'
 interface IUser {
     key: number
     name: string
@@ -135,7 +135,7 @@ export default function TablePage() {
                     width={150}
                 />
             </Table>
-            <h3>ruRu locale(enUS is default):</h3>
+            <h3>esEs locale(enUS is default):</h3>
             <br />
             <Table
                 dataSource={[]}
@@ -145,7 +145,7 @@ export default function TablePage() {
                 }}
                 sticky
                 bordered
-                locale={ruRu}
+                locale={esEs}
                 onChange={onChange}
                 pagination={{ size: 'small', position: ['bottomCenter'] }}
             />

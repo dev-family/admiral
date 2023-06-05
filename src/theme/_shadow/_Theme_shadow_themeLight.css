@@ -1,0 +1,6 @@
+.Theme_shadow_themeLight {
+    /* Тени */
+    --shadow-group: 0 4px 6px rgba(var(--color-nums-shadow), 0.05);
+    --shadow-layer: 0 5px 10px rgba(var(--color-nums-shadow), 0.1);
+    --shadow-modal: 0 5px 10px rgba(var(--color-nums-shadow), 0.1);
+}

@@ -1,6 +1,6 @@
 {
     "name": "admiral",
-    "version": "0.1.0",
+    "version": "5.3.2",
     "scripts": {
         "dev": "vite --host",
         "build": "tsc && vite build",
@@ -31,12 +31,14 @@
         "@dnd-kit/sortable": "^6.0.1",
         "@tinymce/tinymce-react": "^4.0.0",
         "@tippyjs/react": "^4.2.5",
+        "@types/react-beautiful-dnd": "^13.1.4",
         "ahooks": "^3.3.0",
         "axios": "^0.26.1",
         "classnames": "^2.3.1",
         "date-fns": "^2.28.0",
         "history": "^4.10.1",
         "js-file-download": "^0.4.12",
+        "lodash.debounce": "^4.0.8",
         "lodash.throttle": "^4.1.1",
         "lodash.zipobjectdeep": "^4.4.2",
         "nanoid": "^4.0.0",
@@ -53,6 +55,7 @@
         "rc-upload": "^4.3.3",
         "rc-util": "^5.16.1",
         "react": "^17.0.0",
+        "react-beautiful-dnd": "^13.1.1",
         "react-color": "^2.19.3",
         "react-dom": "^17.0.0",
         "react-icons": "^4.3.1",
@@ -65,6 +68,7 @@
     },
     "devDependencies": {
         "@types/history": "^4.7.11",
+        "@types/lodash.debounce": "^4.0.7",
         "@types/lodash.throttle": "^4.1.6",
         "@types/lodash.zipobjectdeep": "^4.4.3",
         "@types/no-scroll": "^2.1.0",

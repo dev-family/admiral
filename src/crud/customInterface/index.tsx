@@ -4,18 +4,7 @@ import validateColorValues from './validateColorValues'
 import ThemeForm from './ThemeForm'
 import styles from './Theme.module.scss'
 import api from '../../api'
-
-function PageTopContent() {
-    return (
-        <Typography>
-            <Typography.Title level={2}>Introduction</Typography.Title>
-            <Typography.Paragraph>
-                Блок текста сначала, где я буду расписывать сценарии и вводное слово, что на этой
-                странице. Все на английском.
-            </Typography.Paragraph>
-        </Typography>
-    )
-}
+import PageTopContent from '../../components/PageTopContent'
 
 export default function CustomInterfacePage() {
     const fetchInitialData = useCallback(() => {
@@ -28,7 +17,26 @@ export default function CustomInterfacePage() {
     }, [])
 
     return (
-        <Page title="Custom Interface" topContent={<PageTopContent />}>
+        <Page
+            title="Custom Interface"
+            topContent={
+                <PageTopContent
+                    title="With this example, we want to show that the admin panel can be used not only to create CRUDs, but also as a library of ready-made components, in order to implement an absolutely custom interface, without limiting anything."
+                    descr={
+                        <>
+                            <Typography.Paragraph>
+                                In one of our projects, we implemented an interface theme builder.
+                                Here is an example of how we did it.
+                            </Typography.Paragraph>
+                        </>
+                    }
+                    link={{
+                        href: 'https://github.com/dev-family/admiral/tree/master/src/crud/customInterface',
+                        text: 'Code to implement the page',
+                    }}
+                />
+            }
+        >
             <Form submitData={_onSubmit} fetchInitialData={fetchInitialData}>
                 <ThemeForm />
 

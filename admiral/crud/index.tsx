@@ -3,7 +3,7 @@ import { Form, FormProps } from '../form'
 import { Page, Button, Drawer } from '../ui'
 import { FiX, FiSave } from 'react-icons/fi'
 import { useHistory, useLocation } from 'react-router-dom'
-import { CreateButton, BackButton, FilterButton } from '../actions'
+import { CreateButton, BackButton, FilterButton, SearchField } from '../actions'
 import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react'
@@ -100,6 +100,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                         ]}
                         config={config.index.tableConfig}
                         locale={{ table: tableLocale, pagination: paginationLocale }}
+                        autoupdateTime={config.index.tableConfig?.autoupdateTime}
                     />
                     {!!config.filter && (
                         <Filters fetchInitialData={fetchInitialFiltersData} locale={locale.filters}>

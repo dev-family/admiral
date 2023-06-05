@@ -4,7 +4,7 @@ import { Page, TranslatableInput } from '../../admiral'
 
 const languages = [
     { label: 'English', value: 'en' },
-    { label: 'Русский', value: 'ru' },
+    { label: 'Spanish', value: 'spa' },
 ]
 
 const onImageUpload = (file: Blob) => {

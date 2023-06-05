@@ -8,6 +8,7 @@ import {
     BooleanInput,
     Typography,
 } from '../../admiral'
+import PageTopContent from '../components/PageTopContent'
 
 export const CRUD = createCRUD({
     path: '/table-without-actions',
@@ -127,14 +128,14 @@ export const CRUD = createCRUD({
                         required
                         mode="multiple"
                     >
-                        <SelectInput.Option value="admin">Aдминистрация</SelectInput.Option>
+                        <SelectInput.Option value="admin">Administration</SelectInput.Option>
                         <SelectInput.Option value="project_manager">
-                            Проектные менеджеры
+                            Project managers
                         </SelectInput.Option>
                     </SelectInput>
                     <SelectInput label="Role" name="role" placeholder="Choose Role" required>
-                        <SelectInput.Option value="accountant">Бухгалтер</SelectInput.Option>
-                        <SelectInput.Option value="recruiter">Кадровик</SelectInput.Option>
+                        <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
+                        <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
                     </SelectInput>
                     <FilePictureInput
                         columnSpan={2}
@@ -154,17 +155,13 @@ export const CRUD = createCRUD({
     create: {
         title: 'Create New User',
     },
-    topContent: <PageTopContent />,
+    topContent: (
+        <PageTopContent
+            title="An example where we output the data to a table without doing anything to the entities."
+            link={{
+                href: 'https://github.com/dev-family/admiral/blob/master/src/crud/tableWithoutActions.tsx',
+                text: 'Code to implement the page',
+            }}
+        />
+    ),
 })
-
-function PageTopContent() {
-    return (
-        <Typography>
-            <Typography.Title level={2}>Introduction</Typography.Title>
-            <Typography.Paragraph>
-                Блок текста сначала, где я буду расписывать сценарии и вводное слово, что на этой
-                странице. Все на английском.
-            </Typography.Paragraph>
-        </Typography>
-    )
-}

@@ -12,21 +12,21 @@ import {
 import parseISO from 'date-fns/parseISO'
 import isBefore from 'date-fns/isBefore'
 import endOfToday from 'date-fns/endOfToday'
-import CalendarLocale from 'rc-picker/lib/locale/ru_RU'
+import CalendarLocale from 'rc-picker/lib/locale/es_ES'
 
 const locale: PickerLocale = {
     lang: {
-        placeholder: 'Выберите дату',
-        yearPlaceholder: 'Выберите год',
-        quarterPlaceholder: 'Выберите квартал',
-        monthPlaceholder: 'Выберите месяц',
-        weekPlaceholder: 'Выберите неделю',
-        rangePlaceholder: ['Начальная дата', 'Конечная дата'],
-        rangeYearPlaceholder: ['Начальный год', 'Год окончания'],
-        rangeMonthPlaceholder: ['Начальный месяц', 'Конечный месяц'],
-        rangeWeekPlaceholder: ['Начальная неделя', 'Конечная неделя'],
+        placeholder: 'Selecciona una fecha',
+        yearPlaceholder: 'Selecciona un año',
+        quarterPlaceholder: 'Selecciona un trimestre',
+        monthPlaceholder: 'Selecciona un mes',
+        weekPlaceholder: 'Selecciona una semana',
+        rangePlaceholder: ['Fecha de inicio', 'Fecha de fin'],
+        rangeYearPlaceholder: ['Año de inicio', 'Año de fin'],
+        rangeMonthPlaceholder: ['Mes de inicio', 'Mes de fin'],
+        rangeWeekPlaceholder: ['Semana de inicio', 'Semana de fin'],
         ...CalendarLocale,
-        locale: 'ru',
+        locale: 'es',
     },
 }
 

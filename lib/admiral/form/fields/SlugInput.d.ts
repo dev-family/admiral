@@ -5,6 +5,7 @@ import { InputComponentWithName } from '../interfaces';
 export interface SlugInputProps extends InputProps, FormItemProps {
     name: string;
     from: string;
+    slugLang?: string;
     options?: SlygifyOptions;
 }
 export declare type SlygifyOptions = {

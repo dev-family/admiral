@@ -27,21 +27,21 @@ export class UserList {
         this.users = this.init()
         this.options = {
             'schedule.day': [
-                { label: 'Понедельник', value: '1' },
-                { label: 'Вторник', value: '2' },
-                { label: 'Среда', value: '3' },
-                { label: 'Четверг', value: '4' },
-                { label: 'Пятница', value: '5' },
-                { label: 'Суббота', value: '6' },
-                { label: 'Воскресенье', value: '7' },
+                { label: 'Monday', value: '1' },
+                { label: 'Tuesday', value: '2' },
+                { label: 'Wednesday', value: '3' },
+                { label: 'Thursday', value: '4' },
+                { label: 'Friday', value: '5' },
+                { label: 'Saturday', value: '6' },
+                { label: 'Sunday', value: '7' },
             ],
             group: [
-                { label: 'Aдминистрация', value: 'admin' },
-                { label: 'Проектные менеджеры', value: 'project_manager' },
+                { label: 'Administration', value: 'admin' },
+                { label: 'Project managers', value: 'project_manager' },
             ],
             role: [
-                { label: 'Бухгалтер', value: 'accountant' },
-                { label: 'Кадровик', value: 'recruiter' },
+                { label: 'Accountant', value: 'accountant' },
+                { label: 'HR Officer', value: 'recruiter' },
             ],
         }
     }
@@ -63,49 +63,49 @@ export class UserList {
                 schedule: [
                     {
                         id: 1,
-                        day: 'Понедельник',
+                        day: 'Monday',
                         day_off: false,
                         start_time: '2014-02-11T11:30:30',
                         end_time: '2014-02-11T15:30:30',
                     },
                     {
                         id: 2,
-                        day: 'Вторник',
+                        day: 'Tuesday',
                         day_off: false,
                         start_time: '12:00',
                         end_time: '16:00',
                     },
                     {
                         id: 3,
-                        day: 'Среда',
+                        day: 'Wednesday',
                         day_off: false,
                         start_time: '12:00',
                         end_time: '16:00',
                     },
                     {
                         id: 4,
-                        day: 'Четверг',
+                        day: 'Thursday',
                         day_off: false,
                         start_time: '12:00',
                         end_time: '16:00',
                     },
                     {
                         id: 5,
-                        day: 'Пятница',
+                        day: 'Friday',
                         day_off: false,
                         start_time: '12:00',
                         end_time: '16:00',
                     },
                     {
                         id: 6,
-                        day: 'Суббота',
+                        day: 'Saturday',
                         day_off: true,
                         start_time: '12:00',
                         end_time: '16:00',
                     },
                     {
                         id: 7,
-                        day: 'Воскресенье',
+                        day: 'Sunday',
                         day_off: true,
                         start_time: '12:00',
                         end_time: '16:00',
@@ -244,13 +244,17 @@ export class UserList {
         end: number = -1,
         sort: string[] | undefined,
         filter?: Record<keyof IUser, any>,
+        search?: string,
     ) {
         const sortField = sort?.[0] ?? null
         const sortOrder = sort?.[1] ?? null
 
         const sortedUsers = this.sortBy(sortField, sortOrder)
         const filteredUsers = !!filter ? this.filterBy(filter, sortedUsers) : sortedUsers
-        return [filteredUsers.slice(start, end), filteredUsers]
+        const searchedUsers = search
+            ? filteredUsers.filter((user) => user.name.includes(search))
+            : filteredUsers
+        return [searchedUsers.slice(start, end), searchedUsers]
     }
 
     getUserById(id: number | string) {
@@ -273,8 +277,8 @@ export class UserList {
     private getAllOptions(field: keyof IUser): OptionType[] {
         if (field === 'role') {
             return [
-                { label: 'Бухгалтер', value: 'accountant' },
-                { label: 'Кадровик', value: 'recruiter' },
+                { label: 'Accountant', value: 'accountant' },
+                { label: 'HR Officer', value: 'recruiter' },
                 { label: 'Программист', value: 'programmer' },
                 { label: 'Менеджер', value: 'manager' },
                 { label: 'Уборщик', value: 'janitor' },

@@ -13,7 +13,7 @@
 
     &__container {
         margin: 0 134px;
-        max-width: 805px;
+        max-width: 840px;
 
         @include maxWidth($bp-tablet - 1) {
             margin: 0 70px;

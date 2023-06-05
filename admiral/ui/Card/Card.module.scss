@@ -1,7 +1,8 @@
 .card {
     width: var(--card-width, 100%);
-    padding: var(--card-pt, var(--space-m)) var(--card-pr, var(--space-m))
-        var(--card-pb, var(--space-m)) var(--card-pl, var(--space-m));
+    padding: var(--card-pt, var(--space-3xl)) var(--card-pr, var(--space-3xl))
+        var(--card-pb, var(--space-3xl)) var(--card-pl, var(--space-3xl));
+
     border-radius: var(--card-radius, var(--radius-m));
     background: var(--card-bg, var(--color-control-bg-default));
     color: var(--card-color, var(--color-control-typo-default));

@@ -8,8 +8,8 @@ const Card = forwardRef((props: CardProps, cardRef) => {
     const {
         component: Component = 'div',
         className,
-        verticalSpace = 'l',
-        horizontalSpace = 'l',
+        verticalSpace = '3xl',
+        horizontalSpace = '3xl',
         form = 'round',
         shadow = true,
         children,

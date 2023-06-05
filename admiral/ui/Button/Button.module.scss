@@ -12,8 +12,8 @@
     gap: calc(var(--button-gap, var(--control-space-m)) * 0.7);
     width: var(--button-width, fit-content);
     min-height: var(--button-min-height, var(--control-height-m));
-    padding: var(--button-space-top, 0) var(--button-space-right, var(--control-space-m))
-        var(--button-space-bottom, 0) var(--button-space-left, var(--control-space-m));
+    padding: var(--button-space-top, 0) var(--button-space-right, var(--control-space-l))
+        var(--button-space-bottom, 0) var(--button-space-left, var(--control-space-l));
     background: transparent;
     border: none;
     border-radius: var(--control-radius);

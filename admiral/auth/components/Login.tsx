@@ -79,10 +79,5 @@ export const Login: React.FC = () => {
 }
 
 const LogoDefault = ({ themeName }: { themeName: ThemeName }) => {
-    return (
-        <Icon
-            name={themeName === 'light' ? 'dev-family-logo' : 'dev-family-logo-inversion'}
-            width={90}
-        />
-    )
+    return <Icon name={themeName === 'light' ? 'logo-auth' : 'logo-auth-inversion'} width={140} />
 }

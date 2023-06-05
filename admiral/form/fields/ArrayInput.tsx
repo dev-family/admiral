@@ -60,7 +60,11 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
 
                 return {
                     ...values,
-                    [name]: [...forms.slice(0, idx), newState, ...forms.slice(idx + 1)],
+                    [name]: [
+                        ...forms.slice(0, idx),
+                        { ...newState, id: newState.id || nanoid() },
+                        ...forms.slice(idx + 1),
+                    ],
                 }
             })
         },
@@ -108,6 +112,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
     const handleAdd = () => {
         setValues((values: any) => {
             const forms: DataProviderRecord[] = values?.[name] ?? []
+
             return {
                 ...values,
                 [name]: [
@@ -124,7 +129,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
             <ol className={styles.arrayInput}>
                 {forms.map((form, idx) => {
                     const formErrors = formsErrors[idx] ?? {}
-                    const key = form.id || idx
+                    const key = idx
 
                     return (
                         <Form.ChildForm

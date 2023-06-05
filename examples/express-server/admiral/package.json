@@ -7,7 +7,7 @@
         "serve": "vite preview"
     },
     "dependencies": {
-        "admiral": "git+ssh://git@github.com:dev-family/admiral.git#v5.1.0",
+        "admiral": "git+ssh://git@github.com:dev-family/admiral.git#v5.3.2",
         "axios": "^0.26.1",
         "classnames": "^2.3.1",
         "qs": "^6.10.3",

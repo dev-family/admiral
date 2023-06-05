@@ -1,0 +1,42 @@
+.Theme_font_themeLight {
+    --font-primary: 'Inter', 'Helvetica', 'Roboto', 'Segoe UI', -apple-system, BlinkMacSystemFont,
+        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    --font-mono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-family: var(--font-primary);
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter/Inter-Regular.woff2') format('woff2'),
+        url('./Inter/Inter-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter/Inter-Medium.woff2') format('woff2'),
+        url('./Inter/Inter-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter/Inter-SemiBold.woff2') format('woff2'),
+        url('./Inter/Inter-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter/Inter-Bold.woff2') format('woff2'),
+        url('./Inter/Inter-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}

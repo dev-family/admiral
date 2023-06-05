@@ -1,21 +1,31 @@
 import React from 'react'
 import { IconComponentType, IconWrapperProps } from './interfaces'
-import DevFamilyLogo from './DevFamilyLogo'
-import DevFamilyLogoInversion from './DevFamilyLogoInversion'
+import Logo from './Logo'
+import LogoInversion from './LogoInversion'
+import LogoWithSquare from './LogoWithSquare'
+import LogoWithSquareInversion from './LogoWithSquareInversion'
 import DevFamilyLogoInversionBW from './DevFamilyLogoInversionBW'
 import Spinner from './SpinnerIcon'
 
 const Icon = ({ name, ...props }: IconWrapperProps) => {
     let Component: IconComponentType
-    Component = DevFamilyLogo
+    Component = Logo
 
     switch (name) {
         case 'dev-family-logo': {
-            Component = DevFamilyLogo
+            Component = Logo
             break
         }
         case 'dev-family-logo-inversion': {
-            Component = DevFamilyLogoInversion
+            Component = LogoInversion
+            break
+        }
+        case 'logo-auth': {
+            Component = LogoWithSquare
+            break
+        }
+        case 'logo-auth-inversion': {
+            Component = LogoWithSquareInversion
             break
         }
         case 'dev-family-logo-inversion-bw': {

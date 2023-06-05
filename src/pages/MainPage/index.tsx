@@ -12,7 +12,7 @@ const MainPage = () => {
 
     return (
         <div className={styles.page}>
-            <Card className={styles.page__wrapper}>
+            <Card className={styles.page__wrapper} verticalSpace="3xl" horizontalSpace="3xl">
                 <div className={styles.page__container}>
                     <h1 className={styles.page__title}>Welcome to Admiral! &#9996;&#127995;</h1>
                     <h3 className={styles.page__descr}>

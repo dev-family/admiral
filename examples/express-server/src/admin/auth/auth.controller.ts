@@ -1,10 +1,10 @@
 import authService from './auth.service';
-import type { Response, Request } from 'express';
+import type { Response, Request, NextFunction } from 'express';
 import authHttpContext from './auth.http.context';
 import { z } from 'zod';
 
 export default {
-    async login(req: Request, res: Response) {
+    async login(req: Request, res: Response, next: NextFunction) {
         const bodySchema = z.object({
             email: z.string().email(),
             password: z.string(),
@@ -12,9 +12,7 @@ export default {
 
         const data = bodySchema.parse(req.body);
 
-        const token = await authService.login(data).catch(error => {
-            res.status(401).json({ message: 'Invalid Credentials' });
-        });
+        const token = await authService.login(data);
 
         res.json({ token: token });
     },

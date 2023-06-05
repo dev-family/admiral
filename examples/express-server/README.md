@@ -3,57 +3,54 @@
 This is a simple example of how to use Admiral with an Express server.
 
 ## 🚀 Running the example
-0. **Run docker-compose.**
+
+1. **Install dependencies for the Express Server.**
+    ```shell
+    yarn install
+    ```
+2. **Setup Database.**
+    ```shell
+    yarn prisma:generate
+    yarn prisma:migrate dev
+    ```
+3. **Start Express Server.**
 
     ```shell
-    cd examples/express-server
-    docker-compose up
+    yarn dev
     ```
 
-1.  **Install dependencies for Admiral.**
+4. **Install dependencies & start Admiral.**
 
-    Navigate into the example’s directory and install it’s dependencies.
+    Navigate into the example’s directory and install its dependencies.
 
     ```shell
-    cd examples/express-server/admin
+    cd admiral
     yarn install
     yarn build
-    ```
-    
-2. **Install dependencies for the Express Server.**
-    ```shell
-    cd examples/express-server
-    yarn install
-    ```
-   
-3. **Start Admiral.**
-    ```shell
-    cd examples/express-server/admin
+    cp .env.example .env
     yarn dev
     ```
-   
-4. **Setup Database.**
-    ```shell
-    cd examples/express-server
-    yarn prisma:generate
-    yarn prisma:seed
+
+5. **Enjoy Admiral.**
+
+    Visit http://localhost:3000
+
+    Credentials:
+
     ```
-   
-5. **Start Express Server.**
-    ```shell
-    cd examples/express-server
-    yarn dev
+    Login: admin@dev.family
+    Password: password
     ```
 
 ## 📝 Notes
 
 -   The example uses [Express](https://expressjs.com/) to serve API.
--   The example uses [Prisma](https://www.prisma.io/) to manage the database. You can find the schema in `prisma/schema.prisma`. You can also find the seed data in `prisma/seed.ts`.
+-   The example uses [Prisma](https://www.prisma.io/) to manage the database. You can find the schema in `src/prisma/schema.prisma`. You can also find the seed data in `src/prisma/seed.ts`.
 
 ## 🧐 What’s inside?
 
--   `admin/` - Admiral Admin
+-   `admiral/` - Admiral Admin
 -   `src/` - Express Server
--   `prisma/` - Prisma Database
+-   `src/prisma/` - Prisma Database
 -   `package.json` - dependencies and scripts
 -   `tsconfig.json` - TypeScript configuration

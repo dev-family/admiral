@@ -8,7 +8,7 @@
         "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
         "build": "tsc",
         "prisma:generate": "prisma generate",
-        "prisma:seed": "ts-node prisma/seed.ts",
+        "prisma:seed": "ts-node src/prisma/seed.ts",
         "prisma:migrate": "prisma migrate"
     },
     "dependencies": {
@@ -24,6 +24,7 @@
         "jsonwebtoken": "^9.0.0",
         "multer": "^1.4.5-lts.1",
         "passport": "^0.6.0",
+        "sqlite": "^4.2.1",
         "zod": "^3.20.2"
     },
     "devDependencies": {
@@ -35,7 +36,7 @@
         "typescript": "4.9.3"
     },
     "prisma": {
-        "seed": "ts-node prisma/seed.ts",
-        "schema": "prisma/schema.prisma"
+        "seed": "ts-node src/prisma/seed.ts",
+        "schema": "src/prisma/schema.prisma"
     }
 }

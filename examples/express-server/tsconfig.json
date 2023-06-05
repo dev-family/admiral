@@ -7,6 +7,8 @@
             "esnext"
         ],
         "esModuleInterop": true,
-        "typeRoots": ["./node_modules/@types", "./src/types"]
+        "typeRoots": ["./node_modules/@types", "./src/types"],
+        "target": "es2020",
+        "moduleResolution": "Node",
     }
 }

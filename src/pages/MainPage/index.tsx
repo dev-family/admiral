@@ -79,7 +79,13 @@ const MainPage = () => {
                         </li>
                     </ul>
 
-                    <img className={styles.page__image} src={image} alt="Welcome to Admiral!" />
+                    <img
+                        className={styles.page__image}
+                        src={image}
+                        width="569px"
+                        height="284px"
+                        alt="Welcome to Admiral!"
+                    />
                 </div>
             </Card>
         </div>

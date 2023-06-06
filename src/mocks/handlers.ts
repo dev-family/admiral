@@ -117,7 +117,7 @@ export const handlers = [
                 id: '1',
                 fullName: 'Dev Family',
                 email: 'dev.family@websecret.by',
-                avatar: 'https://picsum.photos/200',
+                avatar: 'https://loremflickr.com/200/200',
             }),
         )
     }),
@@ -128,7 +128,7 @@ export const handlers = [
             ctx.delay(160),
             ctx.status(201),
             ctx.json({
-                redirect: `http://localhost:3001/oauth/${provider}`,
+                redirect: `oauth/${provider}`,
             }),
         )
     }),
@@ -145,7 +145,7 @@ export const handlers = [
         return res(
             ctx.delay(160),
             ctx.status(200),
-            ctx.json({ location: 'https://picsum.photos/500' }),
+            ctx.json({ location: 'https://loremflickr.com/500/500' }),
         )
     }),
 ]
@@ -161,7 +161,7 @@ function toObj(data: Record<string, any>): Record<any, any> {
                     size: v.size,
                     type: v.type,
                     uid: v.uid,
-                    url: 'https://picsum.photos/200',
+                    url: 'https://loremflickr.com/200/200',
                 })
             } else {
                 acc[1].push(v)

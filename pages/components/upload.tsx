@@ -42,14 +42,14 @@ export default function UploadPage() {
                 uid: '-1',
                 name: 'test_image.JPG',
                 type: 'image/jpg',
-                url: 'https://picsum.photos/400/600',
+                url: 'https://loremflickr.com/200/200',
             },
             {
                 uid: '1',
                 name: 'test_image.JPG',
                 type: 'image/jpg',
                 status: 'error',
-                url: 'https://picsum.photos/600/400',
+                url: 'https://loremflickr.com/200/200',
             },
         ],
     )

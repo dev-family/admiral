@@ -8,7 +8,7 @@
 </p>
 <h3 align="center">Revolutionize Your Workflow with Admiral: A Powerful Solution for Tailored Admin Panels and Business Applications</h3>
 
-[Try live demo](https://admiral.dev.family/)
+<p align="center"> <a href='https://admiral.dev.family'>Try live demo</a></p>
 
 <p align="center">
   <a href="https://admiral.dev.family">

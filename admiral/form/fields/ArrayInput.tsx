@@ -17,7 +17,7 @@ export interface ArrayInputProps extends FormItemProps {
     disableOrder?: boolean
     disableRemove?: boolean
     disableAdd?: boolean
-    children: React.ReactNode | ((item: any, idx: number) => React.ReactNode)
+    children: React.ReactNode | ((item: DataProviderRecord, idx: number) => React.ReactNode)
 }
 
 export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({

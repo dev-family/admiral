@@ -1,11 +1,22 @@
-<h1 align="center">Admiral</h1>
+<p align="center">
+  <a href="https://admiral.dev.family/#gh-light-mode-only">
+    <img src="https://admiral.dev.family/images/admiral-logo-dark.svg" width="318px" alt="Admiral logo" />
+  </a>
+  <a href="https://admiral.dev.family/#gh-dark-mode-only">
+    <img src="https://admiral.dev.family/images/admiral-logo-light.svg" width="318px" alt="Admiral logo" />
+  </a>
+</p>
 <h3 align="center">Revolutionize Your Workflow with Admiral: A Powerful Solution for Tailored Admin Panels and Business Applications</h3>
 
-[Try live demo](examples/express-server/README.md)
+[Try live demo](https://admiral.dev.family/)
 
-_Здесь видео и картинки, влюбляющие в пакет с первого взгляда_
+<p align="center">
+  <a href="https://admiral.dev.family">
+    <img src="https://admiral.dev.family/images/github-original.png" alt="Admiral Administration panel" />
+  </a>
+</p>
 
-Admiral is a frontend framework for creating administrative interfaces in React. It provides out-of-the-box components and tools that make developing an admin interface easy and fast.
+Admiral is a frontend framework for creating back office in React. It provides out-of-the-box components and tools that make developing an admin interface easy and fast.
 
 Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&utm_medium=admiral&utm_campaign=readme)
 
@@ -71,9 +82,9 @@ If you choose "**Install the template with backend on Express.js**", you will in
 [Detailed installation and startup instructions](examples/express-server/README.md)
 
 All environment variables will be set automatically. If you want to configure them manually, go to the project folder and open the **.env.**
-You will have 3 CRUDs from the start - **Users**, **Categories** и **Posts**. To find them pass the way - `admiral/src/crud/{users/categories/posts}/index.tsx`
+You will have 1 CRUDs from the start - **Users**. To find them pass the way - `admiral/src/crud/users/index.tsx`
 
-If you choose the no backend option, you get just the frontend shell of Admiral in the admiral folder with one CRUD - **Users**. To find it pass the way - `admiral/src/crud/users/index.tsx`. To use your backend, read the [Dicumentation](#взаимодействие-с-api)
+If you choose the no backend option, you get just the frontend shell of Admiral in the admiral folder with CRUD - **Users**. To find it pass the way - `admiral/src/crud/users/index.tsx`. To use your backend, read the [Documentation](#interaction-with-api)
 
 Admiral is available at http://localhost:3000. If port 3000 is busy, any other free port will be selected.
 

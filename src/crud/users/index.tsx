@@ -173,6 +173,7 @@ export const UsersCRUD = createCRUD({
                         />
                         <BooleanInput label="Day off?" name="day_off" />
                     </ArrayInput>
+
                     <BooleanInput label="Active?" name="active" />
                 </>
             ),
@@ -250,6 +251,7 @@ export const UsersCRUD = createCRUD({
                         />
                         <BooleanInput label="Day off?" name="day_off" />
                     </ArrayInput>
+
                     <BooleanInput label="Active?" name="active" />
                 </>
             ),

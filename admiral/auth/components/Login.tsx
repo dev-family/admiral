@@ -11,6 +11,7 @@ import { ThemeName } from '../../theme/interfaces'
 import Icon from '../../assets/icons'
 import { useLocaleProvider } from '../../crud/locale/LocaleContext'
 import OAuthLoginComponent from './OAuthLogin'
+import { formLocale } from '../../form'
 
 export const LoginLayout: React.FC = ({ children }) => <div className={styles.wrap}>{children}</div>
 
@@ -50,7 +51,13 @@ export const Login: React.FC = () => {
                     )}
                 </div>
 
-                <Form submitData={submit}>
+                <Form
+                    submitData={submit}
+                    locale={{
+                        ...formLocale.enUS,
+                        successMessage: 'You are successfully logged in',
+                    }}
+                >
                     <Form.Fields singleColumn>
                         <TextInput
                             autoComplete="on"

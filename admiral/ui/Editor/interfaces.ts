@@ -14,7 +14,7 @@ type ProgressFn = (percent: number) => void
 export type EditorUploadHandler = (blobInfo: BlobInfo, progress: ProgressFn) => Promise<string>
 
 export type EditorSizeType = 'L' | 'M' | 'S' | 'XS'
-export type EditorLocaleType = 'en' | undefined
+export type EditorLocaleType = string | undefined
 
 export interface EditorProps extends Omit<TinyEditorProps, 'onChange' | 'onEditorChange'> {
     height?: number

@@ -17,7 +17,7 @@ export interface ArrayInputProps extends FormItemProps {
     disableOrder?: boolean
     disableRemove?: boolean
     disableAdd?: boolean
-    children: React.ReactNode
+    children: React.ReactNode | ((item: DataProviderRecord, idx: number) => React.ReactNode)
 }
 
 export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
@@ -60,7 +60,11 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
 
                 return {
                     ...values,
-                    [name]: [...forms.slice(0, idx), newState, ...forms.slice(idx + 1)],
+                    [name]: [
+                        ...forms.slice(0, idx),
+                        { ...newState, id: newState.id || nanoid() },
+                        ...forms.slice(idx + 1),
+                    ],
                 }
             })
         },
@@ -108,6 +112,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
     const handleAdd = () => {
         setValues((values: any) => {
             const forms: DataProviderRecord[] = values?.[name] ?? []
+
             return {
                 ...values,
                 [name]: [
@@ -124,7 +129,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
             <ol className={styles.arrayInput}>
                 {forms.map((form, idx) => {
                     const formErrors = formsErrors[idx] ?? {}
-                    const key = form.id || idx
+                    const key = idx
 
                     return (
                         <Form.ChildForm
@@ -162,7 +167,9 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                                     </Button>
                                 )}
                             </div>
-                            <div className={styles.arrayInput_Children}>{children}</div>
+                            <div className={styles.arrayInput_Children}>
+                                {typeof children === 'function' ? children(form, idx) : children}
+                            </div>
                         </Form.ChildForm>
                     )
                 })}

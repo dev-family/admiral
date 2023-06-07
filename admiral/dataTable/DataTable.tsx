@@ -220,10 +220,12 @@ export function DataTable<RecordType extends { id: number | string }>({
         const AutoupdateIcon = hasTableAutoupdate ? (isAutoupdateTurnOn ? FaPause : FaPlay) : null
 
         if (hasRowSelectionConfig || hasTableAutoupdate) {
-            configuration.rowSelection = {
-                selectedRowKeys: selectedKeys,
-                onChange: onSelectionChange,
-            }
+            configuration.rowSelection = hasRowSelectionConfig
+                ? {
+                      selectedRowKeys: selectedKeys,
+                      onChange: onSelectionChange,
+                  }
+                : undefined
             configuration.title = (data) => {
                 const customTitle = title?.(data)
                 const rowSelectionNode = hasRowSelectionConfig

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 import cn from 'classnames'
 import { Tooltip } from '../../Tooltip'
 import { Button } from '../../Button'
@@ -8,6 +8,7 @@ import { ListItemProps } from '../interfaces'
 import styles from '../Upload.module.scss'
 import { useTheme } from '../../../theme'
 import { internalDownloadFile } from '../../../utils/helpers'
+import { UploadFile } from '../interfaces'
 // TODO: show preview with modal
 
 const ListItem = React.forwardRef(
@@ -30,6 +31,11 @@ const ListItem = React.forwardRef(
     ) => {
         const { themeName, themeClassNames } = useTheme()
 
+        const removeFile = (file: UploadFile) => (e: MouseEvent<HTMLButtonElement>) => {
+            e.preventDefault()
+            onClose(file)
+        }
+
         const removeIcon = showRemoveIcon ? (
             <Button
                 view="clear"
@@ -37,7 +43,7 @@ const ListItem = React.forwardRef(
                 type="button"
                 iconLeft={<FiTrash />}
                 title={locale.removeFile}
-                onClick={() => onClose(file)}
+                onClick={removeFile(file)}
                 className={cn(styles.item_ActionButton, {
                     [themeClassNames.color.invert]:
                         listType === 'picture-card' && themeName === 'light',

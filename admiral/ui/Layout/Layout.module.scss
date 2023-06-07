@@ -176,7 +176,6 @@
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     user-select: none;
-    pointer-events: none;
 
     @include maxWidth($bp-tablet - 1) {
         &__Visible {
@@ -187,6 +186,10 @@
 
             .modal_Layout {
                 opacity: 1;
+            }
+
+            .modal_Inner {
+                pointer-events: all;
             }
         }
     }
@@ -210,7 +213,7 @@
     height: 100%;
     overflow-y: auto;
     background-color: var(--color-bg-default);
-    pointer-events: all;
+    pointer-events: none;
 }
 
 .modal_User {

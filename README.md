@@ -58,7 +58,7 @@ Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&u
 
 ## 🔨 Installation
 
-**Требования:**
+**Requirements:**
 
 -   Node.js >14.21.3
 
@@ -77,14 +77,14 @@ When you enter this command into the console, you will see 2 installation option
 -   Install the template with backend on Express.js.
 -   Install the template without backend.
 
-If you choose "**Install the template with backend on Express.js**", you will install the fully customized template with backend on Express.js.
+If you choose "**Install the template with the backend setting on Express.js**", you will install the fully customized template with backend on Express.js.
 
 [Detailed installation and startup instructions](examples/express-server/README.md)
 
 All environment variables will be set automatically. If you want to configure them manually, go to the project folder and open the **.env.**
 You will have 1 CRUDs from the start - **Users**. To find them pass the way - `admiral/src/crud/users/index.tsx`
 
-If you choose the no backend option, you get just the frontend shell of Admiral in the admiral folder with CRUD - **Users**. To find it pass the way - `admiral/src/crud/users/index.tsx`. To use your backend, read the [Documentation](#interaction-with-api)
+If you choose "**Install the template without backend setting**", you get just the frontend shell of Admiral in the admiral folder with CRUD - **Users**. To find it pass the way - `admiral/src/crud/users/index.tsx`. To use your backend, read the [Documentation](#interaction-with-api)
 
 Admiral is available at http://localhost:3000. If port 3000 is busy, any other free port will be selected.
 

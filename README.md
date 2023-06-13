@@ -60,7 +60,7 @@ Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&u
 
 **Requirements:**
 
--   Node.js >14.21.3
+-   Node.js >=v14.21.3 <=20.3.0
 
 There are several options for installing Admiral:
 

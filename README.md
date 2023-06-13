@@ -1,89 +1,100 @@
-<h1 align="center">Admiral</h1>
+<p align="center">
+  <a target='_blank' href="https://admiral.dev.family/#gh-light-mode-only">
+    <img src="https://admiral.dev.family/images/admiral-logo-dark.svg" width="318px" alt="Admiral logo" />
+  </a>
+  <a target='_blank' href="https://admiral.dev.family/#gh-dark-mode-only">
+    <img src="https://admiral.dev.family/images/admiral-logo-light.svg" width="318px" alt="Admiral logo" />
+  </a>
+</p>
+<h3 align="center">Revolutionize Your Workflow with Admiral: A Powerful Solution for Tailored Admin Panels and Business Applications</h3>
 
-## 🖥 Introduction
+<p align="center"> <a target='_blank' href='https://admiral.dev.family'>Try live demo</a></p>
 
-Ниже приведена демонстрация работы админки:
+<br>
 
-_Здесь видео и картинки, влюбляющие в пакет с первого взгляда_
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40admiral_family)](https://twitter.com/admiral_family)
+
+<br>
+
+<p align="center">
+  <a target='_blank' href="https://admiral.dev.family">
+    <img src="https://admiral.dev.family/images/github-original.png" alt="Admiral Administration panel" />
+  </a>
+</p>
+
+Admiral is a frontend framework for creating back office in React. It provides out-of-the-box components and tools that make developing an admin interface easy and fast.
+
+Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&utm_medium=admiral&utm_campaign=readme)
 
 ## 📖 Table of Contents
 
--   [ℹ️ About](#ℹ-about)
 -   [✨ Features](#-features)
 -   [🚨 What problems do we solve](#what-problems-do-we-solve)
 -   [🔨 Installation](#-installation)
     -   [NPX](#-npx)
-    -   [Использовать один из наших examples](#-использовать-один-из-наших-examples)
+    -   [Use one of our examples](#-use-one-of-our-examples)
     -   [git clone](#-git-clone)
 -   [📦 Usage](#-usage)
-    -   [📦 Interaction with API](#взаимодействие-с-api)
+    -   [📦 Interaction with API](#interaction-with-api)
     -   [📦 Menu](#menu)
     -   [📦 Icons](#icons)
     -   [📦 Custom Theme](#custom-theme)
--   [🗺️ Roadmap](#-roadmap)
+-   [🗺️ Roadmap](#%EF%B8%8F-roadmap)
+-   [🏆How can I support the developers?](#-how-can-i-support-the-developers)
 -   [🤝 Contributing](#-contributing)
--   [© License](#-license)
+-   [© License](#%EF%B8%8F-license)
 -   [📚 Contact](#-contact)
-
-## ℹ️ About
-
-Admiral - это фронтенд фреймворк для создания административных интерфейсов на React. Он предоставляет готовые компоненты и инструменты, которые помогают упростить и ускорить процесс разработки административных интерфейсов.
 
 ## ✨ Features
 
-Некоторые из возможностей, предоставляемых Admiral:
-
--   📀 Набор высококачественных компонентов React из коробки.
--   🛡 Написано на TypeScript с встроенными статическими типами.
--   👨‍💻 Адаптивный дизайн: интерфейс библиотеки адаптируется к любому размеру экрана, что обеспечивает удобство использования на мобильных устройствах.
--   🌍 Интернационализация: поддержка разных языков и локализация интерфейса.
--   👨‍🎨 Потрясающий дизайн: интерфейс библиотеки имеет современный дизайн, который обеспечивает удобство использования.
--   🎨 Темы оформления: библиотека поддерживает темы оформления, которые позволяют изменять цветовую схему интерфейса.
+-   📀 Out-of-the-box React components used.
+-   🛡 It is written in TypeScript and has built-in typing.
+-   👨‍💻 Adaptive design: The library interface scales to any screen size. This is convenient when used on mobile devices.
+-   🌍 Localization: we support different languages.
+-   👨‍🎨 An interface that is intuitively easy to work with.
+-   🎨 Different design themes: you can change the color scheme of the interface to suit your needs.
 
 ## 🚨What problems do we solve
 
-Admiral решает ряд проблем, связанных с созданием административных интерфейсов на React. Вот некоторые из этих проблем:
-
--   **Сложность разработки.** Создание административного интерфейса может быть сложной задачей, особенно если вы только начинаете работать с React. Admiral предоставляет готовые компоненты и инструменты, которые помогают упростить этот процесс и ускорить разработку.
--   **Несогласованность дизайна.** Часто разные разработчики создают разные компоненты, что может привести к несогласованности дизайна. Admiral решает эту проблему, предоставляя единый дизайн и стиль для всех компонентов.
--   **Сложность поддержки.** Поддержка административного интерфейса может быть сложной задачей, особенно если вы используете различные библиотеки и компоненты. Admiral решает эту проблему, предоставляя все необходимые компоненты и инструменты в одной библиотеке.
--   **Низкая производительность.** Некоторые административные интерфейсы могут работать медленно и тормозить из-за большого количества запросов к серверу и сложных операций на клиенте. Admiral решает эту проблему, используя современные технологии, такие как React Hooks, Redux и GraphQL, что позволяет достичь высокой производительности и быстрой отзывчивости интерфейса.
--   **CRUD.** Admiral также предоставляет инструменты для быстрого создания CRUD (Create, Read, Update, Delete) интерфейсов. Благодаря готовым компонентам и функциональности, вы можете быстро создавать таблицы с данными, формы для создания и редактирования объектов, а также компоненты для удаления объектов. Мы также подготовили [DEMO](examples/express-server/README.md) для быстрого старта Вашего проекта.
-
-В общем и целом, использование Admiral позволяет упростить и ускорить процесс разработки административных интерфейсов на React, а также повысить их качество и производительность.
+-   **Development complexity.** Development complexity. We have collected ready-made components and tools to simplify and speed up development. Especially for those who are new to React.
+-   **Inconsistent design.** We created a unified design and style for all components so that you don't have any trouble generating new ones.
+-   **Support complexity.** We gathered all the necessary components and tools in one library, so that you don't waste your time looking for them.
+-   **Low performance.** We use modern technologies such as React Hooks, Redux, and GraphQL to achieve high performance and fast responsiveness of the interface. Your admin area will no longer be slowed down by the large number of requests to the server and complex operations on the client.
+-   **CRUD.** We have prepared tools to quickly create CRUD (Create, Read, Update, Delete) interfaces. Generate tables with data, forms for creating and editing objects, and components for deleting objects - in 5 minutes.
 
 ## 🔨 Installation
 
-**Требования:**
+**Requirements:**
 
 -   Node.js >=v14.21.3 <=20.3.0
 
-Вы можете воспользоваться несколькими способами установки Admiral:
+There are several options for installing Admiral:
 
 ### 📦 NPX
 
-_Для использования npx убедитесь, что у вас установлена **Node.js**_
+_To use npx, make sure you have **Node.js**_
 
 ```bash
 npx create-admiral-app@latest
 ```
 
-После ввода данной команды в консоль, вам будет предложено два варианта установки:
+When you enter this command into the console, you will see 2 installation options:
 
 -   Install the template with backend on Express.js.
 -   Install the template without backend.
 
-При выборе варианта "**Install the template with backend on Express.js**", на ваше устройство будет установлен полностью настроенный шаблон с backend на Express.js.
-Подробная инструкция по установке и запуску находится в [Express Server](examples/express-server/README.md).
-Все переменные окружения будут настроены автоматически. Если вы хотите настроить их вручную, то перейдите в папку проекта и откройте файл **.env.**
-У вас со старта будет 3 CRUD - **Users**, **Categories** и **Posts**. Посмотреть их можете по пути - `admiral/src/crud/{users/categories/posts}/index.tsx`
+If you choose "**Install the template with the backend setting on Express.js**", you will install the fully customized template with backend on Express.js.
 
-Если вы выбрали вариант без backend, у вас будет лишь frontend-оболочка Admiral
-в папке admiral с одним CRUD - **Users**, который вы можете найти по пути - `admiral/src/crud/users/index.tsx`. Позаботьтесь о backend, изучив подробную API документацию - [Interaction with API](#взаимодействие-с-api)
+[Detailed installation and startup instructions](examples/express-server/README.md)
 
-Admiral будет доступен по адресу http://localhost:3000. В случае, если порт 3000 будет занят - будет выбран любой другой свободный порт.
+All environment variables will be set automatically. If you want to configure them manually, go to the project folder and open the **.env.**
+You will have 1 CRUDs from the start - **Users**. To find them pass the way - `admiral/src/crud/users/index.tsx`
 
-В консоли будет примерно такое содержимое
+If you choose "**Install the template without backend setting**", you get just the frontend shell of Admiral in the admiral folder with CRUD - **Users**. To find it pass the way - `admiral/src/crud/users/index.tsx`. To use your backend, read the [Documentation](#interaction-with-api)
+
+Admiral is available at http://localhost:3000. If port 3000 is busy, any other free port will be selected.
+
+In the console you will see something like this
 
 ```bash
 Port 3000 is in use, trying another one...
@@ -96,28 +107,28 @@ vite v2.9.15 dev server running at:
 ready in 459ms.
 ```
 
-### 📦 Использовать один из наших examples
+### 📦 Use one of our examples
 
-Подробная инструкция по установке и запуску находится в каждом из примеров.
+Detailed installation and startup instructions are in each of the examples.
 
 -   [Express Server](examples/express-server/README.md)
 
-Затем откройте ваш браузер и посетите страницу http://localhost:3000.
+Open your browser and go to http://localhost:3000.
 
 ### 📦 Git Clone
 
-Да, все верно. Вы просто можете клонировать себе этот репозиторий и ввести следующие команды:
+Yes, that's right. You can just clone this repository and enter the following commands:
 
 ```bash
 yarn
 yarn dev
 ```
 
-После этого перейдите по адресу http://localhost:3000 и вам будет доступен Admiral с mock-данными.
+Then go to http://localhost:3000. The Admiral with mock data is now available to you.
 
 ## 📦 Usage
 
-Файл App.tsx является точкой входа в приложение. В нем происходит инициализация библиотеки и рендеринг компонента `Admin`.
+The App.tsx file is the entry point into the application. It is where the library is initialized and where the components are rendered `Admin`.
 
 ```tsx
 import React from 'react'
@@ -150,11 +161,11 @@ function App() {
 export default App
 ```
 
-### Взаимодействие с API
+### Interaction with API
 
 #### Auth - [AuthProvider](src/authProvider.ts)
 
-Основной контракт для авторизации в системе представляет интерфейс `AuthProvider`.
+The main contract for authorization in the system is the interface `AuthProvider`.
 
 ```ts
 export interface AuthProvider {
@@ -169,24 +180,24 @@ export interface AuthProvider {
 }
 ```
 
-Пример реализации можно посмотреть в [authProvider.ts](src/authProvider.ts).
-Сам интерфейс можно реализовать по своему усмотрению, но важно соблюдать контракт, который он предоставляет.
-Подробное описание контракта можно найти в [AuthProvider](admiral/auth/interfaces.ts).
+[Example of implementation](src/authProvider.ts)
+The interface itself can be customized to your liking, but it is important to respect the contract it provides.
+[Detailed contract description](admiral/auth/interfaces.ts)
 
-Разберем основные методы реализации в таблице:
+Let's look at the basic methods of implementation:
 
-| Метод         | Название                          | Описание                                                                                                                                                | Параметры                                                                                            | Возвращаемое значение                                                          |
-| ------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| login         | Авторизация пользователя          | Делает POST запрос на `/api/login` и сохраняет поле `token` в localStorage, которое используется в дальнейших запросах                                  | `params` - объект с полями `username` и `password`                                                   | Объект с полем `token` и объектом `user`, в котором есть поля `email` и `name` |
-| logout        | Logout пользователя               | Делает POST запрос на `/api/logout` и удаляет поле `token` из localStorage                                                                              |                                                                                                      | `void`                                                                         |
-| checkAuth     | Проверка авторизации пользователя | Делает GET запрос на `/api/checkAuth` и проверяет валидность токена, ожидает код статуса - 200. Используется при каждом использовании API               | Bearer `token`                                                                                       | Status code 200                                                                |
-| getIdentity   | Получение данных пользователя     | Делает GET запрос на `/api/getIdentity` и возвращает объект с данными пользователя                                                                      | Bearer `token`                                                                                       | Объект `user` с полями `email` и `name`                                        |
-| oauthLogin    | Авторизация через OAuth           | Делает GET запрос на `/api/auth/social-login/${provider}` и возвращает объект с полем `redirect`, который используется для редиректа                    | `provider` - OAuth провайдер                                                                         | Объект с полем `redirect`                                                      |
-| oauthCallback | Callback авторизации через OAuth  | Делает POST запрос на `/api/auth/social-login/${provider}/callback` и сохраняет поле `token` в localStorage, который используется в дальнейших запросах | `provider` - OAuth провайдер, `data` - данные, полученные от OAuth провайдера, где есть поле `token` | Объект с полем `token`                                                         |
+| Method        | Name                             | Description                                                                                                                                           | Parameters                                                                                             | Return value                                                                      |
+| ------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| login         | User Authentication              | Makes a POST request to `/api/login` and stores the `token` field in localStorage, which is used in further requests                                  | `params` - object with the fields `username` and `password`                                            | An object with a `token` field and a `user` object with `email` and `name` fields |
+| logout        | User Logout                      | Makes a POST request to `/api/logout` and removes the `token` field from localStorage                                                                 |                                                                                                        | `void`                                                                            |
+| checkAuth     | User authorization check         | Makes a GET request to `/api/checkAuth` and checks token validity, expects a status code - 200. Used every time the API is used                       | Bearer `token`                                                                                         | Status code 200                                                                   |
+| getIdentity   | Receiving user data              | Makes a GET request to `/api/getIdentity` and returns an object with user data                                                                        | Bearer `token`                                                                                         | Object `user` with the fields `email` and `name`                                  |
+| oauthLogin    | Authorization via OAuth          | Makes a GET request to `/api/auth/social-login/${provider}` and returns an object with the `redirect` field, which is used for the redirect           | `provider` - OAuth provider                                                                            | Object with the field `redirect`                                                  |
+| oauthCallback | Callback authorization via OAuth | Makes a POST request to `/api/auth/social-login/${provider}/callback` and stores the `token` field in localStorage, which is used in further requests | `provider` - OAuth provider, `data` - data received from OAuth provider where the `token` field exists | Object with the field `token`                                                     |
 
 #### CRUD [DataProvider](src/dataProvider.ts)
 
-Основной контракт для работы с данными представляет интерфейс `DataProvider`.
+The main contract for working with data represents the interface `DataProvider`.
 
 ```ts
 export interface DataProvider {
@@ -213,22 +224,22 @@ export interface DataProvider {
 }
 ```
 
-Пример реализации можно посмотреть в [dataProvider.ts](src/dataProvider.ts).
-Подробное описание контракта можно найти в [DataProvider](admiral/dataProvider/interfaces.ts).
+[Example of implementation](src/dataProvider.ts)
+[Detailed contract description](admiral/dataProvider/interfaces.ts)
 
-Разберем основные методы реализации в таблице:
+Let's look at the basic methods of implementation:
 
-| Метод              | Название                                                                | Описание                                                                                                                             | Параметры                                                                                                                    |
-| ------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| getList            | Получение списка сущностей                                              | Делает GET запрос на `/api/${resource}` и возвращает объект с данными, которые будут использоваться в компоненте `List`              | `resource` - название ресурса, `params` - объект с параметрами запроса                                                       |
-| reorderList        | Изменение порядка сущностей                                             | Делает POST запрос на `/api/${resource}/reorder` и возвращает объект с данными, которые будут использоваться в компоненте `List`     | `resource` - название ресурса, `params` - объект с параметрами запроса                                                       |
-| getOne             | Получение сущности                                                      | Делает GET запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Show`        | `resource` - название ресурса, `id` - идентификатор сущности                                                                 |
-| getCreateFormData  | Получение данных для формы создания сущности (Select, AjaxSelect)       | Делает GET запрос на `/api/${resource}/create` и возвращает объект с данными, которые будут использоваться в компоненте `Create`     | `resource` - название ресурса                                                                                                |
-| getFiltersFormData | Получение данных для фильтров                                           | Делает GET запрос на `/api/${resource}/filters` и возвращает объект с данными, которые будут использоваться в компоненте `Filters`   | `resource` - название ресурса, `urlState` - объект с параметрами из url, которые будут использоваться в компоненте `Filters` |
-| create             | Создание сущности                                                       | Делает POST запрос на `/api/${resource}` и возвращает объект с данными, которые будут использоваться в компоненте `Create`           | `resource` - название ресурса, `params` - объект с данными сущности                                                          |
-| getUpdateFormData  | Получение данных для формы редактирования сущности (Select, AjaxSelect) | Делает GET запрос на `/api/${resource}/${id}/update` и возвращает объект с данными, которые будут использоваться в компоненте `Edit` | `resource` - название ресурса, `id` - идентификатор сущности                                                                 |
-| update             | Обновление сущности                                                     | Делает POST запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Edit`       | `resource` - название ресурса, `id` - идентификатор сущности, `params` - объект с данными сущности                           |
-| delete             | Удаление сущности                                                       | Делает DELETE запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Delete`   | `resource` - название ресурса, `id` - идентификатор сущности                                                                 |
+| Method             | Name                                                          | Description                                                                                                                        | Parameters                                                                                                         |
+| ------------------ | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| getList            | Getting a list of entities                                    | Makes a GET request to `/api/${resource}` and returns an object with data to be used in the `List` component                       | `resource` - resource name, `params` - object with query parameters                                                |
+| reorderList        | Changing the order of entities                                | Makes a POST request to `/api/${resource}/reorder` and returns an object with data to be used in the `List` component              | `resource` - resource name, `params` - object with query parameters                                                |
+| getOne             | Obtaining an entity                                           | Makes a GET request to `/api/${resource}/${id}` and returns an object with data to be used in the `Show` component                 | `resource` - resource name, `id` - entity identifier                                                               |
+| getCreateFormData  | Getting data for an entity creation form (Select, AjaxSelect) | Makes a GET request to `/api/${resource}/create` and returns an object with data to be used in the `Create` component              | `resource` - resource name                                                                                         |
+| getFiltersFormData | Receiving data for filters                                    | Makes a GET request to `/api/${resource}/filters` and returns an object with data to be used in the `Filters` component            | `resource` - resource name, `urlState` - object with parameters from the url to be used in the component `Filters` |
+| create             | Creating an Entity                                            | Makes a POST request to `/api/${resource}` and returns an object with data to be used in the component `Create`                    | `resource` - resource name, `params` - entity data object                                                          |
+| getUpdateFormData  | Getting data for an entity edit form (Select, AjaxSelect)     | Makes a GET request to `/api/${resource}/${id}/update` and returns an object with data to be used in the component `Edit`          | `resource` - resource name, `id` - entity identifier                                                               |
+| update             | Updating an entity                                            | Makes a POST request to `/api/${resource}/${id}` and returns an object with the data to be used in the component `Edit`            | `resource` - resource name, `id` - entity identifier, `params` - entity data object                                |
+| delete             | Deleting an Entity                                            | Делает DELETE запрос на `/api/${resource}/${id}` и возвращает объект с данными, которые будут использоваться в компоненте `Delete` | `resource` - resource name, `id` - entity identifier                                                               |
 
 ##### getList Query Example [Receive 10 Users per page with filter by id=1]
 
@@ -331,7 +342,7 @@ To match a dynamic segment, you can use the bracket syntax. This allows you to m
 
 ### Menu
 
-Меню представляет собой массив объектов, которые имеют следующую структуру:
+A menu is an array of objects that have the following structure:
 
 ```tsx
 import { Menu, SubMenu, MenuItemLink } from '../../admiral'
@@ -451,18 +462,28 @@ function App() {
 -   [x] Icons
 -   [x] Custom theme
 -   [x] OAuth
+-   [ ] Documentation
 -   [ ] Custom login page
 -   [ ] Laravel Example
 -   [ ] Websockets
 
+## 🏆 How can I support the developers?
+
+-   Star our GitHub repo ⭐
+-   Create pull requests, submit bugs, suggest new features or documentation updates 🔧
+-   Read us on [Medium](https://medium.com/@dev.family)
+-   Follow us on [Twitter](https://twitter.com/dev___family) 🐾
+-   Like our page on [LinkedIn](https://www.linkedin.com/company/dev-family) 👍
+
 ## 🤝 Contributing
 
-Если вы хотите внести свой вклад в развитие Admiral, то просто сделайте Fork репозитория, внесите свои изменения и отправьте pull request. Мы будем рады рассмотреть ваши предложения!
+If you want to participate in the development of Admiral, make a Fork of the repository, make the desired changes and send a pull request. We will be glad to consider your suggestions!
 
 ## ©️ License
 
-Эта библиотека распространяется под лицензией MIT.
+This library is distributed under the MIT license.
 
 ## 📚 Contact
 
-Если у вас есть какие-либо вопросы, пожалуйста, свяжитесь с нами по адресу: <a href="mailto:admiral@dev.family">admiral@dev.family</a>
+If you have any questions, please contact us at: <a href="mailto:admiral@dev.family">admiral@dev.family</a>
+We're always happy to receive your feedback!

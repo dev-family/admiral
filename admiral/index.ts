@@ -55,6 +55,8 @@ export * from './actions'
 export * from './admin'
 
 export { useDataProvider } from './dataProvider'
+export { useNav } from './navigation/NavContext'
+
 export * from './dataProvider/interfaces'
 
 export { useGetIdentity } from './auth'

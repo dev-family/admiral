@@ -10,6 +10,12 @@
 
 <p align="center"> <a target='_blank' href='https://admiral.dev.family'>Try live demo</a></p>
 
+<br>
+
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40admiral_family)](https://twitter.com/admiral_family)
+
+<br>
+
 <p align="center">
   <a target='_blank' href="https://admiral.dev.family">
     <img src="https://admiral.dev.family/images/github-original.png" alt="Admiral Administration panel" />

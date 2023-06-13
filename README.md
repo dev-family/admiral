@@ -33,10 +33,10 @@ Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&u
     -   [📦 Menu](#menu)
     -   [📦 Icons](#icons)
     -   [📦 Custom Theme](#custom-theme)
--   [🗺️ Roadmap](#-roadmap)
+-   [🗺️ Roadmap](#%EF%B8%8F-roadmap)
 -   [🏆How can I support the developers?](#-how-can-i-support-the-developers)
 -   [🤝 Contributing](#-contributing)
--   [© License](#-license)
+-   [© License](#%EF%B8%8F-license)
 -   [📚 Contact](#-contact)
 
 ## ✨ Features
@@ -456,6 +456,7 @@ function App() {
 -   [x] Icons
 -   [x] Custom theme
 -   [x] OAuth
+-   [ ] Documentation
 -   [ ] Custom login page
 -   [ ] Laravel Example
 -   [ ] Websockets

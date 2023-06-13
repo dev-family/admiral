@@ -12,7 +12,20 @@
 
 <br>
 
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40admiral_family)](https://twitter.com/admiral_family)
+<p align="center">
+  <a href="https://twitter.com/admiral_family">
+    <img src="https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40admiral_family" alt="Twitter" />
+  </a>
+  <a href="https://www.npmjs.com/package/@devfamily/admiral">
+    <img src="https://img.shields.io/npm/dt/@devfamily/admiral.svg?color=643add&labelColor=86ce2c" alt="Downloads" />
+  </a>
+  <a href="https://www.npmjs.com/package/@devfamily/admiral">
+    <img src="https://img.shields.io/npm/v/@devfamily/admiral.svg?color=643add&labelColor=86ce2c" alt="Version" />
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/npm/l/@devfamily/admiral.svg?color=643add&labelColor=86ce2c" alt="License" />
+  </a>
+</p>
 
 <br>
 

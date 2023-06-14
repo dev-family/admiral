@@ -1,9 +1,6 @@
 <p align="center">
-  <a target='_blank' href="https://admiral.dev.family/#gh-light-mode-only">
-    <img src="https://admiral.dev.family/images/admiral-logo-dark.svg" width="318px" alt="Admiral logo" />
-  </a>
-  <a target='_blank' href="https://admiral.dev.family/#gh-dark-mode-only">
-    <img src="https://admiral.dev.family/images/admiral-logo-light.svg" width="318px" alt="Admiral logo" />
+  <a target='_blank' href="https://admiral.dev.family">
+    <img src="https://admiral.dev.family/images/admiral-logo-npm.svg" width="318px" alt="Admiral logo" />
   </a>
 </p>
 <h3 align="center">Revolutionize Your Workflow with Admiral: A Powerful Solution for Tailored Admin Panels and Business Applications</h3>

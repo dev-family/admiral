@@ -171,6 +171,8 @@ function App() {
 export default App
 ```
 
+<br>
+
 ### Interaction with API
 
 #### Auth - [AuthProvider](src/authProvider.ts)
@@ -350,6 +352,8 @@ To match a dynamic segment, you can use the bracket syntax. This allows you to m
 
 `pages/users/[id].ts → /users/:id (/users/42)`
 
+<br>
+
 ### Menu
 
 A menu is an array of objects that have the following structure:
@@ -370,6 +374,85 @@ const CustomMenu = () => {
 
 export default CustomMenu
 ```
+
+<br>
+
+### Hooks
+
+Our application uses React hooks. You can use them from anywhere in the application inside the React components.
+These are the hooks you can use:
+
+#### useNav
+
+This hook allows you to receive and manage the status of the navigation bar
+
+```tsx
+import { useNav } from '@devfamily/admiral'
+const { collapsed, toggleCollapsed, visible, toggle, open, close } = useNav()
+```
+
+-   collapsed - a variable containing the state of the navigation panel (collapsed or not)
+-   toggleCollapsed - a method that allows you to control the state of the navigation panel.
+-   visible - a variable containing the state of the burger menu (open-closed).
+-   toggle - a method that allows you to manage the state of the burger menu (opening-closing).
+-   open - a method that allows you to open the burger menu.
+-   close - a method that allows you to close the burger menu.
+
+#### useForm
+
+This hook allows you to get form values and manage the state of the form. The hook can be used in components used in "form" inside the configuration of the createCRUD function.
+
+```tsx
+import { useForm } from '@devfamily/admiral'
+const {
+    values,
+    options,
+    errors,
+    setErrors,
+    setValues,
+    setOptions,
+    isSubmitting,
+    isFetching,
+    locale,
+} = useForm()
+```
+
+-   options - options, which are returned from the server for this form.
+-   errors - errors, which are returned from the server when initializing the form, or when submitting the form.
+-   setErrors - a method for recording the errors.
+-   setValues - a method for recording the values.
+-   setOptions - a method for recording the options.
+-   isSubmitting - form submitting status.
+-   isFetching - form initialization status.
+-   locale - localization configuration for the form.
+
+#### useTheme
+
+This hook allows you to receive and manage the state of theme.
+
+```tsx
+import { useTheme } from '@devfamily/admiral'
+const { themeName, setTheme } = useTheme()
+```
+
+-   themeName - name of the active theme.
+-   setTheme - a method to change the theme, you need to pass argument name as 'dark' or 'light.
+
+#### useGetIdentty
+
+A hook that allows you to get the state obtained by calling AuthProvider.getIdentity()
+
+```tsx
+import { useGetIdentty } from '@devfamily/admiral'
+const { identity, loading, loaded, error } = useGetIdentty()
+```
+
+-   identity - a variable containing the state.
+-   loading - a state initialization status.
+-   loaded - a variable that indicates that the state has been initialized.
+-   error - a object of errors.
+
+<br>
 
 ### Icons
 

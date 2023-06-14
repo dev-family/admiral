@@ -47,6 +47,7 @@ Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&u
 -   [📦 Usage](#-usage)
     -   [📦 Interaction with API](#interaction-with-api)
     -   [📦 Menu](#menu)
+    -   [📦 Hooks](#hooks)
     -   [📦 Icons](#icons)
     -   [📦 Custom Theme](#custom-theme)
 -   [🗺️ Roadmap](#%EF%B8%8F-roadmap)

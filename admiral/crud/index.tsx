@@ -119,6 +119,23 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
         const locale = useLocaleProvider()
         const title = config.create?.title ?? 'Create'
 
+        const actionsLocale = locale.actions
+
+        const {
+            path,
+            form: {
+                create: { fields, children },
+            },
+        } = config
+
+        if (config.form.create.fields && config.form.create.children) {
+            console.error('Please provide "form.create.fields" or "form.create.children"')
+        }
+
+        if (!config.form.create.fields && !config.form.create.children) {
+            console.error('Please provide "form.create.fields" or "form.create.children"')
+        }
+
         if (!!config.form.create.fields && !config.create?.title) {
             console.error('Please provide "create.title"')
         }
@@ -133,7 +150,20 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             return create(config.resource, { data: values })
         }, [])
 
-        const actionsLocale = locale.actions
+        const pageFormChildren = useMemo(() => {
+            return children ? (
+                children
+            ) : (
+                <>
+                    <Form.Fields>{fields}</Form.Fields>
+
+                    <Form.Footer>
+                        <BackButton basePath={path}>{actionsLocale.back}</BackButton>
+                        <Form.Submit>{actionsLocale.submit}</Form.Submit>
+                    </Form.Footer>
+                </>
+            )
+        }, [children, fields, path, actionsLocale])
 
         return (
             <Page title={title}>
@@ -143,12 +173,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     fetchInitialData={fetchInitialData}
                     locale={locale.form}
                 >
-                    <Form.Fields>{config.form.create.fields}</Form.Fields>
-
-                    <Form.Footer>
-                        <BackButton basePath={config.path}>{actionsLocale.back}</BackButton>
-                        <Form.Submit>{actionsLocale.submit}</Form.Submit>
-                    </Form.Footer>
+                    {pageFormChildren}
                 </Form>
             </Page>
         )
@@ -173,14 +198,37 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
         const {
             path,
             form: {
-                edit: { fields },
+                edit: { fields, children },
             },
         } = config
         const { title = (id: string) => `Update #${id}`, view = 'page' } = config.update || {}
 
-        if (!!config.form.create.fields && !config.update?.title) {
+        if (config.form.edit.fields && config.form.edit.children) {
+            console.error('Please provide "form.edit.fields" or "form.edit.children"')
+        }
+
+        if (!config.form.edit.fields && !config.form.edit.children) {
+            console.error('Please provide "form.edit.fields" or "form.edit.children"')
+        }
+
+        if (!!config.form.edit.fields && !config.update?.title) {
             console.error('Please provide "update.title"')
         }
+
+        const pageFormChildren = useMemo(() => {
+            return children ? (
+                children
+            ) : (
+                <>
+                    <Form.Fields>{fields}</Form.Fields>
+
+                    <Form.Footer>
+                        <BackButton basePath={path}>{actionsLocale.back}</BackButton>
+                        <Form.Submit>{actionsLocale.submit}</Form.Submit>
+                    </Form.Footer>
+                </>
+            )
+        }, [children, fields, path, actionsLocale])
 
         const { state } = useLocation<RouterLocationState>()
         const background = state && state.background
@@ -200,12 +248,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     fetchInitialData={fetchInitialData}
                     locale={locale.form}
                 >
-                    <Form.Fields>{fields}</Form.Fields>
-
-                    <Form.Footer>
-                        <BackButton basePath={path}>{actionsLocale.back}</BackButton>
-                        <Form.Submit>{actionsLocale.submit}</Form.Submit>
-                    </Form.Footer>
+                    {pageFormChildren}
                 </Form>
             </Page>
         )
@@ -242,7 +285,7 @@ function UpdateDrawer<RecordType>({
     const {
         path,
         form: {
-            edit: { fields },
+            edit: { fields, children },
         },
     } = config
     const { drawer } = config.update || {}
@@ -269,6 +312,24 @@ function UpdateDrawer<RecordType>({
         [drawerRef.current],
     )
 
+    const drawerFooter = useMemo(() => {
+        return !children ? (
+            <div className={styles.drawerFooter}>
+                <Button type="button" view="secondary" onClick={onBack} iconLeft={<FiX />}>
+                    {actionsLocale.back}
+                </Button>
+
+                <Button type="button" onClick={onSubmit} iconLeft={<FiSave />}>
+                    {actionsLocale.submit}
+                </Button>
+            </div>
+        ) : null
+    }, [children, onSubmit, onBack, drawer?.footer])
+
+    const drawerFormChildren = useMemo(() => {
+        return children ? children : <Form.Fields>{fields}</Form.Fields>
+    }, [children, fields])
+
     return (
         <Drawer
             ref={drawerRef}
@@ -278,16 +339,7 @@ function UpdateDrawer<RecordType>({
                 setVisible(false)
             }}
             title={title}
-            footer={
-                <div className={styles.drawerFooter}>
-                    <Button type="button" view="secondary" onClick={onBack} iconLeft={<FiX />}>
-                        {actionsLocale.back}
-                    </Button>
-                    <Button type="button" onClick={onSubmit} iconLeft={<FiSave />}>
-                        {actionsLocale.submit}
-                    </Button>
-                </div>
-            }
+            footer={drawerFooter}
             afterVisibleChange={(visible) => {
                 if (!visible) {
                     const backLocation = location?.state?.background
@@ -309,7 +361,7 @@ function UpdateDrawer<RecordType>({
                     fetchInitialData={fetchInitialData}
                     locale={locale.form}
                 >
-                    <Form.Fields>{fields}</Form.Fields>
+                    {drawerFormChildren}
                 </Form>
             </PopupContainerContextProvider>
         </Drawer>

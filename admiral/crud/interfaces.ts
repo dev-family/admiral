@@ -25,7 +25,7 @@ export type CRUDActionsLocale = {
     paginationTotal: (total: number) => string
 }
 
-type CRUDFormCreate =
+export type CRUDFormCreate =
     | {
           fields: React.ReactNode
           children?: never
@@ -35,7 +35,7 @@ type CRUDFormCreate =
           children: React.ReactNode
       }
 
-type CRUDFormEdit =
+export type CRUDFormEdit =
     | {
           fields: React.ReactNode
           children?: never

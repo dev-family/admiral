@@ -136,7 +136,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             console.error('Please provide "form.create.fields" or "form.create.children"')
         }
 
-        if (!!config.form.create.fields && !config.create?.title) {
+        if (!config.form.create.fields && !config.create?.title) {
             console.error('Please provide "create.title"')
         }
 
@@ -150,20 +150,20 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             return create(config.resource, { data: values })
         }, [])
 
-        const pageFormChildren = useMemo(() => {
-            return children ? (
-                children
-            ) : (
-                <>
-                    <Form.Fields>{fields}</Form.Fields>
+        const pageFormChildren = useMemo(
+            () =>
+                children ?? (
+                    <>
+                        <Form.Fields>{fields}</Form.Fields>
 
-                    <Form.Footer>
-                        <BackButton basePath={path}>{actionsLocale.back}</BackButton>
-                        <Form.Submit>{actionsLocale.submit}</Form.Submit>
-                    </Form.Footer>
-                </>
-            )
-        }, [children, fields, path, actionsLocale])
+                        <Form.Footer>
+                            <BackButton basePath={path}>{actionsLocale.back}</BackButton>
+                            <Form.Submit>{actionsLocale.submit}</Form.Submit>
+                        </Form.Footer>
+                    </>
+                ),
+            [children, fields, path, actionsLocale],
+        )
 
         return (
             <Page title={title}>
@@ -211,7 +211,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
             console.error('Please provide "form.edit.fields" or "form.edit.children"')
         }
 
-        if (!!config.form.edit.fields && !config.update?.title) {
+        if (!config.form.edit.fields && !config.update?.title) {
             console.error('Please provide "update.title"')
         }
 

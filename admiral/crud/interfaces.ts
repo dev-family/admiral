@@ -25,6 +25,19 @@ export type CRUDActionsLocale = {
     paginationTotal: (total: number) => string
 }
 
+type CRUDForm =
+    | {
+          fields: React.ReactNode
+          children?: never
+      }
+    | {
+          fields?: never
+          children: React.ReactNode
+      }
+
+export type CRUDFormCreate = CRUDForm
+export type CRUDFormEdit = CRUDForm
+
 export type CRUDConfig<RecordType> = {
     path: string
     actions?: React.ReactNode
@@ -37,12 +50,8 @@ export type CRUDConfig<RecordType> = {
         tableConfig?: DataTableConfig<RecordType>
     }
     form: {
-        create: {
-            fields: React.ReactNode
-        }
-        edit: {
-            fields: React.ReactNode
-        }
+        create: CRUDFormCreate
+        edit: CRUDFormEdit
     }
     create?: {
         title?: string

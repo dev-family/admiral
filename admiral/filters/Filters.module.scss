@@ -23,3 +23,30 @@
         opacity: 1;
     }
 }
+
+.quickFilters {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-l);
+
+    &:empty {
+        margin-bottom: 0;
+    }
+
+    & li {
+        min-width: 170px;
+    }
+
+    &__boolean_filter {
+        padding: 0 10px;
+        width: fit-content;
+        height: var(--wrapper-height, var(--control-height-m));
+        border: 1px solid var(--choice-frame-border-color, var(--color-control-bg-border-default));
+        border-radius: var(--control-radius);
+        display: flex;
+        align-items: center;
+        gap: var(--space-l);
+    }
+}

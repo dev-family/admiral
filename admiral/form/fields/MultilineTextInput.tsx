@@ -6,7 +6,9 @@ import type { TextareaProps } from '../../ui/Textarea/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
 
-export interface MultilineTextInputProps extends TextareaProps, FormItemProps {
+export interface MultilineTextInputProps
+    extends TextareaProps,
+        Omit<FormItemProps, 'isQuickFilter'> {
     name: string
 }
 

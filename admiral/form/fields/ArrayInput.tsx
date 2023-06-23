@@ -11,7 +11,7 @@ import { enUS } from '../locale'
 import styles from '../Form.module.scss'
 import { InputComponentWithName } from '../interfaces'
 
-export interface ArrayInputProps extends FormItemProps {
+export interface ArrayInputProps extends Omit<FormItemProps, 'isQuickFilter'> {
     name: string
     columnSpan?: 1 | 2
     disableOrder?: boolean

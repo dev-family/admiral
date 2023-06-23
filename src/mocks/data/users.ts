@@ -243,16 +243,16 @@ export class UserList {
         start: number = 0,
         end: number = -1,
         sort: string[] | undefined,
-        filter?: Record<keyof IUser, any>,
-        search?: string,
+        filter?: Record<keyof (IUser & { search?: string }), any>,
     ) {
         const sortField = sort?.[0] ?? null
         const sortOrder = sort?.[1] ?? null
 
         const sortedUsers = this.sortBy(sortField, sortOrder)
         const filteredUsers = !!filter ? this.filterBy(filter, sortedUsers) : sortedUsers
-        const searchedUsers = search
-            ? filteredUsers.filter((user) => user.name.includes(search))
+        const searchedValue = filter?.search
+        const searchedUsers = searchedValue
+            ? filteredUsers.filter((user) => user.name.includes(searchedValue))
             : filteredUsers
         return [searchedUsers.slice(start, end), searchedUsers]
     }

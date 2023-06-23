@@ -9,7 +9,6 @@ import {
     TopToolbar,
     FilterButton,
     CreateButton,
-    SearchField,
     Typography,
 } from '../../../admiral'
 import PageTopContent from '../../components/PageTopContent'
@@ -24,7 +23,6 @@ export const CRUD = createCRUD({
     resource,
     actions: (
         <TopToolbar>
-            <SearchField />
             <FilterButton>Filters</FilterButton>
             <CreateButton basePath={path}>Create New User</CreateButton>
         </TopToolbar>

@@ -14,7 +14,7 @@ export type AppliedFiltersProps = {}
 export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
     const {
         setUrlState,
-        urlState: { filter, search },
+        urlState: { filter },
         filter: { fields: filterFields, options: filterOptions },
     } = useCrudIndex()
 
@@ -76,7 +76,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
         [filterOptions],
     )
 
-    const filters = Object.entries({ ...filter, ...(search ? { search } : {}) })
+    const filters = Object.entries(filter)
         .filter(([name]) => filterFields.some((field) => field.name === name))
         .map(([name, value]) => {
             const field = filterFields.find((field) => field.name === name)
@@ -96,12 +96,10 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
 
     const onRemove = useCallback(
         (name: string) => () => {
-            const isFilterName = name !== 'search'
             setUrlState((prev) => ({
                 ...prev,
                 page: '1',
-                filter: isFilterName ? { ...filter, [name]: undefined } : filter,
-                search: isFilterName ? search : undefined,
+                filter: { ...filter, [name]: undefined },
             }))
         },
         [setUrlState],
@@ -110,9 +108,9 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
     return (
         <div className={styles.appliedFilters}>
             {filters.map(({ name, label, type, value, extra }, idx) => {
-                return (
+                return value ? (
                     <Button
-                        key={idx}
+                        key={type + idx}
                         type="button"
                         iconRight={
                             <FiX
@@ -125,6 +123,8 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     >
                         {renderName(name, type, value, label, extra)}
                     </Button>
+                ) : (
+                    <React.Fragment key={type + idx}></React.Fragment>
                 )
             })}
         </div>

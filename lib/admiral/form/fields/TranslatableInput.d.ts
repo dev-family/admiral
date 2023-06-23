@@ -24,7 +24,7 @@ declare type TranslatableInputType = {
     tabType?: TabsType;
 };
 export declare const TranslatableInput: {
-    <K extends keyof FieldMap>(props: FieldProps<K> & TranslatableInputType & FormItemProps): JSX.Element;
+    <K extends keyof FieldMap>(props: FieldProps<K> & TranslatableInputType & Omit<FormItemProps, "isQuickFilter">): JSX.Element;
     inputName: string;
 };
 export {};

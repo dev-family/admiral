@@ -59,6 +59,7 @@ export declare type CRUDConfig<RecordType> = {
     filter?: {
         topToolbarButtonText: string;
         fields: JSX.Element;
+        hasQuickFilters?: boolean;
     };
     topContent?: ReactNode;
     bottomContent?: ReactNode;

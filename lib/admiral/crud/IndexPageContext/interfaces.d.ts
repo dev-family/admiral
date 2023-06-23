@@ -7,7 +7,6 @@ export declare type CrudIndexUrlState = {
     page_size: string;
     filter: Record<string, any>;
     sort: Record<string, SortOrder>;
-    search: string;
 } & {
     [x: string]: any;
 };
@@ -26,6 +25,7 @@ export declare type FilterField = {
     label?: string;
     name: string;
     type: FormInputType;
+    props: Record<string, unknown>;
     extra: {
         timePicker?: TimePickerExtra;
     };

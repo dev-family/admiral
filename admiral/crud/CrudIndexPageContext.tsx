@@ -42,6 +42,15 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
     })
     const [filterOptions, setFilterOptions] = useState<RecordOptions>({})
 
+    const getFilterChildType = (child: any) => {
+        switch (child.type.name) {
+            case INPUT_NAMES.ajaxSelectInput:
+                return child.type.name
+            default:
+                return child.type.inputName
+        }
+    }
+
     const _filterFields: FilterField[] = useMemo(() => {
         if (!filterFields) {
             return []
@@ -58,6 +67,7 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
             .map((child: any): FilterField => {
                 const selectExtra =
                     child.type.inputName === INPUT_NAMES.select ? getSelectExtra(child) : undefined
+                const type = getFilterChildType(child)
 
                 if (selectExtra?.options) {
                     setFilterOptions((prev) => ({
@@ -69,7 +79,8 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
                 return {
                     name: child.props.name,
                     label: child.props.label,
-                    type: child.type.inputName,
+                    type,
+                    props: child.props,
                     extra: {
                         timePicker:
                             child.type.inputName === INPUT_NAMES.timePicker

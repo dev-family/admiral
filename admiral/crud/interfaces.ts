@@ -61,7 +61,7 @@ export type CRUDConfig<RecordType> = {
         view?: 'page' | 'drawer'
         drawer?: DrawerProps & { routePath?: (path: string) => string }
     }
-    filter?: { topToolbarButtonText: string; fields: JSX.Element }
+    filter?: { topToolbarButtonText: string; fields: JSX.Element; hasQuickFilters?: boolean }
     topContent?: ReactNode
     bottomContent?: ReactNode
 }

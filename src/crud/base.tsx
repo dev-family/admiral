@@ -127,6 +127,7 @@ export const BaseCRUD = createCRUD({
                 <BooleanInput label="Active?" name="active" />
             </>
         ),
+        quickFilters: ['group', 'role', 'active'],
     },
     form: {
         create: {

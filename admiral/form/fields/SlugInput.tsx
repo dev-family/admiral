@@ -10,7 +10,7 @@ import { FiLock, FiUnlock } from 'react-icons/fi'
 import cn from 'classnames'
 import styles from '../Form.module.scss'
 
-export interface SlugInputProps extends InputProps, Omit<FormItemProps, 'isQuickFilter'> {
+export interface SlugInputProps extends InputProps, FormItemProps {
     name: string
     from: string
     slugLang?: string

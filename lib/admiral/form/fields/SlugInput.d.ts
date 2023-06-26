@@ -2,7 +2,7 @@ import React from 'react';
 import type { InputProps } from '../../ui/Input/interfaces';
 import { FormItemProps } from '../Item';
 import { InputComponentWithName } from '../interfaces';
-export interface SlugInputProps extends InputProps, Omit<FormItemProps, 'isQuickFilter'> {
+export interface SlugInputProps extends InputProps, FormItemProps {
     name: string;
     from: string;
     slugLang?: string;

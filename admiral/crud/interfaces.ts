@@ -38,6 +38,15 @@ type CRUDForm =
 export type CRUDFormCreate = CRUDForm
 export type CRUDFormEdit = CRUDForm
 
+export type CRUDFilter = {
+    topToolbarButtonText: string
+    fields: JSX.Element
+    /**
+     * An array with keys "name" of filter.fields, that you wanna make quick
+     */
+    quickFilters?: string[]
+}
+
 export type CRUDConfig<RecordType> = {
     path: string
     actions?: React.ReactNode
@@ -61,7 +70,7 @@ export type CRUDConfig<RecordType> = {
         view?: 'page' | 'drawer'
         drawer?: DrawerProps & { routePath?: (path: string) => string }
     }
-    filter?: { topToolbarButtonText: string; fields: JSX.Element; hasQuickFilters?: boolean }
+    filter?: CRUDFilter
     topContent?: ReactNode
     bottomContent?: ReactNode
 }

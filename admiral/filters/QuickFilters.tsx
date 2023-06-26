@@ -13,9 +13,11 @@ import {
     useForm,
 } from '../form'
 
-export type QuickFiltersProps = {}
+export type QuickFiltersProps = {
+    filters?: string[]
+}
 
-export const QuickFilters: React.FC<QuickFiltersProps> = () => {
+export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
     const {
         setUrlState,
         urlState,
@@ -95,10 +97,10 @@ export const QuickFilters: React.FC<QuickFiltersProps> = () => {
         [filterOptions],
     )
 
-    const filters = useMemo(
+    const filtersToRender = useMemo(
         () =>
             filterFields
-                .filter((field) => field.props.isQuickFilter)
+                .filter((field) => field.props.name && filters?.includes(String(field.props.name)))
                 .map(({ type, props }) => {
                     return {
                         type,
@@ -110,7 +112,7 @@ export const QuickFilters: React.FC<QuickFiltersProps> = () => {
 
     return (
         <ul className={styles.quickFilters}>
-            {filters.map(({ type, props }, index) => {
+            {filtersToRender.map(({ type, props }, index) => {
                 return <li key={type + index}>{renderName(type, props)}</li>
             })}
         </ul>

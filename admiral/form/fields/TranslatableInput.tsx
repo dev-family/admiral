@@ -53,7 +53,7 @@ type TranslatableInputType = {
 }
 
 export const TranslatableInput = <K extends keyof FieldMap>(
-    props: FieldProps<K> & TranslatableInputType & Omit<FormItemProps, 'isQuickFilter'>,
+    props: FieldProps<K> & TranslatableInputType & FormItemProps,
 ) => {
     const { name, label, required, languages, tabType = 'card', field, props: filedProps } = props
     const { values, setValues, errors, setErrors, ...formProps } = useForm()

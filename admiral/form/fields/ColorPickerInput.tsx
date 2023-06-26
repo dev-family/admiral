@@ -7,9 +7,7 @@ import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
 
-export interface ColorPickerInputProps
-    extends ColorPickerProps,
-        Omit<FormItemProps, 'isQuickFilter'> {
+export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps {
     name: string
     outputValue?: keyof ColorPickerResult
 }

@@ -7,7 +7,6 @@ export interface FormItemProps {
     columnSpan?: 1 | 2;
     onLabelClick?: React.MouseEventHandler<HTMLLabelElement>;
     labelAs?: string | React.JSXElementConstructor<any>;
-    isQuickFilter?: boolean;
 }
 declare const Item: React.FC<FormItemProps>;
 export default Item;

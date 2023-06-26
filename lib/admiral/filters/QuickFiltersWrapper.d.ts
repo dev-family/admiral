@@ -1,3 +1,6 @@
 /// <reference types="react" />
-declare const QuickFiltersWrapper: () => JSX.Element;
+interface Props {
+    filters?: string[];
+}
+declare const QuickFiltersWrapper: ({ filters }: Props) => JSX.Element;
 export default QuickFiltersWrapper;

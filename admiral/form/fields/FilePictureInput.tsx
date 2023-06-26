@@ -7,7 +7,7 @@ import { UploadProps } from '../../ui/Upload/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
 
-export type FilePictureInputProps = Omit<FormItemProps, 'isQuickFilter'> & {
+export type FilePictureInputProps = FormItemProps & {
     name: string
 } & UploadProps
 

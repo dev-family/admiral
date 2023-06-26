@@ -12,28 +12,21 @@ import {
     BooleanInput,
     Button,
     Typography,
+    DatePickerInput,
 } from '../../admiral'
 import PageTopContent from '../components/PageTopContent'
 
 export const BaseCRUD = createCRUD({
-    path: '/base-crud',
+    path: '/quick-filters',
     resource: 'users',
     actions: (
         <TopToolbar>
             <FilterButton>Filter</FilterButton>
-            <CreateButton basePath="/base-crud">Create New User</CreateButton>
-            <Button
-                type="button"
-                view="secondary"
-                onClick={() => alert('Custom action')}
-                iconRight={<FiGift />}
-            >
-                Custom action
-            </Button>
+            <CreateButton basePath="/quick-filters">Create New User</CreateButton>
         </TopToolbar>
     ),
     index: {
-        title: 'Base CRUD',
+        title: 'Quick Filters',
         newButtonText: 'Create New User',
         tableColumns: [
             {
@@ -66,16 +59,14 @@ export const BaseCRUD = createCRUD({
                 key: 'email 2',
             },
             {
+                title: 'Registered at',
+                dataIndex: 'registered_at',
+                key: 'registered_at',
+            },
+            {
                 title: 'Address',
                 dataIndex: 'address',
                 key: 'address 1',
-                ellipsis: true,
-            },
-            {
-                title: 'Address 2',
-                dataIndex: 'address',
-                key: 'address 2',
-                width: 150,
                 ellipsis: true,
             },
             {
@@ -100,15 +91,12 @@ export const BaseCRUD = createCRUD({
                 render: (value) => (value ? 'Yes' : 'No'),
             },
         ],
-        tableConfig: {
-            title: () => 'Custom header here. 8 users, 4 golden users, 2 blocked users.',
-            footer: () => 'Custom footer here.',
-        },
     },
     filter: {
         topToolbarButtonText: 'Filter',
         fields: (
             <>
+                <TextInput name="search" label="Search" type="search" placeholder="Search" />
                 <SelectInput
                     label="Group (multiselect)"
                     name="group"
@@ -120,13 +108,20 @@ export const BaseCRUD = createCRUD({
                         Project Managers
                     </SelectInput.Option>
                 </SelectInput>
+                <DatePickerInput
+                    name="registered_at"
+                    label="Registered at"
+                    placeholder="Registered at"
+                    allowClear
+                />
                 <SelectInput label="Role" name="role" placeholder="Choose Role" allowClear>
                     <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
                     <SelectInput.Option value="recruiter">Recruiter</SelectInput.Option>
                 </SelectInput>
-                <BooleanInput label="Active?" name="active" />
+                <BooleanInput label="Active" name="active" />
             </>
         ),
+        quickFilters: ['group', 'search', 'role', 'registered_at', 'active'],
     },
     form: {
         create: {
@@ -218,37 +213,19 @@ export const BaseCRUD = createCRUD({
     },
     topContent: (
         <PageTopContent
-            title="A basic CRUD that is most often used in projects."
+            title="In this example, we demonstrate how to create quick filter above the table."
             descr={
                 <>
                     <Typography.Paragraph>
-                        The table displays data from different types of fields, including images and
-                        pagination.
+                        You can use quick filters instead of basic filters in drawer.
                     </Typography.Paragraph>
                     <Typography.Paragraph>
-                        The table may have an additional description in the header and footer.
-                    </Typography.Paragraph>
-                    <Typography.Paragraph>
-                        Different types of fields are represented in the filter.
-                    </Typography.Paragraph>
-                    <Typography.Paragraph>
-                        It is possible to add a custom button that will perform the action you want,
-                        such as running synchronization, background processes.
-                    </Typography.Paragraph>
-                    <Typography.Paragraph>
-                        The form is represented by the most popular fields.
-                    </Typography.Paragraph>
-                    <Typography.Paragraph>
-                        Entity creation page opens on a separate page.
-                    </Typography.Paragraph>
-                    <Typography.Paragraph>
-                        The edit page opens in the drawer for easy access and has the same set of
-                        fields as the entity creation page.
+                        Or use filters in both places: drawer and above the table.
                     </Typography.Paragraph>
                 </>
             }
             link={{
-                href: 'https://github.com/dev-family/admiral/blob/master/src/crud/base.tsx',
+                href: 'https://github.com/dev-family/admiral/blob/master/src/crud/quickFilters.tsx',
                 text: 'Code to implement the page',
             }}
         />

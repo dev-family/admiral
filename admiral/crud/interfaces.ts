@@ -42,9 +42,15 @@ export type CRUDFilter = {
     topToolbarButtonText: string
     fields: JSX.Element
     /**
-     * An array with keys "name" of filter.fields, that you wanna make quick
+     * #### Add the 'name' keys to the array from filter.fields, if you want to make the filters quick.
+     *
+     * Here's a simple example:
+     *
+     * ```quickFilters: ['name', 'age', 'is_active']```
+     *
+     * You can find an example of a page with quick filters by following the link: {@link https://github.com/dev-family/admiral/blob/master/src/crud/quickFilters.tsx}
      */
-    quickFilters?: string[]
+    quickFilters?: [string, ...string[]]
 }
 
 export type CRUDConfig<RecordType> = {

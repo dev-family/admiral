@@ -97,7 +97,6 @@ export function DataTable<RecordType extends { id: number | string }>({
                 pagination: { perPage: +state.page_size, page: +state.page },
                 ...(sortField && sortOrder && { sort: { field: sortField, order: sortOrder } }),
                 filter: state.filter,
-                search: state.search,
             })
 
             setData(response.items as any)

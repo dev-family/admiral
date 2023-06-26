@@ -3,12 +3,12 @@ import { Form, FormProps } from '../form'
 import { Page, Button, Drawer } from '../ui'
 import { FiX, FiSave } from 'react-icons/fi'
 import { useHistory, useLocation } from 'react-router-dom'
-import { CreateButton, BackButton, FilterButton, SearchField } from '../actions'
+import { CreateButton, BackButton, FilterButton } from '../actions'
 import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react'
 import { CrudIndexPageContextProvider } from './CrudIndexPageContext'
-import { AppliedFilters, Filters } from '../filters'
+import { AppliedFilters, Filters, QuickFilters } from '../filters'
 import { RouterLocationState } from '../router/interfaces'
 import { CRUDConfig } from './interfaces'
 import styles from './Crud.module.scss'
@@ -16,6 +16,7 @@ import { PopupContainerContextProvider } from './PopupContainerContext'
 import { ColumnType } from '../ui/Table/interfaces'
 import { DeleteAction, EditAction } from '../dataTable/actions'
 import { useLocaleProvider } from './locale/LocaleContext'
+import QuickFiltersWrapper from '../filters/QuickFiltersWrapper'
 
 const operationsStyle: React.CSSProperties = {
     display: 'flex',
@@ -87,6 +88,7 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                     }
                     topContent={config.topContent}
                 >
+                    <QuickFiltersWrapper filters={config.filter?.quickFilters} />
                     <AppliedFilters />
                     <DataTable
                         resource={config.resource}

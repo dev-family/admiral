@@ -31,8 +31,9 @@ export declare const INPUT_NAMES: {
     readonly timePicker: "TimePickerInput";
     readonly slug: "SlugInput";
     readonly translatable: "TranslatableInput";
+    readonly ajaxSelectInput: "AjaxSelectInput";
 };
-declare const inputTypes: ("ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput" | "TranslatableInput")[];
+declare const inputTypes: ("ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput" | "TranslatableInput" | "AjaxSelectInput")[];
 export declare type FormInputType = typeof inputTypes[number];
 export declare type InputComponentWithName<T> = T & {
     inputName: FormInputType;

@@ -34,8 +34,8 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
             <DatePicker
                 getPopupContainer={getPopupContainer}
-                {...pickerProps}
                 locale={locale}
+                {...pickerProps}
                 value={value}
                 onChange={onChange}
                 alert={!!error}

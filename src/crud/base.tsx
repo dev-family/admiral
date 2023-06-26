@@ -109,8 +109,6 @@ export const BaseCRUD = createCRUD({
         topToolbarButtonText: 'Filter',
         fields: (
             <>
-                <TextInput label="Search" name="search" placeholder="Seach" type="search" />
-                <TextInput label="Name" name="name" placeholder="Name" />
                 <SelectInput
                     label="Group (multiselect)"
                     name="group"

@@ -97,11 +97,9 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         const endIndex = data.destination.index
 
         const fileListCopy = [...mergedFileList]
-        console.log(fileListCopy, 'fileListCopy')
         const [movedFile] = fileListCopy.splice(startIndex, 1)
         fileListCopy.splice(endIndex, 0, movedFile)
         const result = fileListCopy.map((file, index) => Object.assign(file, { order: index }))
-        console.log(result, 'result')
         const changeInfo: UploadChangeParam<UploadFile> = {
             file: mergedFileList[data.source.index] as UploadFile,
             fileList: result,

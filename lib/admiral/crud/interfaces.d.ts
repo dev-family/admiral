@@ -31,6 +31,20 @@ declare type CRUDForm = {
 };
 export declare type CRUDFormCreate = CRUDForm;
 export declare type CRUDFormEdit = CRUDForm;
+export declare type CRUDFilter = {
+    topToolbarButtonText: string;
+    fields: JSX.Element;
+    /**
+     * #### Add the 'name' keys to the array from filter.fields, if you want to make the filters quick.
+     *
+     * Here's a simple example:
+     *
+     * ```quickFilters: ['name', 'age', 'is_active']```
+     *
+     * You can find an example of a page with quick filters by following the link: {@link https://github.com/dev-family/admiral/blob/master/src/crud/quickFilters.tsx}
+     */
+    quickFilters?: [string, ...string[]];
+};
 export declare type CRUDConfig<RecordType> = {
     path: string;
     actions?: React.ReactNode;
@@ -56,10 +70,7 @@ export declare type CRUDConfig<RecordType> = {
             routePath?: (path: string) => string;
         };
     };
-    filter?: {
-        topToolbarButtonText: string;
-        fields: JSX.Element;
-    };
+    filter?: CRUDFilter;
     topContent?: ReactNode;
     bottomContent?: ReactNode;
 };

@@ -1,34 +1,32 @@
 import React from 'react'
+import { FiGift, FiInfo } from 'react-icons/fi'
 import {
     createCRUD,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
     TextInput,
     SelectInput,
     FilePictureInput,
     FileField,
     BooleanInput,
-    TopToolbar,
-    FilterButton,
-    CreateButton,
+    Button,
     Typography,
-} from '../../../admiral'
-import PageTopContent from '../../components/PageTopContent'
-import OrdersLinkField from './OrdersLinkField'
-import StatusField from './StatusField'
+    DatePickerInput,
+} from '../../admiral'
+import PageTopContent from '../components/PageTopContent'
 
-export const path = '/advanced-edit-page'
-export const resource = 'users'
-
-export const CRUD = createCRUD({
-    path,
-    resource,
+export const BaseCRUD = createCRUD({
+    path: '/quick-filters',
+    resource: 'users',
     actions: (
         <TopToolbar>
-            <FilterButton>Filters</FilterButton>
-            <CreateButton basePath={path}>Create New User</CreateButton>
+            <FilterButton>Filter</FilterButton>
+            <CreateButton basePath="/quick-filters">Create New User</CreateButton>
         </TopToolbar>
     ),
     index: {
-        title: 'Advanced Edit Page',
+        title: 'Quick Filters',
         newButtonText: 'Create New User',
         tableColumns: [
             {
@@ -43,15 +41,6 @@ export const CRUD = createCRUD({
                 dataIndex: 'name',
                 key: 'name',
                 width: 200,
-            },
-            {
-                title: 'Status',
-                dataIndex: 'active',
-                key: 'active',
-                width: 140,
-                render: (value, record) => (
-                    <StatusField resource={resource} id={record.id} value={value} />
-                ),
             },
             {
                 title: 'Age',
@@ -70,18 +59,15 @@ export const CRUD = createCRUD({
                 key: 'email 2',
             },
             {
+                title: 'Registered at',
+                dataIndex: 'registered_at',
+                key: 'registered_at',
+            },
+            {
                 title: 'Address',
                 dataIndex: 'address',
                 key: 'address 1',
                 ellipsis: true,
-            },
-            {
-                title: 'Orders',
-                dataIndex: 'orders',
-                key: 'orders',
-                width: 150,
-                ellipsis: true,
-                render: (_, record) => <OrdersLinkField href={`${path}/${record.id}`} />,
             },
             {
                 title: 'Group',
@@ -97,18 +83,20 @@ export const CRUD = createCRUD({
                 width: 150,
                 ellipsis: true,
             },
+            {
+                title: 'Active',
+                dataIndex: 'active',
+                key: 'active',
+                width: 150,
+                render: (value) => (value ? 'Yes' : 'No'),
+            },
         ],
-        tableConfig: {
-            title: () => 'Custom header here. 8 users, 4 golden users, 2 blocked users.',
-            footer: () => 'Custom footer here.',
-            autoupdateTime: 7000,
-        },
     },
     filter: {
         topToolbarButtonText: 'Filter',
         fields: (
             <>
-                <TextInput label="Name" name="name" placeholder="Name" />
+                <TextInput name="search" label="Search" type="search" placeholder="Search" />
                 <SelectInput
                     label="Group (multiselect)"
                     name="group"
@@ -120,13 +108,20 @@ export const CRUD = createCRUD({
                         Project Managers
                     </SelectInput.Option>
                 </SelectInput>
+                <DatePickerInput
+                    name="registered_at"
+                    label="Registered at"
+                    placeholder="Registered at"
+                    allowClear
+                />
                 <SelectInput label="Role" name="role" placeholder="Choose Role" allowClear>
                     <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
                     <SelectInput.Option value="recruiter">Recruiter</SelectInput.Option>
                 </SelectInput>
-                <BooleanInput label="Active?" name="active" />
+                <BooleanInput label="Active" name="active" />
             </>
         ),
+        quickFilters: ['group', 'search', 'role', 'registered_at', 'active'],
     },
     form: {
         create: {
@@ -170,37 +165,67 @@ export const CRUD = createCRUD({
             ),
         },
         edit: {
-            fields: null,
+            fields: (
+                <>
+                    <TextInput label="Name" name="name" placeholder="Name" />
+                    <TextInput label="Email" name="email" placeholder="Email" required />
+                    <TextInput
+                        label="Password"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                    />
+                    <SelectInput
+                        label="Group (multiselect)"
+                        name="group"
+                        placeholder="Choose Group"
+                        required
+                        mode="multiple"
+                    >
+                        <SelectInput.Option value="admin">Administration</SelectInput.Option>
+                        <SelectInput.Option value="project_manager">
+                            Project managers
+                        </SelectInput.Option>
+                    </SelectInput>
+                    <SelectInput label="Role" name="role" placeholder="Choose Role" required>
+                        <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
+                        <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
+                    </SelectInput>
+                    <FilePictureInput
+                        columnSpan={2}
+                        label="Avatar"
+                        name="avatar"
+                        accept="image/*"
+                        maxCount={1}
+                    />
+                    <BooleanInput label="Active?" name="active" />
+                </>
+            ),
         },
     },
     create: {
         title: 'Create New User',
     },
+    update: {
+        title: (id: string) => `Edit User #${id}`,
+        view: 'drawer',
+    },
     topContent: (
         <PageTopContent
-            title="Unlike base crud, here we've expanded the functionality of the table."
+            title="In this example, we demonstrate how to create quick filter above the table."
             descr={
                 <>
                     <Typography.Paragraph>
-                        Now it has select right in it. For example, you can change order status
-                        directly from the table, and we've added a link that leads to the associated
-                        entity.
+                        You can use quick filters instead of basic filters in drawer.
                     </Typography.Paragraph>
                     <Typography.Paragraph>
-                        In this example, we've made a separate view for the edit page, and it's
-                        different from the create page.
-                    </Typography.Paragraph>
-                    <Typography.Paragraph>
-                        On the example edit page, we've added tabs that you can use entirely for
-                        your functionality. As an example, we left the edit form in the first tab.
-                        In the second tab we've output a table which can be used to display related
-                        entities, e.g., the composition of the order in the online store. And in the
-                        third tab we showed that the page is easy to customize and use as you like.
+                        Or use filters in both places: drawer and above the table.
                     </Typography.Paragraph>
                 </>
             }
             link={{
-                href: 'https://github.com/dev-family/admiral/tree/master/src/crud/advancedEditPage ',
+                href: 'https://github.com/dev-family/admiral/blob/master/src/crud/quickFilters.tsx',
                 text: 'Code to implement the page',
             }}
         />

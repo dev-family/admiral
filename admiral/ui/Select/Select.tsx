@@ -56,7 +56,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         prefixCls,
     })
 
-    const selectProps = omit(props as typeof props & { itemIcon: any }, ['itemIcon'])
+    const selectProps = omit(props as typeof props & { itemIcon: any }, ['itemIcon', 'allowClear'])
 
     const mergedClassName = cn(
         {

@@ -8,6 +8,7 @@ export interface IUser {
     age: number | string
     name: string
     email: string
+    registered_at?: string
     password: string
     group: string[]
     role: string
@@ -56,6 +57,7 @@ export class UserList {
                 age: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
                 address: `London Park no. ${i}`,
                 email: 'test@test.com',
+                registered_at: getRegisteredDate(i),
                 password: '12345',
                 group: randomFromValues([['project_manager'], ['admin']]),
                 role: randomFromValues(['accountant', 'recruiter']),
@@ -236,6 +238,12 @@ export class UserList {
             const active = params.active === 'true'
             result = result.filter((i) => i.active === active)
         }
+        if (params.registered_at) {
+            result = result.filter((i) => {
+                const date = getFormattedDate(new Date(params.registered_at))
+                return i.registered_at?.toLocaleLowerCase().includes(date)
+            })
+        }
         return result
     }
 
@@ -243,16 +251,16 @@ export class UserList {
         start: number = 0,
         end: number = -1,
         sort: string[] | undefined,
-        filter?: Record<keyof IUser, any>,
-        search?: string,
+        filter?: Record<keyof (IUser & { search?: string }), any>,
     ) {
         const sortField = sort?.[0] ?? null
         const sortOrder = sort?.[1] ?? null
 
         const sortedUsers = this.sortBy(sortField, sortOrder)
         const filteredUsers = !!filter ? this.filterBy(filter, sortedUsers) : sortedUsers
-        const searchedUsers = search
-            ? filteredUsers.filter((user) => user.name.includes(search))
+        const searchedValue = filter?.search
+        const searchedUsers = searchedValue
+            ? filteredUsers.filter((user) => user.name.includes(searchedValue))
             : filteredUsers
         return [searchedUsers.slice(start, end), searchedUsers]
     }
@@ -305,4 +313,18 @@ export class UserList {
 function randomFromValues<T>(values: T[]) {
     const random = Math.floor(Math.random() * values.length)
     return values[random]
+}
+
+function getRegisteredDate(idx: number) {
+    const currentDate = new Date()
+    currentDate.setDate(currentDate.getDate() - idx)
+    return getFormattedDate(currentDate)
+}
+
+function getFormattedDate(date: Date) {
+    const currentDate = date || new Date()
+    const day = String(currentDate.getDate()).padStart(2, '0')
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+    const year = currentDate.getFullYear()
+    return `${day}-${month}-${year}`
 }

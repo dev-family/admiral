@@ -6,6 +6,7 @@ const CustomMenu = () => {
         <Menu>
             <MenuItemLink icon="FiCircle" name="Base CRUD" to="/base-crud" />
             <MenuItemLink icon="FiStar" name="Advanced Edit Page" to="/advanced-edit-page" />
+            <MenuItemLink icon="FiFilter" name="Quick Filters" to="/quick-filters" />
             <MenuItemLink
                 icon="FiAlignJustify"
                 name="Table without actions"

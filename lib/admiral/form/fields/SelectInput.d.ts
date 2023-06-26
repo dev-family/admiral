@@ -5,7 +5,7 @@ export interface SelectInputProps extends SelectProps, FormItemProps {
     name: string;
 }
 export declare const SelectInput: React.FC<SelectInputProps> & {
-    inputName: "ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput" | "TranslatableInput";
+    inputName: "ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput" | "TranslatableInput" | "AjaxSelectInput";
 } & {
     Option: import("rc-select/lib/Option").OptionFC;
     OptGroup: import("rc-select/lib/OptGroup").OptionGroupFC;

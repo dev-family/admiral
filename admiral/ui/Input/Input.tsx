@@ -12,6 +12,7 @@ import { InputProps } from './interfaces'
 import styles from './Input.module.scss'
 import mergeRefs from 'react-merge-refs'
 import cn from 'classnames'
+import { FormItemProps } from '../../form/Item'
 
 // TODO: add prefix/suffix functionality
 

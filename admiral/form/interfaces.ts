@@ -35,6 +35,7 @@ export const INPUT_NAMES = {
     timePicker: 'TimePickerInput',
     slug: 'SlugInput',
     translatable: 'TranslatableInput',
+    ajaxSelectInput: 'AjaxSelectInput',
 } as const
 
 const inputTypes = tuple(...Object.values(INPUT_NAMES))

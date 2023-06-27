@@ -115,7 +115,7 @@ export const handlers = [
             ctx.json({
                 id: '1',
                 fullName: 'Dev Family',
-                email: 'dev.family@websecret.by',
+                email: 'admiral@dev.family',
                 avatar: 'https://loremflickr.com/200/200',
             }),
         )

@@ -26,6 +26,7 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
     const { values, setValues, setOptions } = useForm()
     const { filter } = urlState
     const shouldUpdateUrlState = useRef(true)
+    const isFiltersVisible = Object.keys(filterOptions)?.length
 
     useLayoutEffect(() => {
         setOptions(filterOptions)
@@ -51,7 +52,7 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
 
     const renderName = useCallback(
         (type: FormInputType, props) => {
-            const inputProps = {
+            const filteredInputProps = Object.entries({
                 name: props?.name,
                 type: props?.type,
                 placeholder: props?.placeholder,
@@ -64,7 +65,9 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
                 style: props?.style,
                 children: props?.children,
                 suffix: props?.suffix,
-            }
+            }).filter(([_, value]) => value)
+
+            const inputProps: any = Object.fromEntries(filteredInputProps)
 
             switch (type) {
                 case 'BooleanInput': {
@@ -110,11 +113,13 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
         [filterFields],
     )
 
-    return (
+    return isFiltersVisible ? (
         <ul className={styles.quickFilters}>
             {filtersToRender.map(({ type, props }, index) => {
                 return <li key={type + index}>{renderName(type, props)}</li>
             })}
         </ul>
+    ) : (
+        <></>
     )
 }

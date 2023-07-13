@@ -17,6 +17,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
         urlState: { filter },
         filter: { fields: filterFields, options: filterOptions },
     } = useCrudIndex()
+    const isFiltersVisible = Object.keys(filterOptions)?.length
 
     const renderName = useCallback(
         (
@@ -105,10 +106,10 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
         [setUrlState],
     )
 
-    return (
+    return isFiltersVisible ? (
         <div className={styles.appliedFilters}>
             {filters.map(({ name, label, type, value, extra }, idx) => {
-                return value ? (
+                return value !== null && value !== undefined ? (
                     <Button
                         key={type + idx}
                         type="button"
@@ -128,5 +129,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                 )
             })}
         </div>
+    ) : (
+        <></>
     )
 }

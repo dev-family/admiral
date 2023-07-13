@@ -63,16 +63,20 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
                 return false
             })
             .map((child: any): FilterField => {
-                const selectExtra =
-                    child.type.inputName === INPUT_NAMES.select ? getSelectExtra(child) : undefined
                 const type = getFilterChildType(child)
+                // As far as I understand, this logic is not needed here.
+                // We generate options for the selection components in advance, however,
+                // if a request to get data for filters from the server has not been executed by this time,
+                // the values will be displayed instead of labels.
 
-                if (selectExtra?.options) {
-                    setFilterOptions((prev) => ({
-                        ...prev,
-                        [child.props.name]: selectExtra.options,
-                    }))
-                }
+                // const selectExtra =
+                //     child.type.inputName === INPUT_NAMES.select ? getSelectExtra(child) : undefined
+                // if (selectExtra?.options) {
+                //     setFilterOptions((prev) => ({
+                //         ...prev,
+                //         [child.props.name]: selectExtra.options,
+                //     }))
+                // }
 
                 return {
                     name: child.props.name,

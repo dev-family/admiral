@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import omit from 'rc-util/lib/omit'
 import cn from 'classnames'
 import RcSelect, { Option, OptGroup, BaseSelectRef } from 'rc-select'
@@ -72,8 +72,12 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
 
     const getValue = (value?: OptionType | null) =>
         value ? (Number.isInteger(+value) ? +value : value) : undefined
+
     const value = selectProps.value
-    const selectValue = value ? (isMultiple ? value.map(getValue) : getValue(value)) : undefined
+    const selectValue = useMemo(
+        () => (value ? (isMultiple ? value.map(getValue) : getValue(value)) : undefined),
+        [value],
+    )
 
     return (
         <RcSelect<any, any>

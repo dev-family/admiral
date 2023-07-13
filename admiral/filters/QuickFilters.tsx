@@ -25,7 +25,6 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
     } = useCrudIndex()
     const { values, setValues, setOptions } = useForm()
     const { filter } = urlState
-
     const shouldUpdateUrlState = useRef(true)
 
     useLayoutEffect(() => {
@@ -64,6 +63,7 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
                 locale: props?.locale,
                 style: props?.style,
                 children: props?.children,
+                suffix: props?.suffix,
             }
 
             switch (type) {

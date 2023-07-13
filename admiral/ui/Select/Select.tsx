@@ -70,6 +70,11 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         className,
     )
 
+    const getValue = (value?: OptionType | null) =>
+        value ? (Number.isInteger(+value) ? +value : value) : undefined
+    const value = selectProps.value
+    const selectValue = value ? (isMultiple ? value.map(getValue) : getValue(value)) : undefined
+
     return (
         <RcSelect<any, any>
             ref={ref as any}
@@ -78,6 +83,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
             dropdownMatchSelectWidth={dropdownMatchSelectWidth}
             maxTagCount={maxTagCount}
             {...selectProps}
+            value={selectValue}
             className={mergedClassName}
             animation="slide-up"
             listHeight={listHeight}

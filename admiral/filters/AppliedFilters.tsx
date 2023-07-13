@@ -44,7 +44,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
 
                     if (isMultiple) {
                         const labels = options
-                            ? value.map((i) => options.find((o) => o.value === i)?.label ?? i)
+                            ? value.map((i) => options.find((o) => o.value == i)?.label ?? i)
                             : [value.length]
 
                         const optionName = labels.length > 1 ? labels.length : labels[0]
@@ -52,7 +52,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     }
 
                     const optionName = options
-                        ? options.find((n) => n.value === value)?.label ?? value
+                        ? options.find((n) => n.value == value)?.label ?? value
                         : value
                     return label ? `${label}: ${optionName}` : optionName
                 }

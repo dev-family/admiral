@@ -109,7 +109,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
     return isFiltersVisible ? (
         <div className={styles.appliedFilters}>
             {filters.map(({ name, label, type, value, extra }, idx) => {
-                return value !== null && value !== undefined ? (
+                return value !== null && value !== undefined && value !== '' ? (
                     <Button
                         key={type + idx}
                         type="button"

@@ -39,8 +39,9 @@ export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputP
             const firstFile = fileList[0] ?? null
             const value = maxCount === 1 ? firstFile : fileList
             setValues((values: any) => ({ ...values, [name]: value }))
+            uploadProps.onChange?.(value)
         },
-        [maxCount],
+        [maxCount, uploadProps.onChange],
     )
 
     return (

@@ -3,7 +3,7 @@ import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Upload, Button } from '../../ui'
 import { FiUpload } from 'react-icons/fi'
-import { UploadProps } from '../../ui/Upload/interfaces'
+import { UploadChangeParam, UploadFile, UploadProps } from '../../ui/Upload/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
 
@@ -35,11 +35,14 @@ export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputP
     const error = errors[name]?.[0]
 
     const onChange = useCallback(
-        ({ fileList }) => {
+        (uploadFile: UploadChangeParam<UploadFile>) => {
+            const { fileList } = uploadFile
+
             const firstFile = fileList[0] ?? null
             const value = maxCount === 1 ? firstFile : fileList
             setValues((values: any) => ({ ...values, [name]: value }))
-            uploadProps.onChange?.(value)
+
+            uploadProps.onChange?.(uploadFile)
         },
         [maxCount, uploadProps.onChange],
     )

@@ -1,0 +1,201 @@
+@use 'admiral/assets/scss-variables' as *;
+@use 'admiral/assets/mixins' as *;
+
+$prefix-class: 'dialog';
+
+%effect {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+}
+
+.wrapper {
+    color: var(--color-typo-primary);
+
+    :global {
+        & .#{$prefix-class} {
+            $padding: var(--space-l);
+            --dialog-close-svg-size: var(--size-text-l);
+            --dialog-close-btn-size: calc(var(--size-text-l) + (#{$padding} * 2));
+
+            position: relative;
+            width: auto;
+            max-width: 100%;
+            margin: $padding;
+
+            &-wrap {
+                position: fixed;
+                overflow: auto;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 9999;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            &-header {
+                display: flex;
+                align-items: center;
+                gap: $padding;
+                min-height: calc(var(--dialog-close-svg-size) + ($padding * 2));
+                padding: $padding;
+                padding-right: var(--dialog-close-btn-size);
+                border-bottom: 1px solid var(--color-bg-border);
+            }
+
+            &-body {
+                position: relative;
+                padding: $padding;
+            }
+
+            &-title {
+                position: relative;
+            }
+
+            &-close {
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: var(--dialog-close-btn-size);
+                height: var(--dialog-close-btn-size);
+                margin-left: auto;
+                color: var(--color-control-typo-clear);
+                cursor: pointer;
+
+                svg {
+                    width: var(--dialog-close-svg-size);
+                    height: auto;
+                    transition: transform 0.16s;
+                }
+
+                &:focus,
+                &:hover {
+                    svg {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+
+            &-content {
+                position: relative;
+                overflow: auto;
+                border-radius: var(--radius-m);
+                background-color: var(--color-bg-default);
+                box-shadow: var(--shadow-modal);
+            }
+
+            &-mask {
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 9999;
+                width: 100%;
+                height: 100%;
+                background-color: var(--color-bg-tone);
+                transition: transform 0.3s ease, height 0s ease 0.3s;
+                pointer-events: none;
+            }
+
+            @include minWidth($bp-mTablet) {
+                width: 600px;
+                margin: $padding auto;
+            }
+
+            &-fade-slide-enter,
+            &-fade-slide-appear {
+                opacity: 0;
+                @extend %effect;
+                animation-play-state: paused;
+            }
+
+            &-fade-slide-leave {
+                @extend %effect;
+                animation-play-state: paused;
+            }
+
+            &-fade-slide-enter.#{$prefix-class}-fade-slide-enter-active,
+            &-fade-slide-appear.#{$prefix-class}-fade-slide-appear-active {
+                & :local {
+                    animation-name: dialogSlideIn;
+                }
+                animation-play-state: running;
+            }
+
+            &-fade-slide-leave.#{$prefix-class}-fade-slide-leave-active {
+                & :local {
+                    animation-name: dialogSlideOut;
+                }
+                animation-play-state: running;
+            }
+
+            &-fade-enter,
+            &-fade-appear {
+                opacity: 0;
+                @extend %effect;
+                animation-play-state: paused;
+            }
+
+            &-fade-leave {
+                @extend %effect;
+                animation-play-state: paused;
+            }
+
+            &-fade-enter.#{$prefix-class}-fade-enter-active,
+            &-fade-appear.#{$prefix-class}-fade-appear-active {
+                & :local {
+                    animation-name: dialogFadeIn;
+                }
+                animation-play-state: running;
+            }
+
+            &-fade-leave.#{$prefix-class}-fade-leave-active {
+                & :local {
+                    animation-name: dialogFadeOut;
+                }
+                animation-play-state: running;
+            }
+        }
+    }
+}
+
+@keyframes dialogFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes dialogFadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes dialogSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes dialogSlideOut {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}

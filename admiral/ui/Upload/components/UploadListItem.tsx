@@ -1,14 +1,25 @@
-import React, { MouseEvent } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import cn from 'classnames'
 import { Tooltip } from '../../Tooltip'
 import { Button } from '../../Button'
-import { FiTrash, FiFile, FiVideo, FiImage, FiEye, FiPaperclip, FiDownload } from 'react-icons/fi'
+import {
+    FiTrash,
+    FiFile,
+    FiVideo,
+    FiImage,
+    FiEye,
+    FiPaperclip,
+    FiDownload,
+    FiX,
+} from 'react-icons/fi'
 import { isVideoUrl } from '../utils'
 import { ListItemProps } from '../interfaces'
 import styles from '../Upload.module.scss'
 import { useTheme } from '../../../theme'
 import { internalDownloadFile } from '../../../utils/helpers'
 import { UploadFile } from '../interfaces'
+import { Dialog } from '../../Dialog'
+
 // TODO: show preview with modal
 
 const ListItem = React.forwardRef(
@@ -30,6 +41,7 @@ const ListItem = React.forwardRef(
         ref: React.Ref<HTMLDivElement>,
     ) => {
         const { themeName, themeClassNames } = useTheme()
+        const [visible, setVisible] = useState(false)
 
         const removeFile = (file: UploadFile) => (e: MouseEvent<HTMLButtonElement>) => {
             e.preventDefault()
@@ -59,7 +71,10 @@ const ListItem = React.forwardRef(
                 iconLeft={<FiEye />}
                 title={locale.previewFile}
                 disabled={file.url || file.thumbUrl ? false : true}
-                onClick={(e) => onPreview(e, file)}
+                onClick={(e) => {
+                    setVisible(true)
+                    onPreview(e, file)
+                }}
                 className={cn(styles.item_ActionButton, {
                     [themeClassNames.color.invert]:
                         listType === 'picture-card' && themeName === 'light',
@@ -104,6 +119,9 @@ const ListItem = React.forwardRef(
                 </span>
             ) : null,
             actions,
+            listType == 'picture-card' ? (
+                <ListItemPreview file={file} visible={visible} onClose={() => setVisible(false)} />
+            ) : null,
         ]
 
         const itemContent = (
@@ -230,6 +248,28 @@ const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listTyp
     }
 
     return node
+}
+
+const ListItemPreview: React.FC<{ file: UploadFile; visible: boolean; onClose: () => void }> = ({
+    file,
+    visible,
+    onClose,
+}) => {
+    let node = (
+        <div className={cn(styles.item_Preview, { [styles.item_PreviewError]: !file.url })}>
+            {file.url ? (
+                <img src={file.url} alt={file.name} className={styles.item_Preview__Image} />
+            ) : (
+                <FiImage />
+            )}
+        </div>
+    )
+
+    return (
+        <Dialog visible={visible} onClose={onClose} title={file.name}>
+            {node}
+        </Dialog>
+    )
 }
 
 export default ListItem

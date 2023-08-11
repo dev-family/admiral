@@ -224,6 +224,19 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
     --button-bg-focus: transparent;
 }
 
+.item_Preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-control-bg-clear-hover);
+    &__Image {
+        width: 100%;
+    }
+    &Error {
+        min-height: 290px;
+    }
+}
+
 :global {
     .upload {
         &-drag {

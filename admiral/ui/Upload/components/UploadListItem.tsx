@@ -20,8 +20,6 @@ import { internalDownloadFile } from '../../../utils/helpers'
 import { UploadFile } from '../interfaces'
 import { Dialog } from '../../Dialog'
 
-// TODO: show preview with modal
-
 const ListItem = React.forwardRef(
     (
         {
@@ -48,6 +46,11 @@ const ListItem = React.forwardRef(
             onClose(file)
         }
 
+        const showPreview = (e: MouseEvent<HTMLButtonElement>) => {
+            setVisible(true)
+            onPreview(e, file)
+        }
+
         const removeIcon = showRemoveIcon ? (
             <Button
                 view="clear"
@@ -71,10 +74,7 @@ const ListItem = React.forwardRef(
                 iconLeft={<FiEye />}
                 title={locale.previewFile}
                 disabled={file.url || file.thumbUrl ? false : true}
-                onClick={(e) => {
-                    setVisible(true)
-                    onPreview(e, file)
-                }}
+                onClick={showPreview}
                 className={cn(styles.item_ActionButton, {
                     [themeClassNames.color.invert]:
                         listType === 'picture-card' && themeName === 'light',

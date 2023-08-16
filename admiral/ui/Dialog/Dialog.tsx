@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react'
+import React, { forwardRef, useCallback } from 'react'
 import { useTheme } from '../../theme'
 import { FiX } from 'react-icons/fi'
 import RcDialog from 'rc-dialog'
@@ -13,16 +13,8 @@ export type DialogRef = {
 export const Dialog = forwardRef<DialogRef, DialogProps>((props, ref) => {
     const { visible, onClose, title, children, ...restProps } = props
 
-    const bodyRef = useRef<HTMLDivElement>(null)
-    const getContainer = () => document.querySelector('body') as HTMLBodyElement
-
-    useImperativeHandle(
-        ref,
-        () => ({
-            bodyElement: () => bodyRef.current as HTMLElement,
-        }),
-        [bodyRef.current],
-    )
+    const getContainer = useCallback(() => document.querySelector('body') as HTMLBodyElement, [])
+    const handleClose = useCallback(() => onClose?.(), [])
 
     const { themeClassNames } = useTheme()
 
@@ -31,7 +23,7 @@ export const Dialog = forwardRef<DialogRef, DialogProps>((props, ref) => {
             prefixCls="dialog"
             visible={visible}
             title={title}
-            onClose={() => onClose && onClose()}
+            onClose={handleClose}
             closeIcon={<FiX />}
             getContainer={getContainer}
             animation="fade-slide"

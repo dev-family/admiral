@@ -6,11 +6,7 @@ import cn from 'classnames'
 import type { DialogProps } from './interfaces'
 import styles from './Dialog.module.scss'
 
-export type DialogRef = {
-    bodyElement: () => HTMLElement
-}
-
-export const Dialog = forwardRef<DialogRef, DialogProps>((props, ref) => {
+export const Dialog: React.FC<DialogProps> = (props) => {
     const { visible, onClose, title, children, ...restProps } = props
 
     const getContainer = useCallback(() => document.querySelector('body') as HTMLBodyElement, [])
@@ -43,6 +39,6 @@ export const Dialog = forwardRef<DialogRef, DialogProps>((props, ref) => {
             {children}
         </RcDialog>
     )
-})
+}
 
 Dialog.defaultProps = {}

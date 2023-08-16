@@ -54,8 +54,6 @@ export default function UploadPage() {
         ],
     )
 
-    console.log(fileList, 'fileList') //!!!
-
     const [fileListMultiple, updateFileListMultiple] = useReducer<
         Reducer<UploadFile[], { fileList: UploadProps['fileList']; file: UploadFile }>
     >((_state, { file, fileList }) => {

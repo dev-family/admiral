@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useEffect } from 'react'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { Drawer, Button } from '../ui'
-import { Form, FormProps, useForm } from '../form'
+import { Form, FormProps } from '../form'
 import { FiSave, FiX } from 'react-icons/fi'
 import { Locale } from './interfaces'
 import { enUS } from './locale'
@@ -13,7 +13,7 @@ export type FiltersProps = {
     fetchInitialData?: (urlState: Record<string, any>) => Promise<GetFiltersFormDataResult>
 }
 
-export const Filters: React.FC<FiltersProps> = ({ locale = enUS, fetchInitialData, children }) => {
+export const Filters: React.FC<FiltersProps> = ({ locale, fetchInitialData, children }) => {
     const {
         filterDrawer,
         setFilterDrawer,
@@ -21,6 +21,8 @@ export const Filters: React.FC<FiltersProps> = ({ locale = enUS, fetchInitialDat
         urlState,
         filter: { setFilterOptions },
     } = useCrudIndex()
+
+    const filtersLocale = locale?.filters ?? enUS
 
     const formRef = useRef<React.ElementRef<typeof Form>>(null)
 
@@ -60,19 +62,19 @@ export const Filters: React.FC<FiltersProps> = ({ locale = enUS, fetchInitialDat
         <Drawer
             visible={filterDrawer}
             onClose={hideDrawer}
-            title={locale.title}
+            title={filtersLocale.title}
             footer={
                 <div className={styles.footer}>
                     <Button type="button" view="secondary" onClick={onReset} iconLeft={<FiX />}>
-                        {locale.clear}
+                        {filtersLocale.clear}
                     </Button>
                     <Button type="button" onClick={onSubmit} iconLeft={<FiSave />}>
-                        {locale.submit}
+                        {filtersLocale.submit}
                     </Button>
                 </div>
             }
         >
-            <Form ref={formRef} fetchInitialData={_fetchInitialData}>
+            <Form ref={formRef} fetchInitialData={_fetchInitialData} locale={locale?.form}>
                 <Form.Fields singleColumn>{children}</Form.Fields>
             </Form>
         </Drawer>

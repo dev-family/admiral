@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Locale as FormLocale } from '../form/interfaces'
-import { Locale as FiltersLocale } from '../filters/interfaces'
+import { FiltersLocale } from '../filters/interfaces'
 import { ColumnsType, ColumnType, TableLocale } from '../ui/Table/interfaces'
 import { DrawerProps } from '../ui/Drawer/interfaces'
 import { PaginationLocale } from '../ui/Pagination/interfaces'

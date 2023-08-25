@@ -7,11 +7,11 @@ import { tuple } from '../utils/type'
 export type Locale = {
     successMessage: string
     fields: {
-        array: ArrayInputLocale
+        array?: ArrayInputLocale
         editor?: EditorLocaleType
-        datePicker: PickerLocale
-        select: SelectLocale
-        upload: UploadLocale
+        datePicker?: PickerLocale
+        select?: SelectLocale
+        upload?: UploadLocale
     }
 }
 

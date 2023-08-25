@@ -8,7 +8,7 @@ import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react'
 import { CrudIndexPageContextProvider } from './CrudIndexPageContext'
-import { AppliedFilters, Filters, QuickFilters } from '../filters'
+import { AppliedFilters, Filters } from '../filters'
 import { RouterLocationState } from '../router/interfaces'
 import { CRUDConfig } from './interfaces'
 import styles from './Crud.module.scss'
@@ -110,7 +110,10 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                         autoupdateTime={config.index.tableConfig?.autoupdateTime}
                     />
                     {!!config.filter && (
-                        <Filters fetchInitialData={fetchInitialFiltersData} locale={locale.filters}>
+                        <Filters
+                            fetchInitialData={fetchInitialFiltersData}
+                            locale={{ filters: locale.filters, form: locale.form }}
+                        >
                             {config.filter.fields}
                         </Filters>
                     )}

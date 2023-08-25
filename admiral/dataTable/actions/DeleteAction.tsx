@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { FiTrash } from 'react-icons/fi'
 import { useDataTable } from '../DataTableContext'
 import { useDataProvider } from '../../dataProvider'
-import { Button, Popconfirm } from '../../ui'
+import { Button, Popconfirm, Notification } from '../../ui'
 
 import { ButtonProps } from '../../ui/Button/interfaces'
 import { PopconfirmLocale } from '../../ui/Popconfirm/interfaces'
@@ -30,8 +30,15 @@ export const DeleteAction: React.FC<DeleteActionProps> = ({
     const { refresh } = useDataTable()
 
     const handleDelete = useCallback(async () => {
-        await deleteOne(resource, { id })
-        refresh()
+        try {
+            await deleteOne(resource, { id })
+            refresh()
+        } catch (e: any) {
+            Notification({
+                message: e.response.data.message,
+                type: 'error',
+            })
+        }
     }, [])
 
     return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { useNav } from '../../navigation/NavContext'
 import { useTheme } from '../../theme'
 import * as Icons from 'react-icons/fi'
@@ -39,12 +39,17 @@ const TooltipMenu: React.FC = ({ children }) => {
 
 export const SubMenu = ({ icon, name, to, badge, children }: SubMenuProps) => {
     const { pathname } = useLocation<RouterLocationState>()
+    const params = useParams()
+    const paramValues = Object.values(params)
+
+    const childs = React.Children.map(children, (child) => child.props)
+    const hasActiveChild = childs.some(
+        ({ to }) => (paramValues.length ? `${to}/${paramValues.join('/')}` : to) === pathname,
+    )
+    const isActive = (paramValues.length ? `${to}/${paramValues.join('/')}` : to) === pathname
 
     const { collapsed, visible } = useNav()
-    const [accordionOpened, setAccordionOpened] = useState(false)
-    const childs = React.Children.map(children, (child) => child.props)
-    const hasActiveChild = childs.some(({ to }) => to === pathname)
-    const isActive = to === pathname
+    const [accordionOpened, setAccordionOpened] = useState(hasActiveChild || isActive)
 
     useEffect(() => {
         if (collapsed) {

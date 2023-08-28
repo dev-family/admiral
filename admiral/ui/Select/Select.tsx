@@ -28,6 +28,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         getPopupContainer: customizeGetPopupContainer,
         loading,
         locale,
+        onChange,
         ...props
     }: SelectProps<OptionType>,
     ref: React.Ref<BaseSelectRef>,
@@ -56,7 +57,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         prefixCls,
     })
 
-    const selectProps = omit(props as typeof props & { itemIcon: any }, ['itemIcon', 'allowClear'])
+    const selectProps = omit(props as typeof props & { itemIcon: any }, ['itemIcon'])
 
     const mergedClassName = cn(
         {
@@ -79,6 +80,10 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         [value],
     )
 
+    const _onChange = useCallback((value, option) => {
+        if (onChange) onChange(value ?? null, option)
+    }, [])
+
     return (
         <RcSelect<any, any>
             ref={ref as any}
@@ -86,6 +91,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
             style={style}
             dropdownMatchSelectWidth={dropdownMatchSelectWidth}
             maxTagCount={maxTagCount}
+            onChange={_onChange}
             {...selectProps}
             value={selectValue}
             className={mergedClassName}

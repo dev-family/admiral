@@ -69,8 +69,8 @@ export default function EditPage({ id }: { id: string }) {
                         <BooleanInput label="Active?" name="active" />
 
                         <Form.Footer>
-                            <BackButton basePath={path}>Назад</BackButton>
-                            <Form.Submit>Сохранить</Form.Submit>
+                            <BackButton basePath={path}>Back</BackButton>
+                            <Form.Submit>Submit</Form.Submit>
                         </Form.Footer>
                     </Form>
                 </Tabs.TabPane>

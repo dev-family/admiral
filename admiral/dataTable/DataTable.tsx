@@ -33,7 +33,11 @@ export interface DataTableConfig<RecordType>
 }
 
 export type DataTableRowSelectionConfig<RecordType> = {
-    render: (selectedRowKeys: Key[], selectedRows: RecordType[]) => React.ReactNode
+    render: (
+        selectedRowKeys: Key[],
+        selectedRows: RecordType[],
+        refresh: () => void,
+    ) => React.ReactNode
     onSelectionChange?: (selectedRowKeys: Key[], selectedRows: RecordType[]) => void
 }
 
@@ -228,7 +232,7 @@ export function DataTable<RecordType extends { id: number | string }>({
             configuration.title = (data) => {
                 const customTitle = title?.(data)
                 const rowSelectionNode = hasRowSelectionConfig
-                    ? rowSelection.render(selectedKeys, selectedRows)
+                    ? rowSelection.render(selectedKeys, selectedRows, refresh)
                     : null
 
                 return (

@@ -39,7 +39,8 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     return label ? `${label}: ${value}` : value
                 }
 
-                case 'SelectInput': {
+                case 'SelectInput':
+                case 'AjaxSelectInput': {
                     const isMultiple = Array.isArray(value)
                     const options = filterOptions[name]
 

@@ -129,6 +129,8 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
                         )}
                     />
                 )}
+
+                <Redirect to="/" />
             </TopLocationContextProvider>
         )
     }

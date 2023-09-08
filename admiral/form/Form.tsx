@@ -107,10 +107,12 @@ const InternalForm = forwardRef<FormRef, FormProps>(
             } catch (e: any) {
                 if (e.response.status === 422) {
                     mounted.current && setErrors(e.response.data.errors)
+                } else {
+                    mounted.current && setErrors({})
                 }
 
                 Notification({
-                    message: e.response.data.message,
+                    message: e.response.data.message ?? 'An error occurred on the server.',
                     type: 'error',
                 })
             }

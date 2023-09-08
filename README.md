@@ -315,6 +315,21 @@ Result:
 }
 ```
 
+❗**Note**: We utilize the HTTP status code 422 Unprocessable Entity to handle validation errors.
+
+#### Example Validation Error
+
+```json
+{
+    "errors": {
+        ...,
+        "fieldName": ["FieldName is invalid."],
+        ...
+    },
+    "message": "Validation failed",
+}
+```
+
 #### Pagination
 
 Pagination work with `getList` method. You can pass `page` and `perPage` params to `getList` method, and it will return `PaginationResult` object with `items` and `meta` fields.
@@ -338,7 +353,7 @@ A page is a React Component exported from a .js, .jsx, .ts, or .tsx file in the 
 
 The router will automatically route files named index to the root of the directory.
 
-`pages/index.ts → /`  
+`pages/index.ts → /`
 `pages/users/index.ts → /users`
 
 #### Nested routes

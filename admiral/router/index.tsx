@@ -117,6 +117,8 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
                             />
                         ),
                     )}
+
+                    <Redirect to="/" />
                 </Switch>
 
                 {background && routeWithBackground && (
@@ -129,8 +131,6 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
                         )}
                     />
                 )}
-
-                <Redirect to="/" />
             </TopLocationContextProvider>
         )
     }

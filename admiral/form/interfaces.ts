@@ -6,6 +6,7 @@ import { tuple } from '../utils/type'
 
 export type Locale = {
     successMessage: string
+    serverErrorMessage: string
     fields: {
         array?: ArrayInputLocale
         editor?: EditorLocaleType

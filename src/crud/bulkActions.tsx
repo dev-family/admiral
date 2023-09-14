@@ -79,7 +79,7 @@ export const CRUD = createCRUD({
         ],
         tableConfig: {
             rowSelection: {
-                render: (selectedRowKeys, _, refresh) => (
+                render: ({ selectedRowKeys, refresh }) => (
                     <RowSelection selectedKeys={selectedRowKeys} refresh={refresh} />
                 ),
             },

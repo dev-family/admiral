@@ -14,4 +14,5 @@ export const enUS: Locale = {
         upload: enUsUploadLocale,
     },
     successMessage: 'Data saved successfully!',
+    serverErrorMessage: 'An error occurred on the server.',
 }

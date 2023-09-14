@@ -317,16 +317,15 @@ Result:
 
 ❗**Note**: We utilize the HTTP status code 422 Unprocessable Entity to handle validation errors.
 
-#### Example Validation Error
+##### Example Validation Error
 
 ```json
 {
     "errors": {
-        ...,
-        "fieldName": ["FieldName is invalid."],
-        ...
+        "name": ["Field 'name' is invalid."],
+        "email": ["Field 'email' is invalid."]
     },
-    "message": "Validation failed",
+    "message": "Validation failed"
 }
 ```
 

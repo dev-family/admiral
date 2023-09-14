@@ -79,7 +79,9 @@ export const CRUD = createCRUD({
         ],
         tableConfig: {
             rowSelection: {
-                render: (selectedRowKeys) => <RowSelection selectedKeys={selectedRowKeys} />,
+                render: ({ selectedRowKeys, refresh }) => (
+                    <RowSelection selectedKeys={selectedRowKeys} refresh={refresh} />
+                ),
             },
         },
         tableActions: null,
@@ -190,12 +192,20 @@ export const CRUD = createCRUD({
     ),
 })
 
-function RowSelection({ selectedKeys }: { selectedKeys: Array<string | number> }) {
+function RowSelection({
+    selectedKeys,
+    refresh,
+}: {
+    selectedKeys: Array<string | number>
+    refresh: () => void
+}) {
     const btnDisabled = selectedKeys.length === 0
     selectedKeys.length === 0
 
-    const onClick = (action: string) => () =>
+    const onClick = (action: string) => () => {
         alert(`${action} selected items with keys: ${selectedKeys.join(', ')}`)
+        refresh()
+    }
 
     return (
         <div style={{ display: 'flex', gap: 'var(--space-m)' }}>

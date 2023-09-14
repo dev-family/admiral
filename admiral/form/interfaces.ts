@@ -36,6 +36,7 @@ export const INPUT_NAMES = {
     slug: 'SlugInput',
     translatable: 'TranslatableInput',
     ajaxSelectInput: 'AjaxSelectInput',
+    radio: 'RadioInput',
 } as const
 
 const inputTypes = tuple(...Object.values(INPUT_NAMES))

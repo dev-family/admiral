@@ -1,4 +1,4 @@
-import { ChoiceChangeEvent } from '../Choice/interfaces'
+import { ChoiceChangeEvent, ChoiceView } from '../Choice/interfaces'
 
 export interface AbstractCheckboxProps<T> {
     className?: string
@@ -20,7 +20,7 @@ export interface AbstractCheckboxProps<T> {
 }
 
 export interface CheckboxProps extends AbstractCheckboxProps<ChoiceChangeEvent> {
-    view?: 'primary' | 'ghost'
+    view?: ChoiceView
     size?: 'm' | 'l'
     align?: 'top' | 'center' | 'bottom'
     indeterminate?: boolean

@@ -13,6 +13,7 @@ import {
     DatePickerInput,
     AjaxSelectInput,
     SlugInput,
+    RadioInput,
 } from '../../../admiral'
 import api from '../../api'
 
@@ -128,10 +129,7 @@ export const UsersCRUD = createCRUD({
                             Project managers
                         </SelectInput.Option>
                     </SelectInput>
-                    <SelectInput label="Role" name="role" placeholder="Choose Role" required>
-                        <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
-                        <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
-                    </SelectInput>
+                    <RadioInput label="Role" name="role" required />
                     <FilePictureInput
                         columnSpan={2}
                         label="Avatar"

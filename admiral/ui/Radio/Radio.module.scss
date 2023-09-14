@@ -1,0 +1,5 @@
+.radio__Group {
+    > *:not(:last-of-type) {
+        margin-right: var(--space-s);
+    }
+}

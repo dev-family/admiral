@@ -7,9 +7,11 @@ export interface ChoiceChangeEvent {
     event: Event
 }
 
+export type ChoiceView = 'primary' | 'ghost'
+
 export interface ChoiceProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
     classNames?: { wrapper?: string; input?: string; inner?: string }
-    view?: 'primary' | 'ghost'
+    view?: ChoiceView
     indeterminate?: boolean
     onChange?: (e: ChoiceChangeEvent) => void
 }

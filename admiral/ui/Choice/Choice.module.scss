@@ -27,6 +27,12 @@
                 height: 50%;
                 border-width: 0px;
                 background: currentColor;
+                transform: scale(0.4);
+            }
+        }
+        .input:checked + .inner {
+            &::after {
+                transform: scale(1);
             }
         }
     }

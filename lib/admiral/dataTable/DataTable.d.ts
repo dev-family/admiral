@@ -20,7 +20,11 @@ export interface DataTableConfig<RecordType> extends Pick<TableProps<RecordType>
     autoupdateTime?: number;
 }
 export declare type DataTableRowSelectionConfig<RecordType> = {
-    render: (selectedRowKeys: Key[], selectedRows: RecordType[]) => React.ReactNode;
+    render: ({ selectedRowKeys, selectedRows, refresh, }: {
+        selectedRowKeys: Key[];
+        selectedRows: RecordType[];
+        refresh: () => void;
+    }) => React.ReactNode;
     onSelectionChange?: (selectedRowKeys: Key[], selectedRows: RecordType[]) => void;
 };
 export declare function DataTable<RecordType extends {

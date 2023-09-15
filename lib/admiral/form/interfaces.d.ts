@@ -4,12 +4,13 @@ import { EditorLocaleType } from '../ui/Editor/interfaces';
 import { UploadLocale } from '../ui/Upload/interfaces';
 export declare type Locale = {
     successMessage: string;
+    serverErrorMessage: string;
     fields: {
-        array: ArrayInputLocale;
+        array?: ArrayInputLocale;
         editor?: EditorLocaleType;
-        datePicker: PickerLocale;
-        select: SelectLocale;
-        upload: UploadLocale;
+        datePicker?: PickerLocale;
+        select?: SelectLocale;
+        upload?: UploadLocale;
     };
 };
 export declare type ArrayInputLocale = {
@@ -32,8 +33,9 @@ export declare const INPUT_NAMES: {
     readonly slug: "SlugInput";
     readonly translatable: "TranslatableInput";
     readonly ajaxSelectInput: "AjaxSelectInput";
+    readonly radio: "RadioInput";
 };
-declare const inputTypes: ("ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput" | "TranslatableInput" | "AjaxSelectInput")[];
+declare const inputTypes: ("ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput" | "TranslatableInput" | "AjaxSelectInput" | "RadioInput")[];
 export declare type FormInputType = typeof inputTypes[number];
 export declare type InputComponentWithName<T> = T & {
     inputName: FormInputType;

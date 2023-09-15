@@ -1,2 +1,2 @@
-import { Locale } from '../interfaces';
-export declare const enUS: Locale;
+import { FiltersLocale } from '../interfaces';
+export declare const enUS: FiltersLocale;

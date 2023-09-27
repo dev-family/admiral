@@ -8,6 +8,7 @@ import { InputComponentWithName } from '../interfaces'
 
 export interface RadioInputProps extends RadioGroupProps, FormItemProps {
     name: string
+    onChange?: (value: any) => void
 }
 
 export const RadioInput: InputComponentWithName<React.FC<RadioInputProps>> = ({
@@ -15,6 +16,7 @@ export const RadioInput: InputComponentWithName<React.FC<RadioInputProps>> = ({
     label,
     required,
     columnSpan,
+    onChange,
     ...inputProps
 }) => {
     const { values, errors, options, setValues } = useForm()
@@ -22,9 +24,13 @@ export const RadioInput: InputComponentWithName<React.FC<RadioInputProps>> = ({
     const error = errors[name]?.[0]
     const opts = options[name]
 
-    const onChange = useCallback((e) => {
-        setValues((values: any) => ({ ...values, [name]: e.target.value }))
-    }, [])
+    const _onChange = useCallback(
+        (e) => {
+            setValues((values: any) => ({ ...values, [name]: e.target.value }))
+            onChange?.(e.target.value)
+        },
+        [onChange],
+    )
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
@@ -33,7 +39,7 @@ export const RadioInput: InputComponentWithName<React.FC<RadioInputProps>> = ({
                 {...inputProps}
                 name={name}
                 value={value}
-                onChange={onChange}
+                onChange={_onChange}
             />
         </Form.Item>
     )

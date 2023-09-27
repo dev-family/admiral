@@ -8,6 +8,7 @@ import { InputComponentWithName } from '../interfaces'
 
 export interface TextInputProps extends InputProps, FormItemProps {
     name: string
+    onChange?: (value: any) => void
 }
 
 export const TextInput: InputComponentWithName<React.FC<TextInputProps>> = ({
@@ -15,19 +16,24 @@ export const TextInput: InputComponentWithName<React.FC<TextInputProps>> = ({
     label,
     required,
     columnSpan,
+    onChange,
     ...inputProps
 }) => {
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
 
-    const onChange = useCallback((e) => {
-        setValues((values: any) => ({ ...values, [name]: e.target.value }))
-    }, [])
+    const _onChange = useCallback(
+        (e) => {
+            setValues((values: any) => ({ ...values, [name]: e.target.value }))
+            onChange?.(e.target.value)
+        },
+        [onChange],
+    )
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
-            <Input {...inputProps} name={name} value={value} onChange={onChange} alert={!!error} />
+            <Input {...inputProps} name={name} value={value} onChange={_onChange} alert={!!error} />
         </Form.Item>
     )
 }

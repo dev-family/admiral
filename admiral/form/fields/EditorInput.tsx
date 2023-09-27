@@ -8,6 +8,7 @@ import { InputComponentWithName } from '../interfaces'
 
 export interface EditorInputProps extends EditorProps, FormItemProps {
     name: string
+    onChange?: (value: any) => void
 }
 
 export const EditorInput: InputComponentWithName<React.FC<EditorInputProps>> = ({
@@ -15,6 +16,7 @@ export const EditorInput: InputComponentWithName<React.FC<EditorInputProps>> = (
     label,
     required,
     columnSpan,
+    onChange,
     ...editorProps
 }) => {
     const { values, errors, setValues, locale: formLocale } = useForm()
@@ -23,9 +25,13 @@ export const EditorInput: InputComponentWithName<React.FC<EditorInputProps>> = (
     const value = values[name]
     const error = errors[name]?.[0]
 
-    const onChange = useCallback((value: string) => {
-        setValues((values: any) => ({ ...values, [name]: value }))
-    }, [])
+    const _onChange = useCallback(
+        (value: string) => {
+            setValues((values: any) => ({ ...values, [name]: value }))
+            onChange?.(value)
+        },
+        [onChange],
+    )
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
@@ -33,7 +39,7 @@ export const EditorInput: InputComponentWithName<React.FC<EditorInputProps>> = (
                 {...editorProps}
                 value={value}
                 locale={locale}
-                onChange={onChange}
+                onChange={_onChange}
                 alert={!!error}
             />
         </Form.Item>

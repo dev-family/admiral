@@ -15,6 +15,7 @@ export interface SlugInputProps extends InputProps, FormItemProps {
     from: string
     slugLang?: string
     options?: SlygifyOptions
+    onChange?: (value: any) => void
 }
 
 export type SlygifyOptions = {
@@ -53,6 +54,7 @@ export const SlugInput: InputComponentWithName<React.FC<SlugInputProps>> = ({
     options,
     size,
     slugLang,
+    onChange,
     ...inputProps
 }) => {
     const { values, errors, setValues } = useForm()
@@ -67,7 +69,7 @@ export const SlugInput: InputComponentWithName<React.FC<SlugInputProps>> = ({
         }
 
         if (fromFieldValue) {
-            onChange({
+            _onChange({
                 target: {
                     value: slugify(fromFieldValue, {
                         lower: true,
@@ -78,16 +80,20 @@ export const SlugInput: InputComponentWithName<React.FC<SlugInputProps>> = ({
             })
             return
         }
-        onChange({
+        _onChange({
             target: {
                 value: null,
             },
         })
     }, [fromFieldValue])
 
-    const onChange = useCallback((e) => {
-        setValues((values: any) => ({ ...values, [name]: e.target.value }))
-    }, [])
+    const _onChange = useCallback(
+        (e) => {
+            setValues((values: any) => ({ ...values, [name]: e.target.value }))
+            onChange?.(e.target.value)
+        },
+        [onChange],
+    )
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
@@ -96,7 +102,7 @@ export const SlugInput: InputComponentWithName<React.FC<SlugInputProps>> = ({
                 readOnly={isLocked}
                 name={name}
                 value={value}
-                onChange={onChange}
+                onChange={_onChange}
                 alert={!!error}
                 size={size}
                 className={cn(styles.slugInput, {

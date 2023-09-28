@@ -43,10 +43,13 @@ export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputPro
         if (Array.isArray(optionsByName) && !fetched.current) setOptions(optionsByName)
     }, [optionsByName])
 
-    const _onChange = useCallback((value) => {
-        setValues((values: any) => ({ ...values, [name]: value }))
-        if (onChange) onChange(value)
-    }, [])
+    const _onChange = useCallback(
+        (value) => {
+            setValues((values: any) => ({ ...values, [name]: value }))
+            if (onChange) onChange(value)
+        },
+        [onChange],
+    )
 
     const fetchResults = async (query = '') => {
         setLoading(true)

@@ -11,6 +11,7 @@ const { OptGroup, Option } = Select
 
 export interface SelectInputProps extends SelectProps, FormItemProps {
     name: string
+    onChange?: (value: any) => void
 }
 
 const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = ({
@@ -19,6 +20,7 @@ const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = 
     required = false,
     columnSpan,
     children,
+    onChange,
     ...selectProps
 }) => {
     const getPopupContainer = usePopupContainer()
@@ -29,9 +31,13 @@ const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = 
     const error = errors[name]?.[0]
     const opts = options[name]
 
-    const onChange = useCallback((value) => {
-        setValues((values: any) => ({ ...values, [name]: value }))
-    }, [])
+    const _onChange = useCallback(
+        (value) => {
+            setValues((values: any) => ({ ...values, [name]: value }))
+            onChange?.(value)
+        },
+        [onChange],
+    )
 
     const renderChildren = useCallback(() => {
         if (children) return children
@@ -56,7 +62,7 @@ const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = 
                 {...selectProps}
                 locale={locale}
                 value={value}
-                onChange={onChange}
+                onChange={_onChange}
                 alert={!!error}
             >
                 {renderChildren()}

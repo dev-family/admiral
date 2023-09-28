@@ -14,6 +14,7 @@ interface TimePickerProps extends Omit<BaseTimePickerProps, 'format'> {}
 export type TimePickerInputProps = FormItemProps & {
     name: string
     format: string
+    onChange?: (value: any) => void
 } & TimePickerProps
 
 export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputProps>> = ({
@@ -21,6 +22,7 @@ export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputPro
     label,
     required,
     columnSpan,
+    onChange,
     ...pickerProps
 }) => {
     const getPopupContainer = usePopupContainer()
@@ -31,9 +33,13 @@ export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputPro
 
     const error = errors[name]?.[0]
 
-    const onChange = useCallback((value: Date | null) => {
-        setValues((values: any) => ({ ...values, [name]: value?.toISOString() }))
-    }, [])
+    const _onChange = useCallback(
+        (value: Date | null) => {
+            setValues((values: any) => ({ ...values, [name]: value?.toISOString() }))
+            onChange?.(value?.toISOString())
+        },
+        [onChange],
+    )
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
@@ -42,7 +48,7 @@ export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputPro
                 {...pickerProps}
                 locale={locale}
                 value={value}
-                onChange={onChange}
+                onChange={_onChange}
                 alert={!!error}
             />
         </Form.Item>

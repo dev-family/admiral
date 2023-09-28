@@ -10,6 +10,7 @@ import { usePopupContainer } from '../../crud/PopupContainerContext'
 export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps {
     name: string
     outputValue?: keyof ColorPickerResult
+    onChange?: (value: any) => void
 }
 
 export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputProps>> = ({
@@ -19,6 +20,7 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
     columnSpan,
     showError,
     outputValue = 'rgbString',
+    onChange,
     ...colorPickerProps
 }) => {
     const getPopupContainer = usePopupContainer()
@@ -26,9 +28,13 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
     const value = values[name]
     const error = errors[name]?.[0]
 
-    const onChange = useCallback((value: ColorPickerResult) => {
-        setValues((values: any) => ({ ...values, [name]: value[outputValue] }))
-    }, [])
+    const _onChange = useCallback(
+        (value: ColorPickerResult) => {
+            setValues((values: any) => ({ ...values, [name]: value[outputValue] }))
+            onChange?.(value[outputValue])
+        },
+        [onChange],
+    )
 
     // prevent reopen when close picker by clicking on label
     const onLabelClick = useCallback((e) => {
@@ -48,7 +54,7 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
                 appendTo={getPopupContainer}
                 {...colorPickerProps}
                 value={value}
-                onChange={onChange}
+                onChange={_onChange}
                 alert={!!error}
             />
         </Form.Item>

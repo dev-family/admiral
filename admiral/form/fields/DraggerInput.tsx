@@ -8,6 +8,7 @@ import { InputComponentWithName } from '../interfaces'
 
 export type DraggerInputProps = FormItemProps & {
     name: string
+    onChange?: (value: any) => void
 } & UploadProps
 
 export const DraggerInput: InputComponentWithName<React.FC<DraggerInputProps>> = ({
@@ -17,6 +18,7 @@ export const DraggerInput: InputComponentWithName<React.FC<DraggerInputProps>> =
     columnSpan,
     children,
     disabled,
+    onChange,
     ...uploadProps
 }) => {
     const { values, errors, setValues, locale: formLocale } = useForm()
@@ -27,10 +29,14 @@ export const DraggerInput: InputComponentWithName<React.FC<DraggerInputProps>> =
 
     const error = errors[name]?.[0]
 
-    const onChange = useCallback(({ fileList }) => {
-        const files = fileList ?? []
-        setValues((values: any) => ({ ...values, [name]: files }))
-    }, [])
+    const _onChange = useCallback(
+        ({ fileList }) => {
+            const files = fileList ?? []
+            setValues((values: any) => ({ ...values, [name]: files }))
+            onChange?.(files)
+        },
+        [onChange],
+    )
 
     const onLabelClick = useCallback((e) => {
         e?.preventDefault()
@@ -48,7 +54,7 @@ export const DraggerInput: InputComponentWithName<React.FC<DraggerInputProps>> =
                 {...uploadProps}
                 locale={locale}
                 fileList={arrayValue}
-                onChange={onChange}
+                onChange={_onChange}
             />
         </Form.Item>
     )

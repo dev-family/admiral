@@ -8,6 +8,7 @@ import { InputComponentWithName } from '../interfaces'
 
 export interface MultilineTextInputProps extends TextareaProps, FormItemProps {
     name: string
+    onChange?: (value: any) => void
 }
 
 export const MultilineTextInput: InputComponentWithName<React.FC<MultilineTextInputProps>> = ({
@@ -15,15 +16,20 @@ export const MultilineTextInput: InputComponentWithName<React.FC<MultilineTextIn
     label,
     required,
     columnSpan,
+    onChange,
     ...textareaProps
 }) => {
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
 
-    const onChange = useCallback((e) => {
-        setValues((values: any) => ({ ...values, [name]: e.target.value }))
-    }, [])
+    const _onChange = useCallback(
+        (e) => {
+            setValues((values: any) => ({ ...values, [name]: e.target.value }))
+            onChange?.(e.target.value)
+        },
+        [onChange],
+    )
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
@@ -31,7 +37,7 @@ export const MultilineTextInput: InputComponentWithName<React.FC<MultilineTextIn
                 {...textareaProps}
                 name={name}
                 value={value}
-                onChange={onChange}
+                onChange={_onChange}
                 alert={!!error}
             />
         </Form.Item>

@@ -10,6 +10,7 @@ import { usePopupContainer } from '../../crud/PopupContainerContext'
 
 export type DatePickerInputProps = FormItemProps & {
     name: string
+    onChange?: (value: any) => void
 } & PickerProps<Date>
 
 export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputProps>> = ({
@@ -17,6 +18,7 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
     label,
     required,
     columnSpan,
+    onChange,
     ...pickerProps
 }) => {
     const getPopupContainer = usePopupContainer()
@@ -26,9 +28,13 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
     let value = values[name] ? parseISO(values[name]) : null
     const error = errors[name]?.[0]
 
-    const onChange = useCallback((value: Date | null) => {
-        setValues((values: any) => ({ ...values, [name]: value?.toISOString() }))
-    }, [])
+    const _onChange = useCallback(
+        (value: Date | null) => {
+            setValues((values: any) => ({ ...values, [name]: value?.toISOString() }))
+            onChange?.(value?.toISOString())
+        },
+        [onChange],
+    )
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
@@ -37,7 +43,7 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
                 locale={locale}
                 {...pickerProps}
                 value={value}
-                onChange={onChange}
+                onChange={_onChange}
                 alert={!!error}
             />
         </Form.Item>

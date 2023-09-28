@@ -7,6 +7,7 @@ interface TimePickerProps extends Omit<BaseTimePickerProps, 'format'> {
 export declare type TimePickerInputProps = FormItemProps & {
     name: string;
     format: string;
+    onChange?: (value: any) => void;
 } & TimePickerProps;
 export declare const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputProps>>;
 export declare const parseValue: (value: string, format: string) => Date | null;

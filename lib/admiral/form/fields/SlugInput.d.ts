@@ -7,6 +7,7 @@ export interface SlugInputProps extends InputProps, FormItemProps {
     from: string;
     slugLang?: string;
     options?: SlygifyOptions;
+    onChange?: (value: any) => void;
 }
 export declare type SlygifyOptions = {
     replacement?: string;

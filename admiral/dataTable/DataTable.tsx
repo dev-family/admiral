@@ -10,6 +10,8 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { useTopLocation } from '../router'
 import styles from './DataTable.module.scss'
+import lodash from 'lodash'
+import debounce from 'lodash.debounce'
 
 export type DataTableProps<RecordType> = {
     resource: string
@@ -93,9 +95,9 @@ export function DataTable<RecordType extends { id: number | string }>({
     }, [urlState])
 
     async function fetch(resource: string, state: typeof urlState) {
-        if (isFetching.current) {
-            return
-        }
+        // if (isFetching.current) {
+        //     return
+        // }
         // useState does not have time to update if we call fetch several times at the same time
         isFetching.current = true
         setLoading(true)
@@ -137,7 +139,12 @@ export function DataTable<RecordType extends { id: number | string }>({
     }, [resource, urlState, fetch])
 
     useEffect(() => {
-        fetch(resource, urlState)
+        const delayDebounceFetch = debounce(fetch, 500)
+        delayDebounceFetch(resource, urlState)
+
+        return () => {
+            delayDebounceFetch.cancel()
+        }
     }, [resource, urlState])
 
     useEffect(() => {

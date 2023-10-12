@@ -14,20 +14,13 @@ import {
     AjaxSelectInput,
     SlugInput,
     RadioInput,
-    MultilineTextInput,
-    PasswordInput,
-    TranslatableInput,
-    ColorPickerInput,
 } from '../../../admiral'
 import api from '../../api'
 
 const onImageUpload = (file: Blob) => {
     return api.editorImageUpload('editorUpload', { file })
 }
-const languages = [
-    { label: 'English', value: 'en' },
-    { label: 'Spanish', value: 'spa' },
-]
+
 export const path = '/crud-users'
 export const resource = 'users'
 

@@ -71,6 +71,14 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     return label ? `${label}: ${date}` : date
                 }
 
+                case 'DateRangePickerInput': {
+                    const date = [
+                        format(parseISO(value[0]), 'dd.MM.yyyy'),
+                        format(parseISO(value[1]), 'dd.MM.yyyy'),
+                    ]
+                    return label ? `${label}: ${date[0]} - ${date[1]}` : `${date[0]} - ${date[1]}`
+                }
+
                 default:
                     return null
             }

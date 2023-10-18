@@ -26,6 +26,7 @@ export const INPUT_NAMES = {
     boolean: 'BooleanInput',
     colorPicker: 'ColorPickerInput',
     datePicker: 'DatePickerInput',
+    dateRangePicker: 'DateRangePickerInput',
     dragger: 'DraggerInput',
     editor: 'EditorInput',
     filePicture: 'FilePictureInput',

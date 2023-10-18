@@ -239,6 +239,10 @@ $font-size-xs: var(--control-text-size-xs);
         }
     }
 
+    &-range-wrapper {
+        min-width: initial !important;
+    }
+
     &-panel-container {
         overflow-y: hidden;
         overflow-x: auto;

@@ -38,6 +38,11 @@ const CustomMenu = () => {
                 <MenuItemLink icon="FiBox" name="Textarea" to="/components/textarea" />
                 <MenuItemLink icon="FiBox" name="Translatable" to="/components/translatable" />
                 <MenuItemLink icon="FiBox" name="Datepicker" to="/components/datepicker" />
+                <MenuItemLink
+                    icon="FiBox"
+                    name="DateRangepicker"
+                    to="/components/daterangepicker"
+                />
                 <MenuItemLink icon="FiBox" name="Timepicker" to="/components/timepicker" />
                 <MenuItemLink icon="FiBox" name="Upload" to="/components/upload" />
                 <MenuItemLink icon="FiBox" name="Card" to="/components/card" />

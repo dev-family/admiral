@@ -24,6 +24,9 @@ export default function ComponentsPage() {
                 <Link to="components/translatable">
                     <Button component="span">Translatable</Button>
                 </Link>
+                <Link to="components/daterangepicker">
+                    <Button component="span">DateRangePicker</Button>
+                </Link>
                 <Link to="components/datepicker">
                     <Button component="span">DatePicker</Button>
                 </Link>

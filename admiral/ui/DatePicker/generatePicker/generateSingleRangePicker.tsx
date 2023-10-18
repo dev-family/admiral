@@ -1,6 +1,6 @@
 import React from 'react'
 import cn from 'classnames'
-import { Button } from '../../../ui'
+import { Button } from '../..'
 import {
     FiCalendar,
     FiClock,
@@ -10,28 +10,29 @@ import {
     FiChevronsRight,
 } from 'react-icons/fi'
 import { AiFillCloseCircle } from 'react-icons/ai'
-import RCPicker from 'rc-picker'
+import { RangePicker } from 'rc-picker'
 import { PickerMode } from 'rc-picker/lib/interface'
 import { GenerateConfig } from 'rc-picker/lib/generate/index'
 import enUs from '../locale/en_US'
-import { getPlaceholder } from '../util'
-import { PickerProps, PickerComponentClass } from './interfaces'
+import { getRangeTimeProps } from './getRangeTimeProps'
 import PickerButton from '../PickerButton'
 import PickerTag from '../PickerTag'
-import { getTimeProps } from './getTimeProps'
+import { PickerComponentClass, PickerRangeProps } from './interfaces'
 
 const defaultLocale = enUs
 
-export default function generatePicker<DateType>(generateConfig: GenerateConfig<DateType>) {
-    type DatePickerProps = PickerProps<DateType>
+export default function generateSingleRangePicker<DateType>(
+    generateConfig: GenerateConfig<DateType>,
+) {
+    type DateRangePickerProps = PickerRangeProps<DateType>
 
-    function getPicker<InnerPickerProps extends DatePickerProps>(
+    function getPicker<InnerPickerProps extends DateRangePickerProps>(
         picker?: PickerMode,
         displayName?: string,
     ) {
         class Picker extends React.Component<InnerPickerProps> {
             static displayName: string
-            pickerRef = React.createRef<RCPicker<DateType>>()
+            pickerRef = React.createRef<RangePicker<DateType>>()
 
             focus = () => {
                 if (this.pickerRef.current) {
@@ -51,9 +52,9 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
                     className,
                     size,
                     borderless = false,
-                    placeholder,
                     alert,
                     locale,
+                    separator = '',
                     ...restProps
                 } = this.props
                 const pickerLocale = { ...defaultLocale, ...locale }
@@ -75,23 +76,20 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
                 additionalOverrideProps = {
                     ...additionalOverrideProps,
                     ...(showTime
-                        ? getTimeProps({ format, picker: mergedPicker, ...showTime })
+                        ? getRangeTimeProps({ format, picker: mergedPicker, ...showTime })
                         : {}),
                     ...(mergedPicker === 'time'
-                        ? getTimeProps({ format, ...this.props, picker: mergedPicker })
+                        ? getRangeTimeProps({ format, ...this.props, picker: mergedPicker })
                         : {}),
                 }
 
                 return (
-                    <RCPicker<DateType>
+                    <RangePicker<DateType>
                         ref={this.pickerRef}
-                        placeholder={getPlaceholder(
-                            mergedPicker,
-                            pickerLocale,
-                            placeholder as string,
-                        )}
+                        placeholder={this.props.placeholder || ['from', 'to']}
                         suffixIcon={mergedPicker === 'time' ? <FiClock /> : <FiCalendar />}
                         clearIcon={<AiFillCloseCircle />}
+                        separator={separator}
                         prevIcon={
                             <Button
                                 component="span"
@@ -160,6 +158,6 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
         return Picker as PickerComponentClass<InnerPickerProps>
     }
 
-    const DatePicker = getPicker<DatePickerProps>()
-    return { DatePicker }
+    const DateRangePicker = getPicker<DateRangePickerProps>()
+    return { DateRangePicker }
 }

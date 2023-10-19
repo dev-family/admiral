@@ -88,12 +88,12 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                     }
                     topContent={config.topContent}
                 >
-                    {!!config.filter && (
+                    {/* {!!config.filter && (
                         <>
                             <QuickFiltersWrapper filters={config.filter?.quickFilters} />
                             <AppliedFilters />
                         </>
-                    )}
+                    )} */}
 
                     <DataTable
                         resource={config.resource}
@@ -109,14 +109,14 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                         locale={{ table: tableLocale, pagination: paginationLocale }}
                         autoupdateTime={config.index.tableConfig?.autoupdateTime}
                     />
-                    {!!config.filter && (
+                    {/* {!!config.filter && (
                         <Filters
                             fetchInitialData={fetchInitialFiltersData}
                             locale={{ filters: locale.filters, form: locale.form }}
                         >
                             {config.filter.fields}
                         </Filters>
-                    )}
+                    )} */}
                     {config.bottomContent}
                 </Page>
             </CrudIndexPageContextProvider>

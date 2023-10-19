@@ -10,7 +10,6 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { useTopLocation } from '../router'
 import styles from './DataTable.module.scss'
-import debounce from 'lodash.debounce'
 
 export type DataTableProps<RecordType> = {
     resource: string

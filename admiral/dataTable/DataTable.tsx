@@ -73,7 +73,6 @@ export function DataTable<RecordType extends { id: number | string }>({
         [rowSelection],
     )
 
-    const isFetching = useRef(false)
     const [loading, setLoading] = useState(false)
     const [total, setTotal] = useState<number>()
     const { urlState, setUrlState } = useCrudIndex()
@@ -94,7 +93,6 @@ export function DataTable<RecordType extends { id: number | string }>({
     }, [urlState])
 
     async function fetch(resource: string, state: typeof urlState) {
-        isFetching.current = true
         setLoading(true)
         try {
             const [sortField, sortOrder] = Object.entries(state.sort)[0] || []
@@ -107,7 +105,6 @@ export function DataTable<RecordType extends { id: number | string }>({
             setData(response.items as any)
             setTotal(response.meta.total)
         } catch (error) {}
-        isFetching.current = false
         setLoading(false)
     }
 
@@ -134,12 +131,7 @@ export function DataTable<RecordType extends { id: number | string }>({
     }, [resource, urlState, fetch])
 
     useEffect(() => {
-        const delayDebounceFetch = debounce(fetch, 500)
-        delayDebounceFetch(resource, urlState)
-
-        return () => {
-            delayDebounceFetch.cancel()
-        }
+        fetch(resource, urlState)
     }, [resource, urlState])
 
     useEffect(() => {

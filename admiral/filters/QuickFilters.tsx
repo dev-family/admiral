@@ -12,6 +12,7 @@ import {
     TimePickerInput,
     useForm,
 } from '../form'
+import debounce from 'lodash.debounce'
 
 export type QuickFiltersProps = {
     filters?: string[]
@@ -34,10 +35,17 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
 
     useEffect(() => {
         if (shouldUpdateUrlState.current) {
-            setUrlState((prevUrlState) => ({
-                ...prevUrlState,
-                filter: values,
-            }))
+            const delayDebounceSetUrlState = debounce((valuessasdas) => {
+                setUrlState((prevUrlState) => ({
+                    ...prevUrlState,
+                    filter: valuessasdas,
+                }))
+            }, 500)
+            delayDebounceSetUrlState(values)
+
+            return () => {
+                delayDebounceSetUrlState.cancel()
+            }
         } else {
             shouldUpdateUrlState.current = true
         }

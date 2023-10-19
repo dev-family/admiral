@@ -123,7 +123,7 @@ export default function generateSingleRangePicker<DateType>(
                             />
                         }
                         allowClear
-                        transitionName="admiral-picker-dropdown-slide-up"
+                        // transitionName="admiral-picker-dropdown-slide-up"
                         {...additionalProps}
                         {...restProps}
                         {...additionalOverrideProps}

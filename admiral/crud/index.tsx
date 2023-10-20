@@ -88,12 +88,12 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                     }
                     topContent={config.topContent}
                 >
-                    {/* {!!config.filter && (
+                    {!!config.filter && (
                         <>
                             <QuickFiltersWrapper filters={config.filter?.quickFilters} />
                             <AppliedFilters />
                         </>
-                    )} */}
+                    )}
 
                     <DataTable
                         resource={config.resource}

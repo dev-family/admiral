@@ -35,10 +35,10 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
 
     useEffect(() => {
         if (shouldUpdateUrlState.current) {
-            const delayDebounceSetUrlState = debounce((valuessasdas) => {
+            const delayDebounceSetUrlState = debounce((value) => {
                 setUrlState((prevUrlState) => ({
                     ...prevUrlState,
-                    filter: valuessasdas,
+                    filter: value,
                 }))
             }, 500)
             delayDebounceSetUrlState(values)

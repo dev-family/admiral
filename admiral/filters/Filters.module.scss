@@ -35,7 +35,7 @@
         margin-bottom: 0;
     }
 
-    & li:not(:has(.quickFilters__boolean_filter)) {
+    & li:not(.quickFilters__with_boolean_filter) {
         min-width: 170px;
     }
 

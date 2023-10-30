@@ -72,7 +72,6 @@ export function DataTable<RecordType extends { id: number | string }>({
         [rowSelection],
     )
 
-    const isFetching = useRef(false)
     const [loading, setLoading] = useState(false)
     const [total, setTotal] = useState<number>()
     const { urlState, setUrlState } = useCrudIndex()
@@ -93,11 +92,6 @@ export function DataTable<RecordType extends { id: number | string }>({
     }, [urlState])
 
     async function fetch(resource: string, state: typeof urlState) {
-        if (isFetching.current) {
-            return
-        }
-        // useState does not have time to update if we call fetch several times at the same time
-        isFetching.current = true
         setLoading(true)
         try {
             const [sortField, sortOrder] = Object.entries(state.sort)[0] || []
@@ -110,7 +104,6 @@ export function DataTable<RecordType extends { id: number | string }>({
             setData(response.items as any)
             setTotal(response.meta.total)
         } catch (error) {}
-        isFetching.current = false
         setLoading(false)
     }
 

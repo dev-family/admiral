@@ -6,12 +6,13 @@ import {
     AjaxSelectInput,
     BooleanInput,
     DatePickerInput,
-    Form,
     SelectInput,
     TextInput,
     TimePickerInput,
     useForm,
 } from '../form'
+import debounce from 'lodash.debounce'
+import cn from 'classnames'
 
 export type QuickFiltersProps = {
     filters?: string[]
@@ -34,10 +35,17 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
 
     useEffect(() => {
         if (shouldUpdateUrlState.current) {
-            setUrlState((prevUrlState) => ({
-                ...prevUrlState,
-                filter: values,
-            }))
+            const delayDebounceSetUrlState = debounce((value) => {
+                setUrlState((prevUrlState) => ({
+                    ...prevUrlState,
+                    filter: value,
+                }))
+            }, 500)
+            delayDebounceSetUrlState(values)
+
+            return () => {
+                delayDebounceSetUrlState.cancel()
+            }
         } else {
             shouldUpdateUrlState.current = true
         }
@@ -116,7 +124,16 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
     return isFiltersVisible ? (
         <ul className={styles.quickFilters}>
             {filtersToRender.map(({ type, props }, index) => {
-                return <li key={type + index}>{renderName(type, props)}</li>
+                return (
+                    <li
+                        key={type + index}
+                        className={cn({
+                            [styles.quickFilters__with_boolean_filter]: type == 'BooleanInput',
+                        })}
+                    >
+                        {renderName(type, props)}
+                    </li>
+                )
             })}
         </ul>
     ) : (

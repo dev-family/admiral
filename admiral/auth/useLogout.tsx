@@ -42,6 +42,7 @@ const useLogout = (): Logout => {
                     newLocation.search = redirectToParts[1]
                 }
                 history.push(newLocation)
+                window.location.reload()
 
                 return redirectToFromProvider
             }),

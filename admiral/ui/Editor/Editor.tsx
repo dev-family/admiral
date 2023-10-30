@@ -18,6 +18,7 @@ const Editor = ({
     autocompleter,
     height = 300,
     locale,
+    autoFocus,
     ...rest
 }: EditorProps) => {
     const { themeName } = useTheme()
@@ -44,6 +45,7 @@ const Editor = ({
 
                 if (autocompleter) setupAutocompleters(editor, autocompleter)
             },
+            auto_focus: autoFocus ? autoFocus : '',
             menubar: false,
             toolbar:
                 'blocks bold italic underline strikethrough | link image charmap emoticons | alignleft aligncenter alignright alignjustify | bullist numlist blockquote table | pastetext removeformat fullscreen code',

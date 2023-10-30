@@ -18,7 +18,6 @@ export interface ArrayInputProps extends FormItemProps {
     disableRemove?: boolean
     disableAdd?: boolean
     children: React.ReactNode | ((item: DataProviderRecord, idx: number) => React.ReactNode)
-    autoFocusOnAdd?: boolean
 }
 
 export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
@@ -30,7 +29,6 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
     disableRemove = false,
     disableAdd = false,
     children,
-    autoFocusOnAdd,
 }) => {
     const {
         values,
@@ -130,25 +128,29 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
         (children: React.ReactNode, isNewCreatedFormItem: boolean) => {
             if (!Array.isArray(children)) {
                 return React.isValidElement(children)
-                    ? React.cloneElement(children, {
+                    ? React.cloneElement<any>(children, {
                           autoFocus: isNewCreatedFormItem,
                           props: {
                               autoFocus: isNewCreatedFormItem,
                           },
                           key: children.key,
-                      } as any)
+                      })
                     : children
             }
 
-            return children.map((childrenItem, index) => {
-                if (index === 0 && React.isValidElement(childrenItem)) {
-                    return React.cloneElement(childrenItem, {
-                        autoFocus: isNewCreatedFormItem,
-                        props: {
-                            autoFocus: isNewCreatedFormItem,
-                        },
-                        key: childrenItem.key,
-                    } as any)
+            let foundFirstInput = false
+
+            return React.Children.map(children, (childrenItem, index) => {
+                const isDisabled = childrenItem.props?.disabled
+
+                if (!foundFirstInput && React.isValidElement(childrenItem)) {
+                    if (!isDisabled) {
+                        foundFirstInput = true
+                        return React.cloneElement<any>(childrenItem, {
+                            autoFocus: true,
+                            key: childrenItem.key,
+                        })
+                    }
                 }
 
                 return childrenItem
@@ -167,9 +169,10 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
 
                     const propsChildren =
                         typeof children === 'function' ? children(form, idx) : children
-                    const renderedChildren = autoFocusOnAdd
-                        ? renderChildrenAutoFocus(propsChildren, !!isNewCreatedFormItem)
-                        : propsChildren
+                    const renderedChildren = renderChildrenAutoFocus(
+                        propsChildren,
+                        !!isNewCreatedFormItem,
+                    )
 
                     return (
                         <Form.ChildForm

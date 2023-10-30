@@ -9,6 +9,5 @@ export interface ArrayInputProps extends FormItemProps {
     disableRemove?: boolean;
     disableAdd?: boolean;
     children: React.ReactNode | ((item: DataProviderRecord, idx: number) => React.ReactNode);
-    autoFocusOnAdd?: boolean;
 }
 export declare const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>>;

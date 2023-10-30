@@ -150,7 +150,7 @@ export const UsersCRUD = createCRUD({
                         name="description"
                         onImageUpload={onImageUpload}
                     />
-                    <ArrayInput label="Schedule" name="schedule" required autoFocusOnAdd>
+                    <ArrayInput label="Schedule" name="schedule" required>
                         <SelectInput
                             label="Day of the week"
                             name="day"

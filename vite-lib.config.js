@@ -24,6 +24,13 @@ export default defineConfig({
         },
     },
     optimizeDeps: {
-        exclude: ['examples'],
+        exclude: [
+            'examples',
+            '@editorjs/editorjs',
+            '@editorjs/header',
+            '@editorjs/image',
+            '@editorjs/paragraph',
+            '@editorjs/nested-list',
+        ],
     },
 })

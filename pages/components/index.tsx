@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 export default function ComponentsPage() {
     return (
-        <Page title="Компоненты">
+        <Page title="Components">
             <div style={{ display: 'grid', gridGap: '24px' }}>
                 <Link to="components/table">
                     <Button component="span">Table</Button>

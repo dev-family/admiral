@@ -1,0 +1,11 @@
+.section {
+    position: relative;
+    z-index: 2;
+    padding: var(--control-space-s) calc(var(--control-space-m) / 2);
+    height: fit-content;
+    flex-grow: 1;
+    background: transparent;
+    border: var(--control-border-width) solid var(--color-control-bg-border-default);
+    border-radius: var(--control-radius);
+    cursor: text;
+}

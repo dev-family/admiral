@@ -71,8 +71,8 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         className,
     )
 
-    const getValue = (value?: OptionType | null) =>
-        value ? (Number.isInteger(+value) ? +value : value) : undefined
+    const getValue = (value?: OptionType | null | number) =>
+        value || value === 0 ? (Number.isInteger(+value) ? +value : value) : undefined
 
     const value = selectProps.value
     const selectValue = useMemo(

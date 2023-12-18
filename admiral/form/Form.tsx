@@ -23,7 +23,7 @@ import { RouterLocationState } from '../router/interfaces'
 export type FormProps = {
     locale?: Locale
     className?: string
-    redirect?: string
+    redirect?: string | boolean
     fetchInitialData?: () => Promise<GetFormDataResult>
     submitData?: (values: any) => Promise<any>
     children: React.ReactNode
@@ -93,8 +93,9 @@ const InternalForm = forwardRef<FormRef, FormProps>(
                     message: locale.successMessage,
                     type: 'success',
                 })
-
-                if (redirect) {
+                if (typeof redirect === 'boolean') {
+                    history.goBack()
+                } else if (redirect) {
                     history.push({
                         pathname: redirect,
                         // update table when drawer saved and closed

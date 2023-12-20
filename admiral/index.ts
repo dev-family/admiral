@@ -73,3 +73,6 @@ export { createRoutesFrom } from './router'
 
 export { useTheme, useThemeVars } from './theme'
 export type { ThemeName, ThemePreset } from './theme/interfaces'
+
+export { admiralLocales } from './locales'
+export type { AdmiralLocales } from './locales'

@@ -253,7 +253,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
         ) : (
             <Page title={title(id)}>
                 <Form
-                    redirect={path}
+                    redirect={true}
                     submitData={submitData}
                     fetchInitialData={fetchInitialData}
                     locale={locale.form}

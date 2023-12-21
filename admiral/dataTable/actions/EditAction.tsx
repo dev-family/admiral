@@ -24,7 +24,6 @@ export const EditAction: React.FC<EditActionProps> = ({
     if (behavior === 'backgroundRoute' && !mainRoutePath) {
         console.error('Please provide "mainRoutePath" for "backgroundRoute" behavior')
     }
-
     return (
         <Link
             to={{

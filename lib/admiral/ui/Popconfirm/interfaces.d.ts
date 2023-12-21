@@ -1,5 +1,9 @@
 /// <reference types="react" />
 import { TooltipProps } from '../Tooltip/interfaces';
+export declare type PopconfirmLocaleType = {
+    cancelTitle: string;
+    confirmTitle: string;
+};
 export interface PopconfirmProps extends Pick<TooltipProps, 'placement'> {
     title: React.ReactNode;
     initialOpen?: boolean;

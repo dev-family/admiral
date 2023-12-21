@@ -93,7 +93,7 @@ const InternalForm = forwardRef<FormRef, FormProps>(
                     message: locale.successMessage,
                     type: 'success',
                 })
-                if (typeof redirect === 'boolean') {
+                if (redirect === true) {
                     history.goBack()
                 } else if (redirect) {
                     history.push({

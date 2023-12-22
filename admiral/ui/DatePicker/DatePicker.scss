@@ -41,7 +41,7 @@ $font-size-xs: var(--control-text-size-xs);
     background: var(--color-control-bg-default);
     border: var(--picker-border-width) solid var(--color-control-bg-border-default);
     border-radius: var(--control-radius);
-    transition: all 0.2s;
+    // transition: all 0.2s;
 
     &__SizeL {
         --picker-padding-horizontal: #{$padding-horizontal-l};

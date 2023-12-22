@@ -3,7 +3,7 @@ export * from './ArrayInput';
 export * from './BooleanInput';
 export * from './ColorPickerInput';
 export * from './DatePickerInput';
-export { DatePickerInput, DateRangePickerInputProps } from './DateRangePickerInput'
+export * from './DateRangePickerInput';
 export * from './DraggerInput';
 export * from './EditorInput';
 export * from './FilePictureInput';

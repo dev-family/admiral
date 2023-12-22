@@ -28,6 +28,7 @@ export interface EditorProps extends Omit<TinyEditorProps, 'onChange' | 'onEdito
     onImageUpload?: (file: Blob) => Promise<string>
     autocompleter?: AutocompleterConfig | AutocompleterConfig[]
     locale?: EditorLocaleType
+    autoFocus?: boolean
 }
 
 export type AutocompleterItem = {

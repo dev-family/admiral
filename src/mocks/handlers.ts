@@ -4,6 +4,7 @@ import { ITheme, Theme } from './data/theme'
 import zipObjectDeep from 'lodash.zipobjectdeep'
 import qs from 'qs'
 import { UploadFile, OptionType } from '../../admiral'
+import { ka } from 'date-fns/locale'
 
 const userList = new UserList()
 const theme = new Theme()
@@ -145,6 +146,24 @@ export const handlers = [
             ctx.delay(160),
             ctx.status(200),
             ctx.json({ location: 'https://loremflickr.com/500/500' }),
+        )
+    }),
+
+    rest.post('/api/editor-upload', (req, res, ctx) => {
+        const data = req.body as { image: File }
+        const file = data.image
+        const blob = new Blob([file], { type: file?.type })
+        const fileUrl = URL.createObjectURL(blob)
+
+        return res(
+            ctx.delay(160),
+            ctx.status(200),
+            ctx.json({
+                file: {
+                    url: fileUrl,
+                },
+                success: 1,
+            }),
         )
     }),
 ]

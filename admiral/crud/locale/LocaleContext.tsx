@@ -9,7 +9,7 @@ import { enUs as enUsTableLocale } from '../../ui/Table/locales'
 import { enUs as enUsPopconfirmLocale } from '../../dataTable/locale/enUS'
 import { enUs as enEsLayoutLocale } from '../../ui/Layout/locale/enUs'
 
-const defaultLocale: CRUDLocale = {
+export const defaultLocale: CRUDLocale = {
     actions: enUsActionsLocale,
     pagination: enUsPaginationLocale,
     filters: enUsFiltersLocale,

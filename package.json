@@ -1,7 +1,7 @@
 {
     "name": "@devfamily/admiral",
     "description": "Admiral is a frontend framework for creating back office using React. It provides out-of-the-box components and tools that make developing an admin interface easy and fast.",
-    "version": "5.8.0",
+    "version": "5.9.3",
     "bugs": "https://github.com/dev-family/admiral/issues",
     "homepage": "https://github.com/dev-family/admiral",
     "repository": {
@@ -54,6 +54,11 @@
         "@consta/uikit": "^3.18.0",
         "@dnd-kit/core": "^5.0.3",
         "@dnd-kit/sortable": "^6.0.1",
+        "@editorjs/editorjs": "2.26.5",
+        "@editorjs/header": "^2.8.1",
+        "@editorjs/image": "^2.8.2",
+        "@editorjs/nested-list": "^1.3.0",
+        "@editorjs/paragraph": "^2.11.3",
         "@tinymce/tinymce-react": "^4.0.0",
         "@tippyjs/react": "^4.2.5",
         "@types/react-beautiful-dnd": "^13.1.4",

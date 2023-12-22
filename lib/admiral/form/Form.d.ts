@@ -7,7 +7,7 @@ import { Locale } from './interfaces';
 export declare type FormProps = {
     locale?: Locale;
     className?: string;
-    redirect?: string;
+    redirect?: string | boolean;
     fetchInitialData?: () => Promise<GetFormDataResult>;
     submitData?: (values: any) => Promise<any>;
     children: React.ReactNode;

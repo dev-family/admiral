@@ -54,6 +54,9 @@ const CustomMenu = () => {
                 <MenuItemLink icon="FiBox" name="Badge" to="/components/badge" />
                 <MenuItemLink icon="FiBox" name="Notification" to="/components/notification" />
             </SubMenu>
+            <SubMenu icon="FiGift" name="Tips & Tricks" to="/tips-and-tricks">
+                <MenuItemLink icon="FiEdit" name="Editor JS" to="/tips-and-tricks/editor-js" />
+            </SubMenu>
         </Menu>
     )
 }

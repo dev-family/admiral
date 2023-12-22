@@ -25,7 +25,6 @@ export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputP
 }) => {
     const { values, errors, setValues, locale: formLocale } = useForm()
     const locale = formLocale.fields.upload
-
     let value = values[name]
 
     const isArrayValue = Array.isArray(value)
@@ -55,6 +54,7 @@ export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputP
                 fileList={normalizedValue}
                 onChange={onChange}
                 maxCount={maxCount}
+                disabled={disabled}
             >
                 <Button type="button" disabled={disabled} iconLeft={<FiUpload />}>
                     {children || 'Upload'}

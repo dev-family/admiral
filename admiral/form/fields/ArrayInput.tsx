@@ -109,7 +109,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
         [],
     )
 
-    const handleAdd = () => {
+    const handleAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
         setValues((values: any) => {
             const forms: DataProviderRecord[] = values?.[name] ?? []
 
@@ -124,12 +124,55 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
         })
     }
 
+    const renderChildrenAutoFocus = useCallback(
+        (children: React.ReactNode, isNewCreatedFormItem: boolean) => {
+            if (!Array.isArray(children)) {
+                return React.isValidElement(children)
+                    ? React.cloneElement<any>(children, {
+                          autoFocus: isNewCreatedFormItem,
+                          props: {
+                              autoFocus: isNewCreatedFormItem,
+                          },
+                          key: children.key,
+                      })
+                    : children
+            }
+
+            let foundFirstInput = false
+
+            return React.Children.map(children, (childrenItem, index) => {
+                const isDisabled = childrenItem.props?.disabled
+
+                if (!foundFirstInput && React.isValidElement(childrenItem)) {
+                    if (!isDisabled) {
+                        foundFirstInput = true
+                        return React.cloneElement<any>(childrenItem, {
+                            autoFocus: true,
+                            key: childrenItem.key,
+                        })
+                    }
+                }
+
+                return childrenItem
+            })
+        },
+        [],
+    )
+
     return (
         <Form.Item label={label} columnSpan={2} labelAs="div" required={required}>
             <ol className={styles.arrayInput}>
                 {forms.map((form, idx) => {
                     const formErrors = formsErrors[idx] ?? {}
                     const key = idx
+                    const isNewCreatedFormItem = Object.keys(form).length === 1 && form.id
+
+                    const propsChildren =
+                        typeof children === 'function' ? children(form, idx) : children
+                    const renderedChildren = renderChildrenAutoFocus(
+                        propsChildren,
+                        !!isNewCreatedFormItem,
+                    )
 
                     return (
                         <Form.ChildForm
@@ -167,9 +210,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                                     </Button>
                                 )}
                             </div>
-                            <div className={styles.arrayInput_Children}>
-                                {typeof children === 'function' ? children(form, idx) : children}
-                            </div>
+                            <div className={styles.arrayInput_Children}>{renderedChildren}</div>
                         </Form.ChildForm>
                     )
                 })}

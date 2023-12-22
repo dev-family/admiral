@@ -1,4 +1,2 @@
-export declare const enUs: {
-    cancelTitle: string;
-    confirmTitle: string;
-};
+import { PopconfirmLocaleType } from '../interfaces';
+export declare const enUs: PopconfirmLocaleType;

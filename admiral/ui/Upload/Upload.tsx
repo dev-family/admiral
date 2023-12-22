@@ -43,7 +43,6 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         value: fileList,
         postState: (list) => list ?? [],
     })
-
     const upload = React.useRef<any>()
 
     // Control mode will auto fill file uid if not provided
@@ -79,7 +78,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     }
 
     const mergedBeforeUpload = async (file: RcFile, fileListArgs: RcFile[]) => {
-        onInternalChange(file, fileListArgs)
+        !disabled && onInternalChange(file, fileListArgs)
         return false
     }
 
@@ -134,7 +133,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
                     onRemove={handleRemove}
                     onPreview={onPreview}
                     onDownload={onDownload}
-                    onDragEnd={isDraggable ? onDragEnd : undefined}
+                    onDragEnd={isDraggable && !disabled ? onDragEnd : undefined}
                     showRemoveIcon={!disabled && showRemoveIcon}
                     showPreviewIcon={!!onPreview}
                     showDownloadIcon={showDownloadIcon}
@@ -191,6 +190,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
                     <RcUpload
                         {...rcUploadProps}
                         ref={upload}
+                        disabled={disabled}
                         className={cn({
                             [`${prefixCls}-btn`]: buttonType === 'drag',
                             [styles.item]: buttonType === 'picture-card',

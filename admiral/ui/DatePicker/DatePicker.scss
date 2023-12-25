@@ -253,6 +253,7 @@ $font-size-xs: var(--control-text-size-xs);
         border-radius: var(--control-radius);
         outline: none;
         box-shadow: var(--shadow-layer);
+        margin: 0 !important;
 
         .#{$prefix-class}-panel {
             vertical-align: top;

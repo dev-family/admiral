@@ -6,6 +6,7 @@ import {
     AjaxSelectInput,
     BooleanInput,
     DatePickerInput,
+    DateRangePickerInput,
     SelectInput,
     TextInput,
     TimePickerInput,
@@ -100,6 +101,9 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
                 }
                 case 'DatePickerInput': {
                     return <DatePickerInput {...inputProps} />
+                }
+                case 'DateRangePickerInput': {
+                    return <DateRangePickerInput {...inputProps} />
                 }
                 default:
                     return <></>

@@ -6,7 +6,7 @@ export interface SelectInputProps extends SelectProps, FormItemProps {
     onChange?: (value: any) => void;
 }
 export declare const SelectInput: React.FC<SelectInputProps> & {
-    inputName: "ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput" | "TranslatableInput" | "AjaxSelectInput" | "RadioInput";
+    inputName: "ArrayInput" | "BooleanInput" | "ColorPickerInput" | "DatePickerInput" | "DateRangePickerInput" | "DraggerInput" | "EditorInput" | "FilePictureInput" | "MultilineTextInput" | "PasswordInput" | "SelectInput" | "TextInput" | "TimePickerInput" | "SlugInput" | "TranslatableInput" | "AjaxSelectInput" | "RadioInput";
 } & {
     Option: import("rc-select/lib/Option").OptionFC;
     OptGroup: import("rc-select/lib/OptGroup").OptionGroupFC;

@@ -1,57 +1,20 @@
 import type { ComponentClass, ForwardedRef, Component } from 'react'
-import { PickerMode, Locale as RcPickerLocale } from 'rc-picker/lib/interface'
-import { SharedTimeProps } from 'rc-picker/lib/panels/TimePanel'
+import { RangeValue, Locale as RcPickerLocale } from 'rc-picker/lib/interface'
+
 import {
     PickerBaseProps as RCPickerBaseProps,
     PickerDateProps as RCPickerDateProps,
     PickerTimeProps as RCPickerTimeProps,
 } from 'rc-picker/lib/Picker'
+import { RangePickerProps } from 'rc-picker'
 
 type SizeType = 'L' | 'M' | 'S' | 'XS'
 
-function toArray<T>(list: T | T[]): T[] {
+export function toArray<T>(list: T | T[]): T[] {
     if (!list) {
         return []
     }
     return Array.isArray(list) ? list : [list]
-}
-
-export function getTimeProps<DateType>(
-    props: { format?: string; picker?: PickerMode } & SharedTimeProps<DateType>,
-) {
-    const { format, picker, showHour, showMinute, showSecond, use12Hours } = props
-
-    const firstFormat = toArray(format)[0]
-    const showTimeObj: SharedTimeProps<DateType> = { ...props }
-
-    if (firstFormat && typeof firstFormat === 'string') {
-        if (!firstFormat.includes('s') && showSecond === undefined) {
-            showTimeObj.showSecond = false
-        }
-        if (!firstFormat.includes('m') && showMinute === undefined) {
-            showTimeObj.showMinute = false
-        }
-        if (!firstFormat.includes('H') && !firstFormat.includes('h') && showHour === undefined) {
-            showTimeObj.showHour = false
-        }
-
-        if ((firstFormat.includes('a') || firstFormat.includes('A')) && use12Hours === undefined) {
-            showTimeObj.use12Hours = true
-        }
-    }
-
-    if (picker === 'time') {
-        return showTimeObj
-    }
-
-    if (typeof firstFormat === 'function') {
-        // format of showTime should use default when format is custom format function
-        delete showTimeObj.format
-    }
-
-    return {
-        showTime: showTimeObj,
-    }
 }
 
 type InjectDefaultProps<Props> = Omit<
@@ -96,12 +59,16 @@ export type AdditionalPickerLocaleLangProps = {
 export type PickerBaseProps<DateType> = InjectDefaultProps<RCPickerBaseProps<DateType>>
 export type PickerDateProps<DateType> = InjectDefaultProps<RCPickerDateProps<DateType>>
 export type PickerTimeProps<DateType> = InjectDefaultProps<RCPickerTimeProps<DateType>>
+export type PickerRangeProps<DateType> = InjectDefaultProps<
+    RangePickerProps<DateType> & { showTime?: boolean }
+>
 
 export type PickerProps<DateType> =
     | PickerBaseProps<DateType>
     | PickerDateProps<DateType>
     | PickerTimeProps<DateType>
 
+export type PickerRangeValue<DateType> = RangeValue<DateType>
 export interface CommonPickerMethods {
     focus: () => void
     blur: () => void

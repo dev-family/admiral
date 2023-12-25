@@ -14,6 +14,7 @@ import {
     AjaxSelectInput,
     SlugInput,
     RadioInput,
+    DateRangePickerInput,
 } from '../../../admiral'
 import api from '../../api'
 
@@ -88,7 +89,7 @@ export const UsersCRUD = createCRUD({
                 />
                 <BooleanInput label="Active?" name="active" />
                 <TimePickerInput label="Time" name="time" placeholder="Time" format="HH:mm" />
-                <DatePickerInput label="Date" name="date" placeholder="Date" />
+                <DateRangePickerInput label="Date" name="date" />
                 <SelectInput label="Group" name="group" placeholder="Choose Group" mode="multiple">
                     <SelectInput.Option value="admin">Admins</SelectInput.Option>
                     <SelectInput.Option value="project_manager">

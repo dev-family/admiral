@@ -175,6 +175,11 @@ $transition-dur: '0.16s';
         }
     }
 
+    &__ColumnSpanTwo {
+        display: grid;
+        grid-column: 1 / -1;
+    }
+
     &:global(.#{$prefix}-top),
     &:global(.#{$prefix}-bottom) {
         flex-direction: column;

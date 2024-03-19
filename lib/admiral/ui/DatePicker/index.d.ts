@@ -5,6 +5,7 @@ export declare type MonthPickerProps = Omit<PickerDateProps<Date>, 'picker'>;
 export declare type WeekPickerProps = Omit<PickerDateProps<Date>, 'picker'>;
 export declare type TimePickerProps = Omit<PickerTimeProps<Date>, 'picker'>;
 export declare const DatePicker: import("./generatePicker/interfaces").PickerComponentClass<PickerProps<Date>, unknown>;
+export declare const RangePicker: import("./generatePicker/interfaces").PickerComponentClass<import("./generatePicker/interfaces").PickerRangeProps<Date>, unknown>;
 export declare const TimePicker: (props: TimePickerProps) => JSX.Element;
 export declare const MonthPicker: (props: TimePickerProps) => JSX.Element;
 export declare const WeekPicker: (props: TimePickerProps) => JSX.Element;

@@ -41,7 +41,7 @@ $font-size-xs: var(--control-text-size-xs);
     background: var(--color-control-bg-default);
     border: var(--picker-border-width) solid var(--color-control-bg-border-default);
     border-radius: var(--control-radius);
-    transition: all 0.2s;
+    // transition: all 0.2s;
 
     &__SizeL {
         --picker-padding-horizontal: #{$padding-horizontal-l};
@@ -239,6 +239,10 @@ $font-size-xs: var(--control-text-size-xs);
         }
     }
 
+    &-range-wrapper {
+        min-width: initial !important;
+    }
+
     &-panel-container {
         overflow-y: hidden;
         overflow-x: auto;
@@ -249,6 +253,7 @@ $font-size-xs: var(--control-text-size-xs);
         border-radius: var(--control-radius);
         outline: none;
         box-shadow: var(--shadow-layer);
+        margin: 0 !important;
 
         .#{$prefix-class}-panel {
             vertical-align: top;

@@ -1,14 +1,9 @@
 import type { ComponentClass, ForwardedRef, Component } from 'react';
-import { PickerMode, Locale as RcPickerLocale } from 'rc-picker/lib/interface';
-import { SharedTimeProps } from 'rc-picker/lib/panels/TimePanel';
+import { RangeValue, Locale as RcPickerLocale } from 'rc-picker/lib/interface';
 import { PickerBaseProps as RCPickerBaseProps, PickerDateProps as RCPickerDateProps, PickerTimeProps as RCPickerTimeProps } from 'rc-picker/lib/Picker';
+import { RangePickerProps } from 'rc-picker';
 declare type SizeType = 'L' | 'M' | 'S' | 'XS';
-export declare function getTimeProps<DateType>(props: {
-    format?: string;
-    picker?: PickerMode;
-} & SharedTimeProps<DateType>): SharedTimeProps<DateType> | {
-    showTime: SharedTimeProps<DateType>;
-};
+export declare function toArray<T>(list: T | T[]): T[];
 declare type InjectDefaultProps<Props> = Omit<Props, 'locale' | 'generateConfig' | 'hideHeader' | 'components' | 'prefixCls'> & {
     locale?: PickerLocale;
     size?: SizeType;
@@ -42,7 +37,11 @@ export declare type AdditionalPickerLocaleLangProps = {
 export declare type PickerBaseProps<DateType> = InjectDefaultProps<RCPickerBaseProps<DateType>>;
 export declare type PickerDateProps<DateType> = InjectDefaultProps<RCPickerDateProps<DateType>>;
 export declare type PickerTimeProps<DateType> = InjectDefaultProps<RCPickerTimeProps<DateType>>;
+export declare type PickerRangeProps<DateType> = InjectDefaultProps<RangePickerProps<DateType> & {
+    showTime?: boolean;
+}>;
 export declare type PickerProps<DateType> = PickerBaseProps<DateType> | PickerDateProps<DateType> | PickerTimeProps<DateType>;
+export declare type PickerRangeValue<DateType> = RangeValue<DateType>;
 export interface CommonPickerMethods {
     focus: () => void;
     blur: () => void;

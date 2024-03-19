@@ -13,7 +13,9 @@ export type {
     TimePickerLocale,
     PickerLocale,
     PickerDateProps,
+    PickerRangeProps,
     PickerProps,
+    PickerRangeValue,
 } from './ui/DatePicker/generatePicker/interfaces'
 export type { DrawerProps } from './ui/Drawer/interfaces'
 export type { InputProps, InputSizeType } from './ui/Input/interfaces'

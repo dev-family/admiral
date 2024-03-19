@@ -4,7 +4,7 @@ export type { ButtonSizeType, ButtonViewType, ButtonProps } from './ui/Button/in
 export type { CheckboxProps } from './ui/Checkbox/interfaces';
 export type { ChoiceChangeEvent, ChoiceProps } from './ui/Choice/interfaces';
 export * from './ui/ColorPicker/interfaces';
-export type { TimePickerLocale, PickerLocale, PickerDateProps, PickerProps, } from './ui/DatePicker/generatePicker/interfaces';
+export type { TimePickerLocale, PickerLocale, PickerDateProps, PickerRangeProps, PickerProps, PickerRangeValue, } from './ui/DatePicker/generatePicker/interfaces';
 export type { DrawerProps } from './ui/Drawer/interfaces';
 export type { InputProps, InputSizeType } from './ui/Input/interfaces';
 export * from './ui/Menu/interfaces';

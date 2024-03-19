@@ -5,7 +5,7 @@ import cn from 'classnames'
 import { TabsProps } from './interfaces'
 import styles from './Tabs.module.scss'
 
-function InternalTabs({ type, className, size, centered, ...props }: TabsProps) {
+function InternalTabs({ type, className, size, centered, columnSpan = 1, ...props }: TabsProps) {
     const getPopupContainer = useCallback(
         () => document.querySelector('#root > .Theme') as HTMLDivElement,
         [],
@@ -22,6 +22,7 @@ function InternalTabs({ type, className, size, centered, ...props }: TabsProps) 
                     [styles.tabs__Centered]: centered,
                     [styles.tabs__SizeS]: size === 'S',
                     [styles.tabs__SizeL]: size === 'L',
+                    [styles.tabs__ColumnSpanTwo]: columnSpan === 2,
                 },
                 className,
             )}

@@ -11,4 +11,5 @@ export interface TabsProps extends Omit<RcTabsProps, 'editable' | 'direction' | 
     type?: TabsType
     size?: TabsSizeType
     centered?: boolean
+    columnSpan?: 1 | 2
 }

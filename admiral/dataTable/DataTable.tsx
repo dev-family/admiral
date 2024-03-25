@@ -10,6 +10,7 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { useTopLocation } from '../router'
 import styles from './DataTable.module.scss'
+import { useUpdateEffect } from '../utils/hooks'
 
 export type DataTableProps<RecordType> = {
     resource: string
@@ -60,6 +61,7 @@ export function DataTable<RecordType extends { id: number | string }>({
 
     const [selectedKeys, setSelectedKeys] = useState<Key[]>([])
     const [selectedRows, setSelectedRows] = useState<RecordType[]>([])
+    const isFirstRender = useRef(true)
 
     const onSelectionChange = useCallback(
         (selectedRowKeys: Key[], selectedRows: RecordType[]) => {
@@ -130,6 +132,10 @@ export function DataTable<RecordType extends { id: number | string }>({
     }, [resource, urlState, fetch])
 
     useEffect(() => {
+        if (autoupdateTime && isAutoupdateTurnOn && isFirstRender.current) {
+            return
+        }
+
         fetch(resource, urlState)
     }, [resource, urlState])
 

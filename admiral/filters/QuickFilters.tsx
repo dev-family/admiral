@@ -14,6 +14,7 @@ import {
 } from '../form'
 import debounce from 'lodash.debounce'
 import cn from 'classnames'
+import useUpdateEffect from '../utils/hooks/useUpdateEffect'
 
 export type QuickFiltersProps = {
     filters?: string[]
@@ -34,21 +35,17 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
         setOptions(filterOptions)
     }, [filterOptions])
 
-    useEffect(() => {
-        if (shouldUpdateUrlState.current) {
-            const delayDebounceSetUrlState = debounce((value) => {
-                setUrlState((prevUrlState) => ({
-                    ...prevUrlState,
-                    filter: value,
-                }))
-            }, 500)
-            delayDebounceSetUrlState(values)
+    useUpdateEffect(() => {
+        const delayDebounceSetUrlState = debounce((value) => {
+            setUrlState((prevUrlState) => ({
+                ...prevUrlState,
+                filter: value,
+            }))
+        }, 500)
+        delayDebounceSetUrlState(values)
 
-            return () => {
-                delayDebounceSetUrlState.cancel()
-            }
-        } else {
-            shouldUpdateUrlState.current = true
+        return () => {
+            delayDebounceSetUrlState.cancel()
         }
     }, [values])
 

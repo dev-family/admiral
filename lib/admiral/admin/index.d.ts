@@ -20,5 +20,6 @@ export declare type AdminProps = {
     };
     locale?: Partial<CRUDLocale>;
     oauthProviders?: OAuthProvidersEnum[];
+    baseAppUrl?: string;
 };
 export declare const Admin: React.FC<AdminProps>;

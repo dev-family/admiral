@@ -25,6 +25,7 @@ export type AdminProps = {
     themePresets?: { light: ThemePreset; dark: ThemePreset }
     locale?: Partial<CRUDLocale>
     oauthProviders?: OAuthProvidersEnum[]
+    baseAppUrl?: string
 }
 
 export const Admin: React.FC<AdminProps> = ({
@@ -39,6 +40,7 @@ export const Admin: React.FC<AdminProps> = ({
     locale,
     children,
     oauthProviders,
+    baseAppUrl = '',
 }) => {
     return (
         <AuthContextProvider value={authProvider}>
@@ -54,7 +56,7 @@ export const Admin: React.FC<AdminProps> = ({
                 >
                     <LocaleContextProvider value={locale}>
                         <UserContextProvider>
-                            <Router>
+                            <Router basename={baseAppUrl}>
                                 <ThemeProvider presets={themePresets}>
                                     <NavProvider menu={menu}>{children}</NavProvider>
                                 </ThemeProvider>

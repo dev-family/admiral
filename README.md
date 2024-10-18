@@ -369,7 +369,81 @@ To match a dynamic segment, you can use the bracket syntax. This allows you to m
 
 <br>
 
-### Menu
+
+
+### Admin component
+
+This component is the most important in your admin panel. With it, you can set the fundamental settings and configurations of your application, such as: navigation, logo, api for requests to a server, api authorization, localization, theme and other things.
+
+**Example of using:**
+
+
+```tsx
+ <Admin
+     dataProvider={dataProvider(apiUrl)}
+     authProvider={authProvider(apiUrl)}
+     menu={Menu}
+     oauthProviders={[
+     OAuthProvidersEnum.Google,
+     OAuthProvidersEnum.Github,
+     OAuthProvidersEnum.Jira,
+     ]}
+>
+     <Routes />
+</Admin>
+```
+
+The component accepts the following propses:
+
+**menu**
+
+Here you can customize your navigation.
+You should use special components from our package: Menu, MenuItemLink, SubMenu.
+You can find an example [here](https://github.com/dev-family/admiral/blob/master/src/config/menu.tsx).
+
+**logo**
+
+You can change the logo that is displayed in the aside navbar.
+The prop accepts a link to an svg, JSX component, or a file with the svg format.
+
+**loginLogo**
+
+You can change the logo that is displayed in the authorization form.
+The prop accepts a link to an svg, JSX component, or a file with the svg format.
+
+**asideContent**
+
+With this tool, you can add the necessary content to the aside navbar under the links. You have to pass ReactNode.
+
+**dataProvider**
+
+The main contract for working with data. You can get more info in our [documentation](https://github.com/dev-family/admiral?tab=readme-ov-file#crud-dataprovider).
+
+
+**authProvider**
+
+The main contract for authorization in the system. You can get more info in our [documentation](https://github.com/dev-family/admiral?tab=readme-ov-file#auth---authprovider).
+
+**themePresets**
+
+You can customize the color theme for your application. You can get more info in our [documentation](https://github.com/dev-family/admiral?tab=readme-ov-file#custom-theme).
+
+**locale**
+
+The localization scheme of your admin panel, which you can get using the useLocaleProvider hook. You can find an example of the scheme [here](https://github.com/dev-family/admiral/blob/master/admiral/crud/locale/LocaleContext.tsx).
+
+
+**oauthProviders**
+
+Use OAuth authorization using this props. Pass the name of the required provider in the array using OAuthProvidersEnum enum from the admiral.
+
+**baseAppUrl**
+
+Add the props to change the base path of the app.
+
+<br>
+
+### Menu component
 
 A menu is an array of objects that have the following structure:
 

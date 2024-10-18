@@ -71,12 +71,22 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         className,
     )
 
-    const getValue = (value?: OptionType | null | number) =>
-        value || value === 0 ? (Number.isInteger(+value) ? +value : value) : undefined
-
     const value = selectProps.value
+
+    const getValue = (value?: OptionType | null | number) =>
+        value || value === 0 || typeof value === 'boolean'
+            ? typeof value !== 'boolean' && Number.isInteger(+value)
+                ? +value
+                : value
+            : undefined
+
     const selectValue = useMemo(
-        () => (value ? (isMultiple ? value.map(getValue) : getValue(value)) : undefined),
+        () =>
+            value || typeof value === 'boolean'
+                ? isMultiple
+                    ? value.map(getValue)
+                    : getValue(value)
+                : undefined,
         [value],
     )
 

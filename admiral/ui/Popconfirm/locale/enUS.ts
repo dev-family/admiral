@@ -1,6 +1,6 @@
 import { PopconfirmLocaleType } from '../interfaces'
 
-export const enUs: PopconfirmLocaleType = {
+export const enUS: PopconfirmLocaleType = {
     cancelTitle: 'Cancel',
     confirmTitle: 'Confirm',
 }

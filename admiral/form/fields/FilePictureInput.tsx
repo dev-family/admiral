@@ -57,7 +57,7 @@ export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputP
                 disabled={disabled}
             >
                 <Button type="button" disabled={disabled} iconLeft={<FiUpload />}>
-                    {children || 'Upload'}
+                    {children || locale?.pictureCardUpload}
                 </Button>
             </Upload>
         </Form.Item>

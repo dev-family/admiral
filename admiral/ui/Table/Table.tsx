@@ -12,7 +12,7 @@ import {
     TableLocale,
 } from './interfaces'
 
-import { enUs } from './locales/'
+import { enUS } from './locales/'
 import useSorter, { SorterResult, getSortData } from './hooks/useSorter'
 import usePagination, { getPaginationParam, DEFAULT_PAGE_SIZE } from './hooks/usePagination'
 import useSelection from './hooks/useSelection'
@@ -40,7 +40,7 @@ import useTableSize from './hooks/useTableSize'
 // TODO: docs: rowSelection properties
 // TODO: disable d&d if other sort choosen
 
-const defaultLocale = enUs
+const defaultLocale = enUS
 
 const EMPTY_LIST: any[] = []
 

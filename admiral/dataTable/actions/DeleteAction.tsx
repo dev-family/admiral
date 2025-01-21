@@ -6,7 +6,7 @@ import { Button, Popconfirm, Notification } from '../../ui'
 
 import { ButtonProps } from '../../ui/Button/interfaces'
 import { PopconfirmLocale } from '../../ui/Popconfirm/interfaces'
-import { enUs } from '../locale'
+import { enUS } from '../locale'
 
 export interface DeleteActionLocale extends PopconfirmLocale {
     title: string
@@ -25,7 +25,7 @@ export const DeleteAction: React.FC<DeleteActionProps> = ({
     buttonProps,
     locale,
 }) => {
-    const { title, ...popconfirmLocale } = locale ?? enUs
+    const { title, ...popconfirmLocale } = locale ?? enUS
     const { deleteOne } = useDataProvider()
     const { refresh } = useDataTable()
 

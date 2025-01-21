@@ -15,7 +15,7 @@ import styles from './Crud.module.scss'
 import { PopupContainerContextProvider } from './PopupContainerContext'
 import { ColumnType } from '../ui/Table/interfaces'
 import { DeleteAction, EditAction } from '../dataTable/actions'
-import { useLocaleProvider } from './locale/LocaleContext'
+import { useLocaleProvider } from '../locale'
 import QuickFiltersWrapper from '../filters/QuickFiltersWrapper'
 
 const operationsStyle: React.CSSProperties = {

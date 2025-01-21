@@ -1,6 +1,6 @@
 import { PaginationLocale } from '../interfaces'
 
-export const enUs: PaginationLocale = {
+export const enUS: PaginationLocale = {
     items_per_page: '/ page',
     jump_to: 'Go to',
     jump_to_confirm: 'confirm',

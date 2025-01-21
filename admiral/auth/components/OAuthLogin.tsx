@@ -1,14 +1,16 @@
+import React, { useCallback } from 'react'
+import { FaGithub, FaGoogle, FaJira } from 'react-icons/fa'
 import { useAuthProvider } from '../AuthContext'
 import { useConfig } from '../../config/ConfigContext'
-import { OAuthProvidersEnum } from '../interfaces'
-import { FaGithub, FaGoogle, FaJira } from 'react-icons/fa'
-import styles from './Login.module.scss'
+import { useLocaleProvider } from '../../locale'
 import { Button } from '../../ui'
-import React, { useCallback } from 'react'
+import { OAuthProvidersEnum } from '../interfaces'
+import styles from './Login.module.scss'
 
 const OAuthLoginComponent = () => {
     const authProvider = useAuthProvider()
     const oauthProviders = useConfig().oauthProviders
+    const { auth: locale } = useLocaleProvider()
 
     const OAuthProvidersIcons: Record<OAuthProvidersEnum, JSX.Element> = {
         [OAuthProvidersEnum.Google]: <FaGoogle />,
@@ -39,7 +41,7 @@ const OAuthLoginComponent = () => {
 
     return (
         <div className={styles.socialLogin}>
-            <div className={styles.socialLoginTitle}>Or continue with</div>
+            <div className={styles.socialLoginTitle}>{locale.oauth}</div>
             <div className={styles.socialLoginButtons}>
                 {oauthProviders?.map((provider) => {
                     return (

@@ -6,6 +6,7 @@ import authProvider from './authProvider'
 import AskSupport from './components/AskSupport'
 import themeLight from './theme/themeLight'
 import themeDark from './theme/themeDark'
+import { admiralLocales } from '../admiral/locale'
 
 const apiUrl = '/api'
 const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
@@ -16,6 +17,7 @@ function App() {
             dataProvider={dataProvider(apiUrl)}
             authProvider={authProvider(apiUrl)}
             menu={Menu}
+            locale={admiralLocales.ruRU}
             menuPopupExtraComponents={<AskSupport />}
             oauthProviders={[
                 OAuthProvidersEnum.Google,

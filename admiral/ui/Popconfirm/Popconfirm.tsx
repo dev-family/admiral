@@ -3,9 +3,9 @@ import { Button } from '../Button'
 import { Tooltip } from '../Tooltip'
 import { PopconfirmLocale, PopconfirmProps } from './interfaces'
 import styles from './Popconfirm.module.scss'
-import { enUs } from './locale'
+import { enUS } from './locale'
 
-const defaultLocale = enUs
+const defaultLocale = enUS
 
 export const Popconfirm = ({
     title,

@@ -1,11 +1,10 @@
 import React, { ReactNode } from 'react'
 import { useNav } from '../../../navigation/NavContext'
-import { ThemeSwitch, Tooltip, Button } from '../../../ui'
+import { ThemeSwitch, Tooltip } from '../../../ui'
 import { FiSettings } from 'react-icons/fi'
 import cn from 'classnames'
-import { useLogout } from '../../../auth'
 import { UserCard } from '../../../auth/components/User'
-import { useSafeSetState } from '../../../utils/hooks'
+import { Logout } from '../../../auth/components/Logout'
 import { UserIdentity } from '../../../auth/interfaces'
 import styles from '../Layout.module.scss'
 
@@ -64,32 +63,6 @@ const LayoutFooter: React.FC<Props> = ({ user, menuPopupExtraComponents }) => {
                 </Tooltip>
             </div>
         </footer>
-    )
-}
-
-export function Logout() {
-    const { toggle } = useNav()
-    const logout = useLogout()
-    const [loading, setLoading] = useSafeSetState(false)
-
-    const onClick = () => {
-        setLoading(true)
-        return logout().finally(() => {
-            setLoading(false)
-            toggle()
-        })
-    }
-
-    return (
-        <Button
-            className={styles.logout_button}
-            type="button"
-            view="ghost"
-            loading={loading}
-            onClick={onClick}
-        >
-            Exit
-        </Button>
     )
 }
 

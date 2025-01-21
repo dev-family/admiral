@@ -1,11 +1,7 @@
-import { enUs as enUsPopconfirmLocale } from '../../ui/Popconfirm/locale/enUS'
-import { PopconfirmLocaleType } from '../../ui/Popconfirm/interfaces'
+import { enUS as enUsPopconfirmLocale } from '../../ui/Popconfirm/locale/enUS'
+import { DataTableType } from '../interfaces'
 
-export type DataTableType = {
-    title: string
-} & PopconfirmLocaleType
-
-export const enUs: DataTableType = {
+export const enUS: DataTableType = {
     title: 'Are you sure you want to delete?',
     ...enUsPopconfirmLocale,
 }

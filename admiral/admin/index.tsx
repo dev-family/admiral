@@ -10,9 +10,8 @@ import { UserContextProvider } from '../auth/UserContext'
 import type { AuthProvider } from '../auth/interfaces'
 import { ConfigContextProvider } from '../config/ConfigContext'
 import { ThemePreset } from '../theme/interfaces'
-import { LocaleContextProvider } from '../crud/locale/LocaleContext'
-import { CRUDLocale } from '../crud/interfaces'
 import { OAuthProvidersEnum } from '../auth/interfaces'
+import { AdmiralLocale, LocaleContextProvider } from '../locale'
 
 export type AdminProps = {
     menu: ComponentType
@@ -23,7 +22,7 @@ export type AdminProps = {
     dataProvider: DataProvider
     authProvider?: AuthProvider
     themePresets?: { light: ThemePreset; dark: ThemePreset }
-    locale?: Partial<CRUDLocale>
+    locale?: Partial<AdmiralLocale>
     oauthProviders?: OAuthProvidersEnum[]
     baseAppUrl?: string
 }

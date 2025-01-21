@@ -1,7 +1,7 @@
 import CalendarLocale from 'rc-picker/lib/locale/en_US'
 import { PickerLocale } from '../generatePicker/interfaces'
 
-const locale: PickerLocale = {
+export const enUS: PickerLocale = {
     lang: {
         placeholder: 'Select date',
         yearPlaceholder: 'Select year',
@@ -15,5 +15,3 @@ const locale: PickerLocale = {
         ...CalendarLocale,
     },
 }
-
-export default locale

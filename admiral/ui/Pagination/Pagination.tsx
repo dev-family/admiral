@@ -1,6 +1,6 @@
 import React from 'react'
 import RcPagination, { PaginationProps as RcPaginationProps } from 'rc-pagination'
-import { enUs } from './locales'
+import { enUS } from './locales'
 import styles from './Pagination.module.scss'
 import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
 import cn from 'classnames'
@@ -59,7 +59,7 @@ const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => 
     return element
 }
 
-const defaultLocale = enUs
+const defaultLocale = enUS
 
 export const Pagination = ({ size, className, locale, ...restProps }: PaginationProps) => {
     const paginationLocale = { ...defaultLocale, ...locale }

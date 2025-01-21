@@ -1,5 +1,5 @@
 import { SelectLocale } from '../interfaces'
 
-export const enUs: SelectLocale = {
+export const enUS: SelectLocale = {
     notFound: 'Not found',
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Page, Pagination } from '../../admiral'
-import { enUs } from '../../admiral/ui/Pagination/locales'
+import { enUS } from '../../admiral/ui/Pagination/locales'
 
 export default function PaginationPage() {
     const [pagination, setPagination] = useState({ current: 3 })
@@ -41,7 +41,7 @@ export default function PaginationPage() {
             />
             <br />
             <Pagination
-                locale={enUs}
+                locale={enUS}
                 showQuickJumper
                 current={pagination.current}
                 total={25000}

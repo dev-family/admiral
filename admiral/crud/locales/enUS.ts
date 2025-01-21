@@ -1,4 +1,4 @@
-import { CRUDActionsLocale } from '../../interfaces'
+import { CRUDActionsLocale } from '../interfaces'
 
 export const enUS: CRUDActionsLocale = {
     submit: 'Submit',

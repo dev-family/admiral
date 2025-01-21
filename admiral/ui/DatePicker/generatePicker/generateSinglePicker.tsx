@@ -13,14 +13,14 @@ import { AiFillCloseCircle } from 'react-icons/ai'
 import RCPicker from 'rc-picker'
 import { PickerMode } from 'rc-picker/lib/interface'
 import { GenerateConfig } from 'rc-picker/lib/generate/index'
-import enUs from '../locale/en_US'
+import { enUS } from '../locales'
 import { getPlaceholder } from '../util'
 import { PickerProps, PickerComponentClass } from './interfaces'
 import PickerButton from '../PickerButton'
 import PickerTag from '../PickerTag'
 import { getTimeProps } from './getTimeProps'
 
-const defaultLocale = enUs
+const defaultLocale = enUS
 
 export default function generatePicker<DateType>(generateConfig: GenerateConfig<DateType>) {
     type DatePickerProps = PickerProps<DateType>

@@ -1,4 +1,4 @@
-export const enUs = {
+export const enUS = {
     filterTitle: 'Filter menu',
     filterConfirm: 'OK',
     filterReset: 'Reset',

@@ -53,7 +53,7 @@ const LayoutFooter: React.FC<Props> = ({ user, menuPopupExtraComponents }) => {
                     }}
                 >
                     {user ? (
-                        <div>
+                        <div className={styles.userCard}>
                             <UserCard {...user} collapsed={collapsed} />
                         </div>
                     ) : (

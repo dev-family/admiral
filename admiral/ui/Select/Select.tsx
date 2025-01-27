@@ -6,10 +6,10 @@ import type { BaseOptionType, DefaultOptionType } from 'rc-select/lib/Select'
 import { SelectProps } from './interfaces'
 import getIcons from './utils/getIcons'
 import './Select.scss'
-import { enUs } from './locales'
+import { enUS } from './locales'
 
 const prefixCls = 'select'
-const defaultLocale = enUs
+const defaultLocale = enUS
 
 const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(
     {

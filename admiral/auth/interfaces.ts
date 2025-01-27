@@ -35,3 +35,15 @@ export interface UserContextValue {
     user: UserContextStateValue
     setUser: React.Dispatch<React.SetStateAction<UserContextStateValue>>
 }
+
+export interface AuthLocale {
+    login: string
+    logout: string
+    oauth: string
+    password: string
+    email: string
+    notification: {
+        success: string
+        error: string
+    }
+}

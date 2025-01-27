@@ -13,13 +13,13 @@ import { AiFillCloseCircle } from 'react-icons/ai'
 import { RangePicker } from 'rc-picker'
 import { PickerMode } from 'rc-picker/lib/interface'
 import { GenerateConfig } from 'rc-picker/lib/generate/index'
-import enUs from '../locale/en_US'
+import { enUS } from '../locales'
 import { getRangeTimeProps } from './getRangeTimeProps'
 import PickerButton from '../PickerButton'
 import PickerTag from '../PickerTag'
 import { PickerComponentClass, PickerRangeProps } from './interfaces'
 
-const defaultLocale = enUs
+const defaultLocale = enUS
 
 export default function generateSingleRangePicker<DateType>(
     generateConfig: GenerateConfig<DateType>,

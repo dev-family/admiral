@@ -1,7 +1,7 @@
 import { Locale } from '../interfaces'
-import enUsDatePickerLocale from '../../ui/DatePicker/locale/en_US'
-import { enUs as enUsSelectLocale } from '../../ui/Select/locales/enUS'
-import { enUS as enUsUploadLocale } from '../../ui/Upload/locales/enUS'
+import { enUS as enUsDatePickerLocale } from '../../ui/DatePicker/locales'
+import { enUS as enUsSelectLocale } from '../../ui/Select/locales'
+import { enUS as enUsUploadLocale } from '../../ui/Upload/locales'
 
 export const enUS: Locale = {
     fields: {

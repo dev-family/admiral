@@ -1,7 +1,7 @@
 {
     "name": "@devfamily/admiral",
     "description": "Admiral is a frontend framework for creating back office using React. It provides out-of-the-box components and tools that make developing an admin interface easy and fast.",
-    "version": "5.9.7",
+    "version": "5.9.8",
     "bugs": "https://github.com/dev-family/admiral/issues",
     "homepage": "https://github.com/dev-family/admiral",
     "repository": {

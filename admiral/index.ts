@@ -75,3 +75,5 @@ export { createRoutesFrom } from './router'
 
 export { useTheme, useThemeVars } from './theme'
 export type { ThemeName, ThemePreset } from './theme/interfaces'
+
+export * from './locale'

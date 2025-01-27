@@ -1,2 +1,2 @@
 import { PopconfirmLocaleType } from '../interfaces';
-export declare const enUS: PopconfirmLocaleType;
+export declare const ruRU: PopconfirmLocaleType;

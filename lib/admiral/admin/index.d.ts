@@ -4,8 +4,8 @@ import { LogoType } from '../ui/Layout/LayoutHeader';
 import { DataProvider } from '../dataProvider';
 import type { AuthProvider } from '../auth/interfaces';
 import { ThemePreset } from '../theme/interfaces';
-import { CRUDLocale } from '../crud/interfaces';
 import { OAuthProvidersEnum } from '../auth/interfaces';
+import { AdmiralLocale } from '../locale';
 export declare type AdminProps = {
     menu: ComponentType;
     menuPopupExtraComponents?: ReactNode;
@@ -18,7 +18,7 @@ export declare type AdminProps = {
         light: ThemePreset;
         dark: ThemePreset;
     };
-    locale?: Partial<CRUDLocale>;
+    locale?: Partial<AdmiralLocale>;
     oauthProviders?: OAuthProvidersEnum[];
     baseAppUrl?: string;
 };

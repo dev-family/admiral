@@ -1,4 +1,4 @@
-export declare const enUS: {
+export declare const ruRU: {
     filterTitle: string;
     filterConfirm: string;
     filterReset: string;

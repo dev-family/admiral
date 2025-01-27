@@ -1,2 +1,2 @@
 import { PaginationLocale } from '../interfaces';
-export declare const enUS: PaginationLocale;
+export declare const ruRU: PaginationLocale;

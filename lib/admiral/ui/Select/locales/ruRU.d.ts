@@ -1,2 +1,2 @@
 import { SelectLocale } from '../interfaces';
-export declare const enUS: SelectLocale;
+export declare const ruRU: SelectLocale;

@@ -1,2 +1,2 @@
 import { DataTableType } from '../interfaces';
-export declare const enUS: DataTableType;
+export declare const ruRU: DataTableType;

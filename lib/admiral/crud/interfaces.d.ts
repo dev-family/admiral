@@ -1,21 +1,7 @@
 import type { ReactNode } from 'react';
-import { Locale as FormLocale } from '../form/interfaces';
-import { FiltersLocale } from '../filters/interfaces';
-import { ColumnsType, ColumnType, TableLocale } from '../ui/Table/interfaces';
-import { DrawerProps } from '../ui/Drawer/interfaces';
-import { PaginationLocale } from '../ui/Pagination/interfaces';
+import { ColumnsType, ColumnType } from '../ui/Table/interfaces';
 import { DataTableConfig } from '../dataTable';
-import { DeleteActionLocale } from '../dataTable/actions';
-import { LayoutLocale } from '../ui/Layout/interfaces';
-export declare type CRUDLocale = {
-    actions: CRUDActionsLocale;
-    filters: FiltersLocale;
-    form: FormLocale;
-    table: TableLocale;
-    pagination: PaginationLocale;
-    popconfirm: DeleteActionLocale;
-    layout: LayoutLocale;
-};
+import { DrawerProps } from '../ui/Drawer/interfaces';
 export declare type CRUDActionsLocale = {
     submit: string;
     back: string;

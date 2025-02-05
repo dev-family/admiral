@@ -430,6 +430,17 @@ You can customize the color theme for your application. You can get more info in
 
 **locale**
 
+Localization can be imported from the admiral package and applied to the Admin component.
+The text data in all standard components will have the language selected using admiralLocales.
+
+Example:
+```tsx
+import { admiralLocales} from '@devfamily/admiral'
+
+<Admin locale={admiralLocales.enUS} />
+```
+  
+  
 The localization scheme of your admin panel, which you can get using the useLocaleProvider hook. You can find an example of the scheme [here](https://github.com/dev-family/admiral/blob/master/admiral/crud/locale/LocaleContext.tsx).
 
 

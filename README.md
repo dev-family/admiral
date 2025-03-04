@@ -77,7 +77,7 @@ Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&u
 
 **Requirements:**
 
--   Node.js >=v14.21.3 <=20.3.0
+- The recommended Node.js versions are between 14.21.3 and 20.3.0. However, any version above 14.21.3 can be used. If any version incompatibilities are found, please create an [issue](https://github.com/dev-family/admiral/issues) describing the problem.
 
 There are several options for installing Admiral:
 

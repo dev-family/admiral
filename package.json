@@ -24,7 +24,7 @@
         "developer-tools"
     ],
     "engines": {
-        "node": ">=v14.21.3 <=20.3.0"
+        "node": ">=v14.21.3"
     },
     "scripts": {
         "dev": "vite --host",

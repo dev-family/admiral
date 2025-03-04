@@ -77,7 +77,7 @@ Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&u
 
 **Requirements:**
 
--   Node.js >=v14.21.3 <=20.3.0
+- The recommended Node.js versions are between 14.21.3 and 20.3.0. However, any version above 14.21.3 can be used. If any version incompatibilities are found, please create an [issue](https://github.com/dev-family/admiral/issues) describing the problem.
 
 There are several options for installing Admiral:
 
@@ -430,6 +430,17 @@ You can customize the color theme for your application. You can get more info in
 
 **locale**
 
+Localization can be imported from the admiral package and applied to the Admin component.
+The text data in all standard components will have the language selected using admiralLocales.
+
+Example:
+```tsx
+import { admiralLocales} from '@devfamily/admiral'
+
+<Admin locale={admiralLocales.enUS} />
+```
+  
+  
 The localization scheme of your admin panel, which you can get using the useLocaleProvider hook. You can find an example of the scheme [here](https://github.com/dev-family/admiral/blob/master/admiral/crud/locale/LocaleContext.tsx).
 
 

@@ -7,6 +7,7 @@ import { FormItemProps } from '../Item'
 import parseISO from 'date-fns/parseISO'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
+import { getTransformedDate } from '../../utils/helpers/getTransformedDate'
 
 export type DatePickerInputProps = FormItemProps & {
     name: string
@@ -19,6 +20,7 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
     required,
     columnSpan,
     onChange,
+    dateOutputFormat = 'iso',
     ...pickerProps
 }) => {
     const getPopupContainer = usePopupContainer()
@@ -30,8 +32,12 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
 
     const _onChange = useCallback(
         (value: Date | null) => {
-            setValues((values: any) => ({ ...values, [name]: value?.toISOString() }))
-            onChange?.(value?.toISOString())
+            const transformedDate = value
+                ? getTransformedDate({ date: value, type: dateOutputFormat })
+                : null
+
+            setValues((values: any) => ({ ...values, [name]: transformedDate }))
+            onChange?.(transformedDate)
         },
         [onChange],
     )

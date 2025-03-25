@@ -8,6 +8,7 @@ import isValid from 'date-fns/isValid'
 import parseISO from 'date-fns/parseISO'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
+import { getTransformedDate } from '../../utils/helpers/getTransformedDate'
 
 interface TimePickerProps extends Omit<BaseTimePickerProps, 'format'> {}
 
@@ -23,6 +24,7 @@ export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputPro
     required,
     columnSpan,
     onChange,
+    dateOutputFormat = 'utc',
     ...pickerProps
 }) => {
     const getPopupContainer = usePopupContainer()
@@ -35,8 +37,12 @@ export const TimePickerInput: InputComponentWithName<React.FC<TimePickerInputPro
 
     const _onChange = useCallback(
         (value: Date | null) => {
-            setValues((values: any) => ({ ...values, [name]: value?.toISOString() }))
-            onChange?.(value?.toISOString())
+            const transformedDate = value
+                ? getTransformedDate({ date: value, type: dateOutputFormat })
+                : null
+
+            setValues((values: any) => ({ ...values, [name]: transformedDate }))
+            onChange?.(transformedDate)
         },
         [onChange],
     )

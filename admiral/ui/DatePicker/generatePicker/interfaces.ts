@@ -10,6 +10,8 @@ import { RangePickerProps } from 'rc-picker'
 
 type SizeType = 'L' | 'M' | 'S' | 'XS'
 
+export type DateOutputFormat = 'iso' | 'utc'
+
 export function toArray<T>(list: T | T[]): T[] {
     if (!list) {
         return []
@@ -25,6 +27,7 @@ type InjectDefaultProps<Props> = Omit<
     size?: SizeType
     borderless?: boolean
     alert?: boolean
+    dateOutputFormat?: DateOutputFormat
 }
 
 export interface TimePickerLocale {

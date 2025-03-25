@@ -3,12 +3,14 @@ import { RangeValue, Locale as RcPickerLocale } from 'rc-picker/lib/interface';
 import { PickerBaseProps as RCPickerBaseProps, PickerDateProps as RCPickerDateProps, PickerTimeProps as RCPickerTimeProps } from 'rc-picker/lib/Picker';
 import { RangePickerProps } from 'rc-picker';
 declare type SizeType = 'L' | 'M' | 'S' | 'XS';
+export declare type DateOutputFormat = 'iso' | 'utc';
 export declare function toArray<T>(list: T | T[]): T[];
 declare type InjectDefaultProps<Props> = Omit<Props, 'locale' | 'generateConfig' | 'hideHeader' | 'components' | 'prefixCls'> & {
     locale?: PickerLocale;
     size?: SizeType;
     borderless?: boolean;
     alert?: boolean;
+    dateOutputFormat?: DateOutputFormat;
 };
 export interface TimePickerLocale {
     placeholder?: string;

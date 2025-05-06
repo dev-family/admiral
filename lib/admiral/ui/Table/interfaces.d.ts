@@ -71,6 +71,7 @@ export interface TableLocale {
     triggerDesc?: string;
     triggerAsc?: string;
     cancelSort?: string;
+    autoRefreshButton?: string;
 }
 export interface TableProps<RecordType> extends Omit<RcTableProps<RecordType>, 'transformColumns' | 'internalHooks' | 'internalRefs' | 'data' | 'columns' | 'emptyText' | 'components'> {
     dataSource?: RcTableProps<RecordType>['data'];

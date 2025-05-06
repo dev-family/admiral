@@ -1,4 +1,6 @@
-export const enUS = {
+import { TableLocale } from '../interfaces'
+
+export const enUS: TableLocale = {
     filterTitle: 'Filter menu',
     filterConfirm: 'OK',
     filterReset: 'Reset',
@@ -16,4 +18,5 @@ export const enUS = {
     triggerDesc: 'Click to sort descending',
     triggerAsc: 'Click to sort ascending',
     cancelSort: 'Click to cancel sorting',
+    autoRefreshButton: 'Auto Refresh',
 }

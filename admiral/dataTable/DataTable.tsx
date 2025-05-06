@@ -10,7 +10,6 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { useTopLocation } from '../router'
 import styles from './DataTable.module.scss'
-import { useUpdateEffect } from '../utils/hooks'
 
 export type DataTableProps<RecordType> = {
     resource: string
@@ -246,7 +245,7 @@ export function DataTable<RecordType extends { id: number | string }>({
                         </div>
                         {AutoupdateIcon ? (
                             <div className={styles.table__header_autoupdate}>
-                                <p>Autorefresh</p>
+                                <p>{locale?.table?.autoRefreshButton}</p>
                                 <Button
                                     onClick={toggleTableAutoupdate}
                                     view="clear"

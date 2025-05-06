@@ -1,4 +1,6 @@
-export const esEs = {
+import { TableLocale } from '../interfaces'
+
+export const esEs: TableLocale = {
     filterTitle: 'Menú de filtro',
     filterConfirm: 'Aceptar',
     filterReset: 'Restablecer',
@@ -16,4 +18,5 @@ export const esEs = {
     triggerDesc: 'Hacer clic para ordenar descendente',
     triggerAsc: 'Hacer clic para ordenar ascendente',
     cancelSort: 'Hacer clic para cancelar el ordenamiento',
+    autoRefreshButton: 'actualización auto',
 }

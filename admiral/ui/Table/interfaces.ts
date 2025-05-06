@@ -90,6 +90,7 @@ export interface TableLocale {
     triggerDesc?: string
     triggerAsc?: string
     cancelSort?: string
+    autoRefreshButton?: string
 }
 
 export interface TableProps<RecordType>

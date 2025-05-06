@@ -1,4 +1,6 @@
-export const ruRU = {
+import { TableLocale } from '../interfaces'
+
+export const ruRU: TableLocale = {
     filterTitle: 'Меню фильтров',
     filterConfirm: 'ОК',
     filterReset: 'Сбросить',
@@ -16,4 +18,5 @@ export const ruRU = {
     triggerDesc: 'Нажмите, чтобы отсортировать по убыванию',
     triggerAsc: 'Нажмите, чтобы отсортировать по возрастанию',
     cancelSort: 'Нажмите, чтобы отменить сортировку',
+    autoRefreshButton: 'Автообновление',
 }

@@ -1,6 +1,6 @@
 .Theme_control_themeLight {
-    --control-radius: 8px; /* Основной радиус скругления контроллов */
-    --control-border-width: 1px; /* Основная толщина контроллов */
+    --control-radius: 8px; /* The main rounding radius of the controls */
+    --control-border-width: 1px; /* The main thickness of the controls */
     --control-height-l: var(--space-4xl);
     --control-height-m: var(--space-3xl);
     --control-height-s: var(--space-2xl);

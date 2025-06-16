@@ -1,186 +1,186 @@
 :root {
-    /* Базовые цвета, от которых выстраивается вся палитра */
-    --color-base-base: #171a22; /* Базовый цвет содержимого, от которого выстраиваются цвета текста, иконок, ... */
-    --color-base-essential: #fff; /* Базовый цвет поверхностей */
-    --color-base-project: #643add; /* Проектный цвет, от которого выстраивают акцентные состояния */
-    --color-base-phantom: #8670c7; /* Тонирующий цвет, от которого выстраиватся бордеры, оверлей под модальными окнами, ... */
-    --color-base-path: #8d68f5; /* Цвет ссылок и контролов, от которого выстраиваются все их состояния */
-    --color-base-system: #ced8de; /* Цвет системнный */
+    /* Base colors from which the entire palette is built */
+    --color-base-base: #171a22; /* The base color of the content, from which text, icons, etc. colors are built */
+    --color-base-essential: #fff; /* The base color of surfaces */
+    --color-base-project: #643add; /* Project color, from which accent states are built */
+    --color-base-phantom: #8670c7; /* Tinting color, from which borders, modal overlays, etc. are built */
+    --color-base-path: #8d68f5; /* Link and control color, from which all their states are built */
+    --color-base-system: #ced8de; /* System color */
 
-    --color-base-success: #43c758; /* Цвет успеха */
-    --color-base-alert: #eb5757; /* Цвет ошибки */
-    --color-base-warning: #f38b00; /* Цвет предупреждения */
-    --color-base-caution: #f2c94c; /* Цвет осторожности */
-    --color-base-normal: #56b9f2; /* Цвет нейтральный */
+    --color-base-success: #43c758; /* Success color */
+    --color-base-alert: #eb5757; /* Error color */
+    --color-base-warning: #f38b00; /* Warning color */
+    --color-base-caution: #f2c94c; /* Caution color */
+    --color-base-normal: #56b9f2; /* Neutral color */
     --color-base-critical: #33000f;
 }
 
 /* stylelint-disable */
 .Theme_color_themeLight {
-    /* Цвета фонов */
-    --color-bg-default: var(--color-base-essential); /* Цвет дефолта */
-    --color-bg-secondary: #f2f5f8; /* Цвет дефолта */
-    --color-bg-brand: var(--color-base-project); /* Цвет фона брендированый */
-    --color-bg-link: color-mod(var(--color-base-path) a(100%)); /* Цвет фона ссылки */
-    --color-bg-border: color-mod(var(--color-base-phantom) a(20%) l(+30%)); /* Цвет границ */
-    --color-bg-stripe: #f8f9fa; /* Цвет зебры (например, при окрашивании фона строк таблицы через одну) */
+    /* Background colors */
+    --color-bg-default: var(--color-base-essential); /* Default color */
+    --color-bg-secondary: #f2f5f8; /* Default color */
+    --color-bg-brand: var(--color-base-project); /* Branded background color */
+    --color-bg-link: color-mod(var(--color-base-path) a(100%)); /* Link background color */
+    --color-bg-border: color-mod(var(--color-base-phantom) a(20%) l(+30%)); /* Border color */
+    --color-bg-stripe: #f8f9fa; /* Zebra color (e.g., for alternating table row backgrounds) */
     --color-bg-stripe-active: color-mod(#f8f9fa l(-2%));
 
-    --color-bg-ghost: color-mod(var(--color-base-phantom) l(-11%) a(8%)); /* Цвет затенения */
-    --color-bg-tone: color-mod(var(--color-base-phantom) l(-25%) a(10%)); /* Цвет паранджи */
-    --color-bg-soft: color-mod(var(--color-base-essential) a(90%)); /* Цвет молока */
-    --color-bg-system: color-mod(var(--color-base-system) a(100%)); /* Цвет фона системнный */
-    --color-bg-normal: color-mod(var(--color-base-normal) a(100%)); /* Цвет фона нейтральный */
-    --color-bg-success: color-mod(var(--color-base-success) a(100%)); /* Цвет фона успеха */
-    --color-bg-caution: color-mod(var(--color-base-caution) a(100%)); /* Цвет фона осторожности */
-    --color-bg-warning: color-mod(var(--color-base-warning) a(100%)); /* Цвет фона предупреждения */
-    --color-bg-alert: color-mod(var(--color-base-alert) a(100%)); /* Цвет фона ошибки */
-    --color-bg-critical: color-mod(var(--color-base-critical) a(100%)); /* Цвет фона системнный */
-    --color-bg-selection: color-mod(var(--color-base-project) a(10%)); /* Цвет выделения */
+    --color-bg-ghost: color-mod(var(--color-base-phantom) l(-11%) a(8%)); /* Shading color */
+    --color-bg-tone: color-mod(var(--color-base-phantom) l(-25%) a(10%)); /* Paranja color (veil) */
+    --color-bg-soft: color-mod(var(--color-base-essential) a(90%)); /* Milk color */
+    --color-bg-system: color-mod(var(--color-base-system) a(100%)); /* System background color */
+    --color-bg-normal: color-mod(var(--color-base-normal) a(100%)); /* Neutral background color */
+    --color-bg-success: color-mod(var(--color-base-success) a(100%)); /* Success background color */
+    --color-bg-caution: color-mod(var(--color-base-caution) a(100%)); /* Caution background color */
+    --color-bg-warning: color-mod(var(--color-base-warning) a(100%)); /* Warning background color */
+    --color-bg-alert: color-mod(var(--color-base-alert) a(100%)); /* Error background color */
+    --color-bg-critical: color-mod(
+        var(--color-base-critical) a(100%)
+    ); /* System background color */
+    --color-bg-selection: color-mod(var(--color-base-project) a(10%)); /* Selection color */
 
-    /* Цвета текста */
-    --color-typo-primary: var(--color-base-base); /* Цвет основного текста */
-    --color-typo-secondary: color-mod(
-        var(--color-base-base) a(70%)
-    ); /* Цвет второстепенного текста */
-    --color-typo-ghost: color-mod(var(--color-base-base) a(30%)); /* Цвет дополнительного текста */
-    --color-typo-brand: color-mod(var(--color-base-project) a(100%)); /* Цвет брендового текста */
+    /* Text colors */
+    --color-typo-primary: var(--color-base-base); /* Main text color */
+    --color-typo-secondary: color-mod(var(--color-base-base) a(70%)); /* Secondary text color */
+    --color-typo-ghost: color-mod(var(--color-base-base) a(30%)); /* Additional text color */
+    --color-typo-brand: color-mod(var(--color-base-project) a(100%)); /* Brand text color */
     --color-typo-system: color-mod(
         var(--color-base-system) s(+10%) l(-21%)
-    ); /* Цвет фона системнный */
+    ); /* System text color */
     --color-typo-normal: color-mod(
         var(--color-base-normal) s(+14%) l(-4%)
-    ); /* Цвет фона нейтральный */
+    ); /* Neutral text color */
     --color-typo-success: color-mod(
         var(--color-base-success) s(+20%) l(-8%)
-    ); /* Цвет текста успеха */
+    ); /* Success text color */
     --color-typo-caution: color-mod(
         var(--color-base-caution) s(+15%) h(-8) l(-10%)
-    ); /* Цвет текста осторожности */
+    ); /* Caution text color */
 
     --color-typo-warning: color-mod(
         var(--color-base-warning) h(-4) s(-2%) l(-2%)
-    ); /* Цвет текста предупреждения */
+    ); /* Warning text color */
 
-    --color-typo-alert: color-mod(var(--color-base-alert) s(+3%) l(-7%)); /* Цвет текста ошибки */
-    --color-typo-critical: color-mod(var(--color-base-critical) a(100%)); /* Цвет фона системнный */
-    --color-typo-link: color-mod(var(--color-base-path) a(100%)); /* Цвет основной ссылки */
+    --color-typo-alert: color-mod(var(--color-base-alert) s(+3%) l(-7%)); /* Error text color */
+    --color-typo-critical: color-mod(var(--color-base-critical) a(100%)); /* System text color */
+    --color-typo-link: color-mod(var(--color-base-path) a(100%)); /* Main link color */
     --color-typo-link-minor: color-mod(
         var(--color-base-path) s(-35%) l(-10%)
-    ); /* Цвет второстепенной ссылки */
-    --color-typo-link-hover: color-mod(var(--color-base-path) l(+8%)); /* Цвет ховера ссылки */
-    --color-nums-shadow: 0, 0, 0; /* Значения RGB для указания теней в конструкции rgba(R,G,B, alpha) */
+    ); /* Minor link color */
+    --color-typo-link-hover: color-mod(var(--color-base-path) l(+8%)); /* Link hover color */
+    --color-nums-shadow: 0, 0, 0; /* RGB values for specifying shadows in rgba(R,G,B, alpha) */
 
-    /* Цвета скроллбара */
+    /* Scrollbar colors */
     --color-scroll-bg: color-mod(var(--color-base-phantom) a(6%));
     --color-scroll-thumb: color-mod(var(--color-base-phantom) a(24%));
     --color-scroll-thumb-hover: color-mod(var(--color-base-phantom) a(32%));
 
-    /* Цвета контролов */
+    /* Control colors */
     /* Default */
-    --color-control-bg-default: color-mod(var(--color-base-essential)); /* Цвет фона контрола */
-    --color-control-typo-default: color-mod(
-        var(--color-base-base)
-    ); /* Цвет основного текста контрола */
+    --color-control-bg-default: color-mod(
+        var(--color-base-essential)
+    ); /* Control background color */
+    --color-control-typo-default: color-mod(var(--color-base-base)); /* Main control text color */
     --color-control-typo-placeholder: color-mod(
         var(--color-base-base) a(35%)
-    ); /* Цвет плейсхолдера контрола */
+    ); /* Control placeholder color */
     --color-control-bg-border-default: color-mod(
         var(--color-base-phantom) a(28%)
-    ); /* Цвет фона бордеров котрола */
+    ); /* Control border background color */
 
     --color-control-bg-border-default-hover: color-mod(
         var(--color-base-phantom) a(52%)
-    ); /* Цвет фона бордеров контрола по ховеру */
+    ); /* Control border background color on hover */
 
     --color-control-bg-border-focus: color-mod(
         var(--color-base-path) l(+9%)
-    ); /* Цвет аутлайна контролов при фокусе */
+    ); /* Control outline color on focus */
     --color-control-bg-focus: color-mod(
         var(--color-base-path) a(30%)
-    ); /* Цвет тени в состонии фокуса */
+    ); /* Shadow color in focus state */
     --color-control-bg-active: color-mod(
         var(--color-base-path) a(50%)
-    ); /* Цвет тени в состонии нажатия  */
+    ); /* Shadow color in active state  */
 
     /* Primary */
     --color-control-bg-primary: color-mod(
         var(--color-base-path) a(100%)
-    ); /* Цвет фона активного контрола */
+    ); /* Active control background color */
     --color-control-bg-primary-hover: color-mod(
         var(--color-base-path) l(+9%)
-    ); /* Цвет фона активного контрола по ховеру */
+    ); /* Active control background color on hover */
 
     --color-control-typo-primary: color-mod(
         var(--color-base-base) l(+100%)
-    ); /* Цвет акцентного текста */
+    ); /* Accent text color */
     --color-control-typo-primary-hover: color-mod(
         var(--color-base-base) l(+100%)
-    ); /* Цвет акцентного текста */
+    ); /* Accent text color */
 
     /* Secondary */
     --color-control-bg-secondary: color-mod(
         var(--color-base-essential) a(0%)
-    ); /* Цвет фона бордеров котрола */
+    ); /* Control border background color */
     --color-control-bg-border-secondary: color-mod(
         var(--color-base-path) a(100%)
-    ); /* Цвет фона бордеров котрола */
+    ); /* Control border background color */
 
     --color-control-bg-border-secondary-hover: color-mod(
         var(--color-base-path) l(+9%)
-    ); /* Цвет фона бордеров контрола по ховеру */
+    ); /* Control border background color on hover */
 
     --color-control-typo-secondary: color-mod(
         var(--color-base-path) a(100%)
-    ); /* Цвет второстепеного текста контрола */
+    ); /* Secondary control text color */
 
     --color-control-typo-secondary-hover: color-mod(
         var(--color-base-path) l(+9%)
-    ); /* Цвет акцентного текста */
+    ); /* Accent text color */
 
     /* Ghost */
     --color-control-bg-ghost: color-mod(
         var(--color-base-phantom) a(7%)
-    ); /* Цвет фона дополнительного контрола */
+    ); /* Additional control background color */
 
     --color-control-bg-ghost-hover: color-mod(
         var(--color-base-phantom) a(5%)
-    ); /* Цвет фона дополнительного контрола по ховеру */
+    ); /* Additional control background color on hover */
 
     --color-control-typo-ghost: color-mod(
         var(--color-base-base) h(+1) l(+8%) a(80%)
-    ); /* Цвет дополнительного текста контрола */
+    ); /* Additional control text color */
 
     --color-control-typo-ghost-hover: color-mod(
         var(--color-base-base) h(+1) l(+8%) a(75%)
-    ); /* Цвет акцентного текста */
+    ); /* Accent text color */
 
     /* Clear */
     --color-control-bg-clear: color-mod(
         var(--color-base-phantom) a(0%)
-    ); /* Цвет фона чистого контрола */
+    ); /* Clear control background color */
     --color-control-bg-clear-hover: color-mod(
         var(--color-base-phantom) a(5%)
-    ); /* Цвет фона чистого контрола по ховеру */
+    ); /* Clear control background color on hover */
 
     --color-control-typo-clear: color-mod(
         var(--color-base-base) h(+1) l(+8%) a(80%)
-    ); /* Цвет акцентного текста */
+    ); /* Accent text color */
 
     --color-control-typo-clear-hover: color-mod(
         var(--color-base-base) h(+1) l(+8%) a(75%)
-    ); /* Цвет акцентного текста */
+    ); /* Accent text color */
 
     /* Disable */
     --color-control-bg-disable: color-mod(
         var(--color-base-phantom) a(7%)
-    ); /* Цвет фона неактивного контрола */
+    ); /* Disabled control background color */
     --color-control-bg-border-disable: color-mod(
         var(--color-base-phantom) a(0%)
-    ); /* Цвет фона бордеров неактивного контрола */
+    ); /* Disabled control border background color */
 
     --color-control-typo-disable: color-mod(
         var(--color-base-base) a(26%)
-    ); /* Цвет основного текста неактивного контрола */
+    ); /* Disabled control main text color */
 }
 /* stylelint-enable */

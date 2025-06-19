@@ -5,7 +5,10 @@
 </p>
 <h3 align="center">Revolutionize Your Workflow with Admiral: A Powerful Solution for Tailored Admin Panels and Business Applications</h3>
 
-<p align="center"> <a target='_blank' href='https://admiral.dev.family'>Try live demo</a></p>
+<p align="center">
+  <a href="https://admiral.dev.family" target="_blank">🌐 Try Live Demo</a> &nbsp;|&nbsp;
+  <a href="https://dev.family/blog/categories/admiral-open-source-solution-in-react" target="_blank">📖 Real-World Use Cases</a>
+</p>
 
 <br>
 
@@ -51,6 +54,7 @@ Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&u
     -   [📦 Icons](#icons)
     -   [📦 Custom Theme](#custom-theme)
 -   [🗺️ Roadmap](#%EF%B8%8F-roadmap)
+-   [📚 More Resources & Real-World Use Cases](#-more-resources--real-world-use-cases)
 -   [🏆How can I support the developers?](#-how-can-i-support-the-developers)
 -   [🤝 Contributing](#-contributing)
 -   [© License](#%EF%B8%8F-license)
@@ -659,6 +663,12 @@ function App() {
 -   [ ] Custom login page
 -   [ ] Laravel Example
 -   [ ] Websockets
+
+## 📚 More Resources & Real-World Use Cases
+
+Want to see Admiral in action?  
+Check out our blog series with real use cases, implementation guides, and deep dives:  
+👉 [Admiral — Open Source Solution in React](https://dev.family/blog/categories/admiral-open-source-solution-in-react)
 
 ## 🏆 How can I support the developers?
 

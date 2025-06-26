@@ -1,0 +1,112 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# admiral-hooks
+
+**Description:** Usage of React hooks from the `@devfamily/admiral` library in the project.
+
+---
+
+## General Provisions
+
+-   All hooks from `@devfamily/admiral` can only be used inside React components.
+-   Do not import or use hooks outside of components (for example, outside of component functions or custom hooks).
+-   Do not leave unused hook imports.
+
+---
+
+## Description of Available Hooks
+
+### 1. useNav
+
+**Import:**
+
+```typescript
+import { useNav } from '@devfamily/admiral'
+```
+
+**Purpose:**  
+Manages the state of the navigation panel and burger menu.
+
+**Returned values:**
+
+-   `collapsed: boolean` — panel state (collapsed/expanded)
+-   `toggleCollapsed: () => void` — toggle panel state
+-   `visible: boolean` — burger menu visibility
+-   `toggle: () => void` — open/close burger menu
+-   `open: () => void` — open burger menu
+-   `close: () => void` — close burger menu
+
+---
+
+### 2. useForm
+
+**Import:**
+
+```typescript
+import { useForm } from '@devfamily/admiral'
+```
+
+**Purpose:**  
+Get and manage form state. This hook uses the React Context API under the hood, which means it can only be used inside a provider. The provider is already implemented in the @devfamily/admiral library as the Form component. Form wraps the CRUD.CreatePage and CRUD.UpdatePage pages. All input components are connected to the form via context using the 'name' attribute. Therefore, on CRUD pages, it is enough to simply pass the required name value to the component for it to work with the form.
+
+**Returned values:**
+
+-   `values: object` — form field values
+-   `options: object` — options received from the server for the form
+-   `errors: object` — initialization or submission errors
+-   `setErrors: (errors: object) => void` — set errors
+-   `setValues: (values: object) => void` — set values
+-   `setOptions: (options: object) => void` — set options
+-   `isSubmitting: boolean` — form submission status
+-   `isFetching: boolean` — form initialization status
+-   `locale: object` — form localization
+
+---
+
+### 3. useTheme
+
+**Import:**
+
+```typescript
+import { useTheme } from '@devfamily/admiral'
+```
+
+**Purpose:**  
+Get and change the current application theme.
+
+**Returned values:**
+
+-   `themeName: 'dark' | 'light'` — active theme name
+-   `setTheme: (name: 'dark' | 'light') => void` — change theme
+
+---
+
+### 4. useGetIdentity
+
+**Import:**
+
+```typescript
+import { useGetIdentity } from '@devfamily/admiral'
+```
+
+**Purpose:**  
+Get information about the current user via AuthProvider.
+
+**Returned values:**
+
+-   `identity: object` — user data
+-   `loading: boolean` — loading status
+-   `loaded: boolean` — initialization status
+-   `error: object` — error object
+
+---
+
+## Requirements
+
+-   Use hooks only as intended, as described above.
+-   Do not leave unused imports.
+-   Do not use hooks outside of components.
+

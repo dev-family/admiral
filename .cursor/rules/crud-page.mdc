@@ -1,0 +1,333 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Rule Name: crud-page
+Description: 
+This rule applies only to files in the crud folder.
+
+Main principles:
+1. All CRUD pages must follow a unified structure.
+2. Maintain consistency in naming variables and functions.
+3. The CRUD page must be located in a folder named according to item 1 from the list provided by the user, and the file must be named index.tsx.
+4. Use components and typing for CRUD files only from the @devfamily/admiral library.
+5. For forms, use only the following components from @devfamily/admiral:
+- AjaxSelectInput – component for asynchronous selection and search
+- TranslatableInput – component for translatable fields
+- EditorInput – editor component
+- FilePictureInput – image upload component
+- MultilineTextInput – multiline text input
+- PasswordInput – password input
+- RadioInput – radio button component
+- SelectInput – select component
+- SlugInput – URL-friendly string input
+- TextInput – text input
+- TimePickerInput – time picker
+- ArrayInput – array data handler
+- BooleanInput – boolean value input
+- ColorPickerInput – color picker
+- DatePickerInput – date picker
+- DateRangePickerInput – date range picker
+- DraggerInput – drag-and-drop file upload
+
+# CRUD Page Structure
+
+Each CRUD page must follow this structure:
+
+1. Imports:
+   - React and necessary hooks
+   - Components from @devfamily/admiral
+   - Component import should look like:
+     import { createCRUD, TextInput } from '@devfamily/admiral'
+   - Local components and utilities if needed
+
+2. Main configuration:
+   ```typescript
+   export const EntityCRUD = createCRUD({
+     path: '/entity-path',
+     resource: 'entity-name',
+     // ... other settings
+   })
+   ```
+
+3. Required sections:
+   - path: path to the page in the pages folder.
+   - resource: base url for server requests.
+   - index: Table configuration, standard action button names, and page title.
+   - filter: Filter settings.
+   - form: Description of fields for create and edit forms.
+
+4. Optional sections:
+   - actions: Top panel with action buttons. Add only if custom actions are needed. If not added, a block with standard actions (filter and create new entity) will be used.
+   - create: Page title configuration with the table.
+   - update: Edit page title configuration, changing the edit form view between "drawer" and "page", and passing configuration for Drawer.
+   - filter: Filter button title configuration, filter and quick filter settings.
+   - topContent: Additional component displayed at the top of the page.
+   - bottomContent: Additional component displayed at the bottom of the page.
+
+# Files structure and files Dependent on the CRUD Page
+
+When creating a CRUD file, you must also create the corresponding structure in the pages directory, as the file refers to pages via routing.
+The page directory should be located in pages at the path specified in the path key in the createCRUD configuration, and have a specific file structure.
+
+For example, if the path is set as "/entity-path", the structure in pages will be:
+
+- entity-path
+  - create.tsx
+  - index.tsx
+  - [id].tsx
+
+Each of these files should refer to the CRUD file as follows:
+
+import { BaseCRUD } from 'path-to-crud-file'
+export default BaseCRUD.UpdatePage
+
+import { BaseCRUD } from 'path-to-crud-file'
+export default BaseCRUD.CreatePage
+
+import { BaseCRUD } from 'path-to-crud-file'
+export default BaseCRUD.IndexPage
+
+It is also necessary to expand the menu so that there is a link to the created cool page. If the menu.tsx file contains a request for getting menu items and their subsequent rendering, then you do not need to add anything, otherwise you need to add a new item, following the example with the rest of the items.
+
+Common files structure looks like this:
+
+
+admin/
+├── src/
+│ └── crud/
+│ └─── [resource]/
+│ ├──── index.tsx # CRUD configuration
+│ ├──── types.ts # Type definitions
+│ └────components/ # Optional custom components which is necessary only for this crud page
+└── config/
+└─── menu.tsx
+└── pages/
+└─── [resource]/
+├──── index.tsx # Index page
+├──── create.tsx # Create page
+└──── [id].tsx # Update page
+
+
+# Development Recommendations
+
+1. Table (index):
+   - Specify width for columns if you need to affect their size, e.g., make the ID column not wide. By default, all columns have the same width.
+   - Add render functions for complex data types.
+
+2. Filters:
+   - Group related filters.
+   - Use allowClear only for SelectInput и AjaxSelectInput.
+   - Add placeholder and label for all fields.
+
+3. Forms:
+   - Mark required fields.
+   - Use columnSpan to change the field layout, e.g., half or full width.
+   - Create a separate component for form fields and use it in form.create.fields and form.update.fields.
+
+4. Actions:
+   - Use the TopToolbar component to group custom actions.
+   - Add icons to buttons.
+
+# Types of CRUD page.
+The full typing is located in the @devfamily/admiral library at the following path - node_modules/@devfamily/admiral/lib/admiral/crud.
+   
+
+# Steps for Using This Rule
+
+The user should describe the instruction as follows:
+1) Name of the CRUD page file. The name will be used in PascalCase for the component name, kebab-case for the path and folders in the pages directory.
+2) resource
+3) List of required columns for the table.
+4) List of required fields for the create form.
+5) List of required fields for the edit form (if identical to item 4, leave blank or state so).
+6) List of field names for which filters are needed.
+7) List of field names for which quick filters are needed (if identical to item 6, leave blank or state so).
+
+Cursor must create all necessary files, folders and structure based on the user's list.
+If the user has not provided a list, ask them to compile one and send questions according to the items.
+Before creating a CRUD page, you need to familiarize yourself with the typing in #Types of CRUD page section.
+Import all necessary components from the @devfamily/admiral library, see the description in the @admiral-components.mdc rule.
+Before creating the necessary files, review the typing below. If needed, you can find the rest of the typing in the @devfamily/admiral library in the node_modules folder.
+After creating all the necessary files, check the typescript and linter errors, and then fix them.
+Below is a real example of a CRUD page. Review it before starting work and refer to it if you have questions during the process.
+
+(Example code and typings follow, as in the original rule.)
+
+```typescript
+import React from 'react'
+import { FiGift } from 'react-icons/fi'
+import {
+    createCRUD,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    TextInput,
+    SelectInput,
+    FilePictureInput,
+    FileField,
+    BooleanInput,
+    Button,
+    Typography,
+    MultilineTextInput,
+    AjaxSelectInput,
+} from '../../admiral'
+import PageTopContent from '../components/PageTopContent'
+import { EditorJSInput } from '@/'
+import api from '@/'
+
+const apiUrl = import.meta.env.VITE_API_URL
+const path = '/base-crud'
+const resource = 'users'
+
+const FormFields = () => {
+    return (
+        <>
+            <TextInput label="Name" name="name" placeholder="Name" />
+            <SelectInput
+                label="Group (multiselect)"
+                name="group"
+                placeholder="Choose Group"
+                required
+                mode="multiple"
+            />
+            <SelectInput label="Role" name="role" placeholder="Choose Role" required>
+                <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
+                <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
+            </SelectInput>
+            <FilePictureInput
+                columnSpan={2}
+                label="Avatar"
+                name="avatar"
+                accept="image/*"
+                maxCount={1}
+            />
+            <BooleanInput label="Active?" name="active" />
+            <MultilineTextInput label="Description" name="description" />
+            <BooleanInput label="For main" name="is_main" required columnSpan={2} />
+            <AjaxSelectInput
+                label="Category"
+                name="article_category_id"
+                placeholder="article_category_id"
+                required
+                fetchOptions={(field, query) => api.getAjaxSelectOptions(resource, field, query)}
+                columnSpan={2}
+            />
+            <EditorJSInput
+                required
+                imageUploadUrl={apiUrl + '/editor-upload'}
+                label="Content"
+                columnSpan={2}
+                name="content"
+            />
+        </>
+    )
+}
+
+const FilterFields = () => {
+    return (
+        <>
+            <SelectInput
+                label="Group (multiselect)"
+                name="group"
+                placeholder="Choose Group"
+                mode="multiple"
+            >
+                <SelectInput.Option value="admin">Admins</SelectInput.Option>
+                <SelectInput.Option value="project_manager">Project Managers</SelectInput.Option>
+            </SelectInput>
+            <SelectInput label="Role" name="role" placeholder="Choose Role" allowClear>
+                <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
+                <SelectInput.Option value="recruiter">Recruiter</SelectInput.Option>
+            </SelectInput>
+            <BooleanInput label="Active?" name="active" />
+        </>
+    )
+}
+
+export const BaseCRUD = createCRUD({
+    path,
+    resource,
+    actions: (
+        <TopToolbar>
+            <FilterButton>Filter</FilterButton>
+            <CreateButton basePath="/base-crud">Create New User</CreateButton>
+            <Button
+                type="button"
+                view="secondary"
+                onClick={() => alert('Custom action')}
+                iconRight={<FiGift />}
+            >
+                Custom action
+            </Button>
+        </TopToolbar>
+    ),
+    index: {
+        title: 'Base CRUD',
+        newButtonText: 'Create New User',
+        tableColumns: [
+            {
+                title: 'Avatar',
+                dataIndex: 'avatar',
+                key: 'avatar',
+                render: (value) => <FileField {...value} />,
+                width: 100,
+            },
+            {
+                title: 'Name',
+                dataIndex: 'name',
+                key: 'name',
+            },
+            {
+                title: 'Address',
+                dataIndex: 'address',
+                key: 'address',
+            },
+            {
+                title: 'Group',
+                dataIndex: 'group',
+                key: 'group',
+                render: (value) => (Array.isArray(value) ? value.join(', ') : value),
+            },
+            {
+                title: 'Role',
+                dataIndex: 'role',
+                key: 'role',
+            },
+            {
+                title: 'Active',
+                dataIndex: 'active',
+                key: 'active',
+                render: (value) => (value ? 'Yes' : 'No'),
+            },
+        ],
+        tableConfig: {
+            title: () => 'Custom header here. 8 users, 4 golden users, 2 blocked users.',
+            footer: () => 'Custom footer here.',
+        },
+    },
+    filter: {
+        topToolbarButtonText: 'Filter',
+        fields: <FilterFields />,
+        quickFilters: ['name', 'address'],
+    },
+    form: {
+        create: {
+            fields: <FormFields />,
+        },
+        edit: {
+            fields: <FormFields />,
+        },
+    },
+    create: {
+        title: 'Create New User',
+    },
+    update: {
+        title: (id: string) => `Edit User #${id}`,
+        view: 'drawer',
+    },
+    topContent: <Typography.Title level={4}>Top content</Typography.Title>,
+    bottomContent: <Typography.Title level={4}>Bottom content</Typography.Title>,
+})
+```

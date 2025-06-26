@@ -1,0 +1,151 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Component Usage Rules
+
+1) All these components are automatically integrated with the FormContext. You need to pass the name prop to write the value to the form with a key equal to name.
+2) In each of the components, you can use only the props that are described in the component typing. The typing will be available at the end of the rule.
+3) All types of components are located in the @devfamily/admiral library at the following paths: /node_modules/@devfamily/admiral/lib/admiral/form and /node_modules/@devfamily/admiral/lib/admiral/ui.
+   Before using a component, you need to familiarize yourself with its typing in order to know which passes can be passed.
+
+
+# Components description
+
+1. **TextInput**
+   - Used for text fields
+   - Supports all standard html input props
+   ```typescript
+   <TextInput
+     name="fieldName"
+     label="Field Label"
+     placeholder="Enter text"
+     required
+   />
+   ```
+
+2. **SelectInput**
+   - Component for selecting from a list
+   - Supports single and multiple selection
+   - Has built-in Option and OptGroup components
+   - You only need to create Options if you need to generate them on the client; otherwise, they will be created inside the SelectInput component based on the `name` value and `options` in useForm.
+   ```typescript
+   <SelectInput name="fieldName" label="Select Option" required>
+     <SelectInput.Option value="1">Option 1</SelectInput.Option>
+     <SelectInput.Option value="2">Option 2</SelectInput.Option>
+   </SelectInput>
+   ```
+
+3. **BooleanInput**
+   - Checkbox for boolean values
+   ```typescript
+   <BooleanInput name="isActive" label="Active Status" required />
+   ```
+
+4. **FilePictureInput**
+   - Image upload
+   - Supports preview
+   - File count limitation
+   ```typescript
+   <FilePictureInput
+     name="avatar"
+     label="Profile Picture"
+     accept="image/*"
+     maxCount={1}
+   />
+   ```
+
+5. **DatePickerInput**
+   - Date picker
+   - Supports display value formatting
+   - You can specify the format of the value sent to the server: 'iso' or 'utc'
+   ```typescript
+   <DatePickerInput
+     name="birthDate"
+     label="Birth Date"
+     format="DD.MM.YYYY"
+     dateOutputFormat="utc"
+   />
+   ```
+
+6. **DateRangePickerInput**
+   - Date range picker
+   - Supports two values
+   ```typescript
+   <DateRangePickerInput
+     name="dateRange"
+     label="Date Range"
+     dateOutputFormat="utc"
+   />
+   ```
+
+7. **TimePickerInput**
+   - Time picker
+   ```typescript
+   <TimePickerInput
+     name="appointmentTime"
+     label="Appointment Time"
+   />
+   ```
+
+8. **AjaxSelectInput**
+   - Asynchronous option loading
+   - Server-side search
+   - Result caching
+   ```typescript
+    <AjaxSelectInput
+        label="Field's label"
+        name="persons"
+        placeholder="Fields's placeholder"
+        mode="multiple"
+        allowClear
+        columnSpan={2}
+        disabled={disabled}
+        fetchOptions={(field, query) =>
+            api.getAjaxSelectOptions(resource, 'persons', query)
+        }
+   />
+   ```
+
+9. **TranslatableInput**
+   - Multilingual input
+   - Supports different languages
+   - Automatic translation saving
+   ```typescript
+   <TranslatableInput
+     name="title"
+     label="Title"
+     languages={['en', 'ru', 'es']}
+   />
+   ```
+
+10. **ArrayInput**
+    - Works with array data
+    - Add/remove elements
+    - Nested forms
+    ```typescript
+    <ArrayInput name="items" label="Items">
+      <TextInput name="name" label="Name" />
+      <NumberInput name="quantity" label="Quantity" />
+    </ArrayInput>
+    ```
+
+11. **EditorInput**
+    - Rich text editor
+    - Text formatting
+    - Image upload
+    - You can specify the required UI functionality
+    ```typescript
+    const onImageUpload = (file: Blob) => {
+      return api.editorImageUpload('editorUpload', { file })
+    }
+
+    <EditorInput
+      columnSpan={2}
+      name="content"
+      label="Content"
+      toolbar={['bold', 'italic', 'link']}
+      onImageUpload={onImageUpload}
+    />
+    ```

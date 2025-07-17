@@ -62,7 +62,10 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                     ...values,
                     [name]: [
                         ...forms.slice(0, idx),
-                        { ...newState, id: newState.id || nanoid() },
+                        {
+                            ...newState,
+                            // , id: newState.id || nanoid()
+                        },
                         ...forms.slice(idx + 1),
                     ],
                 }
@@ -117,8 +120,8 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                 ...values,
                 [name]: [
                     ...forms,
-                    { id: nanoid() },
-                    ...(!forms.length && required ? [{ id: nanoid() }] : []),
+                    {},
+                    //  ...(!forms.length && required ? [{ id: nanoid() }] : [])
                 ],
             }
         })
@@ -165,7 +168,7 @@ export const ArrayInput: InputComponentWithName<React.FC<ArrayInputProps>> = ({
                 {forms.map((form, idx) => {
                     const formErrors = formsErrors[idx] ?? {}
                     const key = idx
-                    const isNewCreatedFormItem = Object.keys(form).length === 1 && form.id
+                    const isNewCreatedFormItem = !!form && Object.keys(form).length === 0
 
                     const propsChildren =
                         typeof children === 'function' ? children(form, idx) : children

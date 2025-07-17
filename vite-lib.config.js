@@ -6,6 +6,7 @@ import path from 'path'
 export default defineConfig({
     plugins: [reactRefresh()],
     build: {
+        copyPublicDir: false,
         outDir: 'lib',
         lib: {
             entry: path.resolve(__dirname, 'admiral/index.ts'),

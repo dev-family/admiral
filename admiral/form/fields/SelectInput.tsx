@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Select } from '../../ui'
@@ -55,17 +55,32 @@ const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = 
         return []
     }, [children, opts])
 
+    const childrenToRender = useMemo(() => renderChildren(), [renderChildren])
+
+    const hasAvailableOptions = (() => {
+        if (children) {
+            if (Array.isArray(children)) {
+                return children.length > 0
+            }
+            return !!children
+        }
+
+        return opts?.length > 0
+    })()
+
+    const isValueHidden = !!value && !hasAvailableOptions
+
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
             <Select
                 getPopupContainer={getPopupContainer}
                 {...selectProps}
                 locale={locale}
-                value={value}
+                value={isValueHidden ? undefined : value}
                 onChange={_onChange}
                 alert={!!error}
             >
-                {renderChildren()}
+                {childrenToRender}
             </Select>
         </Form.Item>
     )

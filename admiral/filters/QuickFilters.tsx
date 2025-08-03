@@ -29,7 +29,6 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
     const { values, setValues, setOptions } = useForm()
     const { filter } = urlState
     const shouldUpdateUrlState = useRef(true)
-    const isFiltersVisible = Object.keys(filterOptions)?.length
 
     useLayoutEffect(() => {
         setOptions(filterOptions)
@@ -122,7 +121,7 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
         [filterFields],
     )
 
-    return isFiltersVisible ? (
+    return (
         <ul className={styles.quickFilters}>
             {filtersToRender.map(({ type, props }, index) => {
                 return (
@@ -137,7 +136,5 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
                 )
             })}
         </ul>
-    ) : (
-        <></>
     )
 }

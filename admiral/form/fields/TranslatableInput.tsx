@@ -76,7 +76,13 @@ export const TranslatableInput = <K extends keyof FieldMap>(
                     newState = param
                 }
 
-                return { ...values, [name]: { ...values[name], ...newState } }
+                return {
+                    ...values,
+                    [name]: {
+                        ...forms,
+                        ...newState,
+                    },
+                }
             })
         },
         [],

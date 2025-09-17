@@ -79,7 +79,9 @@ export const TranslatableInput = <K extends keyof FieldMap>(
                 return {
                     ...values,
                     [name]: {
-                        ...forms,
+                        ...(!values?.hasOwnProperty(name) || !values?.[name]
+                            ? forms
+                            : values[name]),
                         ...newState,
                     },
                 }

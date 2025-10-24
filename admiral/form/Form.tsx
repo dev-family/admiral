@@ -19,6 +19,7 @@ import { useSafeSetState } from '../utils/hooks'
 import { Locale } from './interfaces'
 import { enUS } from './locale'
 import { RouterLocationState } from '../router/interfaces'
+import { getNavigationFrom, clearNavigationFrom } from '../utils/helpers/navigationState'
 
 export type FormProps = {
     locale?: Locale
@@ -94,7 +95,21 @@ const InternalForm = forwardRef<FormRef, FormProps>(
                     type: 'success',
                 })
                 if (redirect === true) {
-                    history.goBack()
+                    const { state } = history.location
+                    const fromLocation = getNavigationFrom(state?.from)
+
+                    if (fromLocation) {
+                        clearNavigationFrom()
+                        // Redirect to the saved location with query params
+                        history.push({
+                            pathname: fromLocation.pathname,
+                            search: fromLocation.search,
+                            state: { update: { dataTable: true } },
+                        })
+                    } else {
+                        // Fallback to goBack if no saved location
+                        history.goBack()
+                    }
                 } else if (redirect) {
                     history.push({
                         pathname: redirect,

@@ -5,6 +5,7 @@ import { Button } from '../../ui'
 
 import { ButtonProps } from '../../ui/Button/interfaces'
 import { RouterLocationState } from '../../router/interfaces'
+import { saveNavigationFrom } from '../../utils/helpers/navigationState'
 
 export type EditActionProps = {
     pathname: string
@@ -24,18 +25,27 @@ export const EditAction: React.FC<EditActionProps> = ({
     if (behavior === 'backgroundRoute' && !mainRoutePath) {
         console.error('Please provide "mainRoutePath" for "backgroundRoute" behavior')
     }
+
+    const handleClick = () => {
+        saveNavigationFrom(location)
+    }
+
     return (
         <Link
             to={{
                 pathname,
-                ...(behavior === 'backgroundRoute' && {
-                    state: {
-                        background: location,
-                        routeWithBackground: mainRoutePath,
-                        scrollTop: false,
-                    },
-                }),
+                state:
+                    behavior === 'backgroundRoute'
+                        ? {
+                              background: location,
+                              routeWithBackground: mainRoutePath,
+                              scrollTop: false,
+                          }
+                        : {
+                              from: location,
+                          },
             }}
+            onClick={handleClick}
         >
             <Button view="clear" size="S" iconRight={<FiEdit3 />} {...buttonProps} />
         </Link>

@@ -12,6 +12,7 @@ export interface RouterLocationState {
     routeWithBackground?: string
     update?: { dataTable?: boolean }
     scrollTop?: boolean
+    from?: Location<RouterLocationState>
 }
 
 export type Pathname = string

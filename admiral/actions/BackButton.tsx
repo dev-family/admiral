@@ -1,27 +1,28 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Button } from '../ui'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ButtonProps } from '../ui/Button/interfaces'
 import { RouterLocationState } from '../router/interfaces'
+import { getNavigationFrom, clearNavigationFrom } from '../utils/helpers/navigationState'
 
 export const BackButton = ({ basePath, children, ...buttonProps }: BackButtonProps) => {
-    const { length: historyLength, goBack } = useHistory<RouterLocationState>()
-    const canGoBack = historyLength > 2
+    const location = useLocation<RouterLocationState>()
+    const fromLocation = getNavigationFrom(location.state?.from)
 
-    const handleGoBack = useCallback(
-        (event: React.MouseEvent<Element, MouseEvent>) => {
-            buttonProps.onClick?.(event)
-            goBack()
-        },
-        [buttonProps.onClick, goBack],
-    )
+    const backPath = fromLocation
+        ? {
+              pathname: fromLocation.pathname,
+              search: fromLocation.search,
+          }
+        : basePath
 
-    return canGoBack ? (
-        <Button type="button" view="secondary" {...buttonProps} onClick={handleGoBack}>
-            {children}
-        </Button>
-    ) : (
-        <Link to={basePath}>
+    const handleClick = (event: React.MouseEvent<Element, MouseEvent>) => {
+        buttonProps.onClick?.(event)
+        clearNavigationFrom()
+    }
+
+    return (
+        <Link to={backPath} onClick={handleClick}>
             <Button type="button" component="span" view="secondary" {...buttonProps}>
                 {children}
             </Button>

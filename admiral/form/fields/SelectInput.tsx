@@ -65,6 +65,8 @@ const InternalSelectInput: InputComponentWithName<React.FC<SelectInputProps>> = 
             return !!children
         }
 
+        if (selectProps.options && selectProps.options.length > 0) return true
+
         return opts?.length > 0
     })()
 

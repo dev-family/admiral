@@ -1,13 +1,14 @@
-import * as React from 'react'
+import React, { useEffect, useRef } from 'react'
 import cn from 'classnames'
-import RcNotification from 'rc-notification'
-import type { NotificationInstance as RCNotificationInstance } from 'rc-notification/lib/Notification'
+import { useNotification } from 'rc-notification'
+import type { NotificationAPI } from 'rc-notification/es/hooks/useNotification'
 import { NotificationContentProps, NotificationPlacement, NotificationProps } from './interfaces'
+import { createRoot } from 'react-dom/client'
 
 import { FiCheckCircle, FiInfo, FiXCircle, FiAlertCircle, FiX } from 'react-icons/fi'
 
 import styles from './Notification.module.scss'
-import { getPlacementStyle } from './util'
+import { getPlacementStyle, getMotion } from './util'
 import { ThemeProvider } from '../../theme'
 
 const prefixCls = 'notification'
@@ -22,17 +23,13 @@ const typeToIcon = {
     warning: FiAlertCircle,
 }
 
-const notificationInstance: {
-    [key: string]: Promise<RCNotificationInstance>
-} = {}
-
-export const NotificationContent: React.FC<NotificationContentProps> = ({
+export function NotificationContent({
     icon,
     type,
     message,
     description,
     closable,
-}) => {
+}: NotificationContentProps) {
     let iconNode: React.ReactNode = null
 
     if (icon) {
@@ -57,67 +54,80 @@ export const NotificationContent: React.FC<NotificationContentProps> = ({
     )
 }
 
-function getNotificationInstance(
-    args: NotificationProps,
-    callback: (info: { prefixCls: string; instance: RCNotificationInstance }) => void,
-) {
-    const { placement = defaultPlacement, top = defaultTop, bottom = defaultBottom } = args
+// Imperative notification manager using rc-notification v5 hook API
+let notificationApi: NotificationAPI | null = null
+let notificationRoot: ReturnType<typeof createRoot> | null = null
+let keyCounter = 0
 
-    const cacheKey = `${prefixCls}-${placement}`
-    const cacheInstance = notificationInstance[cacheKey]
-
-    if (cacheInstance) {
-        Promise.resolve(cacheInstance).then((instance) => {
-            callback({ prefixCls: `${prefixCls}-notice`, instance })
-        })
-
-        return
-    }
-
-    const notificationClass = cn(`${prefixCls}-${placement}`)
-
-    notificationInstance[cacheKey] = new Promise((resolve) => {
-        RcNotification.newInstance(
-            {
-                prefixCls,
-                className: notificationClass,
-                style: getPlacementStyle(placement, top, bottom),
-            },
-            (notification) => {
-                resolve(notification)
-                callback({
-                    prefixCls: `${prefixCls}-notice`,
-                    instance: notification,
-                })
-            },
-        )
+function NotificationHolder() {
+    const [api, contextHolder] = useNotification({
+        prefixCls,
+        closable: true,
+        closeIcon: <FiX />,
+        style: (placement) => getPlacementStyle(placement, defaultTop, defaultBottom),
+        motion: getMotion(prefixCls),
     })
+    const apiRef = useRef(api)
+    apiRef.current = api
+
+    useEffect(() => {
+        notificationApi = apiRef.current
+    }, [])
+
+    return contextHolder
 }
 
-const NotificationContentWrapper = (args: NotificationProps) => {
-    return (
+function ensureNotificationHolder() {
+    if (notificationRoot) return
+    const container = document.createElement('div')
+    container.id = 'notification-holder'
+    document.body.appendChild(container)
+    notificationRoot = createRoot(container)
+    notificationRoot.render(
         <ThemeProvider>
-            <NotificationContent {...args} />
-        </ThemeProvider>
+            <NotificationHolder />
+        </ThemeProvider>,
     )
 }
 
 export const Notification = (args: NotificationProps) => {
-    return getNotificationInstance(args, ({ instance }) => {
-        const { icon, type, description, message, duration, closable = true } = args
+    ensureNotificationHolder()
+    const {
+        icon,
+        type,
+        description,
+        message,
+        duration,
+        closable = true,
+        placement = defaultPlacement,
+    } = args
 
-        instance.notice({
-            closable,
-            duration,
-            closeIcon: <FiX />,
-            content: (
-                <NotificationContentWrapper
-                    icon={icon}
-                    type={type}
-                    message={message}
-                    description={description}
-                />
-            ),
-        })
-    })
+    // Queue the notification to allow the holder to mount
+    const show = () => {
+        if (notificationApi) {
+            notificationApi.open({
+                key: `notification-${++keyCounter}`,
+                placement,
+                content: (
+                    <ThemeProvider>
+                        <NotificationContent
+                            icon={icon}
+                            type={type}
+                            message={message}
+                            description={description}
+                            closable={closable}
+                        />
+                    </ThemeProvider>
+                ),
+                duration: duration ?? 4.5,
+                closable,
+                closeIcon: <FiX />,
+            })
+        } else {
+            // If the API isn't ready yet, retry after a tick
+            requestAnimationFrame(show)
+        }
+    }
+
+    show()
 }

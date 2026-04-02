@@ -11,8 +11,8 @@ const defaultProvider: AuthProvider = {
     logout: () => Promise.resolve(),
     checkAuth: () => Promise.resolve(),
     getIdentity: () => Promise.reject(),
-    oauthLogin: (provider: OAuthProvidersEnum) => Promise.resolve({ redirect: provider }),
-    oauthCallback: (provider: OAuthProvidersEnum, data: string) => Promise.resolve(),
+    oauthLogin: (_provider: OAuthProvidersEnum) => Promise.resolve({ redirect: _provider }),
+    oauthCallback: (_provider: OAuthProvidersEnum, _data: string) => Promise.resolve(),
 }
 
 type AuthContextValue = AuthProvider & { isDefault: boolean }
@@ -23,7 +23,13 @@ export const AuthContext = createContext<AuthContextValue>({
 })
 AuthContext.displayName = 'AuthContext'
 
-export const AuthContextProvider: React.FC<{ value?: AuthProvider }> = ({ value, children }) => {
+export function AuthContextProvider({
+    value,
+    children,
+}: {
+    value?: AuthProvider
+    children?: React.ReactNode
+}) {
     const contextValue = useMemo(
         () => (value ? { ...value, isDefault: false } : { ...defaultProvider, isDefault: true }),
         [value],

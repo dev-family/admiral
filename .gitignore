@@ -5,3 +5,6 @@ dist
 dist-ssr
 *.local
 .idea
+.serena/
+ANALYSIS.md
+package-lock.json

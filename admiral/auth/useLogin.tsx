@@ -1,36 +1,36 @@
 import { useCallback } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuthProvider, defaultAuthParams } from './AuthContext'
 import { RouterLocationState } from '../router/interfaces'
 
 const useLogin = (): Login => {
     const authProvider = useAuthProvider()
-    const { state: locationState } = useLocation<RouterLocationState>()
-    const history = useHistory<RouterLocationState>()
+    const { state: locationState } = useLocation() as { state: RouterLocationState }
+    const navigate = useNavigate()
 
     const nextPathName = locationState && locationState.nextPathname
     const nextSearch = locationState && locationState.nextSearch
     const nextRedirectTo = [nextPathName, nextSearch].filter(Boolean).join('')
 
     const login = useCallback(
-        (params: any = {}, pathName) =>
+        (params: any = {}, pathName: any) =>
             authProvider.login(params).then((res: any) => {
                 const redirectUrl = pathName
                     ? pathName
                     : nextRedirectTo || defaultAuthParams.afterLoginUrl
 
-                history.push(redirectUrl)
+                navigate(redirectUrl)
                 return res
             }),
-        [authProvider, history, nextPathName, nextSearch],
+        [authProvider, navigate, nextPathName, nextSearch],
     )
 
     const loginWithoutProvider = useCallback(
-        (_, __) => {
-            history.push(defaultAuthParams.afterLoginUrl)
+        (_: any, __: any) => {
+            navigate(defaultAuthParams.afterLoginUrl)
             return Promise.resolve()
         },
-        [history],
+        [navigate],
     )
 
     return authProvider.isDefault ? loginWithoutProvider : login

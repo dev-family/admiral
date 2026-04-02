@@ -24,7 +24,7 @@ const authProvider = (apiUrl: string): AuthProvider => ({
     checkAuth: () => {
         const token = storage.get(tokenStorageKey)
 
-        if (!!token) {
+        if (token) {
             return Promise.resolve()
         } else {
             return Promise.reject()

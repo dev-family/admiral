@@ -1,5 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { worker } from './mocks/browser'
 import App from './App'
 
@@ -8,10 +7,5 @@ async function prepare() {
 }
 
 prepare().then(() => {
-    ReactDOM.render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>,
-        document.getElementById('root'),
-    )
+    createRoot(document.getElementById('root')!).render(<App />)
 })

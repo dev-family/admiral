@@ -1,5 +1,5 @@
 import React from 'react'
-import { FiGift, FiInfo } from 'react-icons/fi'
+import { FiGift } from 'react-icons/fi'
 import {
     createCRUD,
     TopToolbar,

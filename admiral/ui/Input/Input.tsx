@@ -1,22 +1,13 @@
-import React, {
-    useState,
-    useEffect,
-    forwardRef,
-    useRef,
-    memo,
-    useCallback,
-    ChangeEventHandler,
-} from 'react'
+import React, { useState, useEffect, useRef, memo, useCallback, ChangeEventHandler } from 'react'
 import omit from 'rc-util/lib/omit'
+import { useMergeRefs } from '@floating-ui/react'
 import { InputProps } from './interfaces'
 import styles from './Input.module.scss'
-import mergeRefs from 'react-merge-refs'
 import cn from 'classnames'
-import { FormItemProps } from '../../form/Item'
 
 // TODO: add prefix/suffix functionality
 
-const Input = forwardRef((props: InputProps, inputRef) => {
+function Input({ ref, ...props }: InputProps & { ref?: React.Ref<HTMLInputElement> }) {
     const {
         size = 'M',
         alert = false,
@@ -27,7 +18,8 @@ const Input = forwardRef((props: InputProps, inputRef) => {
         inputMode = 'text',
         suffix,
     } = props
-    const ref = useRef<HTMLInputElement>(null)
+    const internalRef = useRef<HTMLInputElement>(null)
+    const mergedRef = useMergeRefs([internalRef, ref ?? null])
     const [value, setValue] = useState(
         typeof props.value === 'undefined' ? props.defaultValue : props.value,
     )
@@ -66,7 +58,7 @@ const Input = forwardRef((props: InputProps, inputRef) => {
                 value={fixControlledValue(value)}
                 type={type}
                 inputMode={inputMode}
-                ref={mergeRefs([ref, inputRef])}
+                ref={mergedRef}
                 onChange={_onChange}
                 disabled={disabled}
                 className={cn(styles.input)}
@@ -74,7 +66,7 @@ const Input = forwardRef((props: InputProps, inputRef) => {
             {suffix}
         </div>
     )
-})
+}
 
 export function fixControlledValue<T>(value: T) {
     if (typeof value === 'undefined' || value === null) {

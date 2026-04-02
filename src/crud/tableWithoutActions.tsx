@@ -6,7 +6,6 @@ import {
     FilePictureInput,
     FileField,
     BooleanInput,
-    Typography,
 } from '../../admiral'
 import PageTopContent from '../components/PageTopContent'
 

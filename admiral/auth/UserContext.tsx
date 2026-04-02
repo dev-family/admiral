@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useMemo, useState } from 'react'
 import { UserContextStateValue, UserContextValue } from './interfaces'
 
 const defaultValue: UserContextValue = {
@@ -12,14 +12,16 @@ const defaultValue: UserContextValue = {
 
 export const UserContext = createContext<UserContextValue>(defaultValue)
 
-export const UserContextProvider: React.FC = ({ children }) => {
+export function UserContextProvider({ children }: { children?: React.ReactNode }) {
     const [user, setUser] = useState<UserContextStateValue>({
         loading: true,
         loaded: false,
         identity: null,
     })
 
-    return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
+    const value = useMemo(() => ({ user, setUser }), [user])
+
+    return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
 
 export function useUserContext() {

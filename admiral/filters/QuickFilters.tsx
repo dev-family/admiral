@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import styles from './Filters.module.scss'
 import { FormInputType } from '../form/interfaces'
@@ -12,7 +12,6 @@ import {
     TimePickerInput,
     useForm,
 } from '../form'
-import debounce from 'lodash.debounce'
 import cn from 'classnames'
 import useUpdateEffect from '../utils/hooks/useUpdateEffect'
 
@@ -20,7 +19,7 @@ export type QuickFiltersProps = {
     filters?: string[]
 }
 
-export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
+export function QuickFilters({ filters }: QuickFiltersProps) {
     const {
         setUrlState,
         urlState,
@@ -35,16 +34,15 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
     }, [filterOptions])
 
     useUpdateEffect(() => {
-        const delayDebounceSetUrlState = debounce((value) => {
+        const timer = setTimeout(() => {
             setUrlState((prevUrlState) => ({
                 ...prevUrlState,
-                filter: value,
+                filter: values,
             }))
         }, 500)
-        delayDebounceSetUrlState(values)
 
         return () => {
-            delayDebounceSetUrlState.cancel()
+            clearTimeout(timer)
         }
     }, [values])
 
@@ -56,7 +54,7 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
     }, [filter])
 
     const renderName = useCallback(
-        (type: FormInputType, props) => {
+        (type: FormInputType, props: any) => {
             const filteredInputProps = Object.entries({
                 name: props?.name,
                 type: props?.type,
@@ -123,10 +121,10 @@ export const QuickFilters: React.FC<QuickFiltersProps> = ({ filters }) => {
 
     return (
         <ul className={styles.quickFilters}>
-            {filtersToRender.map(({ type, props }, index) => {
+            {filtersToRender.map(({ type, props }) => {
                 return (
                     <li
-                        key={type + index}
+                        key={String(props.name)}
                         className={cn({
                             [styles.quickFilters__with_boolean_filter]: type == 'BooleanInput',
                         })}

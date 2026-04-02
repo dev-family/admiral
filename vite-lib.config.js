@@ -1,26 +1,51 @@
 import { defineConfig } from 'vite'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import react from '@vitejs/plugin-react'
 import path from 'path'
+import { readFileSync } from 'fs'
+
+const pkg = JSON.parse(readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8'))
+const externalDeps = [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {}),
+]
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [reactRefresh()],
+    plugins: [react()],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler',
+                loadPaths: [path.resolve(__dirname)],
+                silenceDeprecations: ['import'],
+            },
+        },
+    },
     build: {
         copyPublicDir: false,
         outDir: 'lib',
         lib: {
-            entry: path.resolve(__dirname, 'admiral/index.ts'),
-            name: 'admiral',
+            entry: {
+                index: path.resolve(__dirname, 'admiral/index.ts'),
+                'ui/index': path.resolve(__dirname, 'admiral/ui/index.ts'),
+                'auth/index': path.resolve(__dirname, 'admiral/auth/index.ts'),
+                'locale/index': path.resolve(__dirname, 'admiral/locale/index.ts'),
+                'theme/index': path.resolve(__dirname, 'admiral/theme/index.ts'),
+                'crud/index': path.resolve(__dirname, 'admiral/crud/index.tsx'),
+                'form/index': path.resolve(__dirname, 'admiral/form/index.tsx'),
+            },
+            formats: ['es'],
         },
         rollupOptions: {
-            external: ['react', 'react-dom'],
+            external: (id) => {
+                // Externalize all dependencies and their sub-paths
+                return externalDeps.some((dep) => id === dep || id.startsWith(dep + '/'))
+            },
             output: {
-                // Provide global variables to use in the UMD build
-                // for externalized deps
-                globals: {
-                    react: 'React',
-                    'react-dom': 'ReactDOM',
-                },
+                preserveModules: true,
+                preserveModulesRoot: 'admiral',
+                entryFileNames: '[name].mjs',
+                assetFileNames: 'admiral.[ext]',
             },
         },
     },

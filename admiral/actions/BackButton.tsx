@@ -6,7 +6,9 @@ import { RouterLocationState } from '../router/interfaces'
 import { getNavigationFrom, clearNavigationFrom } from '../utils/helpers/navigationState'
 
 export const BackButton = ({ basePath, children, ...buttonProps }: BackButtonProps) => {
-    const location = useLocation<RouterLocationState>()
+    const location = useLocation() as { state: RouterLocationState } & ReturnType<
+        typeof useLocation
+    >
     const fromLocation = getNavigationFrom(location.state?.from)
 
     const backPath = fromLocation

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Select, Spin } from '../../ui'
@@ -10,7 +10,8 @@ import { OptionType } from '../../dataProvider'
 import { useCrudIndex } from '../../crud/CrudIndexPageContext'
 
 export interface AjaxSelectInputProps
-    extends Omit<SelectProps, 'showSearch' | 'onSearch' | 'loading' | 'children' | 'filterOption'>,
+    extends
+        Omit<SelectProps, 'showSearch' | 'onSearch' | 'loading' | 'children' | 'filterOption'>,
         FormItemProps {
     name: string
     fetchOptions: (field: string, query?: string) => Promise<OptionType[]>
@@ -18,7 +19,9 @@ export interface AjaxSelectInputProps
     onChange?: (value: any) => void
 }
 
-export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputProps>> = ({
+export const AjaxSelectInput: InputComponentWithName<
+    (props: AjaxSelectInputProps) => React.JSX.Element
+> = function AjaxSelectInput({
     name,
     label,
     required = false,
@@ -27,7 +30,7 @@ export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputPro
     fetchTimeout = 500,
     onChange,
     ...selectProps
-}) => {
+}: AjaxSelectInputProps) {
     const getPopupContainer = usePopupContainer()
     const { filter } = useCrudIndex()
     const [options, setOptions] = useState<OptionType[]>([])
@@ -44,11 +47,11 @@ export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputPro
     }, [optionsByName])
 
     const _onChange = useCallback(
-        (value) => {
+        (value: any) => {
             setValues((values: any) => ({ ...values, [name]: value }))
             if (onChange) onChange(value)
         },
-        [onChange],
+        [name, onChange],
     )
 
     const fetchResults = async (query = '') => {
@@ -63,14 +66,15 @@ export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputPro
         setLoading(false)
     }
 
-    const onSearch = (() => {
-        let timeout: NodeJS.Timeout
+    const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
-        return (query: any) => {
-            clearTimeout(timeout)
-            timeout = setTimeout(() => fetchResults(query), fetchTimeout)
-        }
-    })()
+    const onSearch = useMemo(
+        () => (query: any) => {
+            clearTimeout(timeoutRef.current)
+            timeoutRef.current = setTimeout(() => fetchResults(query), fetchTimeout)
+        },
+        [fetchTimeout],
+    )
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
@@ -91,4 +95,4 @@ export const AjaxSelectInput: InputComponentWithName<React.FC<AjaxSelectInputPro
     )
 }
 
-AjaxSelectInput.inputName = 'SelectInput'
+AjaxSelectInput.inputName = 'AjaxSelectInput'

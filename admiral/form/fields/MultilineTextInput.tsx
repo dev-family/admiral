@@ -11,20 +11,22 @@ export interface MultilineTextInputProps extends TextareaProps, FormItemProps {
     onChange?: (value: any) => void
 }
 
-export const MultilineTextInput: InputComponentWithName<React.FC<MultilineTextInputProps>> = ({
+export const MultilineTextInput: InputComponentWithName<
+    (props: MultilineTextInputProps) => React.JSX.Element
+> = function MultilineTextInput({
     name,
     label,
     required,
     columnSpan,
     onChange,
     ...textareaProps
-}) => {
+}: MultilineTextInputProps) {
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
 
     const _onChange = useCallback(
-        (e) => {
+        (e: any) => {
             setValues((values: any) => ({ ...values, [name]: e.target.value }))
             onChange?.(e.target.value)
         },

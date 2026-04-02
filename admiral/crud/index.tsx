@@ -2,11 +2,12 @@ import { DataTable } from '../dataTable'
 import { Form, FormProps } from '../form'
 import { Page, Button, Drawer } from '../ui'
 import { FiX, FiSave } from 'react-icons/fi'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { getPopupContainer } from '../utils/helpers'
 import { CreateButton, BackButton, FilterButton } from '../actions'
 import { TopToolbar } from '../layout'
 import { useDataProvider } from '../dataProvider'
-import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react'
+import React, { useCallback, useState, useEffect, useRef, useMemo, type RefCallback } from 'react'
 import { CrudIndexPageContextProvider } from './CrudIndexPageContext'
 import { AppliedFilters, Filters } from '../filters'
 import { RouterLocationState } from '../router/interfaces'
@@ -102,8 +103,8 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
                             ...(tableActions === null
                                 ? []
                                 : tableActions
-                                ? [tableActions]
-                                : [tableActionsDefault]),
+                                  ? [tableActions]
+                                  : [tableActionsDefault]),
                         ]}
                         config={config.index.tableConfig}
                         locale={{ table: tableLocale, pagination: paginationLocale }}
@@ -156,7 +157,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             return getCreateFormData(config.resource)
         }, [])
 
-        const submitData = useCallback((values) => {
+        const submitData = useCallback((values: any) => {
             return create(config.resource, { data: values })
         }, [])
 
@@ -199,7 +200,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
             return getUpdateFormData(config.resource, { id })
         }, [])
 
-        const submitData = useCallback((values) => {
+        const submitData = useCallback((values: any) => {
             return update(config.resource, { data: values, id })
         }, [])
 
@@ -240,7 +241,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
             )
         }, [children, fields, path, actionsLocale])
 
-        const { state } = useLocation<RouterLocationState>()
+        const { state } = useLocation() as { state: RouterLocationState }
         const background = state && state.background
 
         return view === 'drawer' && !!background ? (
@@ -278,6 +279,7 @@ function UpdateDrawer<RecordType>({
 }) {
     const locale = useLocaleProvider()
     const drawerRef = useRef<React.ElementRef<typeof Drawer>>(null)
+    const [drawerBody, setDrawerBody] = useState<(() => HTMLElement) | null>(null)
     const [visible, setVisible] = useState(false)
     const [submitInProgress, setSubmitInProgress] = useState(false)
 
@@ -286,8 +288,10 @@ function UpdateDrawer<RecordType>({
         return () => setVisible(false)
     }, [])
 
-    const history = useHistory()
-    const location = useLocation<RouterLocationState>()
+    const navigate = useNavigate()
+    const location = useLocation() as { state: RouterLocationState } & ReturnType<
+        typeof useLocation
+    >
 
     const formRef = useRef<React.ElementRef<typeof Form>>(null)
     const actionsLocale = locale.actions
@@ -315,12 +319,13 @@ function UpdateDrawer<RecordType>({
             })
     }, [formRef])
 
-    const popupContainer = useMemo(
-        () =>
-            drawerRef.current?.bodyElement ??
-            (() => document.querySelector('#root > .Theme') as HTMLElement),
-        [drawerRef.current],
-    )
+    const drawerRefCallback: RefCallback<React.ElementRef<typeof Drawer>> = useCallback((node) => {
+        ;(drawerRef as React.MutableRefObject<React.ElementRef<typeof Drawer> | null>).current =
+            node
+        setDrawerBody(() => (node ? node.bodyElement : null))
+    }, [])
+
+    const popupContainer = drawerBody ?? getPopupContainer
 
     const drawerFooter = useMemo(() => {
         return !children ? (
@@ -342,7 +347,7 @@ function UpdateDrawer<RecordType>({
 
     return (
         <Drawer
-            ref={drawerRef}
+            ref={drawerRefCallback}
             visible={visible}
             onClose={(e) => {
                 e.stopPropagation()
@@ -353,12 +358,18 @@ function UpdateDrawer<RecordType>({
             afterVisibleChange={(visible) => {
                 if (!visible) {
                     const backLocation = location?.state?.background
-                    history.push({
-                        pathname: backLocation ? backLocation.pathname : path,
-                        search: backLocation?.search ?? undefined,
-                        // update table when drawer saved and closed
-                        state: { update: { dataTable: submitInProgress }, scrollTop: false },
-                    })
+                    navigate(
+                        {
+                            pathname: backLocation ? backLocation.pathname : path,
+                            search: backLocation?.search ?? undefined,
+                        },
+                        {
+                            state: {
+                                update: { dataTable: submitInProgress },
+                                scrollTop: false,
+                            },
+                        },
+                    )
                     setSubmitInProgress(false)
                 }
             }}

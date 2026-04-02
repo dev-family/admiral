@@ -13,7 +13,9 @@ export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps {
     onChange?: (value: any) => void
 }
 
-export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputProps>> = ({
+export const ColorPickerInput: InputComponentWithName<
+    (props: ColorPickerInputProps) => React.JSX.Element
+> = function ColorPickerInput({
     name,
     label,
     required,
@@ -22,7 +24,7 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
     outputValue = 'rgbString',
     onChange,
     ...colorPickerProps
-}) => {
+}: ColorPickerInputProps) {
     const getPopupContainer = usePopupContainer()
     const { values, errors, setValues } = useForm()
     const value = values[name]
@@ -33,11 +35,11 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
             setValues((values: any) => ({ ...values, [name]: value[outputValue] }))
             onChange?.(value[outputValue])
         },
-        [onChange],
+        [name, outputValue, onChange],
     )
 
     // prevent reopen when close picker by clicking on label
-    const onLabelClick = useCallback((e) => {
+    const onLabelClick = useCallback((e: any) => {
         e?.preventDefault()
     }, [])
 

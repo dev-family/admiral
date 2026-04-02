@@ -12,7 +12,7 @@ const OAuthLoginComponent = () => {
     const oauthProviders = useConfig().oauthProviders
     const { auth: locale } = useLocaleProvider()
 
-    const OAuthProvidersIcons: Record<OAuthProvidersEnum, JSX.Element> = {
+    const OAuthProvidersIcons: Record<OAuthProvidersEnum, React.JSX.Element> = {
         [OAuthProvidersEnum.Google]: <FaGoogle />,
         [OAuthProvidersEnum.Github]: <FaGithub />,
         [OAuthProvidersEnum.Jira]: <FaJira />,
@@ -22,12 +22,8 @@ const OAuthLoginComponent = () => {
         return OAuthProvidersIcons[provider]
     }
 
-    if (!oauthProviders || oauthProviders.length === 0) {
-        return <></>
-    }
-
     const handleOAuthLogin = useCallback(
-        (provider) => {
+        (provider: any) => {
             if (!authProvider?.oauthLogin) {
                 return
             }
@@ -38,6 +34,10 @@ const OAuthLoginComponent = () => {
         },
         [authProvider],
     )
+
+    if (!oauthProviders || oauthProviders.length === 0) {
+        return <></>
+    }
 
     return (
         <div className={styles.socialLogin}>

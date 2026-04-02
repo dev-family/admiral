@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, ThemeSwitch } from '../../../ui'
 import { useNav } from '../../../navigation/NavContext'
 import cn from 'classnames'
 import { UserCard } from '../../../auth/components/User'
 import { useLogout } from '../../../auth'
-import { useSafeSetState } from '../../../utils/hooks'
 import { UserIdentity } from '../../../auth/interfaces'
 import { FiLogOut } from 'react-icons/fi'
 import styles from '../Layout.module.scss'
 
-const LayoutAside: React.FC<{ user: UserIdentity | null }> = ({ user, children }) => {
+function LayoutAside({
+    user,
+    children,
+}: {
+    user: UserIdentity | null
+    children?: React.ReactNode
+}) {
     const { visible, menu: Menu } = useNav()
 
     return (
@@ -47,7 +52,7 @@ const LayoutAside: React.FC<{ user: UserIdentity | null }> = ({ user, children }
 function Logout() {
     const { toggle } = useNav()
     const logout = useLogout()
-    const [loading, setLoading] = useSafeSetState(false)
+    const [loading, setLoading] = useState(false)
 
     const onClick = () => {
         setLoading(true)

@@ -167,7 +167,7 @@ function injectSorter<RecordType>(
             } else if (nextSortOrder === directions.ascend) {
                 sortTip = triggerAsc
             }
-            const tooltipProps: TooltipProps =
+            const tooltipProps: Omit<TooltipProps, 'children'> =
                 typeof showSorterTooltip === 'object'
                     ? showSorterTooltip
                     : {
@@ -232,7 +232,12 @@ function injectSorter<RecordType>(
 
 function stateToInfo<RecordType>(sorterState: SortState<RecordType>) {
     const { column, sortOrder } = sorterState
-    return { column, order: sortOrder, field: column.dataIndex, columnKey: column.key }
+    return {
+        column,
+        order: sortOrder,
+        field: column.dataIndex as Key | readonly Key[],
+        columnKey: column.key,
+    }
 }
 
 function generateSorterInfo<RecordType>(

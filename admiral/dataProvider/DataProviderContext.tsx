@@ -4,10 +4,13 @@ import { DataProvider } from './interfaces'
 
 export const DataProviderContext = createContext<DataProvider>({} as DataProvider)
 
-export const DataProviderContextProvider: React.FC<{ value: DataProvider }> = ({
+export function DataProviderContextProvider({
     value,
     children,
-}) => {
+}: {
+    value: DataProvider
+    children?: React.ReactNode
+}) {
     return <DataProviderContext.Provider value={value}>{children}</DataProviderContext.Provider>
 }
 

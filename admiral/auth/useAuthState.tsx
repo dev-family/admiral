@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { useSafeSetState } from '../utils/hooks'
+import { useEffect, useState } from 'react'
 import useCheckAuth from './useCheckAuth'
 
 interface State {
@@ -11,7 +10,7 @@ interface State {
 const emptyParams = {}
 
 const useAuthState = (params: any = emptyParams): State => {
-    const [state, setState] = useSafeSetState({
+    const [state, setState] = useState({
         loading: true,
         loaded: false,
         authenticated: true, // optimistic

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 import styles from './Form.module.scss'
 import cn from 'classnames'
 import Error from './Error'
@@ -11,9 +11,10 @@ export interface FormItemProps {
     columnSpan?: 1 | 2
     onLabelClick?: React.MouseEventHandler<HTMLLabelElement>
     labelAs?: string | React.JSXElementConstructor<any>
+    children?: React.ReactNode
 }
 
-const Item: React.FC<FormItemProps> = ({
+function Item({
     label,
     required = false,
     error,
@@ -22,7 +23,9 @@ const Item: React.FC<FormItemProps> = ({
     onLabelClick,
     labelAs: LabelComponent = 'label',
     children,
-}) => {
+}: FormItemProps) {
+    const errorId = useId()
+
     return (
         <div className={cn(styles.item, { [styles.item__ColumnSpanTwo]: columnSpan === 2 })}>
             <LabelComponent onClick={onLabelClick}>
@@ -31,10 +34,20 @@ const Item: React.FC<FormItemProps> = ({
                 >
                     {label}
                 </span>
-                <div className={styles.item_Field}>{children}</div>
+                <div
+                    className={styles.item_Field}
+                    aria-invalid={!!error || undefined}
+                    aria-describedby={error ? errorId : undefined}
+                >
+                    {children}
+                </div>
             </LabelComponent>
 
-            {showError && <Error error={error} />}
+            {showError && (
+                <div id={error ? errorId : undefined}>
+                    <Error error={error} />
+                </div>
+            )}
         </div>
     )
 }

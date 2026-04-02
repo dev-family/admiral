@@ -21,7 +21,7 @@ export default function EditPage({ id }: { id: string }) {
         return getUpdateFormData(resource, { id })
     }, [])
 
-    const _onSubmit = useCallback((values) => {
+    const _onSubmit = useCallback((values: any) => {
         return update(resource, { data: values, id })
     }, [])
 

@@ -20,11 +20,3 @@ export type Search = string
 export type Hash = string
 export type LocationState = unknown
 export type LocationKey = string
-
-export interface LocationDescriptorObject<S = LocationState> {
-    pathname?: Pathname | undefined
-    search?: Search | undefined
-    state?: S | undefined
-    hash?: Hash | undefined
-    key?: LocationKey | undefined
-}

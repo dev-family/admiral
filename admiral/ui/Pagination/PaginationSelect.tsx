@@ -1,13 +1,25 @@
-import React from 'react'
 import { Select } from '../Select'
-import type { SelectProps } from '../Select/interfaces'
 
-interface MiniOrMiddleSelectInterface extends React.FC<SelectProps> {
-    Option: typeof Select.Option
+export function createSizeChangerRender(size: 'S' | 'XS') {
+    return (info: {
+        disabled: boolean
+        size: number
+        onSizeChange: (value: string | number) => void
+        'aria-label': string
+        className: string
+        options: { label: string; value: string | number }[]
+    }) => (
+        <Select
+            disabled={info.disabled}
+            value={info.size}
+            onChange={(value) => info.onSizeChange(value)}
+            aria-label={info['aria-label']}
+            className={info.className}
+            size={size}
+            options={info.options.map((opt) => ({
+                label: String(opt.value),
+                value: opt.value,
+            }))}
+        />
+    )
 }
-
-export const MiddleSelect: MiniOrMiddleSelectInterface = (props) => <Select {...props} size="S" />
-export const MiniSelect: MiniOrMiddleSelectInterface = (props) => <Select {...props} size="XS" />
-
-MiniSelect.Option = Select.Option
-MiddleSelect.Option = Select.Option

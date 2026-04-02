@@ -8,7 +8,7 @@ function shouldDelay(spinning?: boolean, delay?: number): boolean {
     return !!spinning && !!delay && !isNaN(Number(delay))
 }
 
-export const Spin: React.FC<SpinProps> = ({
+export function Spin({
     className,
     spinning = true,
     style,
@@ -17,14 +17,14 @@ export const Spin: React.FC<SpinProps> = ({
     delay = 0,
     wrapperClassName,
     children,
-}) => {
+}: SpinProps & { children?: React.ReactNode }) {
     const shouldBeDelayed = shouldDelay(spinning, delay)
     const [state, setState] = useState({
         spinning: spinning && !shouldBeDelayed,
     })
 
     useEffect(() => {
-        let timeoutId: NodeJS.Timeout
+        let timeoutId: ReturnType<typeof setTimeout>
         if (state.spinning !== spinning) {
             const ms = spinning ? delay : 0
             timeoutId = setTimeout(() => setState({ spinning }), ms)

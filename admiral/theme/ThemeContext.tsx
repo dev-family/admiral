@@ -1,8 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo } from 'react'
 import { Theme, ThemePreset, generateThemeClassNames } from '@consta/uikit/Theme'
 import { ThemeName, ContextState, ProviderProps } from './interfaces'
-import { useMedia } from '../utils/hooks'
-import { useLocalStorageState } from 'ahooks'
+import { useMedia, useLocalStorageState } from '../utils/hooks'
 import themeLight from './presets/themeLight'
 import themeDark from './presets/themeDark'
 
@@ -21,7 +20,11 @@ function getPreset(
 const ThemeContext = createContext({} as ContextState)
 export const themeStorageKey = 'df_admin_theme'
 
-export const ThemeProvider: React.FC<ProviderProps> = ({ children, presetName, presets }) => {
+export function ThemeProvider({
+    children,
+    presetName,
+    presets,
+}: ProviderProps & { children?: React.ReactNode }) {
     const prefersMode = useMedia(['(prefers-color-scheme: dark)'], ['dark'], 'light') as ThemeName
     const [name, setName] = useLocalStorageState(themeStorageKey, {
         defaultValue: presetName || prefersMode || 'light',
@@ -33,18 +36,19 @@ export const ThemeProvider: React.FC<ProviderProps> = ({ children, presetName, p
 
     const preset = useMemo(() => getPreset(name, presets), [name, presets])
 
+    const value = useMemo(
+        () => ({
+            theme: preset,
+            themeClassNames: generateThemeClassNames(preset),
+            themeName: name,
+            setTheme: toggleTheme,
+        }),
+        [preset, name],
+    )
+
     return (
         <Theme preset={preset}>
-            <ThemeContext.Provider
-                value={{
-                    theme: preset,
-                    themeClassNames: generateThemeClassNames(preset),
-                    themeName: name,
-                    setTheme: toggleTheme,
-                }}
-            >
-                {children}
-            </ThemeContext.Provider>
+            <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
         </Theme>
     )
 }

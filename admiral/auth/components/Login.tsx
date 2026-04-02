@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
 import useCheckAuth from '../useCheckAuth'
 import useLogin from '../useLogin'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Card } from '../../ui'
 import { Form, TextInput, PasswordInput } from '../../form'
 import styles from './Login.module.scss'
@@ -12,23 +12,25 @@ import Icon from '../../assets/icons'
 import { useLocaleProvider } from '../../locale'
 import OAuthLoginComponent from './OAuthLogin'
 
-export const LoginLayout: React.FC = ({ children }) => <div className={styles.wrap}>{children}</div>
+export function LoginLayout({ children }: { children?: React.ReactNode }) {
+    return <div className={styles.wrap}>{children}</div>
+}
 
-export const Login: React.FC = () => {
+export function Login() {
     const { themeName } = useTheme()
     const { auth: locale, form: formLocale } = useLocaleProvider()
     const checkAuth = useCheckAuth()
-    const history = useHistory()
+    const navigate = useNavigate()
     const { loginLogo = LogoDefault } = useConfig()
     const LogoComponent = typeof loginLogo === 'function' ? loginLogo : null
 
     useEffect(() => {
         checkAuth({}, false)
             .then(() => {
-                history.push('/')
+                navigate('/')
             })
             .catch(() => {})
-    }, [checkAuth, history])
+    }, [checkAuth, navigate])
 
     const login = useLogin()
 

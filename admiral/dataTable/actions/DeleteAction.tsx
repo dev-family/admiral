@@ -19,12 +19,7 @@ export type DeleteActionProps = {
     locale?: DeleteActionLocale
 }
 
-export const DeleteAction: React.FC<DeleteActionProps> = ({
-    resource,
-    id,
-    buttonProps,
-    locale,
-}) => {
+export function DeleteAction({ resource, id, buttonProps, locale }: DeleteActionProps) {
     const { title, ...popconfirmLocale } = locale ?? enUS
     const { deleteOne } = useDataProvider()
     const { refresh } = useDataTable()

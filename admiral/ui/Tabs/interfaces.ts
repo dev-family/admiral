@@ -1,6 +1,15 @@
-import type { TabsProps as RcTabsProps, TabPaneProps } from 'rc-tabs'
+import type { TabsProps as RcTabsProps } from 'rc-tabs'
 
-export type { TabPaneProps }
+export interface TabPaneProps {
+    tab?: React.ReactNode
+    className?: string
+    style?: React.CSSProperties
+    disabled?: boolean
+    children?: React.ReactNode
+    forceRender?: boolean
+    closable?: boolean
+    closeIcon?: React.ReactNode
+}
 
 export type TabsType = 'line' | 'card'
 export type TabsPosition = 'top' | 'right' | 'bottom' | 'left'

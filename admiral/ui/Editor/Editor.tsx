@@ -34,10 +34,10 @@ const Editor = ({
     const initParams = useMemo<TinyEditorProps['init']>(
         () => ({
             height,
-            setup: function (editor) {
+            setup: function (editor: any) {
                 editor.on('PostRender', function () {
-                    var container = editor.getContainer()
-                    var uiContainer = document.querySelector(
+                    const container = editor.getContainer()
+                    const uiContainer = document.querySelector(
                         'body > .tox.tox-tinymce-aux',
                     ) as HTMLDivElement
                     container.parentNode!.appendChild(uiContainer)

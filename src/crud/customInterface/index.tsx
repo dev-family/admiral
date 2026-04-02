@@ -11,7 +11,7 @@ export default function CustomInterfacePage() {
         return api.getTheme()
     }, [])
 
-    const _onSubmit = useCallback((values) => {
+    const _onSubmit = useCallback((values: any) => {
         const validatedValues = validateColorValues(values)
         return api.updateTheme(validatedValues)
     }, [])

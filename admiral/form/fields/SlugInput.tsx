@@ -44,84 +44,85 @@ const getFromFieldValue = (from: string, values: FieldValues, slugLang?: string)
     return value || ''
 }
 
-export const SlugInput: InputComponentWithName<React.FC<SlugInputProps>> = ({
-    name,
-    label,
-    from,
-    required,
-    disabled,
-    columnSpan,
-    options,
-    size,
-    slugLang,
-    onChange,
-    ...inputProps
-}) => {
-    const { values, errors, setValues } = useForm()
-    const value = values[name]
-    const error = errors[name]?.[0]
-    const fromFieldValue = useMemo(() => getFromFieldValue(from, values, slugLang), [values])
-    const [isLocked, setIsLocked] = useState(disabled)
+export const SlugInput: InputComponentWithName<(props: SlugInputProps) => React.JSX.Element> =
+    function SlugInput({
+        name,
+        label,
+        from,
+        required,
+        disabled,
+        columnSpan,
+        options,
+        size,
+        slugLang,
+        onChange,
+        ...inputProps
+    }: SlugInputProps) {
+        const { values, errors, setValues } = useForm()
+        const value = values[name]
+        const error = errors[name]?.[0]
+        const fromFieldValue = useMemo(() => getFromFieldValue(from, values, slugLang), [values])
+        const [isLocked, setIsLocked] = useState(disabled)
 
-    useEffect(() => {
-        if (isLocked) {
-            return
-        }
+        const _onChange = useCallback(
+            (e: any) => {
+                setValues((values: any) => ({ ...values, [name]: e.target.value }))
+                onChange?.(e.target.value)
+            },
+            [name, onChange],
+        )
 
-        if (fromFieldValue) {
+        useEffect(() => {
+            if (isLocked) {
+                return
+            }
+
+            if (fromFieldValue) {
+                _onChange({
+                    target: {
+                        value: slugify(fromFieldValue, {
+                            lower: true,
+                            replacement: '-',
+                            ...options,
+                        }),
+                    },
+                })
+                return
+            }
             _onChange({
                 target: {
-                    value: slugify(fromFieldValue, {
-                        lower: true,
-                        replacement: '-',
-                        ...options,
-                    }),
+                    value: null,
                 },
             })
-            return
-        }
-        _onChange({
-            target: {
-                value: null,
-            },
-        })
-    }, [fromFieldValue])
+        }, [fromFieldValue, isLocked, _onChange, options])
 
-    const _onChange = useCallback(
-        (e) => {
-            setValues((values: any) => ({ ...values, [name]: e.target.value }))
-            onChange?.(e.target.value)
-        },
-        [onChange],
-    )
-
-    return (
-        <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
-            <Input
-                {...inputProps}
-                readOnly={isLocked}
-                name={name}
-                value={value}
-                onChange={_onChange}
-                alert={!!error}
-                size={size}
-                className={cn(styles.slugInput, {
-                    [styles.slugInput__sizeL]: size === 'L',
-                    [styles.slugInput__sizeS]: size === 'S',
-                    [styles.slugInput__sizeXS]: size === 'XS',
-                })}
-                suffix={
-                    <button type="button" className={styles.slugInput_Icon}>
-                        {isLocked ? (
-                            <FiLock onClick={() => setIsLocked(false)} />
-                        ) : (
-                            <FiUnlock onClick={() => setIsLocked(true)} />
-                        )}
-                    </button>
-                }
-            />
-        </Form.Item>
-    )
-}
+        return (
+            <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
+                <Input
+                    {...inputProps}
+                    readOnly={isLocked}
+                    name={name}
+                    value={value}
+                    onChange={_onChange}
+                    alert={!!error}
+                    size={size}
+                    className={cn(styles.slugInput, {
+                        [styles.slugInput__sizeL]: size === 'L',
+                        [styles.slugInput__sizeS]: size === 'S',
+                        [styles.slugInput__sizeXS]: size === 'XS',
+                    })}
+                    suffix={
+                        <button type="button" className={styles.slugInput_Icon}>
+                            {isLocked ? (
+                                <FiLock onClick={() => setIsLocked(false)} />
+                            ) : (
+                                <FiUnlock onClick={() => setIsLocked(true)} />
+                            )}
+                        </button>
+                    }
+                />
+            </Form.Item>
+        )
+    }
 
 SlugInput.inputName = 'SlugInput'

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 export const readFile = async (image: Blob): Promise<string> => {
     return new Promise((resolve, reject) => {
-        let reader = new FileReader()
+        const reader = new FileReader()
         reader.onloadend = () => {
             resolve(reader.result as string)
         }
@@ -18,7 +18,9 @@ const useImageUrl = (file: Blob) => {
         if (file) {
             try {
                 readFile(file).then((result) => setUrl(result as string))
-            } catch (e) {}
+            } catch {
+                /* ignore read errors */
+            }
         } else {
             setUrl('')
         }

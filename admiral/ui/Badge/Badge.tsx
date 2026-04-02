@@ -8,18 +8,18 @@ import { useTheme } from '../../theme'
 import { BadgeProps } from './interfaces'
 import styles from './Badge.module.scss'
 
-export const Badge: React.FC<BadgeProps> = ({
+export function Badge({
     children,
-    status,
+    status = 'normal',
     count = null,
     overflowCount = 99,
     dot = false,
-    size,
-    view,
+    size = 'M',
+    view = 'filled',
     className,
     showZero = false,
     ...restProps
-}) => {
+}: BadgeProps & { children?: React.ReactNode }) {
     const { themeClassNames, themeName } = useTheme()
 
     const numberedDisplayCount = (
@@ -139,10 +139,4 @@ export const Badge: React.FC<BadgeProps> = ({
             })}
         </div>
     )
-}
-
-Badge.defaultProps = {
-    size: 'M',
-    view: 'filled',
-    status: 'normal',
 }

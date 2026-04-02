@@ -13,7 +13,9 @@ export type FilePictureInputProps = FormItemProps & {
 
 const VALUE_DEFAULT: any[] = []
 
-export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputProps>> = ({
+export const FilePictureInput: InputComponentWithName<
+    (props: FilePictureInputProps) => React.JSX.Element
+> = function FilePictureInput({
     name,
     label,
     required,
@@ -22,10 +24,10 @@ export const FilePictureInput: InputComponentWithName<React.FC<FilePictureInputP
     disabled,
     maxCount,
     ...uploadProps
-}) => {
+}: FilePictureInputProps) {
     const { values, errors, setValues, locale: formLocale } = useForm()
     const locale = formLocale.fields.upload
-    let value = values[name]
+    const value = values[name]
 
     const isArrayValue = Array.isArray(value)
     const hasValue = !!value

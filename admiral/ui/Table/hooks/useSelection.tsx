@@ -172,7 +172,7 @@ export default function useSelection<RecordType>(
         [onSelect, getRecordByKey, setSelectedKeys],
     )
 
-    const mergedSelections = null
+    const _mergedSelections = null
 
     // ======================= Columns ========================
     const transformColumns = useCallback(
@@ -214,7 +214,6 @@ export default function useSelection<RecordType>(
 
             // ===================== Render =====================
             // Title Cell
-            let title: React.ReactNode
             const allDisabledData = flattedData
                 .map((record, index) => {
                     const key = getRowKey(record, index)
@@ -232,7 +231,7 @@ export default function useSelection<RecordType>(
                 allDisabled && allDisabledData.some(({ checked }) => checked)
             const titleCheckboxProps = getTitleCheckboxProps?.() ?? {}
 
-            title = !hideSelectAll && (
+            const title = !hideSelectAll && (
                 <div className={`${prefixCls}-selection`}>
                     <Checkbox
                         {...titleCheckboxProps}
@@ -253,17 +252,15 @@ export default function useSelection<RecordType>(
             )
 
             // Body Cell
-            let renderCell: (
+            const renderCell = (
                 _: RecordType,
                 record: RecordType,
                 index: number,
-            ) => { node: React.ReactNode; checked: boolean }
-
-            renderCell = (_, record, index) => {
+            ): { node: React.ReactNode; checked: boolean } => {
                 const key = getRowKey(record, index)
                 const checked = keySet.has(key)
                 const checkboxProps = checkboxPropsMap.get(key)
-                let mergedIndeterminate = checkboxProps?.indeterminate ?? false
+                const mergedIndeterminate = checkboxProps?.indeterminate ?? false
 
                 // Record checked
                 return {
@@ -369,7 +366,7 @@ export default function useSelection<RecordType>(
             mergedSelectedKeys,
             derivedSelectedKeySet,
             selectionColWidth,
-            mergedSelections,
+            _mergedSelections,
             lastSelectedKey,
             checkboxPropsMap,
             onSelectMultiple,

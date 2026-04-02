@@ -1,5 +1,5 @@
 import '../assets/global.css'
-import React, { ComponentType, ReactNode } from 'react'
+import React, { ComponentType, ReactNode, useMemo } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from '../theme'
 import { NavProvider } from '../navigation/NavContext'
@@ -27,7 +27,7 @@ export type AdminProps = {
     baseAppUrl?: string
 }
 
-export const Admin: React.FC<AdminProps> = ({
+export function Admin({
     logo,
     loginLogo,
     asideContent,
@@ -40,19 +40,16 @@ export const Admin: React.FC<AdminProps> = ({
     children,
     oauthProviders,
     baseAppUrl = '',
-}) => {
+}: AdminProps & { children?: React.ReactNode }) {
+    const configValue = useMemo(
+        () => ({ logo, loginLogo, asideContent, oauthProviders, menuPopupExtraComponents }),
+        [logo, loginLogo, asideContent, oauthProviders, menuPopupExtraComponents],
+    )
+
     return (
         <AuthContextProvider value={authProvider}>
             <DataProviderContextProvider value={dataProvider}>
-                <ConfigContextProvider
-                    value={{
-                        logo,
-                        loginLogo,
-                        asideContent,
-                        oauthProviders,
-                        menuPopupExtraComponents,
-                    }}
-                >
+                <ConfigContextProvider value={configValue}>
                     <LocaleContextProvider value={locale}>
                         <UserContextProvider>
                             <Router basename={baseAppUrl}>

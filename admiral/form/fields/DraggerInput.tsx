@@ -11,53 +11,54 @@ export type DraggerInputProps = FormItemProps & {
     onChange?: (value: any) => void
 } & UploadProps
 
-export const DraggerInput: InputComponentWithName<React.FC<DraggerInputProps>> = ({
-    name,
-    label,
-    required,
-    columnSpan,
-    children,
-    disabled,
-    onChange,
-    ...uploadProps
-}) => {
-    const { values, errors, setValues, locale: formLocale } = useForm()
-    const locale = formLocale.fields.upload
+export const DraggerInput: InputComponentWithName<(props: DraggerInputProps) => React.JSX.Element> =
+    function DraggerInput({
+        name,
+        label,
+        required,
+        columnSpan,
+        children: _children,
+        disabled: _disabled,
+        onChange,
+        ...uploadProps
+    }: DraggerInputProps) {
+        const { values, errors, setValues, locale: formLocale } = useForm()
+        const locale = formLocale.fields.upload
 
-    const value = values[name]
-    const arrayValue = Array.isArray(value) ? value : value ? [value] : []
+        const value = values[name]
+        const arrayValue = Array.isArray(value) ? value : value ? [value] : []
 
-    const error = errors[name]?.[0]
+        const error = errors[name]?.[0]
 
-    const _onChange = useCallback(
-        ({ fileList }) => {
-            const files = fileList ?? []
-            setValues((values: any) => ({ ...values, [name]: files }))
-            onChange?.(files)
-        },
-        [onChange],
-    )
+        const _onChange = useCallback(
+            ({ fileList }: { fileList: any }) => {
+                const files = fileList ?? []
+                setValues((values: any) => ({ ...values, [name]: files }))
+                onChange?.(files)
+            },
+            [name, onChange],
+        )
 
-    const onLabelClick = useCallback((e) => {
-        e?.preventDefault()
-    }, [])
+        const onLabelClick = useCallback((e: any) => {
+            e?.preventDefault()
+        }, [])
 
-    return (
-        <Form.Item
-            label={label}
-            onLabelClick={onLabelClick}
-            required={required}
-            error={error}
-            columnSpan={columnSpan}
-        >
-            <Upload.Dragger
-                {...uploadProps}
-                locale={locale}
-                fileList={arrayValue}
-                onChange={_onChange}
-            />
-        </Form.Item>
-    )
-}
+        return (
+            <Form.Item
+                label={label}
+                onLabelClick={onLabelClick}
+                required={required}
+                error={error}
+                columnSpan={columnSpan}
+            >
+                <Upload.Dragger
+                    {...uploadProps}
+                    locale={locale}
+                    fileList={arrayValue}
+                    onChange={_onChange}
+                />
+            </Form.Item>
+        )
+    }
 
 DraggerInput.inputName = 'DraggerInput'

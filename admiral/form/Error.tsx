@@ -6,19 +6,20 @@ export interface FormErrorProps {
     error?: string
 }
 
-const AnimatePresence: React.FC<{ show: boolean }> = ({ show, children }) => {
+function AnimatePresence({ show, children }: { show: boolean; children?: React.ReactNode }) {
     const transitions = useTransition(show, {
         from: { opacity: 0, translateY: 4 },
         enter: { opacity: 1, translateY: 0 },
         reverse: show,
         config: { tension: 90, friction: 10, precision: 0.1, duration: 160 },
     })
+    const AnimatedDiv = animated.div as any
     return transitions(
-        (styles, item) => item && <animated.div style={styles}>{children}</animated.div>,
+        (styles, item) => item && <AnimatedDiv style={styles}>{children}</AnimatedDiv>,
     )
 }
 
-const Error: React.FC<FormErrorProps> = ({ error }) => {
+function Error({ error }: FormErrorProps) {
     return (
         <AnimatePresence show={!!error}>
             <div className={styles.item_Error}>{error}</div>

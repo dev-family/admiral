@@ -1,7 +1,6 @@
 import React, { useMemo, useRef } from 'react'
-import { useLocation, useHistory } from 'react-router'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { parse, stringify } from 'qs'
-import { RouterLocationState } from '../../router/interfaces'
 
 export interface Options {
     navigateMode?: 'push' | 'replace'
@@ -16,9 +15,9 @@ const useUrlState = <S extends UrlState = UrlState>(
     type State = Partial<{ [key in keyof S]: any }>
     const { navigateMode = 'push' } = options || {}
 
-    const location = useLocation<RouterLocationState>()
+    const location = useLocation()
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const initialStateRef = useRef(
         typeof initialState === 'function' ? (initialState as () => S)() : initialState || {},
@@ -42,26 +41,40 @@ const useUrlState = <S extends UrlState = UrlState>(
     const setState = (s: React.SetStateAction<State>) => {
         const newQuery = typeof s === 'function' ? s(targetQuery) : s
 
-        if (history) {
-            history[navigateMode]({
+        navigate(
+            {
                 hash: location.hash,
                 search:
                     stringify(
                         { ...queryFromUrl, ...newQuery },
                         {
-                            encode: false,
+                            encoder,
                         },
                     ) || '?',
-            })
-        }
+            },
+            { replace: navigateMode === 'replace' },
+        )
     }
 
     return [targetQuery, setState] as const
 }
 
-function decoder(str: string) {
-    const strWithoutPlus = str.replace(/\+/g, ' ')
+function encoder(
+    str: string,
+    _defaultEncoder: (str: string) => string,
+    _charset: string,
+    type: 'key' | 'value',
+) {
+    if (type === 'value') {
+        // Encode `+` as `%2B` so timezone offsets in ISO dates survive round-trip.
+        // Other chars stay unencoded for URL readability (same as old `encode: false`).
+        return String(str).replace(/\+/g, '%2B')
+    }
+    // Keys: leave as-is for readability (e.g. filter[name])
+    return String(str)
+}
 
+function decoder(str: string) {
     const keywords: Record<string, any> = {
         true: true,
         false: false,
@@ -72,11 +85,10 @@ function decoder(str: string) {
         return keywords[str]
     }
 
-    // utf-8
     try {
-        return decodeURIComponent(strWithoutPlus)
-    } catch (e) {
-        return strWithoutPlus
+        return decodeURIComponent(str)
+    } catch {
+        return str
     }
 }
 

@@ -1,32 +1,134 @@
-import React, { useEffect } from 'react'
-import { nanoid } from 'nanoid'
-import { Droppable, Draggable, DragDropContext, OnDragEndResponder } from 'react-beautiful-dnd'
+import React, { useEffect, useMemo } from 'react'
+import {
+    DndContext,
+    closestCenter,
+    PointerSensor,
+    useSensor,
+    useSensors,
+    type DragEndEvent,
+} from '@dnd-kit/core'
+import {
+    SortableContext,
+    useSortable,
+    verticalListSortingStrategy,
+    horizontalListSortingStrategy,
+} from '@dnd-kit/sortable'
 import ListItem from './UploadListItem'
 import { useForceUpdate } from '../../../utils/hooks'
 import { previewImage, isImageUrl } from '../utils'
 import { useTransition, animated, config } from 'react-spring'
-import { UploadListProps, UploadFile } from '../interfaces'
+import {
+    UploadListProps,
+    UploadFile,
+    UploadListType,
+    UploadLocale,
+    ItemRender,
+} from '../interfaces'
 import styles from '../Upload.module.scss'
 import cn from 'classnames'
 
 // TODO: text listType
 
-const UploadList: React.FC<UploadListProps> = ({
+interface SortableUploadItemProps {
+    id: string
+    file: UploadFile
+    items: UploadFile[]
+    listType?: UploadListType
+    locale: UploadLocale
+    isImgUrl?: (file: UploadFile) => boolean
+    showRemoveIcon?: boolean
+    showPreviewIcon?: boolean
+    showDownloadIcon?: boolean
+    itemRender?: ItemRender
+    onClose: (file: UploadFile) => void
+    onPreview: (e: React.MouseEvent, file: UploadFile) => void
+    onDownload?: (file: UploadFile) => void
+    isDragDisabled: boolean
+    springStyle?: any
+}
+
+function SortableUploadItem({
+    id,
+    file,
+    items,
     listType,
-    onRemove,
-    onPreview,
-    onDownload,
     locale,
-    isImageUrl: isImgUrl,
-    items = [],
+    isImgUrl,
     showRemoveIcon,
     showPreviewIcon,
     showDownloadIcon,
     itemRender,
-    previewFile,
+    onClose,
+    onPreview,
+    onDownload,
+    isDragDisabled,
+    springStyle,
+}: SortableUploadItemProps) {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id,
+        disabled: isDragDisabled,
+    })
+
+    const sortableStyle: React.CSSProperties = {
+        transition: transition ?? undefined,
+        transform: transform
+            ? `translate3d(${Math.round(transform.x)}px, ${Math.round(transform.y)}px, 0)`
+            : undefined,
+        ...(isDragging && { zIndex: 999, opacity: 0.5 }),
+    }
+
+    const itemContent = (
+        <div
+            ref={setNodeRef}
+            {...attributes}
+            {...listeners}
+            className={cn(styles.droppable__item, {
+                [styles['droppable__item--text_type']]: listType === 'text',
+                [styles['droppable__item--picture_card']]: listType === 'picture-card',
+                [styles['droppable__item--dragged']]: isDragging,
+            })}
+            style={sortableStyle}
+        >
+            <ListItem
+                locale={locale}
+                file={file}
+                items={items}
+                listType={listType}
+                isImgUrl={isImgUrl}
+                showRemoveIcon={showRemoveIcon}
+                showPreviewIcon={showPreviewIcon}
+                showDownloadIcon={showDownloadIcon}
+                itemRender={itemRender}
+                onClose={onClose}
+                onPreview={onPreview}
+                onDownload={onDownload}
+            />
+        </div>
+    )
+
+    if (springStyle) {
+        return React.createElement(animated.div as any, { style: springStyle }, itemContent)
+    }
+
+    return itemContent
+}
+
+function UploadList({
+    listType = 'picture',
+    onRemove,
+    onPreview,
+    onDownload,
+    locale,
+    isImageUrl: isImgUrl = isImageUrl,
+    items = [],
+    showRemoveIcon = true,
+    showPreviewIcon,
+    showDownloadIcon,
+    itemRender,
+    previewFile = previewImage,
     appendButton,
     onDragEnd,
-}) => {
+}: UploadListProps) {
     const forceUpdate = useForceUpdate()
     useEffect(() => {
         if (listType !== 'picture' && listType !== 'picture-card') {
@@ -37,8 +139,8 @@ const UploadList: React.FC<UploadListProps> = ({
             if (
                 typeof document === 'undefined' ||
                 typeof window === 'undefined' ||
-                !(window as any).FileReader ||
-                !(window as any).File ||
+                !window.FileReader ||
+                !window.File ||
                 !(file instanceof File) ||
                 file.thumbUrl !== undefined
             ) {
@@ -46,7 +148,7 @@ const UploadList: React.FC<UploadListProps> = ({
             }
 
             if (previewFile) {
-                previewFile(file as any as File).then((previewDataUrl: string) => {
+                previewFile(file as unknown as File).then((previewDataUrl: string) => {
                     file.thumbUrl = previewDataUrl || ''
                     forceUpdate()
                 })
@@ -98,92 +200,64 @@ const UploadList: React.FC<UploadListProps> = ({
               },
     )
 
+    const sensors = useSensors(useSensor(PointerSensor))
+
+    const sortableItems = useMemo(() => items.map((file) => file.uid), [items])
+
+    const strategy =
+        listType === 'picture-card' ? horizontalListSortingStrategy : verticalListSortingStrategy
+
+    const isDragDisabled = !onDragEnd || !items || items.length <= 1
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        onDragEnd?.(event)
+    }
+
     return (
         <div>
-            <DragDropContext onDragEnd={onDragEnd as OnDragEndResponder}>
-                <Droppable
-                    droppableId={`upload list droppable + ${nanoid()}`}
-                    type="upload list droppable"
-                    direction={listType === 'picture-card' ? 'horizontal' : 'vertical'}
-                >
-                    {(provided, snapshot) => (
-                        <ul
-                            ref={provided.innerRef}
-                            className={cn(styles.droppable, {
-                                [styles.droppable__TextType]:
-                                    listType === 'text' || listType === 'picture',
-                                [styles['droppable-picture-card']]: listType === 'picture-card',
-                            })}
-                            // style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey' }}
-                            {...provided.droppableProps}
-                        >
-                            {transitions((style, file, _, idx) => {
-                                return (
-                                    <animated.div style={style}>
-                                        <Draggable
-                                            draggableId={String(idx)}
-                                            index={idx}
-                                            key={String(idx)}
-                                            isDragDisabled={
-                                                !onDragEnd || !items || items.length === 1
-                                            }
-                                        >
-                                            {(provided, snapshot) => {
-                                                return (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        className={cn(styles.droppable__item, {
-                                                            [styles['droppable__item--text_type']]:
-                                                                listType === 'text',
-                                                            [styles[
-                                                                'droppable__item--picture_card'
-                                                            ]]: listType === 'picture-card',
-                                                            [styles['droppable__item--dragged']]:
-                                                                snapshot.isDragging,
-                                                        })}
-                                                        // style={{...provided.draggableProps.style}}
-                                                    >
-                                                        <ListItem
-                                                            key={idx}
-                                                            locale={locale}
-                                                            file={file}
-                                                            items={items}
-                                                            listType={listType}
-                                                            isImgUrl={isImgUrl}
-                                                            showRemoveIcon={showRemoveIcon}
-                                                            showPreviewIcon={showPreviewIcon}
-                                                            showDownloadIcon={showDownloadIcon}
-                                                            itemRender={itemRender}
-                                                            onClose={onInternalClose}
-                                                            onPreview={onInternalPreview}
-                                                            onDownload={onDownload}
-                                                        />
-                                                    </div>
-                                                )
-                                            }}
-                                        </Draggable>
-                                    </animated.div>
-                                )
-                            })}
-                            {provided.placeholder}
-                            {appendButton}
-                        </ul>
-                    )}
-                </Droppable>
-            </DragDropContext>
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+            >
+                <SortableContext items={sortableItems} strategy={strategy}>
+                    <ul
+                        className={cn(styles.droppable, {
+                            [styles.droppable__TextType]:
+                                listType === 'text' || listType === 'picture',
+                            [styles['droppable-picture-card']]: listType === 'picture-card',
+                        })}
+                    >
+                        {transitions((springStyle, file, _t, _idx) => {
+                            return (
+                                <SortableUploadItem
+                                    key={file.uid}
+                                    id={file.uid}
+                                    file={file}
+                                    items={items}
+                                    listType={listType}
+                                    locale={locale}
+                                    isImgUrl={isImgUrl}
+                                    showRemoveIcon={showRemoveIcon}
+                                    showPreviewIcon={showPreviewIcon}
+                                    showDownloadIcon={showDownloadIcon}
+                                    itemRender={itemRender}
+                                    onClose={onInternalClose}
+                                    onPreview={onInternalPreview}
+                                    onDownload={onDownload}
+                                    isDragDisabled={isDragDisabled}
+                                    springStyle={onDragEnd ? undefined : springStyle}
+                                />
+                            )
+                        })}
+                        {appendButton}
+                    </ul>
+                </SortableContext>
+            </DndContext>
         </div>
     )
 }
 
 UploadList.displayName = 'UploadList'
-
-UploadList.defaultProps = {
-    listType: 'picture',
-    showRemoveIcon: true,
-    isImageUrl,
-    previewFile: previewImage,
-}
 
 export default UploadList

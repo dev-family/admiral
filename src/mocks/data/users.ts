@@ -257,7 +257,7 @@ export class UserList {
         const sortOrder = sort?.[1] ?? null
 
         const sortedUsers = this.sortBy(sortField, sortOrder)
-        const filteredUsers = !!filter ? this.filterBy(filter, sortedUsers) : sortedUsers
+        const filteredUsers = filter ? this.filterBy(filter, sortedUsers) : sortedUsers
         const searchedValue = filter?.search
         const searchedUsers = searchedValue
             ? filteredUsers.filter((user) => user.name.includes(searchedValue))
@@ -270,7 +270,7 @@ export class UserList {
     }
 
     getOptions(initialValues?: Record<keyof IUser, any>) {
-        let options = { ...this.options }
+        const options = { ...this.options }
         if (initialValues?.role) {
             const fieldOptions = options.role
             const value: string = initialValues.role

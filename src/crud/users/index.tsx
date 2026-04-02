@@ -10,7 +10,6 @@ import {
     TimePickerInput,
     BooleanInput,
     DraggerInput,
-    DatePickerInput,
     AjaxSelectInput,
     SlugInput,
     RadioInput,

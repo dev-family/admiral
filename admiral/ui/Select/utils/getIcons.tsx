@@ -1,4 +1,3 @@
-import React from 'react'
 import { FiChevronDown, FiX, FiLoader, FiSearch, FiCheck } from 'react-icons/fi'
 import { AiFillCloseCircle } from 'react-icons/ai'
 
@@ -12,12 +11,12 @@ export default function getIcons({
     prefixCls: string
 }) {
     // Clear Icon
-    let clearIcon = <AiFillCloseCircle />
+    const clearIcon = <AiFillCloseCircle />
 
     // Arrow item icon
     const suffixCls = `${prefixCls}-suffix`
     const spinCls = `${prefixCls}-spin`
-    let suffixIcon = loading ? (
+    const suffixIcon = loading ? (
         <FiLoader className={spinCls} />
     ) : (
         ({ open, showSearch }: { open: boolean; showSearch: boolean }) => {
@@ -29,10 +28,10 @@ export default function getIcons({
     )
 
     // Checked item icon
-    let itemIcon = multiple ? <FiCheck /> : null
+    const itemIcon = multiple ? <FiCheck /> : null
 
     // Remove icon
-    let removeIcon = <FiX />
+    const removeIcon = <FiX />
 
     return {
         clearIcon,

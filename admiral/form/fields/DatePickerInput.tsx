@@ -4,7 +4,7 @@ import { Form } from '../Form'
 import { DatePicker } from '../../ui'
 import { PickerProps } from '../../ui/DatePicker/generatePicker/interfaces'
 import { FormItemProps } from '../Item'
-import parseISO from 'date-fns/parseISO'
+import { parseISO } from 'date-fns'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
 import { getTransformedDate } from '../../utils/helpers/getTransformedDate'
@@ -14,7 +14,9 @@ export type DatePickerInputProps = FormItemProps & {
     onChange?: (value: any) => void
 } & PickerProps<Date>
 
-export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputProps>> = ({
+export const DatePickerInput: InputComponentWithName<
+    (props: DatePickerInputProps) => React.JSX.Element
+> = function DatePickerInput({
     name,
     label,
     required,
@@ -22,12 +24,12 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
     onChange,
     dateOutputFormat = 'iso',
     ...pickerProps
-}) => {
+}: DatePickerInputProps) {
     const getPopupContainer = usePopupContainer()
     const { values, errors, setValues, locale: formLocale } = useForm()
     const locale = formLocale.fields.datePicker
 
-    let value = values[name] ? parseISO(values[name]) : null
+    const value = values[name] ? parseISO(values[name]) : null
     const error = errors[name]?.[0]
 
     const _onChange = useCallback(
@@ -49,7 +51,7 @@ export const DatePickerInput: InputComponentWithName<React.FC<DatePickerInputPro
                 locale={locale}
                 {...pickerProps}
                 value={value}
-                onChange={_onChange}
+                onChange={_onChange as any}
                 alert={!!error}
             />
         </Form.Item>

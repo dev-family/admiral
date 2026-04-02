@@ -11,9 +11,10 @@ import { GetFiltersFormDataResult } from '../dataProvider'
 export type FiltersProps = {
     locale?: Locale
     fetchInitialData?: (urlState: Record<string, any>) => Promise<GetFiltersFormDataResult>
+    children?: React.ReactNode
 }
 
-export const Filters: React.FC<FiltersProps> = ({ locale, fetchInitialData, children }) => {
+export function Filters({ locale, fetchInitialData, children }: FiltersProps) {
     const {
         filterDrawer,
         setFilterDrawer,

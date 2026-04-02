@@ -1,8 +1,7 @@
-import { PickerMode } from 'rc-picker/lib/interface'
+import type { PickerMode, SharedTimeProps } from 'rc-picker/lib/interface'
 import { toArray } from './interfaces'
-import { SharedTimeProps } from 'rc-picker/lib/panels/TimePanel'
 
-export function getTimeProps<DateType>(
+export function getTimeProps<DateType extends object>(
     props: { format?: string; picker?: PickerMode } & SharedTimeProps<DateType>,
 ) {
     const { format, picker, showHour, showMinute, showSecond, use12Hours } = props

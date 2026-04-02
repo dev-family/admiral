@@ -83,11 +83,11 @@ export default {
 }
 
 function _toFormData(obj: Record<any, any>, form?: FormData, namespace?: string) {
-    let fd = form || new FormData()
+    const fd = form || new FormData()
     let formKey
 
-    for (let property in obj) {
-        if (obj.hasOwnProperty(property)) {
+    for (const property in obj) {
+        if (Object.hasOwn(obj, property)) {
             if (namespace) {
                 formKey = namespace + '[' + property + ']'
             } else {

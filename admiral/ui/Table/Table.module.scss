@@ -150,6 +150,22 @@ $table-class: 'admiral-table';
                 border-bottom-right-radius: var(--table-bottom-right-radius, var(--radius-m));
             }
 
+            // ========================= Measure Row ==========================
+            // rc-table 7.50+ renders column titles in measure cells for width
+            // calculation. Hide them visually while preserving width measurement.
+            &-measure-row {
+                > td,
+                > th {
+                    padding: 0 !important;
+                    border: 0 !important;
+                }
+            }
+
+            &-measure-cell-content {
+                height: 0;
+                overflow: hidden;
+            }
+
             &-tbody {
                 > tr {
                     transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)
@@ -269,7 +285,9 @@ $table-class: 'admiral-table';
                     border-left: 4px solid transparent;
                     border-right: 4px solid transparent;
                     opacity: 0.3;
-                    transition: opacity 0.2s, color 0.16s;
+                    transition:
+                        opacity 0.2s,
+                        color 0.16s;
 
                     &.active {
                         color: var(--color-control-bg-primary);

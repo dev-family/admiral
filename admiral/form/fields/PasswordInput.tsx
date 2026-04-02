@@ -11,20 +11,22 @@ export interface PasswordInputProps extends InputProps, FormItemProps {
     onChange?: (value: any) => void
 }
 
-export const PasswordInput: InputComponentWithName<React.FC<PasswordInputProps>> = ({
+export const PasswordInput: InputComponentWithName<
+    (props: PasswordInputProps) => React.JSX.Element
+> = function PasswordInput({
     name,
     label,
     required,
     columnSpan,
     onChange,
     ...inputProps
-}) => {
+}: PasswordInputProps) {
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
 
     const _onChange = useCallback(
-        (e) => {
+        (e: any) => {
             setValues((values: any) => ({ ...values, [name]: e.target.value }))
             onChange?.(e.target.value)
         },

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Admin, createRoutesFrom } from 'admiral'
 import menu from './config/menu'
 import dataProvider from './config/dataProvider'
@@ -10,7 +9,7 @@ import themeMaterialLight from './config/theme/material/themeMaterialLight'
 import themeMaterialDark from './config/theme/material/themeMaterialDark'
 
 const apiUrl = import.meta.env.VITE_API_URL || '/api'
-const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
+const Routes = createRoutesFrom(import.meta.glob('../pages/**/*', { eager: true }))
 
 function App() {
     return (

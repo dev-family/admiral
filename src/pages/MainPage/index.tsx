@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import cn from 'classnames'
 import { FiArrowUpRight } from 'react-icons/fi'
-import { Button, Card, Page } from '../../../admiral'
+import { Button, Card } from '../../../admiral'
 import image from '/images/main-page.svg'
 import twitterIcon from '/images/twitter.svg'
 import styles from './MainPage.module.scss'

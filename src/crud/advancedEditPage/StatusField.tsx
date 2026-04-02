@@ -1,7 +1,7 @@
 import { Select, useDataProvider } from '../../../admiral'
 import React, { useCallback, useState } from 'react'
 
-const StatusField: React.FC<{ resource: string; value?: boolean; id: number }> = ({
+const StatusField: React.FC<{ resource: string; value?: boolean; id: string | number }> = ({
     resource,
     value,
     id,
@@ -9,7 +9,7 @@ const StatusField: React.FC<{ resource: string; value?: boolean; id: number }> =
     const { update } = useDataProvider()
     const [active, setActive] = useState(value ?? false)
 
-    const updateData = useCallback((values) => {
+    const updateData = useCallback((values: any) => {
         return update(resource, { data: values, id })
     }, [])
 

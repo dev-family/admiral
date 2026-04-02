@@ -1,3 +1,4 @@
+import React from 'react'
 import * as Icons from 'react-icons/fi'
 import { BadgeProps } from '../Badge/interfaces'
 
@@ -11,7 +12,7 @@ export interface SubMenuProps {
 
 export type SubMenuChild = React.ReactElement<
     MenuItemLinkProps,
-    (props: MenuItemLinkProps) => JSX.Element
+    (props: MenuItemLinkProps) => React.JSX.Element
 >
 
 export interface MenuItemLinkProps {

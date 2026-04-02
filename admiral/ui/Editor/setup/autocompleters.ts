@@ -40,7 +40,7 @@ export function setupAutocompleters(
             minChars: minCharsToTrigger,
             columns,
             onAction: onAction,
-            fetch: (pattern) => {
+            fetch: (pattern: string) => {
                 return new Promise((resolve) => {
                     const filteredItems = filterOnInput ? getMatchedChars(items, pattern) : items
                     const results = filteredItems.map((item) => {

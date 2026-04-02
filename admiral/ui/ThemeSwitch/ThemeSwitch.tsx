@@ -1,9 +1,8 @@
-import React from 'react'
 import { useTheme } from '../../theme'
 import { FiSun, FiMoon } from 'react-icons/fi'
 import styles from './ThemeSwitch.module.scss'
 
-export const ThemeSwitch: React.FC = () => {
+export function ThemeSwitch() {
     const { themeName, setTheme } = useTheme()
 
     const handleChange = () => setTheme(themeName === 'light' ? 'dark' : 'light')

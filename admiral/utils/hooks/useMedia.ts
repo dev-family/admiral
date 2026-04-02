@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function useMedia(queries: string[], values: any[], defaultValue: any) {
     // Array containing a media query list for each query
@@ -20,9 +20,10 @@ export default function useMedia(queries: string[], values: any[], defaultValue:
             // ... current values of hook args (as this hook callback is created once on mount).
             const handler = () => setValue(getValue)
             // Set a listener for each media query with above handler as callback.
-            mediaQueryLists.forEach((mql) => mql.addListener(handler))
+            mediaQueryLists.forEach((mql) => mql.addEventListener('change', handler))
             // Remove listeners on cleanup
-            return () => mediaQueryLists.forEach((mql) => mql.removeListener(handler))
+            return () =>
+                mediaQueryLists.forEach((mql) => mql.removeEventListener('change', handler))
         },
         [], // Empty array ensures effect is only run on mount and unmount
     )

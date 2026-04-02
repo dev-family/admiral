@@ -31,7 +31,7 @@ type FieldProps<K extends keyof FieldMap> = {
     >
 }
 
-type RenderFunc<K extends keyof FieldMap> = (props: FieldMap[K]) => ReturnType<React.FC>
+type RenderFunc<K extends keyof FieldMap> = (props: FieldMap[K]) => React.ReactNode
 type RenderFuncMap = { [K in keyof FieldMap]: RenderFunc<K> }
 
 const fields: RenderFuncMap = {
@@ -79,9 +79,7 @@ export const TranslatableInput = <K extends keyof FieldMap>(
                 return {
                     ...values,
                     [name]: {
-                        ...(!values?.hasOwnProperty(name) || !values?.[name]
-                            ? forms
-                            : values[name]),
+                        ...(!(name in (values ?? {})) || !values?.[name] ? forms : values[name]),
                         ...newState,
                     },
                 }
@@ -102,10 +100,13 @@ export const TranslatableInput = <K extends keyof FieldMap>(
                     newState = value
                 }
 
-                const newStateErrors = Object.entries(newState).reduce((acc, [key, value]) => {
-                    acc[`${name}.${key}`] = value
-                    return acc
-                }, {} as Record<string, string[]>)
+                const newStateErrors = Object.entries(newState).reduce(
+                    (acc, [key, value]) => {
+                        acc[`${name}.${key}`] = value
+                        return acc
+                    },
+                    {} as Record<string, string[]>,
+                )
 
                 return {
                     ...errors,
@@ -166,16 +167,19 @@ const getFormErrors = (
     //   childFilter: string[],
     // }
 
-    return Object.entries(errors).reduce((acc, [key, value]) => {
-        //filter.(childFilter)
-        const reg = new RegExp(`^${name}\\.\(.+\)`)
-        const match = key.match(reg)
+    return Object.entries(errors).reduce(
+        (acc, [key, value]) => {
+            //filter.(childFilter)
+            const reg = new RegExp(`^${name}\\.(.+)`)
+            const match = key.match(reg)
 
-        if (match) {
-            const [, childFilter] = match
-            acc[childFilter] = { [childFilter]: value }
-        }
+            if (match) {
+                const [, childFilter] = match
+                acc[childFilter] = { [childFilter]: value }
+            }
 
-        return acc
-    }, {} as Record<string, Record<string, string[]>>)
+            return acc
+        },
+        {} as Record<string, Record<string, string[]>>,
+    )
 }

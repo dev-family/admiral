@@ -11,125 +11,132 @@ $prefix-class: 'drawer';
         }
     }
 
-    :global {
-        & .#{$prefix-class} {
-            position: fixed;
-            z-index: 1000;
-            width: 0%;
+    // ======================== Root Element ========================
+    // In rc-drawer 7, rootClassName is on the SAME element as prefixCls,
+    // so we use :global() compound selectors for root-level rules.
+
+    // --- Root element: general styles ---
+    &:global(.#{$prefix-class}) {
+        position: fixed;
+        z-index: 1000;
+        width: 0%;
+        height: 100%;
+        pointer-events: none;
+        transition:
+            width 0s ease 0.3s,
+            height 0s ease 0.3s;
+    }
+
+    // --- Root element: left/right placement ---
+    &:global(.#{$prefix-class}-left),
+    &:global(.#{$prefix-class}-right) {
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        :global(.#{$prefix-class}-content-wrapper) {
             height: 100%;
-            pointer-events: none;
-            transition: width 0s ease 0.3s, height 0s ease 0.3s;
-
-            &-left,
-            &-right {
-                top: 0;
-                width: 100%;
-                height: 100%;
-
-                .#{$prefix-class}-content-wrapper {
-                    height: 100%;
-                }
-
-                &.#{$prefix-class}-open {
-                    width: 100%;
-                    transition: transform 0.3s ease;
-                }
-            }
-
-            &-left {
-                left: 0;
-
-                .#{$prefix-class}-content- {
-                    left: 0;
-                }
-            }
-
-            &-right {
-                right: 0;
-
-                .#{$prefix-class}-content-wrapper {
-                    right: 0;
-                }
-            }
-
-            &-top,
-            &-bottom {
-                left: 0;
-                width: 100%;
-                height: 0%;
-
-                .#{$prefix-class}-content-wrapper {
-                    width: 100%;
-                }
-                &.#{$prefix-class}-open {
-                    height: 100%;
-                    transition: transform 0.3s ease;
-                }
-            }
-
-            &-top {
-                top: 0;
-            }
-
-            &-bottom {
-                bottom: 0;
-
-                .#{$prefix-class}-content-wrapper {
-                    bottom: 0;
-                }
-            }
-
-            &-open {
-                pointer-events: all;
-
-                .#{$prefix-class}-mask {
-                    // height: 100%;
-                    opacity: 1;
-                    transition: none;
-                    & :local {
-                        animation: drawerFadeIn 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-                    }
-                    pointer-events: auto;
-                }
-
-                .#{$prefix-class}-content-wrapper {
-                    opacity: 1;
-                    box-shadow: var(--shadow-modal);
-                    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0s 0s;
-                }
-            }
-            &-mask {
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 0;
-                width: 100%;
-                height: 100%;
-                background-color: var(--color-bg-tone);
-                opacity: 0;
-                transition: opacity 0.3s linear, height 0s ease 0.3s;
-                pointer-events: none;
-            }
-
-            &-content-wrapper {
-                position: absolute;
-                z-index: 1;
-                width: 100%;
-                height: 100%;
-                opacity: 0;
-                transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0s 0.3s;
-            }
-
-            &-content {
-                position: relative;
-                z-index: 1;
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                background-color: var(--color-bg-default);
-                border: 0;
-            }
         }
+    }
+
+    &:global(.#{$prefix-class}-left) {
+        left: 0;
+
+        :global(.#{$prefix-class}-content-wrapper) {
+            left: 0;
+        }
+    }
+
+    &:global(.#{$prefix-class}-right) {
+        right: 0;
+
+        :global(.#{$prefix-class}-content-wrapper) {
+            right: 0;
+        }
+    }
+
+    // --- Root element: top/bottom placement ---
+    &:global(.#{$prefix-class}-top),
+    &:global(.#{$prefix-class}-bottom) {
+        left: 0;
+        width: 100%;
+        height: 0%;
+
+        :global(.#{$prefix-class}-content-wrapper) {
+            width: 100%;
+        }
+    }
+
+    &:global(.#{$prefix-class}-top) {
+        top: 0;
+    }
+
+    &:global(.#{$prefix-class}-bottom) {
+        bottom: 0;
+
+        :global(.#{$prefix-class}-content-wrapper) {
+            bottom: 0;
+        }
+    }
+
+    // --- Root element: open state ---
+    &:global(.#{$prefix-class}-left.#{$prefix-class}-open),
+    &:global(.#{$prefix-class}-right.#{$prefix-class}-open) {
+        width: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    &:global(.#{$prefix-class}-top.#{$prefix-class}-open),
+    &:global(.#{$prefix-class}-bottom.#{$prefix-class}-open) {
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    &:global(.#{$prefix-class}-open) {
+        pointer-events: all;
+
+        :global(.#{$prefix-class}-mask) {
+            pointer-events: auto;
+        }
+
+        :global(.#{$prefix-class}-content-wrapper) {
+            box-shadow: var(--shadow-modal);
+        }
+    }
+
+    // ==================== Child Elements ====================
+    // Descendant selectors — these are actual children of .wrapper root.
+
+    :global(.#{$prefix-class}-mask) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--color-bg-tone);
+        pointer-events: none;
+    }
+
+    :global(.#{$prefix-class}-content-wrapper) {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+    }
+
+    :global(.#{$prefix-class}-content-wrapper-hidden) {
+        display: none;
+    }
+
+    :global(.#{$prefix-class}-content) {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: var(--color-bg-default);
+        border: 0;
     }
 
     .bodyWrapper {
@@ -201,12 +208,95 @@ $prefix-class: 'drawer';
     }
 }
 
-@keyframes drawerFadeIn {
-    0% {
+// ======================== Motion: mask ========================
+:global {
+    .drawer-mask-appear,
+    .drawer-mask-enter {
         opacity: 0;
     }
-
-    100% {
+    .drawer-mask-appear-active,
+    .drawer-mask-enter-active {
         opacity: 1;
+        transition: opacity 0.3s;
+    }
+    .drawer-mask-leave {
+        opacity: 1;
+    }
+    .drawer-mask-leave-active {
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    // ======================== Motion: panel ========================
+    // Right
+    .drawer-panel-right-appear,
+    .drawer-panel-right-enter {
+        transform: translateX(100%);
+    }
+    .drawer-panel-right-appear-active,
+    .drawer-panel-right-enter-active {
+        transform: translateX(0);
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .drawer-panel-right-leave {
+        transform: translateX(0);
+    }
+    .drawer-panel-right-leave-active {
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    // Left
+    .drawer-panel-left-appear,
+    .drawer-panel-left-enter {
+        transform: translateX(-100%);
+    }
+    .drawer-panel-left-appear-active,
+    .drawer-panel-left-enter-active {
+        transform: translateX(0);
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .drawer-panel-left-leave {
+        transform: translateX(0);
+    }
+    .drawer-panel-left-leave-active {
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    // Top
+    .drawer-panel-top-appear,
+    .drawer-panel-top-enter {
+        transform: translateY(-100%);
+    }
+    .drawer-panel-top-appear-active,
+    .drawer-panel-top-enter-active {
+        transform: translateY(0);
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .drawer-panel-top-leave {
+        transform: translateY(0);
+    }
+    .drawer-panel-top-leave-active {
+        transform: translateY(-100%);
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    // Bottom
+    .drawer-panel-bottom-appear,
+    .drawer-panel-bottom-enter {
+        transform: translateY(100%);
+    }
+    .drawer-panel-bottom-appear-active,
+    .drawer-panel-bottom-enter-active {
+        transform: translateY(0);
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .drawer-panel-bottom-leave {
+        transform: translateY(0);
+    }
+    .drawer-panel-bottom-leave-active {
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     }
 }

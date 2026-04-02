@@ -5,11 +5,10 @@ import {
 
 export interface PaginationLocale extends RcPaginationLocale {}
 
-export interface PaginationProps
-    extends Omit<
-        RcPaginationProps,
-        'prevIcon' | 'nextIcon' | 'jumpPrevIcon' | 'jumpNextIcon' | 'locale' | 'itemRender'
-    > {
+export interface PaginationProps extends Omit<
+    RcPaginationProps,
+    'prevIcon' | 'nextIcon' | 'jumpPrevIcon' | 'jumpNextIcon' | 'locale' | 'itemRender'
+> {
     size?: 'default' | 'small'
     locale?: PaginationLocale
 }

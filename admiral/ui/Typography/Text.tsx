@@ -1,11 +1,11 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import Base from './Base'
 import type { BlockProps } from './interfaces'
 
 export interface TextProps extends BlockProps {}
 
-const Text: React.ForwardRefRenderFunction<HTMLSpanElement, TextProps> = (props, ref) => {
+function Text({ ref, ...props }: TextProps & { ref?: React.Ref<HTMLSpanElement> }) {
     return <Base ref={ref} {...props} component="span" />
 }
 
-export default forwardRef(Text)
+export default Text

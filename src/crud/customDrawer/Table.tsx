@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { Table, TableColumnsType } from '../../../admiral'
-import parseISO from 'date-fns/parseISO'
-import format from 'date-fns/format'
+import { parseISO, format } from 'date-fns'
 
 export interface IReview {
     id: number | string
@@ -46,7 +45,7 @@ const columns: TableColumnsType<IReview> = [
 
 const CustomDrawerTable = () => {
     const data = useMemo(() => {
-        let result: IReview[] = []
+        const result: IReview[] = []
         for (let i = 1; i < 6; i++) {
             result.push({
                 id: i,

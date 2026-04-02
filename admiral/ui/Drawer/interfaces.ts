@@ -1,5 +1,3 @@
-import { tuple } from '../../../admiral/utils/type'
-
 export interface DrawerProps {
     resetScrollPositionOnClose?: boolean
     autoFocus?: boolean
@@ -25,8 +23,7 @@ export interface DrawerProps {
     children?: React.ReactNode
 }
 
-const PlacementTypes = tuple('top', 'right', 'bottom', 'left')
-type PlacementType = typeof PlacementTypes[number]
+type PlacementType = 'top' | 'right' | 'bottom' | 'left'
 
 type getContainerFunc = () => HTMLElement
 

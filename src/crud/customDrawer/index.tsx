@@ -13,6 +13,45 @@ import PageTopContent from '../../components/PageTopContent'
 export const path = '/crud-with-custom-drawer'
 export const resource = 'users'
 
+function RowActions({ record }: { record: IUser }) {
+    const [visible, setVisible] = useState(false)
+
+    const show = useCallback(() => {
+        setVisible(true)
+    }, [])
+
+    const close = useCallback(() => {
+        setVisible(false)
+    }, [])
+
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button onClick={show} type="button" view="clear" size="S" iconRight={<FiEye />} />
+            <Drawer
+                visible={visible}
+                onClose={close}
+                title={`View user with id #${record.id}`}
+                width={760}
+            >
+                <Tabs defaultActiveKey="1" type="card">
+                    <Tabs.TabPane tab="Info" key="1">
+                        <InfoTab name={record.name} avatar={record.avatar} />
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="Reviews" key="2">
+                        <Table />
+                    </Tabs.TabPane>
+                </Tabs>
+            </Drawer>
+
+            <EditAction
+                pathname={`${path}/${record.id}`}
+                behavior="backgroundRoute"
+                mainRoutePath={`${path}/:id`}
+            />
+        </div>
+    )
+}
+
 export const CRUD = createCRUD({
     path,
     resource,
@@ -25,41 +64,7 @@ export const CRUD = createCRUD({
             key: 'actions',
             fixed: 'right',
             width: 100,
-            render: (_value, record: IUser) => {
-                const [visible, show, close] = useDrawer()
-                return (
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <Button
-                            onClick={show}
-                            type="button"
-                            view="clear"
-                            size="S"
-                            iconRight={<FiEye />}
-                        />
-                        <Drawer
-                            visible={visible}
-                            onClose={close}
-                            title={`View user with id #${record.id}`}
-                            width={760}
-                        >
-                            <Tabs defaultActiveKey="1" type="card">
-                                <Tabs.TabPane tab="Info" key="1">
-                                    <InfoTab {...record} />
-                                </Tabs.TabPane>
-                                <Tabs.TabPane tab="Reviews" key="2">
-                                    <Table />
-                                </Tabs.TabPane>
-                            </Tabs>
-                        </Drawer>
-
-                        <EditAction
-                            pathname={`${path}/${record.id}`}
-                            behavior="backgroundRoute"
-                            mainRoutePath={`${path}/:id`}
-                        />
-                    </div>
-                )
-            },
+            render: (_value, record: IUser) => <RowActions record={record} />,
         },
     },
     filter: {
@@ -100,17 +105,3 @@ export const CRUD = createCRUD({
         />
     ),
 })
-
-const useDrawer = (): [boolean, () => void, () => void] => {
-    const [visible, setVisible] = useState(false)
-
-    const show = useCallback(() => {
-        setVisible(true)
-    }, [])
-
-    const close = useCallback(() => {
-        setVisible(false)
-    }, [])
-
-    return [visible, show, close]
-}

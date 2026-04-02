@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import EditorJS, { EditorConfig, OutputData } from '@editorjs/editorjs'
+import { EditorConfig, OutputData } from '@editorjs/editorjs'
 import { Form, FormItemProps, useForm } from '../../../../admiral'
 import '../editor.scss'
 import EditorJSInput from '../EditorJSField'
@@ -29,7 +29,7 @@ function EditorJSContainer({ name, label, required, columnSpan, ...rest }: Props
     }
 
     // prevent reopen when close picker by clicking on label
-    const onLabelClick = useCallback((e) => {
+    const onLabelClick = useCallback((e: any) => {
         e?.preventDefault()
     }, [])
 

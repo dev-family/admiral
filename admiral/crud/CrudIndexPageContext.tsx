@@ -7,7 +7,7 @@ import {
     CrudIndexPageValueType,
     FilterField,
 } from './IndexPageContext/interfaces'
-import { getSelectExtra, getTimePickerExtra } from './IndexPageContext/filterFieldExtra'
+import { getTimePickerExtra } from './IndexPageContext/filterFieldExtra'
 
 const PAGE_DEFAULT = '1'
 const PAGE_SIZE_DEFAULT = '10'
@@ -27,10 +27,13 @@ export const CrudIndexPageContext = createContext<CrudIndexPageValueType>({
     filter: { fields: [], options: {}, setFilterOptions: () => {} },
 })
 
-export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element }> = ({
+export function CrudIndexPageContextProvider({
     filterFields,
     children,
-}) => {
+}: {
+    filterFields?: React.JSX.Element
+    children?: React.ReactNode
+}) {
     const [filterDrawer, setFilterDrawer] = useState<boolean>(false)
     const [urlState, setUrlState] = useUrlState<CrudIndexUrlState>({
         page: '1',
@@ -41,12 +44,7 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
     const [filterOptions, setFilterOptions] = useState<RecordOptions>({})
 
     const getFilterChildType = (child: any) => {
-        switch (child.type.name) {
-            case INPUT_NAMES.ajaxSelectInput:
-                return child.type.name
-            default:
-                return child.type.inputName
-        }
+        return child.type.inputName
     }
 
     const _filterFields: FilterField[] = useMemo(() => {
@@ -64,20 +62,6 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
             })
             .map((child: any): FilterField => {
                 const type = getFilterChildType(child)
-                // As far as I understand, this logic is not needed here.
-                // We generate options for the selection components in advance, however,
-                // if a request to get data for filters from the server has not been executed by this time,
-                // the values will be displayed instead of labels.
-
-                // const selectExtra =
-                //     child.type.inputName === INPUT_NAMES.select ? getSelectExtra(child) : undefined
-                // if (selectExtra?.options) {
-                //     setFilterOptions((prev) => ({
-                //         ...prev,
-                //         [child.props.name]: selectExtra.options,
-                //     }))
-                // }
-
                 return {
                     name: child.props.name,
                     label: child.props.label,
@@ -111,19 +95,18 @@ export const CrudIndexPageContextProvider: React.FC<{ filterFields?: JSX.Element
         [urlState],
     )
 
-    return (
-        <CrudIndexPageContext.Provider
-            value={{
-                urlState: crudIndexUrlState,
-                setUrlState: setCrudIndexUrlState,
-                filterDrawer,
-                setFilterDrawer,
-                filter: { fields: _filterFields, options: filterOptions, setFilterOptions },
-            }}
-        >
-            {children}
-        </CrudIndexPageContext.Provider>
+    const value = useMemo(
+        () => ({
+            urlState: crudIndexUrlState,
+            setUrlState: setCrudIndexUrlState,
+            filterDrawer,
+            setFilterDrawer,
+            filter: { fields: _filterFields, options: filterOptions, setFilterOptions },
+        }),
+        [crudIndexUrlState, setCrudIndexUrlState, filterDrawer, _filterFields, filterOptions],
     )
+
+    return <CrudIndexPageContext.Provider value={value}>{children}</CrudIndexPageContext.Provider>
 }
 
 export function useCrudIndex() {

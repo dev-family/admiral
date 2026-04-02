@@ -1,36 +1,41 @@
-import React, {
-    useState,
-    useEffect,
-    forwardRef,
-    useRef,
-    memo,
-    useCallback,
-    ChangeEventHandler,
-} from 'react'
+import React, { useState, useEffect, useRef, memo, useCallback, ChangeEventHandler } from 'react'
 import omit from 'rc-util/lib/omit'
-import mergeRefs from 'react-merge-refs'
+import { useMergeRefs } from '@floating-ui/react'
 import TextareaAutosize from 'react-textarea-autosize'
-import throttle from 'lodash.throttle'
 import cn from 'classnames'
 import { TextareaProps } from './interfaces'
 import styles from './Textarea.module.scss'
 
-const Textarea = forwardRef((props: TextareaProps, textareaRef) => {
+function Textarea({ ref, ...props }: TextareaProps & { ref?: React.Ref<HTMLTextAreaElement> }) {
     const [key, setKey] = useState(Math.random())
     const { size = 'M', alert = false, borderless = false, onChange, disabled = false } = props
 
     useEffect(() => {
+        let timer: ReturnType<typeof setTimeout> | null = null
+        let lastCall = 0
         const handleResize = () => {
-            setKey(Math.random())
+            const now = Date.now()
+            const remaining = 300 - (now - lastCall)
+            if (remaining <= 0) {
+                lastCall = now
+                setKey(Math.random())
+            } else if (!timer) {
+                timer = setTimeout(() => {
+                    lastCall = Date.now()
+                    timer = null
+                    setKey(Math.random())
+                }, remaining)
+            }
         }
-        const throttled = throttle(handleResize, 300)
-        window.addEventListener('resize', throttled)
+        window.addEventListener('resize', handleResize)
         return () => {
-            window.removeEventListener('resize', throttled)
+            window.removeEventListener('resize', handleResize)
+            if (timer) clearTimeout(timer)
         }
     }, [])
 
-    const ref = useRef<HTMLTextAreaElement>(null)
+    const internalRef = useRef<HTMLTextAreaElement>(null)
+    const mergedRef = useMergeRefs([internalRef, ref ?? null])
 
     const [value, setValue] = useState(
         typeof props.value === 'undefined' ? props.defaultValue : props.value,
@@ -67,7 +72,7 @@ const Textarea = forwardRef((props: TextareaProps, textareaRef) => {
                 key={key}
                 cacheMeasurements
                 {...textareaProps}
-                ref={mergeRefs([ref, textareaRef])}
+                ref={mergedRef}
                 value={fixControlledValue(value)}
                 onChange={_onChange}
                 disabled={disabled}
@@ -75,7 +80,7 @@ const Textarea = forwardRef((props: TextareaProps, textareaRef) => {
             />
         </div>
     )
-})
+}
 
 export function fixControlledValue<T>(value: T) {
     if (typeof value === 'undefined' || value === null) {

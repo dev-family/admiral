@@ -11,31 +11,32 @@ export interface BooleanInputProps extends SwitchProps, FormItemProps {
     onChange?: (value: boolean) => void
 }
 
-export const BooleanInput: InputComponentWithName<React.FC<BooleanInputProps>> = ({
-    name,
-    label,
-    required,
-    columnSpan,
-    onChange,
-    ...switchProps
-}) => {
-    const { values, errors, setValues } = useForm()
-    const checked = values[name]
-    const error = errors[name]?.[0]
+export const BooleanInput: InputComponentWithName<(props: BooleanInputProps) => React.JSX.Element> =
+    function BooleanInput({
+        name,
+        label,
+        required,
+        columnSpan,
+        onChange,
+        ...switchProps
+    }: BooleanInputProps) {
+        const { values, errors, setValues } = useForm()
+        const checked = values[name]
+        const error = errors[name]?.[0]
 
-    const _onChange = useCallback(
-        (checked: boolean) => {
-            setValues((values: any) => ({ ...values, [name]: checked }))
-            onChange?.(checked)
-        },
-        [onChange],
-    )
+        const _onChange = useCallback(
+            (checked: boolean) => {
+                setValues((values: any) => ({ ...values, [name]: checked }))
+                onChange?.(checked)
+            },
+            [name, onChange],
+        )
 
-    return (
-        <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
-            <Switch {...switchProps} checked={checked} onChange={_onChange} />
-        </Form.Item>
-    )
-}
+        return (
+            <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
+                <Switch {...switchProps} checked={checked} onChange={_onChange} />
+            </Form.Item>
+        )
+    }
 
 BooleanInput.inputName = 'BooleanInput'

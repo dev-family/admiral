@@ -1,14 +1,14 @@
-import React, { forwardRef, memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import cn from 'classnames'
 import Radio from './Radio'
 import { ChoiceChangeEvent } from '../Choice/interfaces'
 import { RadioGroupProps } from './interfaces'
 import styles from './Radio.module.scss'
 
-const InternalRadioGroup: React.ForwardRefRenderFunction<HTMLDivElement, RadioGroupProps> = (
-    props,
+function InternalRadioGroup({
     ref,
-) => {
+    ...props
+}: RadioGroupProps & { ref?: React.Ref<HTMLDivElement> }) {
     const {
         options = [],
         defaultValue,
@@ -96,5 +96,5 @@ const InternalRadioGroup: React.ForwardRefRenderFunction<HTMLDivElement, RadioGr
     )
 }
 
-const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(InternalRadioGroup)
+const RadioGroup = InternalRadioGroup
 export default memo(RadioGroup) as typeof RadioGroup

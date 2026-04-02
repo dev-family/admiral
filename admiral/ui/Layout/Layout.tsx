@@ -8,7 +8,7 @@ import { useConfig } from '../../config/ConfigContext'
 import { useGetIdentity } from '../../auth'
 import cn from 'classnames'
 
-export const Layout: React.FC = ({ children }) => {
+export function Layout({ children }: { children?: React.ReactNode }) {
     const { collapsed } = useNav()
     const { logo, asideContent, menuPopupExtraComponents } = useConfig()
     const { loaded, identity } = useGetIdentity()

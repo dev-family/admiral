@@ -11,7 +11,7 @@ import { FilterField } from '../crud/IndexPageContext/interfaces'
 
 export type AppliedFiltersProps = {}
 
-export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
+export function AppliedFilters() {
     const {
         setUrlState,
         urlState: { filter },
@@ -54,7 +54,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     }
 
                     const optionName = options
-                        ? options.find((n) => n.value == value)?.label ?? value
+                        ? (options.find((n) => n.value == value)?.label ?? value)
                         : value
                     return label ? `${label}: ${optionName}` : optionName
                 }
@@ -117,10 +117,10 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
 
     return isFiltersVisible ? (
         <div className={styles.appliedFilters}>
-            {filters.map(({ name, label, type, value, extra }, idx) => {
+            {filters.map(({ name, label, type, value, extra }) => {
                 return value !== null && value !== undefined && value !== '' ? (
                     <Button
-                        key={type + idx}
+                        key={name}
                         type="button"
                         iconRight={
                             <FiX
@@ -134,7 +134,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                         {renderName(name, type, value, label, extra)}
                     </Button>
                 ) : (
-                    <React.Fragment key={type + idx}></React.Fragment>
+                    <React.Fragment key={name}></React.Fragment>
                 )
             })}
         </div>

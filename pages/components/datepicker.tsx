@@ -9,9 +9,7 @@ import {
     YearPicker,
     PickerLocale,
 } from '../../admiral'
-import parseISO from 'date-fns/parseISO'
-import isBefore from 'date-fns/isBefore'
-import endOfToday from 'date-fns/endOfToday'
+import { parseISO, isBefore, endOfToday } from 'date-fns'
 import CalendarLocale from 'rc-picker/lib/locale/es_ES'
 
 const locale: PickerLocale = {
@@ -41,11 +39,11 @@ function range(start: number, end: number) {
 export default function DatePickerPage() {
     const [value, setValue] = useState<Date | null>(parseISO('2022-02-08'))
 
-    function onChange(date: Date | null, dateString: string) {
+    function onChange(date: any, dateString: any) {
         console.log(date, dateString)
     }
 
-    function onChangeControlled(date: Date | null, dateString: string) {
+    function onChangeControlled(date: any, dateString: any) {
         console.log(date?.toISOString(), dateString)
         setValue(date)
     }

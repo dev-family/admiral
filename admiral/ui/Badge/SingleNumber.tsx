@@ -73,8 +73,6 @@ export default function SingleNumber(props: SingleNumberProps) {
             transition: 'none',
         }
     } else {
-        unitNodes = []
-
         // Fill basic number units
         const end = value + 10
         const unitNumberList: number[] = []

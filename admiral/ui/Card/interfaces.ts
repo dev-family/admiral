@@ -1,11 +1,8 @@
 import React from 'react'
-import { tuple } from '../../utils/type'
 
-const cardSpaces = tuple('m', 'xs', 's', 'l', 'xl', '2xl', '3xl', '4xl', '5xl')
-export type CardSpaceType = typeof cardSpaces[number]
+export type CardSpaceType = 'm' | 'xs' | 's' | 'l' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl'
 
-const cardForms = tuple('round', 'square')
-export type CardFormType = typeof cardForms[number]
+export type CardFormType = 'round' | 'square'
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string

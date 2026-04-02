@@ -23,11 +23,10 @@ export type DataTableProps<RecordType> = {
     autoupdateTime?: number
 }
 
-export interface DataTableConfig<RecordType>
-    extends Pick<
-        TableProps<RecordType>,
-        'dndRows' | 'showSorterTooltip' | 'bordered' | 'size' | 'title' | 'footer'
-    > {
+export interface DataTableConfig<RecordType> extends Pick<
+    TableProps<RecordType>,
+    'dndRows' | 'showSorterTooltip' | 'bordered' | 'size' | 'title' | 'footer'
+> {
     rowSelection?: DataTableRowSelectionConfig<RecordType>
     autoupdateTime?: number
 }
@@ -102,9 +101,11 @@ export function DataTable<RecordType extends { id: number | string }>({
                 filter: state.filter,
             })
 
-            setData(response.items as any)
+            setData(response.items as RecordType[])
             setTotal(response.meta.total)
-        } catch (error) {}
+        } catch (error) {
+            console.error(`[Admiral] Failed to fetch "${resource}":`, error)
+        }
         setLoading(false)
     }
 
@@ -144,7 +145,7 @@ export function DataTable<RecordType extends { id: number | string }>({
         }
     }, [shouldUpdate])
 
-    const timerRef = useRef<NodeJS.Timeout | undefined>()
+    const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
     const clearTimer = () => {
         if (timerRef.current) {
@@ -179,7 +180,8 @@ export function DataTable<RecordType extends { id: number | string }>({
         }
         if (extra.action === 'sort') {
             const { columnKey, order } = sorter
-            const sort = columnKey && order ? { sort: { [columnKey]: order } } : { sort: {} }
+            const sort =
+                columnKey && order ? { sort: { [String(columnKey)]: order } } : { sort: {} }
             setUrlState((prev) => ({ ...prev, sort }))
         }
     }
@@ -192,10 +194,10 @@ export function DataTable<RecordType extends { id: number | string }>({
     }, [columns])
 
     const onDragEnd: TableProps<RecordType>['onDragEnd'] = useCallback(
-        ({ active, over }) => {
+        ({ active, over }: { active: any; over: any }) => {
             const prevId = active?.id
             const nextId = over?.id
-            let prevData = data
+            const prevData = data
             const getIndex = (id: number | string) => data.findIndex((item) => item.id == id)
             if (prevId && nextId && prevId != nextId) {
                 const prevIdx = getIndex(prevId)
@@ -271,8 +273,10 @@ export function DataTable<RecordType extends { id: number | string }>({
         ...paginationLocale
     } = locale?.pagination ?? {}
 
+    const dataTableContextValue = useMemo(() => ({ refresh }), [refresh])
+
     return (
-        <DataTableContextProvider value={{ refresh }}>
+        <DataTableContextProvider value={dataTableContextValue}>
             <Table
                 {...tableConfig}
                 {...rowSelectionAndTitleConfig}

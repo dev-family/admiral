@@ -1,4 +1,4 @@
-import { OptionType, RecordOptions } from '../../dataProvider/interfaces'
+import { RecordOptions } from '../../dataProvider/interfaces'
 import { FormInputType } from '../../form/interfaces'
 import { SortOrder } from '../../ui/Table/interfaces'
 
@@ -33,8 +33,4 @@ export type FilterField = {
 
 export type TimePickerExtra = {
     format: string
-}
-
-export type SelectExtra = {
-    options: OptionType[]
 }

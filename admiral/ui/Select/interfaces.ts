@@ -19,17 +19,17 @@ export interface SelectProps<
     ValueType = any,
     OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType,
 > extends Omit<
-        RcSelectProps<ValueType, OptionType>,
-        | 'mode'
-        | 'getInputElement'
-        | 'getRawInputElement'
-        | 'backfill'
-        | 'inputIcon'
-        | 'clearIcon'
-        | 'removeIcon'
-        | 'menuItemSelectedIcon'
-        | 'prefixCls'
-    > {
+    RcSelectProps<ValueType, OptionType>,
+    | 'mode'
+    | 'getInputElement'
+    | 'getRawInputElement'
+    | 'backfill'
+    | 'inputIcon'
+    | 'clearIcon'
+    | 'removeIcon'
+    | 'menuItemSelectedIcon'
+    | 'prefixCls'
+> {
     size?: SelectSizeType
     mode?: 'multiple' | 'tags'
     borderless?: boolean

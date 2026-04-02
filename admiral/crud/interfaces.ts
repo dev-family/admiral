@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
 import { ColumnsType, ColumnType } from '../ui/Table/interfaces'
 import { DataTableConfig } from '../dataTable'
 import { DrawerProps } from '../ui/Drawer/interfaces'
@@ -25,7 +25,7 @@ export type CRUDFormEdit = CRUDForm
 
 export type CRUDFilter = {
     topToolbarButtonText: string
-    fields: JSX.Element
+    fields: React.JSX.Element
     /**
      * #### Add the 'name' keys to the array from filter.fields, if you want to make the filters quick.
      *

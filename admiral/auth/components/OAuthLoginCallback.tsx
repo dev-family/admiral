@@ -1,38 +1,36 @@
 import React, { useCallback, useEffect } from 'react'
 import { defaultAuthParams, useAuthProvider } from '../AuthContext'
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { OAuthProvidersEnum } from '../interfaces'
-import { RouterLocationState } from '../../router/interfaces'
 
-export const OAuthLoginCallback: React.FC = () => {
+export function OAuthLoginCallback() {
     const authProvider = useAuthProvider()
-    const history = useHistory<RouterLocationState>()
-    const match = useRouteMatch<{ provider: OAuthProvidersEnum }>()
+    const navigate = useNavigate()
+    const { provider } = useParams() as { provider: OAuthProvidersEnum }
 
-    const provider = match.params.provider
     const data = new URLSearchParams(useLocation().search).toString()
 
     const oauthLogin = useCallback(
-        (provider, data) =>
+        (provider: OAuthProvidersEnum, data: string) =>
             !!authProvider.oauthCallback &&
             authProvider
                 .oauthCallback(provider, data)
                 .then((res: any) => {
                     const redirectUrl = defaultAuthParams.afterLoginUrl
 
-                    history.push(redirectUrl)
+                    navigate(redirectUrl)
                     return res
                 })
                 .catch(() => {
-                    history.push(defaultAuthParams.loginUrl)
+                    navigate(defaultAuthParams.loginUrl)
                     return Promise.reject()
                 }),
-        [authProvider, history, provider, data],
+        [authProvider, navigate, provider, data],
     )
 
     useEffect(() => {
         oauthLogin(provider, data)
-    })
+    }, [])
 
     return <></>
 }

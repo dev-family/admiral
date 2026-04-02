@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { useTheme } from '../../theme'
 import { FiX } from 'react-icons/fi'
 import RcDialog from 'rc-dialog'
@@ -6,7 +6,7 @@ import cn from 'classnames'
 import type { DialogProps } from './interfaces'
 import styles from './Dialog.module.scss'
 
-export const Dialog: React.FC<DialogProps> = (props) => {
+export function Dialog(props: DialogProps) {
     const { visible, onClose, title, children, ...restProps } = props
 
     const getContainer = useCallback(() => document.querySelector('body') as HTMLBodyElement, [])
@@ -40,5 +40,3 @@ export const Dialog: React.FC<DialogProps> = (props) => {
         </RcDialog>
     )
 }
-
-Dialog.defaultProps = {}

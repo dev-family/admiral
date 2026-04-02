@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 export default function useControlledState<T, R = T>(
     defaultStateValue: T | (() => T),
@@ -15,10 +15,10 @@ export default function useControlledState<T, R = T>(
             return value
         }
         if (defaultValue !== undefined) {
-            return typeof defaultValue === 'function' ? (defaultValue as any)() : defaultValue
+            return typeof defaultValue === 'function' ? (defaultValue as () => T)() : defaultValue
         }
         return typeof defaultStateValue === 'function'
-            ? (defaultStateValue as any)()
+            ? (defaultStateValue as () => T)()
             : defaultStateValue
     })
 

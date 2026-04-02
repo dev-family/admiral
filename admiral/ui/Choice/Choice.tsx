@@ -1,13 +1,13 @@
-import React, { forwardRef, useState, memo, useRef, useEffect } from 'react'
-import mergeRefs from 'react-merge-refs'
+import React, { useState, memo, useRef, useEffect } from 'react'
+import { useMergeRefs } from '@floating-ui/react'
 import cn from 'classnames'
 import styles from './Choice.module.scss'
 import { ChoiceProps } from './interfaces'
 
-const InternalChoice: React.ForwardRefRenderFunction<HTMLInputElement, ChoiceProps> = (
-    props,
-    outerRef,
-) => {
+function InternalChoice({
+    ref: outerRef,
+    ...props
+}: ChoiceProps & { ref?: React.Ref<HTMLInputElement> }) {
     const {
         checked: checkedFromProps,
         defaultChecked: defaultCheckedFromProps = false,
@@ -23,6 +23,7 @@ const InternalChoice: React.ForwardRefRenderFunction<HTMLInputElement, ChoicePro
 
     const [checked, setChecked] = useState(checkedFromProps ?? defaultCheckedFromProps)
     const ref = useRef<HTMLInputElement>(null)
+    const mergedRef = useMergeRefs([ref, outerRef ?? null])
 
     useEffect(() => {
         if (typeof checkedFromProps === 'boolean' && checkedFromProps !== checked) {
@@ -63,7 +64,7 @@ const InternalChoice: React.ForwardRefRenderFunction<HTMLInputElement, ChoicePro
                 {...restProps}
                 type={type}
                 checked={checked}
-                ref={mergeRefs([ref, outerRef])}
+                ref={mergedRef}
                 className={cn(styles.input, classNames?.input)}
                 onChange={_onChange}
                 disabled={disabled}
@@ -73,5 +74,5 @@ const InternalChoice: React.ForwardRefRenderFunction<HTMLInputElement, ChoicePro
     )
 }
 
-const Choice = forwardRef<HTMLInputElement, ChoiceProps>(InternalChoice)
+const Choice = InternalChoice
 export default memo(Choice) as typeof Choice

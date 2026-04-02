@@ -199,7 +199,9 @@ $transition-dur: '0.16s';
                     height: var(--ink-bar-size);
 
                     &-animated {
-                        transition: width #{$transition-dur}, left #{$transition-dur},
+                        transition:
+                            width #{$transition-dur},
+                            left #{$transition-dur},
                             right #{$transition-dur};
                     }
                 }
@@ -290,7 +292,9 @@ $transition-dur: '0.16s';
                     width: var(--ink-bar-size);
 
                     &-animated {
-                        transition: height #{$transition-dur}, top #{$transition-dur};
+                        transition:
+                            height #{$transition-dur},
+                            top #{$transition-dur};
                     }
                 }
 
@@ -528,6 +532,10 @@ $transition-dur: '0.16s';
             flex: none;
             width: 100%;
             outline: none;
+
+            &-hidden {
+                display: none;
+            }
         }
     }
 }

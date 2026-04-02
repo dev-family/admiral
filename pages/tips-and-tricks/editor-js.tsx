@@ -1,5 +1,5 @@
 import React from 'react'
-import { Page, TextInput, Typography } from '../../admiral'
+import { Page, Typography } from '../../admiral'
 import { EditorJSInput } from '../../src/components/EditorJS'
 import PageTopContent from '../../src/components/PageTopContent'
 

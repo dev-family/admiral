@@ -2,8 +2,10 @@ import type { SwitchChangeEventHandler, SwitchClickEventHandler } from 'rc-switc
 
 export type SwitchSizeType = 'S' | 'M' | 'L'
 
-export interface SwitchProps
-    extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onChange' | 'onClick'> {
+export interface SwitchProps extends Omit<
+    React.HTMLAttributes<HTMLButtonElement>,
+    'onChange' | 'onClick'
+> {
     size?: SwitchSizeType
     className?: string
     prefixCls?: string

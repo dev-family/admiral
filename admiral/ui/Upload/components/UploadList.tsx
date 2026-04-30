@@ -81,7 +81,6 @@ function SortableUploadItem({
         <div
             ref={setNodeRef}
             {...attributes}
-            {...listeners}
             className={cn(styles.droppable__item, {
                 [styles['droppable__item--text_type']]: listType === 'text',
                 [styles['droppable__item--picture_card']]: listType === 'picture-card',
@@ -102,6 +101,8 @@ function SortableUploadItem({
                 onClose={onClose}
                 onPreview={onPreview}
                 onDownload={onDownload}
+                showDragHandle={!isDragDisabled}
+                dragListeners={listeners}
             />
         </div>
     )

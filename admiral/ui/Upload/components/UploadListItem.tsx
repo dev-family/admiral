@@ -10,6 +10,7 @@ import { useTheme } from '../../../theme'
 import { internalDownloadFile } from '../../../utils/helpers'
 import { UploadFile } from '../interfaces'
 import { Dialog } from '../../Dialog'
+import { DragHandle } from '../../DragHandle'
 
 function ListItem({
     ref,
@@ -25,6 +26,8 @@ function ListItem({
     onClose,
     onPreview,
     onDownload,
+    dragListeners,
+    showDragHandle,
 }: ListItemProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { themeName, themeClassNames } = useTheme()
     const [visible, setVisible] = useState(false)
@@ -125,6 +128,7 @@ function ListItem({
                     [styles.item_Content__PictureCard]: listType === 'picture-card',
                 })}
             >
+                {showDragHandle && <DragHandle listeners={dragListeners} />}
                 <ListItemThumb isImgUrl={isImgUrl} listType={listType} file={file} />
                 {preview}
             </div>

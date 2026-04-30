@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
-import { DragHandle } from './DragHandle'
+import { DragHandle } from '../../DragHandle'
 
 export function DraggableRow(props: any) {
     const id = props['data-row-key']?.toString()

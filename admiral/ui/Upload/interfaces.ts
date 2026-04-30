@@ -133,4 +133,6 @@ export interface ListItemProps {
     onClose: (file: UploadFile) => void
     onPreview: (e: React.MouseEvent, file: UploadFile) => void
     onDownload?: (file: UploadFile) => void
+    dragListeners?: Record<string, unknown>
+    showDragHandle?: boolean
 }

@@ -16,6 +16,7 @@
 
     &__item {
         margin: 0 0 8px;
+        position: relative;
 
         &--dragged {
             filter: brightness(90%);
@@ -28,6 +29,13 @@
         &--text_type {
             margin: 0 0 2px;
         }
+    }
+
+    &__dragHandle {
+        // position: absolute;
+        // top: 4px;
+        // left: 4px;
+        // z-index: 2;
     }
 }
 
@@ -244,7 +252,9 @@ $item-height: calc(var(--control-height-m) + #{$item-padding}* 2);
             background: var(--color-control-bg-clear);
             border: 1px dashed var(--color-control-bg-border-default);
             border-radius: var(--control-radius);
-            transition: border-color 0.2s ease, background-color 0.2s ease;
+            transition:
+                border-color 0.2s ease,
+                background-color 0.2s ease;
             cursor: pointer;
 
             &-hover,

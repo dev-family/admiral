@@ -15,7 +15,11 @@
         var(--input-bcolor, var(--color-control-bg-border-default));
     border-radius: var(--input-bradius, var(--control-radius));
     background: var(--input-bg, var(--color-control-bg-default));
-    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, filter 0.16s;
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background-color 0.2s ease,
+        filter 0.16s;
 
     &:hover,
     &:focus-within {
@@ -122,7 +126,9 @@
     margin-right: var(--input-pr);
     color: var(--color-control-typo-placeholder);
     overflow: hidden;
-    transition: transform 0.16s, color 0.16s;
+    transition:
+        transform 0.16s,
+        color 0.16s;
 
     svg {
         width: 16px;

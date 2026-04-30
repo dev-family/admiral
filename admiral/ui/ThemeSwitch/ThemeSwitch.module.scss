@@ -7,7 +7,9 @@
     color: var(--color-control-typo-clear);
     background-color: var(--color-control-bg-clear);
     border-radius: var(--control-radius);
-    transition: color 0.2s, background-color 0.2s;
+    transition:
+        color 0.2s,
+        background-color 0.2s;
 
     &:hover {
         color: var(--color-control-typo-clear-hover);

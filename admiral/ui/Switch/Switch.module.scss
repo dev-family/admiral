@@ -18,7 +18,9 @@ $prefix-class: 'switch';
     border-radius: 100px;
     cursor: pointer;
     user-select: none;
-    transition: border-color 0.16s, background-color 0.16s;
+    transition:
+        border-color 0.16s,
+        background-color 0.16s;
 
     &:hover {
         --border-color: var(--color-control-bg-border-default-hover);
@@ -76,7 +78,9 @@ $prefix-class: 'switch';
                 width: var(--handle-size);
                 height: var(--handle-size);
                 transform: translateX(calc(var(--handle-size) * -1));
-                transition: transform 0.16s, background-color 0.16s;
+                transition:
+                    transform 0.16s,
+                    background-color 0.16s;
 
                 &::before {
                     content: '';
@@ -106,11 +110,15 @@ $prefix-class: 'switch';
 
 @keyframes animFocus {
     from {
-        box-shadow: 0 0 0 0 var(--color-control-bg-focus), 0 0 0 0 var(--color-control-bg-active);
+        box-shadow:
+            0 0 0 0 var(--color-control-bg-focus),
+            0 0 0 0 var(--color-control-bg-active);
     }
 
     to {
-        box-shadow: 0 0 0 1px var(--color-control-bg-focus), 0 0 0 3px transparent;
+        box-shadow:
+            0 0 0 1px var(--color-control-bg-focus),
+            0 0 0 3px transparent;
     }
 }
 

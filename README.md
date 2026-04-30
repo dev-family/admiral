@@ -247,7 +247,6 @@ Pass CSS presets to `Admin`:
 ```tsx
 import themeLight from './theme/presets/themeLight'
 import themeDark from './theme/presets/themeDark'
-
 ;<Admin themePresets={{ light: themeLight, dark: themeDark }}>
     <Routes />
 </Admin>

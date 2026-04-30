@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, cloneElement, isValidElement } from 'react'
+import React, { useRef, useState, useCallback, cloneElement } from 'react'
 import { createPortal } from 'react-dom'
 import {
     useFloating,

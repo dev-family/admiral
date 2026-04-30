@@ -5,7 +5,10 @@
         border: 1px solid var(--editor-bcolor, var(--color-control-bg-border-default));
         border-radius: var(--editor-bradius, var(--control-radius));
         background-color: var(--editor-bg, var(--color-bg-default));
-        transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease,
+        transition:
+            border-color 0.2s ease,
+            color 0.2s ease,
+            background-color 0.2s ease,
             filter 0.16s;
 
         &.tox.tox-fullscreen {
@@ -78,7 +81,10 @@
             color: var(--color-control-typo-clear);
             background-color: var(--color-control-bg-clear);
             border-radius: var(--control-radius);
-            transition: background-color 0.15s ease, color 0.15s ease, fill 0.15s ease;
+            transition:
+                background-color 0.15s ease,
+                color 0.15s ease,
+                fill 0.15s ease;
 
             &:hover,
             &:active,
@@ -233,7 +239,10 @@
             border: 1px solid var(--color-control-bg-border-default);
             border-radius: var(--control-radius);
             background: var(--color-control-bg-default);
-            transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease,
+            transition:
+                border-color 0.2s ease,
+                color 0.2s ease,
+                background-color 0.2s ease,
                 filter 0.16s;
 
             &:hover:not(:disabled) {

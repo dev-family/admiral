@@ -104,7 +104,10 @@
     height: 100%;
     width: 100%;
     max-width: 95px;
-    transition: opacity 0.2s, width 0.2s, height 0.2s;
+    transition:
+        opacity 0.2s,
+        width 0.2s,
+        height 0.2s;
 
     img,
     svg {
@@ -171,7 +174,9 @@
     opacity: 0;
     cursor: pointer;
     background: 0 0;
-    transition: visibility 0s 0.15s, opacity 0.15s ease;
+    transition:
+        visibility 0s 0.15s,
+        opacity 0.15s ease;
     -ms-scroll-chaining: none;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
@@ -182,7 +187,9 @@
             opacity: 1;
             visibility: visible;
             transition: none;
-            transition: visibility 0s, opacity 0.15s ease;
+            transition:
+                visibility 0s,
+                opacity 0.15s ease;
 
             .modal_Layout {
                 opacity: 1;

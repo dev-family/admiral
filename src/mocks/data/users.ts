@@ -134,8 +134,8 @@ export class UserList {
             ...data,
             id: newId,
             key: newId,
-            schedule: [],
-            active: false,
+            schedule: Array.isArray(data.schedule) ? data.schedule : [],
+            active: data.active ?? false,
         }
 
         this.users = [newUser, ...this.users]

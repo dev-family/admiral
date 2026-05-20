@@ -6,7 +6,6 @@ $size-notification-content: 400px;
     --close-width: 32px;
     --close-icon-width: 16px;
     --color-close-icon: #787878;
-
     position: fixed;
     z-index: 1001;
 
@@ -48,19 +47,29 @@ $size-notification-content: 400px;
 :global {
     .#{$prefix}-fade {
         overflow: hidden;
+    }
+
+    // Leave animation uses inline height/opacity/margin changes — needs transition active from the start.
+    .#{$prefix}-fade-leave {
         transition: all 0.3s;
     }
 
+    // Appear/enter: snap to invisible without transition so no 1→0 flicker if the
+    // STATUS_NONE frame is painted before useLayoutEffect sets STATUS_APPEAR.
     .#{$prefix}-fade-appear,
-    .#{$prefix}-fade-enter,
+    .#{$prefix}-fade-enter {
+        opacity: 0;
+    }
+
     .#{$prefix}-fade-leave.#{$prefix}-fade-leave-active {
         opacity: 0;
     }
 
-    .#{$prefix}-fade-leave,
+    // Active states enable the transition so opacity/transform animate in.
     .#{$prefix}-fade-appear.#{$prefix}-fade-appear-active,
     .#{$prefix}-fade-enter.#{$prefix}-fade-enter-active {
         opacity: 1;
+        transition: all 0.3s;
     }
 
     .#{$prefix}-top {

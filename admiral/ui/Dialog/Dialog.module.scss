@@ -3,11 +3,6 @@
 
 $prefix-class: 'dialog';
 
-%effect {
-    animation-duration: 0.3s;
-    animation-fill-mode: both;
-}
-
 .wrapper {
     color: var(--color-typo-primary);
 
@@ -80,7 +75,8 @@ $prefix-class: 'dialog';
                 }
             }
 
-            &-content {
+            // rc-dialog v10 renamed dialog-content → dialog-section
+            &-section {
                 position: relative;
                 overflow: auto;
                 border-radius: var(--radius-m);
@@ -96,9 +92,6 @@ $prefix-class: 'dialog';
                 width: 100%;
                 height: 100%;
                 background-color: var(--color-bg-tone);
-                transition:
-                    transform 0.3s ease,
-                    height 0s ease 0.3s;
                 pointer-events: none;
             }
 
@@ -107,97 +100,59 @@ $prefix-class: 'dialog';
                 margin: $padding auto;
             }
 
+            // rc-motion uses a prepare → start (transition:none inline) → active step sequence.
+            // CSS transitions are the correct approach: initial state on *-appear/*-enter,
+            // final state + transition property on *-appear-active/*-enter-active.
+            // rc-motion injects `transition: none` inline during the start step so the browser
+            // commits the initial state before the active step removes it and fires the transition.
+
             &-fade-slide-enter,
             &-fade-slide-appear {
                 opacity: 0;
-                @extend %effect;
-                animation-play-state: paused;
+                transform: translateY(-50px);
+            }
+
+            &-fade-slide-enter-active,
+            &-fade-slide-appear-active {
+                opacity: 1;
+                transform: translateY(0);
+                transition:
+                    opacity 0.3s ease,
+                    transform 0.3s ease;
             }
 
             &-fade-slide-leave {
-                @extend %effect;
-                animation-play-state: paused;
+                opacity: 1;
+                transform: translateY(0);
+                transition:
+                    opacity 0.3s ease,
+                    transform 0.3s ease;
             }
 
-            &-fade-slide-enter.#{$prefix-class}-fade-slide-enter-active,
-            &-fade-slide-appear.#{$prefix-class}-fade-slide-appear-active {
-                & :local {
-                    animation-name: dialogSlideIn;
-                }
-                animation-play-state: running;
-            }
-
-            &-fade-slide-leave.#{$prefix-class}-fade-slide-leave-active {
-                & :local {
-                    animation-name: dialogSlideOut;
-                }
-                animation-play-state: running;
+            &-fade-slide-leave-active {
+                opacity: 0;
+                transform: translateY(-50px);
             }
 
             &-fade-enter,
             &-fade-appear {
                 opacity: 0;
-                @extend %effect;
-                animation-play-state: paused;
+            }
+
+            &-fade-enter-active,
+            &-fade-appear-active {
+                opacity: 1;
+                transition: opacity 0.3s ease;
             }
 
             &-fade-leave {
-                @extend %effect;
-                animation-play-state: paused;
+                opacity: 1;
+                transition: opacity 0.3s ease;
             }
 
-            &-fade-enter.#{$prefix-class}-fade-enter-active,
-            &-fade-appear.#{$prefix-class}-fade-appear-active {
-                & :local {
-                    animation-name: dialogFadeIn;
-                }
-                animation-play-state: running;
-            }
-
-            &-fade-leave.#{$prefix-class}-fade-leave-active {
-                & :local {
-                    animation-name: dialogFadeOut;
-                }
-                animation-play-state: running;
+            &-fade-leave-active {
+                opacity: 0;
             }
         }
-    }
-}
-
-@keyframes dialogFadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes dialogFadeOut {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-@keyframes dialogSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-@keyframes dialogSlideOut {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-50px);
     }
 }

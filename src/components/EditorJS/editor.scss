@@ -3,7 +3,6 @@ $border-r: var(--control-radius);
 
 .ce-inline-toolbar,
 .ce-popover,
-.ce-conversion-toolbar,
 .cdx-input {
     color: var(--color-typo-primary);
     background: var(--color-bg-default);
@@ -22,23 +21,6 @@ $border-r: var(--control-radius);
         @media (min-width: 651px) {
             margin: 0 0 0 var(--space-4xl);
             max-width: 100%;
-        }
-    }
-}
-
-//=================== conversion-toolbar ====================
-
-.ce-conversion-toolbar {
-    &__label {
-        color: var(--color-typo-primary);
-    }
-}
-
-.ce-conversion-tool {
-    &:hover {
-        background-color: var(--color-control-bg-clear-hover);
-        .ce-conversion-tool__icon {
-            border-color: var(--color-control-bg-border-default-hover);
         }
     }
 }
@@ -122,40 +104,37 @@ $border-r: var(--control-radius);
 }
 
 // ============ popover ===========
+// EditorJS 2.28+ uses flat class names: ce-popover-item (was ce-popover__item)
 .ce-popover {
     padding: var(--space-s) var(--space-m);
-    &__item {
-        &:hover:not(.ce-popover__item--no-visible-hover) {
+
+    .ce-popover-item {
+        border-radius: $border-r;
+
+        &:hover:not(.ce-popover-item--no-hover) {
             background-color: var(--color-control-bg-clear-hover);
-            .ce-popover__item-icon {
+
+            .ce-popover-item__icon {
                 border-color: var(--color-control-bg-border-default-hover);
             }
         }
-        &-item {
-            background-color: inherit;
-        }
-        &-icon {
-            background-color: transparent;
-            box-shadow: none;
-            border: var(--control-border-width) solid var(--color-control-bg-border-default);
-            border-radius: var(--control-radius);
-            transition: border-color 0.2s ease;
-        }
+
         &--confirmation {
             background-color: var(--color-bg-alert);
 
-            .ce-popover__item-icon {
+            .ce-popover-item__icon {
                 color: #ffffff;
             }
 
             &:not(.ce-popover-item--no-hover) {
                 &:hover {
-                    .ce-popover__item-icon,
-                    .ce-popover__item-label {
+                    .ce-popover-item__icon,
+                    .ce-popover-item__title {
                         color: var(--color-control-typo-secondary-hover);
                     }
                 }
             }
+
             &:not(.ce-popover-item--no-focus) {
                 &.ce-popover-item--focused {
                     background: var(--color-background-item-confirm-hover) !important;
@@ -167,10 +146,20 @@ $border-r: var(--control-radius);
             background-color: transparent;
             color: var(--color-control-typo-secondary);
         }
+
+        &__icon {
+            background-color: transparent;
+            box-shadow: none;
+            border: var(--control-border-width) solid var(--color-control-bg-border-default);
+            border-radius: var(--control-radius);
+            transition: border-color 0.2s ease;
+        }
     }
 
-    &__nothing-found-message {
-        color: var(--color-control-typo-placeholder);
+    .ce-popover-item-separator {
+        &__line {
+            border-color: var(--color-control-bg-border-default);
+        }
     }
 }
 
@@ -217,15 +206,13 @@ $border-r: var(--control-radius);
 }
 
 // ============ common styles =============
-.ce-conversion-tool--focused,
-.ce-popover__item--active {
+.ce-popover-item--active {
     background: transparent !important;
     box-shadow: none;
     color: var(--color-control-typo-secondary);
 }
 
-.ce-popover__item-icon,
-.ce-conversion-tool__icon {
+.ce-popover-item__icon {
     background-color: transparent;
     box-shadow: none;
     border: $border;

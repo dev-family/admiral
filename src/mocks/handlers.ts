@@ -211,13 +211,21 @@ function toObj(data: Record<string, any>): Record<any, any> {
 function zipObjectDeep(keys: string[], values: any[]): Record<string, any> {
     const result: Record<string, any> = {}
     keys.forEach((key, i) => {
-        const parts = key.split('.')
-        let current = result
+        // Normalize bracket notation to dot notation: a[b][c] -> a.b.c
+        const normalized = key.replace(/\[([^\]]*)\]/g, '.$1').replace(/^\./, '')
+        const parts = normalized.split('.')
+        let current: any = result
         for (let j = 0; j < parts.length - 1; j++) {
-            if (!(parts[j] in current)) current[parts[j]] = {}
-            current = current[parts[j]]
+            const part = parts[j]
+            const nextPart = parts[j + 1]
+            const nextIsIndex = /^\d+$/.test(nextPart)
+            if (!(part in current)) {
+                current[part] = nextIsIndex ? [] : {}
+            }
+            current = current[part]
         }
-        current[parts[parts.length - 1]] = values[i]
+        const lastPart = parts[parts.length - 1]
+        current[lastPart] = values[i]
     })
     return result
 }

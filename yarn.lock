@@ -172,7 +172,7 @@
     "@babel/helper-string-parser" "^7.27.1"
     "@babel/helper-validator-identifier" "^7.28.5"
 
-"@bem-react/classname@^1.6.0", "@bem-react/classname@^1.7.0":
+"@bem-react/classname@^1.6.0":
   version "1.7.0"
   resolved "https://registry.npmjs.org/@bem-react/classname/-/classname-1.7.0.tgz"
   integrity sha512-WNZAJEVNHFpQ1eyR3SKxXUDHaXbTyMieFfC65tqEGvGxx9pMcaKf65v/IINdDBe6xIt6WgGu0EHgFQ5KH4lwZQ==

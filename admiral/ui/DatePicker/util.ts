@@ -1,4 +1,4 @@
-import type { PickerMode } from 'rc-picker/lib/interface'
+import type { PickerMode } from 'rc-picker/es/interface'
 import { PickerLocale } from './generatePicker/interfaces'
 
 export function getPlaceholder(

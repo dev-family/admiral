@@ -1,6 +1,6 @@
 import { SelectProps as RcSelectProps, BaseSelectRef } from 'rc-select';
-import type { BaseOptionType, DefaultOptionType } from 'rc-select/lib/Select';
-import { OptionProps } from 'rc-select/lib/Option';
+import type { BaseOptionType, DefaultOptionType } from 'rc-select/es/Select';
+import { OptionProps } from 'rc-select/es/Option';
 type RawValue = string | number;
 export type { OptionProps, BaseSelectRef as RefSelectProps, BaseOptionType, DefaultOptionType };
 export type SelectSizeType = 'L' | 'M' | 'S' | 'XS';

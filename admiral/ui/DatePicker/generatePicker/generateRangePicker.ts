@@ -1,4 +1,4 @@
-import type { GenerateConfig } from 'rc-picker/lib/generate/index'
+import type { GenerateConfig } from 'rc-picker/es/generate/index'
 import '../DatePicker.scss'
 import generateSingleRangePicker from './generateSingleRangePicker'
 

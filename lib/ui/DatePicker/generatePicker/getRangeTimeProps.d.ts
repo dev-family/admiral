@@ -1,4 +1,4 @@
-import type { PickerMode, SharedTimeProps } from 'rc-picker/lib/interface';
+import type { PickerMode, SharedTimeProps } from 'rc-picker/es/interface';
 export declare function getRangeTimeProps<DateType extends object>(props: {
     format?: string;
     picker?: PickerMode;

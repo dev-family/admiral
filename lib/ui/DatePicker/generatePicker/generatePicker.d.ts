@@ -1,4 +1,4 @@
-import type { GenerateConfig } from 'rc-picker/lib/generate/index';
+import type { GenerateConfig } from 'rc-picker/es/generate/index';
 import '../DatePicker.scss';
 declare function generatePicker<DateType>(generateConfig: GenerateConfig<DateType>): {
     ({ ref, ...props }: Omit<import("rc-picker").PickerProps<any>, "locale" | "generateConfig" | "hideHeader" | "components" | "prefixCls"> & {

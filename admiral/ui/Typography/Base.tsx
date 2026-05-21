@@ -2,7 +2,7 @@ import React from 'react'
 import cn from 'classnames'
 import Typography from './Typography'
 import { BlockProps } from './interfaces'
-import omit from 'rc-util/lib/omit'
+import omit from 'rc-util/es/omit'
 import styles from './Typography.module.scss'
 
 interface InternalBlockProps extends BlockProps {

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import type { DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import RcUpload, { UploadProps as RcUploadProps } from 'rc-upload'
-import useMergedState from 'rc-util/lib/hooks/useMergedState'
+import useMergedState from 'rc-util/es/hooks/useMergedState'
 import cn from 'classnames'
 import {
     RcFile,

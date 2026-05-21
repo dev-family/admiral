@@ -1,5 +1,5 @@
-import { TableProps as RcTableProps } from 'rc-table/lib/Table';
-import { ColumnType as RcColumnType, GetRowKey } from 'rc-table/lib/interface';
+import { TableProps as RcTableProps } from 'rc-table/es/Table';
+import { ColumnType as RcColumnType, GetRowKey } from 'rc-table/es/interface';
 import { SorterResult, SortOrder, ControlledSorter } from './hooks/useSorter';
 import { CheckboxProps } from '../Checkbox/interfaces';
 import { PaginationParam } from './hooks/usePagination';

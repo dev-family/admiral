@@ -1,6 +1,6 @@
 import React from 'react'
-import dateFnsGenerateConfig from 'rc-picker/lib/generate/dateFns'
-import type { GenerateConfig } from 'rc-picker/lib/generate/index'
+import dateFnsGenerateConfig from 'rc-picker/es/generate/dateFns'
+import type { GenerateConfig } from 'rc-picker/es/generate/index'
 import { PickerProps, PickerDateProps, PickerTimeProps } from './generatePicker/interfaces'
 import generatePicker from './generatePicker/generatePicker'
 import generateRangePicker from './generatePicker/generateRangePicker'

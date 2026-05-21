@@ -3,7 +3,7 @@ import {
     RcFile,
     UploadRequestOption as RcCustomRequestOptions,
     UploadProps as RcUploadProps,
-} from 'rc-upload/lib/interface'
+} from 'rc-upload/es/interface'
 import type { DragEndEvent } from '@dnd-kit/core'
 
 export type { RcFile }

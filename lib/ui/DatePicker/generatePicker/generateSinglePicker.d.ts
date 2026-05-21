@@ -1,5 +1,5 @@
 import React from 'react';
-import type { GenerateConfig } from 'rc-picker/lib/generate/index';
+import type { GenerateConfig } from 'rc-picker/es/generate/index';
 import { CommonPickerMethods } from './interfaces';
 export default function generatePicker<DateType extends object>(generateConfig: GenerateConfig<DateType>): {
     DatePicker: {

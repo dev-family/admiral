@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
-import { FixedType } from 'rc-table/lib/interface'
+import { FixedType } from 'rc-table/es/interface'
 import { useMergedState } from '../../../utils/hooks'
 import { Checkbox } from '../../Checkbox'
 import { CheckboxProps } from '../../Checkbox/interfaces'

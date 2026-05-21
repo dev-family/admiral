@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, memo, useCallback, ChangeEventHandler } from 'react'
-import omit from 'rc-util/lib/omit'
+import omit from 'rc-util/es/omit'
 import { useMergeRefs } from '@floating-ui/react'
 import TextareaAutosize from 'react-textarea-autosize'
 import cn from 'classnames'

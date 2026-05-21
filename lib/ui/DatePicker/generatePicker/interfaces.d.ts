@@ -1,4 +1,4 @@
-import { Locale as RcPickerLocale } from 'rc-picker/lib/interface';
+import { Locale as RcPickerLocale } from 'rc-picker/es/interface';
 import type { PickerProps as RCPickerProps, RangePickerProps as RCRangePickerProps, PickerRef as RCPickerRef } from 'rc-picker';
 type SizeType = 'L' | 'M' | 'S' | 'XS';
 export type DateOutputFormat = 'iso' | 'utc';

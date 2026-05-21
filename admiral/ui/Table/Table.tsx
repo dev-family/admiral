@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useCallback, useRef } from 'react'
 import RcTable from 'rc-table'
 import cn from 'classnames'
-import { convertChildrenToColumns } from 'rc-table/lib/hooks/useColumns'
+import { convertChildrenToColumns } from 'rc-table/es/hooks/useColumns'
 import {
     ColumnsType,
     ColumnType,

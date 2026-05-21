@@ -23,6 +23,7 @@
         "admin-panel",
         "developer-tools"
     ],
+    "type": "module",
     "engines": {
         "node": ">=20.19.0"
     },

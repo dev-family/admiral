@@ -1,4 +1,4 @@
-import CalendarLocale from 'rc-picker/lib/locale/en_US'
+import CalendarLocale from 'rc-picker/es/locale/en_US'
 import { PickerLocale } from '../generatePicker/interfaces'
 
 export const enUS: PickerLocale = {

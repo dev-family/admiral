@@ -7,7 +7,7 @@ import { FormItemProps } from '../Item'
 import { parseISO } from 'date-fns'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
-import type { NoUndefinedRangeValueType } from 'rc-picker/lib/PickerInput/RangePicker'
+import type { NoUndefinedRangeValueType } from 'rc-picker/es/PickerInput/RangePicker'
 
 export type DateRangePickerInputProps = FormItemProps & {
     name: string

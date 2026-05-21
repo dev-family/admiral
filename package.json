@@ -85,7 +85,7 @@
         "react-color": "^2.19.3",
         "react-icons": "^5.5.0",
         "react-router-dom": "^7.1.0",
-        "react-spring": "^10.0.3",
+        "@react-spring/web": "^10.0.3",
         "react-textarea-autosize": "^8.3.3",
         "slugify": "^1.6.5",
         "tinycolor2": "^1.4.2"

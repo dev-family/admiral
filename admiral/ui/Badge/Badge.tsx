@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react'
-import { config, useTransition } from 'react-spring'
+import { config, useTransition } from '@react-spring/web'
 import cn from 'classnames'
 import ScrollNumber from './ScrollNumber'
 import { cloneElement } from './utils'

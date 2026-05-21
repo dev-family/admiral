@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTransition, animated } from 'react-spring'
+import { useTransition, animated } from '@react-spring/web'
 import styles from './Form.module.scss'
 
 export interface FormErrorProps {

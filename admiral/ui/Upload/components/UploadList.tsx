@@ -16,7 +16,7 @@ import {
 import ListItem from './UploadListItem'
 import { useForceUpdate } from '../../../utils/hooks'
 import { previewImage, isImageUrl } from '../utils'
-import { useTransition, animated, config } from 'react-spring'
+import { useTransition, animated, config } from '@react-spring/web'
 import {
     UploadListProps,
     UploadFile,

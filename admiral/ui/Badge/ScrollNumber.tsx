@@ -1,5 +1,5 @@
 import React from 'react'
-import { animated } from 'react-spring'
+import { animated } from '@react-spring/web'
 import cn from 'classnames'
 import { cloneElement } from './utils'
 import SingleNumber from './SingleNumber'

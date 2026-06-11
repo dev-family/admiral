@@ -1,6 +1,7 @@
-import { Locale as RcPickerLocale } from 'rc-picker/es/interface';
+import { Locale as RcPickerLocale, SharedTimeProps } from 'rc-picker/es/interface';
 import type { PickerProps as RCPickerProps, RangePickerProps as RCRangePickerProps, PickerRef as RCPickerRef } from 'rc-picker';
-type SizeType = 'L' | 'M' | 'S' | 'XS';
+import type { NoUndefinedRangeValueType } from 'rc-picker/es/PickerInput/RangePicker';
+export type SizeType = 'L' | 'M' | 'S' | 'XS';
 export type DateOutputFormat = 'iso' | 'utc';
 export declare function toArray<T>(list: T | T[]): T[];
 type InjectDefaultProps<Props> = Omit<Props, 'locale' | 'generateConfig' | 'hideHeader' | 'components' | 'prefixCls'> & {
@@ -34,10 +35,21 @@ export type AdditionalPickerLocaleLangProps = {
     rangeWeekPlaceholder?: [string, string];
     rangePlaceholder?: [string, string];
 };
-export type PickerProps<DateType extends object> = InjectDefaultProps<RCPickerProps<DateType>>;
+/**
+ * Public showTime config: rc-picker's SharedTimeProps minus the required
+ * `@private` hover plumbing it leaks into the type.
+ */
+export type TimeConfig<DateType extends object> = Partial<Omit<SharedTimeProps<DateType>, 'hoverRangeValue' | 'hoverValue' | 'onHover'>>;
+export type PickerProps<DateType extends object> = InjectDefaultProps<Omit<RCPickerProps<DateType>, 'onChange' | 'format' | 'showTime' | 'multiple'> & {
+    onChange?: (date: DateType | null, dateString: string) => void;
+    format?: string | string[];
+    showTime?: boolean | TimeConfig<DateType>;
+}>;
 export type PickerDateProps<DateType extends object> = PickerProps<DateType>;
 export type PickerTimeProps<DateType extends object> = PickerProps<DateType>;
-export type PickerRangeProps<DateType extends object> = InjectDefaultProps<RCRangePickerProps<DateType> & {
+export type PickerRangeProps<DateType extends object> = InjectDefaultProps<Omit<RCRangePickerProps<DateType>, 'onChange' | 'format' | 'showTime'> & {
+    onChange?: (values: NoUndefinedRangeValueType<DateType> | null, dateStrings: [string, string]) => void;
+    format?: string | string[];
     showTime?: boolean;
 }>;
 export type PickerRangeValue<DateType> = [DateType | null, DateType | null] | null;

@@ -1,3 +1,3 @@
-export * as admiralLocales from './locales';
-export * from './LocaleContext';
-export * from './interfaces';
+export * as admiralLocales from './locales/index.js';
+export * from './LocaleContext.js';
+export * from './interfaces.js';

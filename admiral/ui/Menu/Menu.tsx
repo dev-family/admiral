@@ -4,7 +4,8 @@ import { useNav } from '../../navigation/NavContext'
 import { useTheme } from '../../theme'
 import * as Icons from 'react-icons/fi'
 import styles from './Menu.module.scss'
-import { Badge, Tooltip } from '../../ui'
+import { Badge } from '../Badge'
+import { Tooltip } from '../Tooltip'
 import cn from 'classnames'
 import { MenuItemLinkProps, MenuItemContentProps, SubMenuProps } from './interfaces'
 
@@ -73,12 +74,14 @@ export const SubMenu = ({ icon, name, to, badge, children }: SubMenuProps) => {
                 disabled={!collapsed || visible}
                 mode="custom"
             >
-                <div
+                <button
+                    type="button"
                     className={cn(styles.link, styles.link__Toggle, {
                         [styles.link__Collapsible]: true,
                         [styles.link__Collapsed]: collapsed && !visible,
                         [styles.link__ToggleOpen]: accordionOpened,
                     })}
+                    aria-expanded={accordionOpened}
                     onClick={() => {
                         setAccordionOpened((prev) => !prev)
                     }}
@@ -90,7 +93,7 @@ export const SubMenu = ({ icon, name, to, badge, children }: SubMenuProps) => {
                         badge={badge}
                         arrow
                     />
-                </div>
+                </button>
             </Tooltip>
 
             {(!collapsed || (collapsed && visible)) && accordionOpened && <Menu>{children}</Menu>}
@@ -165,7 +168,7 @@ const MenuItemContent = ({
     const Arrow = Icons['FiChevronDown']
 
     const title = <span className={styles.link_Title}>{name}</span>
-    const iconNode = <Icon name={icon} className={styles.link_Icon} />
+    const iconNode = <Icon aria-hidden className={styles.link_Icon} />
 
     return (
         <>
@@ -191,7 +194,7 @@ const MenuItemContent = ({
             </div>
 
             {arrow && (
-                <div className={styles.link_Arrow}>
+                <div className={styles.link_Arrow} aria-hidden>
                     <Arrow />
                 </div>
             )}

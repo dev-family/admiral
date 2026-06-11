@@ -1,5 +1,5 @@
 import { arrayMove } from '@dnd-kit/sortable'
-import { UploadFile } from 'admiral/ui/Upload/interfaces'
+import { UploadFile } from '../../../admiral/ui/Upload/interfaces'
 import { OptionType, RecordOptions, SortOrder } from '../../../admiral'
 
 export interface IUser {

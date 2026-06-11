@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextareaProps } from './interfaces';
+import { TextareaProps } from './interfaces.js';
 declare function Textarea({ ref, ...props }: TextareaProps & {
     ref?: React.Ref<HTMLTextAreaElement>;
 }): import("react/jsx-runtime").JSX.Element;

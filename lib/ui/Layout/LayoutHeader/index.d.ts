@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeName } from '../../../theme/interfaces';
+import { ThemeName } from '../../../theme/interfaces.js';
 export type LogoType = string | LogoComponentType;
 export type LogoComponentType = ({ themeName }: {
     themeName: ThemeName;

@@ -2,7 +2,9 @@ import React, { createContext, useContext } from 'react'
 
 import { DataProvider } from './interfaces'
 
-export const DataProviderContext = createContext<DataProvider>({} as DataProvider)
+const missingDataProvider = {} as DataProvider
+
+export const DataProviderContext = createContext<DataProvider>(missingDataProvider)
 
 export function DataProviderContextProvider({
     value,
@@ -15,5 +17,11 @@ export function DataProviderContextProvider({
 }
 
 export function useDataProvider() {
-    return useContext(DataProviderContext)
+    const dataProvider = useContext(DataProviderContext)
+    if (dataProvider === missingDataProvider) {
+        throw new Error(
+            '[Admiral] useDataProvider must be used within <Admin> — no dataProvider found in context',
+        )
+    }
+    return dataProvider
 }

@@ -1,3 +1,3 @@
-export * from './enUS';
-export * from './esES';
-export * from './ruRU';
+export * from './enUS.js';
+export * from './esES.js';
+export * from './ruRU.js';

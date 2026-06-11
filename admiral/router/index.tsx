@@ -5,23 +5,29 @@ import { useAuthState } from '../auth'
 import { Login, LoginLayout } from '../auth/components/Login'
 import { Layout } from '../ui'
 import { Location, RouterLocationState } from './interfaces'
+import useTypedLocation from './useTypedLocation'
 import { OAuthLoginCallback } from '../auth/components/OAuthLoginCallback'
+
+type PageComponent = React.ComponentType<any>
 
 type RouteType = {
     name: string
     path: string
-    Component: any
+    Component: PageComponent
 }
+
+export type PageModules = Record<string, { default: PageComponent }>
+
 interface CreateRoutesConfig {
     withAuth?: boolean
 }
 
-function RouteWrapper({ Component }: { Component: any }) {
+function RouteWrapper({ Component }: { Component: PageComponent }) {
     const params = useParams()
     return <Component {...params} />
 }
 
-function LayoutRouteWrapper({ Component }: { Component: any }) {
+function LayoutRouteWrapper({ Component }: { Component: PageComponent }) {
     const params = useParams()
     return (
         <Layout key="layout">
@@ -43,7 +49,7 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
     return <>{children}</>
 }
 
-export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
+export function createRoutesFrom(modules: PageModules, config?: CreateRoutesConfig) {
     const authRequired = config?.withAuth ?? true
     const loginRoute: RouteType = {
         name: 'login',
@@ -51,15 +57,18 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
         Component: Login,
     }
 
-    const oauthRoute: RouteType = {
-        name: 'oauth',
+    const oauthRoute = {
         path: '/oauth/:provider',
-        Component: <OAuthLoginCallback />,
+        element: <OAuthLoginCallback />,
     }
 
     const routes = Object.keys(modules)
         .reduce<RouteType[]>((acc, path: string) => {
-            const name = path.match(/\.\/pages\/(.*)\.tsx$/)![1]
+            const match = path.match(/\.\/pages\/(.*)\.tsx$/)
+            if (!match) {
+                return acc
+            }
+            const name = match[1]
             if (name === 'login') {
                 loginRoute.Component = modules[path].default
                 return acc
@@ -89,9 +98,7 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
     const { path: loginRoutePath, Component: LoginComponent } = loginRoute
 
     return () => {
-        const location = useLocation() as ReturnType<typeof useLocation> & {
-            state: RouterLocationState
-        }
+        const location = useTypedLocation()
         const { state: locationState } = location
         const background = locationState && locationState.background
         const routeWithBackgroundName = locationState && locationState.routeWithBackground
@@ -105,7 +112,7 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
                     <Route
                         key={oauthRoute.path}
                         path={oauthRoute.path}
-                        element={oauthRoute.Component}
+                        element={oauthRoute.element}
                     />
 
                     {authRequired && (
@@ -158,9 +165,7 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
 }
 
 function RouteScrollTop() {
-    const { pathname, state } = useLocation() as ReturnType<typeof useLocation> & {
-        state: RouterLocationState
-    }
+    const { pathname, state } = useTypedLocation()
     const shouldScroll = (state && state.scrollTop) ?? true
 
     useEffect(() => {

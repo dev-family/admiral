@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserIdentity } from '../../../auth/interfaces';
+import { UserIdentity } from '../../../auth/interfaces.js';
 declare function LayoutAside({ user, children, }: {
     user: UserIdentity | null;
     children?: React.ReactNode;

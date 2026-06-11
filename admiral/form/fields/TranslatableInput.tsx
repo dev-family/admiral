@@ -66,26 +66,23 @@ export const TranslatableInput = <K extends keyof FieldMap>(
 
     const createSetValuesFn = useCallback(
         (field: string) => (param: any) => {
-            setValues((values: any) => {
-                const form = forms[field]
-
-                let newState: any
-                if (typeof param === 'function') {
-                    newState = param(form)
-                } else {
-                    newState = param
-                }
+            setValues((prevValues: any) => {
+                const currentForms = (prevValues?.[name] ?? {}) as DataProviderRecord
+                // Child inputs see `{ [lang]: value }` as their values, so a
+                // functional updater must receive the same shape.
+                const newState =
+                    typeof param === 'function' ? param({ [field]: currentForms[field] }) : param
 
                 return {
-                    ...values,
+                    ...prevValues,
                     [name]: {
-                        ...(!(name in (values ?? {})) || !values?.[name] ? forms : values[name]),
+                        ...currentForms,
                         ...newState,
                     },
                 }
             })
         },
-        [],
+        [name, setValues],
     )
 
     const createSetErrorsFn = useCallback(
@@ -129,27 +126,29 @@ export const TranslatableInput = <K extends keyof FieldMap>(
     return (
         <>
             <Form.Item label={label} columnSpan={2} labelAs="div" required={required}>
-                <Tabs type={tabType} activeKey={activeTabKey} onChange={onTabChange}>
-                    {languages.map(({ label, value }) => {
-                        const formErrors = formsErrors[value] ?? {}
-                        return (
-                            <Tabs.TabPane tab={label} key={value}>
-                                <Form.ChildForm
-                                    values={{ [value]: forms?.[value] }}
-                                    setValues={createSetValuesFn(value)}
-                                    errors={formErrors}
-                                    setErrors={createSetErrorsFn}
-                                    {...formProps}
-                                >
-                                    {React.createElement(Component, {
-                                        ...filedProps,
-                                        name: value,
-                                    } as React.Attributes & FieldMap[K] & { name: string })}
-                                </Form.ChildForm>
-                            </Tabs.TabPane>
-                        )
-                    })}
-                </Tabs>
+                <Tabs
+                    type={tabType}
+                    activeKey={activeTabKey}
+                    onChange={onTabChange}
+                    items={languages.map(({ label, value }) => ({
+                        key: value,
+                        label,
+                        children: (
+                            <Form.ChildForm
+                                values={{ [value]: forms?.[value] }}
+                                setValues={createSetValuesFn(value)}
+                                errors={formsErrors[value] ?? {}}
+                                setErrors={createSetErrorsFn}
+                                {...formProps}
+                            >
+                                {React.createElement(Component, {
+                                    ...filedProps,
+                                    name: value,
+                                } as React.Attributes & FieldMap[K] & { name: string })}
+                            </Form.ChildForm>
+                        ),
+                    }))}
+                />
             </Form.Item>
         </>
     )

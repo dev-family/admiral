@@ -49,6 +49,7 @@ function ListItem({
             type="button"
             iconLeft={<FiTrash />}
             title={locale.removeFile}
+            aria-label={locale.removeFile}
             onClick={removeFile(file)}
             className={cn(styles.item_ActionButton, {
                 [themeClassNames.color.invert]:
@@ -64,6 +65,7 @@ function ListItem({
             type="button"
             iconLeft={<FiEye />}
             title={locale.previewFile}
+            aria-label={locale.previewFile}
             disabled={file.url || file.thumbUrl ? false : true}
             onClick={showPreview}
             className={cn(styles.item_ActionButton, {
@@ -80,6 +82,7 @@ function ListItem({
             type="button"
             iconLeft={<FiDownload />}
             title={locale.downloadFile}
+            aria-label={locale.downloadFile}
             onClick={() => (onDownload ? onDownload(file) : internalDownloadFile(file))}
             disabled={file?.url ? false : true}
             className={cn(styles.item_ActionButton, {

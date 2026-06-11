@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FieldValues, useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Input } from '../../ui'
@@ -61,7 +61,10 @@ export const SlugInput: InputComponentWithName<(props: SlugInputProps) => React.
         const { values, errors, setValues } = useForm()
         const value = values[name]
         const error = errors[name]?.[0]
-        const fromFieldValue = useMemo(() => getFromFieldValue(from, values, slugLang), [values])
+        const fromFieldValue = useMemo(
+            () => getFromFieldValue(from, values, slugLang),
+            [values, from, slugLang],
+        )
         const [isLocked, setIsLocked] = useState(disabled)
 
         const _onChange = useCallback(
@@ -69,32 +72,43 @@ export const SlugInput: InputComponentWithName<(props: SlugInputProps) => React.
                 setValues((values: any) => ({ ...values, [name]: e.target.value }))
                 onChange?.(e.target.value)
             },
-            [name, onChange],
+            [name, onChange, setValues],
         )
 
+        const makeSlug = useCallback(
+            (raw: string) => slugify(raw, { lower: true, replacement: '-', ...options }),
+            [options],
+        )
+
+        const prevFromValueRef = useRef<string | undefined>(undefined)
+
         useEffect(() => {
+            const prevFromValue = prevFromValueRef.current
+            prevFromValueRef.current = fromFieldValue
+
             if (isLocked) {
                 return
             }
 
-            if (fromFieldValue) {
-                _onChange({
-                    target: {
-                        value: slugify(fromFieldValue, {
-                            lower: true,
-                            replacement: '-',
-                            ...options,
-                        }),
-                    },
-                })
+            // Auto-generate only while the slug is empty or still tracks the
+            // source field — a pre-existing slug (e.g. loaded into an edit
+            // form) must not be silently rewritten.
+            const isTracking = !value || value === makeSlug(String(prevFromValue ?? ''))
+            if (!isTracking) {
                 return
             }
-            _onChange({
-                target: {
-                    value: null,
-                },
-            })
-        }, [fromFieldValue, isLocked, _onChange, options])
+
+            if (fromFieldValue) {
+                const slug = makeSlug(String(fromFieldValue))
+                if (slug !== value) {
+                    _onChange({ target: { value: slug } })
+                }
+                return
+            }
+            if (value) {
+                _onChange({ target: { value: null } })
+            }
+        }, [fromFieldValue, isLocked, value, _onChange, makeSlug])
 
         return (
             <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>

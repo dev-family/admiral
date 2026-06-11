@@ -1,5 +1,5 @@
 import React from 'react';
-import { BlockProps } from './interfaces';
+import { BlockProps } from './interfaces.js';
 interface InternalBlockProps extends BlockProps {
     component: React.ElementType;
 }

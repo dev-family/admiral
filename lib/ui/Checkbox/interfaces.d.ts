@@ -1,4 +1,4 @@
-import { ChoiceChangeEvent, ChoiceView } from '../Choice/interfaces';
+import { ChoiceChangeEvent, ChoiceView } from '../Choice/interfaces.js';
 export interface AbstractCheckboxProps<T> {
     className?: string;
     defaultChecked?: boolean;

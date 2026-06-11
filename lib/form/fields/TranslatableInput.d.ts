@@ -1,8 +1,8 @@
-import { FormItemProps } from '../Item';
-import { TabsType } from '../../ui/Tabs/interfaces';
-import { TextInputProps } from './TextInput';
-import { EditorInputProps } from './EditorInput';
-import { MultilineTextInputProps } from './MultilineTextInput';
+import { FormItemProps } from '../Item.js';
+import { TabsType } from '../../ui/Tabs/interfaces.js';
+import { TextInputProps } from './TextInput.js';
+import { EditorInputProps } from './EditorInput.js';
+import { MultilineTextInputProps } from './MultilineTextInput.js';
 type FieldMap = {
     editor: EditorInputProps;
     text: TextInputProps;

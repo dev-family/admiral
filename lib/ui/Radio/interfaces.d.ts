@@ -1,4 +1,4 @@
-import { CheckboxProps } from '../Checkbox/interfaces';
+import { CheckboxProps } from '../Checkbox/interfaces.js';
 export interface RadioProps extends CheckboxProps {
 }
 export type RadioValueType = string | number | null;

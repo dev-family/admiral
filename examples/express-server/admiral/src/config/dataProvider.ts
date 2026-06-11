@@ -1,5 +1,5 @@
 import _ from './request'
-import type { DataProvider } from 'admiral'
+import type { DataProvider } from '@devfamily/admiral'
 
 /*
  *

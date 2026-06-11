@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DrawerProps } from './interfaces';
+import type { DrawerProps } from './interfaces.js';
 export type DrawerRef = {
     bodyElement: () => HTMLElement;
 };

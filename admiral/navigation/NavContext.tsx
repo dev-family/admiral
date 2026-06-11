@@ -1,6 +1,7 @@
 import React, {
     useContext,
     useState,
+    useEffect,
     createContext,
     useCallback,
     useMemo,
@@ -41,21 +42,25 @@ export function NavProvider({ menu, children }: NavProviderProps) {
     }, [])
 
     const toggle = useCallback(() => {
-        setVisible((prev) => {
-            document.body.style.overflow = prev ? '' : 'hidden'
-            return !prev
-        })
+        setVisible((prev) => !prev)
     }, [])
 
     const open = useCallback(() => {
         setVisible(true)
-        document.body.style.overflow = 'hidden'
     }, [])
 
     const close = useCallback(() => {
         setVisible(false)
-        document.body.style.overflow = ''
     }, [])
+
+    // Body scroll lock follows the mobile nav visibility and is always
+    // restored on unmount.
+    useEffect(() => {
+        document.body.style.overflow = visible ? 'hidden' : ''
+        return () => {
+            document.body.style.overflow = ''
+        }
+    }, [visible])
 
     const value = useMemo(
         () => ({ visible, toggle, open, close, collapsed, toggleCollapsed, menu }),

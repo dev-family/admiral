@@ -1,7 +1,7 @@
 import React from 'react';
-import type { ColorPickerProps, ColorPickerResult } from '../../ui/ColorPicker/interfaces';
-import { FormItemProps } from '../Item';
-import { InputComponentWithName } from '../interfaces';
+import type { ColorPickerProps, ColorPickerResult } from '../../ui/ColorPicker/interfaces.js';
+import { FormItemProps } from '../Item.js';
+import { InputComponentWithName } from '../interfaces.js';
 export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps {
     name: string;
     outputValue?: keyof ColorPickerResult;

@@ -12,7 +12,6 @@ import type { NoUndefinedRangeValueType } from 'rc-picker/es/PickerInput/RangePi
 export type DateRangePickerInputProps = FormItemProps & {
     name: string
     onChange?: (value: any) => void
-    showTime?: boolean
 } & PickerRangeProps<Date>
 
 export const DateRangePickerInput: InputComponentWithName<
@@ -53,7 +52,7 @@ export const DateRangePickerInput: InputComponentWithName<
                 locale={locale}
                 {...pickerProps}
                 value={value}
-                onChange={_onChange as any}
+                onChange={_onChange}
                 alert={!!error}
             />
         </Form.Item>

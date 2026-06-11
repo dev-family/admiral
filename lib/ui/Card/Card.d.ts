@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardProps } from './interfaces';
+import { CardProps } from './interfaces.js';
 declare function Card({ ref, ...props }: CardProps & {
     ref?: React.Ref<HTMLElement>;
 }): import("react/jsx-runtime").JSX.Element;

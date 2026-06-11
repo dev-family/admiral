@@ -10,6 +10,8 @@ const useUpdateEffect = (callback: EffectCallback, dependencies: DependencyList)
         } else {
             return callback()
         }
+        // The caller owns the dependency list, like with a plain useEffect.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, dependencies)
 }
 

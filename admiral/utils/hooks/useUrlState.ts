@@ -66,9 +66,16 @@ function encoder(
     type: 'key' | 'value',
 ) {
     if (type === 'value') {
-        // Encode `+` as `%2B` so timezone offsets in ISO dates survive round-trip.
-        // Other chars stay unencoded for URL readability (same as old `encode: false`).
-        return String(str).replace(/\+/g, '%2B')
+        // Escape only the characters that corrupt query-string structure
+        // (`%` first, then qs/URL delimiters); everything else stays raw for
+        // URL readability (cyrillic, spaces, commas).
+        return String(str)
+            .replace(/%/g, '%25')
+            .replace(/&/g, '%26')
+            .replace(/\+/g, '%2B')
+            .replace(/=/g, '%3D')
+            .replace(/#/g, '%23')
+            .replace(/\?/g, '%3F')
     }
     // Keys: leave as-is for readability (e.g. filter[name])
     return String(str)
@@ -86,7 +93,9 @@ function decoder(str: string) {
     }
 
     try {
-        return decodeURIComponent(str)
+        // `+` is a space in the query-string convention (externally crafted/bookmarked
+        // URLs); our own encoder writes literal plus signs as %2B
+        return decodeURIComponent(str.replace(/\+/g, ' '))
     } catch {
         return str
     }

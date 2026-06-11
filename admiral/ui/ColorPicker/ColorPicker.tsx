@@ -1,19 +1,11 @@
 import React, { memo, useCallback, useState, useEffect, useRef } from 'react'
-import { ChromePicker, ColorChangeHandler, Color } from 'react-color'
+import { RgbaColorPicker, HexColorInput } from 'react-colorful'
 import tinycolor, { ColorInputWithoutInstance as ColorInputType } from 'tinycolor2'
 import { Tooltip } from '../Tooltip'
 import { useMergeRefs } from '@floating-ui/react'
 import cn from 'classnames'
 import type { RGBA, ColorPickerResult, ColorPickerProps } from './interfaces'
 import './ColorPicker.scss'
-
-const chromePickerStyles = {
-    default: {
-        body: {
-            padding: 'var(--space-m) var(--space-m) var(--space-s)',
-        },
-    },
-}
 
 function ColorPicker({
     initialOpen = false,
@@ -29,7 +21,7 @@ function ColorPicker({
     const ref = useRef<HTMLButtonElement>(null)
     const mergedRef = useMergeRefs([pickerRef ?? null, ref])
     const [open, setOpen] = useState(initialOpen)
-    const [color, setColor] = useState<Color>(formatColorToRgb(value))
+    const [color, setColor] = useState<RGBA>(formatColorToRgb(value))
     const [isValid, setIsValid] = useState(tinycolor(value).isValid())
 
     useEffect(() => {
@@ -41,21 +33,34 @@ function ColorPicker({
         }
     }, [value])
 
-    const handleChange: ColorChangeHandler = useCallback(
-        (color) => {
-            setColor(color.rgb)
-            setIsValid(tinycolor(color.rgb).isValid())
-            if (onChange) onChange(formatColorOutput(color.rgb as RGBA))
+    const handleChange = useCallback(
+        (color: RGBA) => {
+            setColor(color)
+            setIsValid(tinycolor(color).isValid())
+            if (onChange) onChange(formatColorOutput(color))
         },
         [onChange],
     )
 
-    const handleChangeComplete: ColorChangeHandler = useCallback(
-        (color) => {
-            if (onChangeComplete) onChangeComplete(formatColorOutput(color.rgb as RGBA))
+    const handleChangeComplete = useCallback(
+        (color: RGBA) => {
+            if (onChangeComplete) onChangeComplete(formatColorOutput(color))
         },
         [onChangeComplete],
     )
+
+    const handleHexChange = useCallback(
+        (hex: string) => {
+            const color = formatColorToRgb(hex)
+            setColor(color)
+            setIsValid(tinycolor(color).isValid())
+            if (onChange) onChange(formatColorOutput(color))
+            if (onChangeComplete) onChangeComplete(formatColorOutput(color))
+        },
+        [onChange, onChangeComplete],
+    )
+
+    const hex = color.a < 1 ? tinycolor(color).toHex8String() : tinycolor(color).toHexString()
 
     return (
         <Tooltip
@@ -65,13 +70,20 @@ function ColorPicker({
             open={open}
             onOpenChange={setOpen}
             content={
-                <ChromePicker
-                    styles={chromePickerStyles}
-                    className="colorPicker"
-                    color={color}
-                    onChange={handleChange}
-                    onChangeComplete={handleChangeComplete}
-                />
+                <div className="colorPicker">
+                    <RgbaColorPicker
+                        color={color}
+                        onChange={handleChange}
+                        onChangeEnd={handleChangeComplete}
+                    />
+                    <HexColorInput
+                        aria-label="hex"
+                        color={hex}
+                        onChange={handleHexChange}
+                        prefixed
+                        alpha
+                    />
+                </div>
             }
             interactive
             disabled={disabled}

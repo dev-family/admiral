@@ -1,10 +1,10 @@
-import { Locale as FormLocale } from '../form/interfaces';
-import { FiltersLocale } from '../filters/interfaces';
-import { DeleteActionLocale } from '../dataTable/actions';
-import { AuthLocale } from '../auth/interfaces';
-import { CRUDActionsLocale } from '../crud/interfaces';
-import { PaginationLocale } from '../ui/Pagination/interfaces';
-import { TableLocale } from '../ui/Table/interfaces';
+import { Locale as FormLocale } from '../form/interfaces.js';
+import { FiltersLocale } from '../filters/interfaces.js';
+import { DeleteActionLocale } from '../dataTable/actions/index.js';
+import { AuthLocale } from '../auth/interfaces.js';
+import { CRUDActionsLocale } from '../crud/interfaces.js';
+import { PaginationLocale } from '../ui/Pagination/interfaces.js';
+import { TableLocale } from '../ui/Table/interfaces.js';
 export type AdmiralLocaleKey = 'ruRU' | 'enUS';
 export interface AdmiralLocale {
     actions: CRUDActionsLocale;

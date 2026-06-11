@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { FixedType } from 'rc-table/es/interface'
-import { useMergedState } from '../../../utils/hooks'
+import useMergedState from 'rc-util/es/hooks/useMergedState'
 import { Checkbox } from '../../Checkbox'
 import { CheckboxProps } from '../../Checkbox/interfaces'
 import { INTERNAL_COL_DEFINE } from 'rc-table'
@@ -171,8 +171,6 @@ export default function useSelection<RecordType>(
         },
         [onSelect, getRecordByKey, setSelectedKeys],
     )
-
-    const _mergedSelections = null
 
     // ======================= Columns ========================
     const transformColumns = useCallback(
@@ -366,7 +364,6 @@ export default function useSelection<RecordType>(
             mergedSelectedKeys,
             derivedSelectedKeySet,
             selectionColWidth,
-            _mergedSelections,
             lastSelectedKey,
             checkboxPropsMap,
             onSelectMultiple,

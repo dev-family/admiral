@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserContextValue } from './interfaces';
+import { UserContextValue } from './interfaces.js';
 export declare const UserContext: React.Context<UserContextValue>;
 export declare function UserContextProvider({ children }: {
     children?: React.ReactNode;

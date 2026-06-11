@@ -1,9 +1,9 @@
-import React, { FormEvent } from 'react';
-import { GetFormDataResult } from '../dataProvider';
-import { FieldValues, FormContextValue } from './FormContext';
-import Item from './Item';
-import Error from './Error';
-import { Locale } from './interfaces';
+import React, { SubmitEvent } from 'react';
+import { GetFormDataResult } from '../dataProvider/index.js';
+import { FieldValues, FormContextValue } from './FormContext.js';
+import Item from './Item.js';
+import Error from './Error.js';
+import { Locale } from './interfaces.js';
 export type FormProps = {
     locale?: Locale;
     className?: string;
@@ -14,7 +14,8 @@ export type FormProps = {
 };
 export type FormRef = {
     values: Record<string, any>;
-    handleSubmit: (e?: FormEvent) => Promise<void>;
+    setValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+    handleSubmit: (e?: SubmitEvent<HTMLFormElement>) => Promise<boolean>;
 };
 declare function InternalForm({ locale, className, fetchInitialData, submitData, redirect, children, ref, }: FormProps & {
     ref?: React.Ref<FormRef>;

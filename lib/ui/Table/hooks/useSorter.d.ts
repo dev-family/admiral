@@ -1,20 +1,10 @@
-import { ColumnsType, ColumnType, Key, TableLocale } from '../interfaces';
-import type { TooltipProps } from '../../Tooltip/interfaces';
-export type SortOrder = 'desc' | 'asc' | null;
-export interface ControlledSorter {
-    columnKey: Key;
-    order: SortOrder;
-}
+import { ColumnsType, ColumnType, Key, TableLocale, SortOrder, SorterResult, ControlledSorter } from '../interfaces.js';
+import type { TooltipProps } from '../../Tooltip/interfaces.js';
+export type { SortOrder, SorterResult, ControlledSorter };
 export interface SortState<RecordType> {
     column: ColumnType<RecordType>;
     key: Key;
     sortOrder: SortOrder | null;
-}
-export interface SorterResult<RecordType> {
-    column?: ColumnType<RecordType>;
-    order?: SortOrder;
-    field?: Key | readonly Key[];
-    columnKey?: Key;
 }
 interface SorterConfig<RecordType> {
     mergedColumns: ColumnsType<RecordType>;
@@ -30,4 +20,3 @@ export default function useSorter<RecordType>({ mergedColumns, onSorterChange, s
     () => SorterResult<RecordType>
 ];
 export declare function getSortData<RecordType>(data: readonly RecordType[], sortState: SortState<RecordType> | null): RecordType[];
-export {};

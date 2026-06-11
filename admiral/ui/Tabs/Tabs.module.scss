@@ -483,12 +483,10 @@ $transition-dur: '0.16s';
                 line-height: 1.2;
                 background: transparent;
                 border: 0;
-                outline: none;
                 cursor: pointer;
 
                 &-btn {
                     color: var(--color-typo-secondary);
-                    outline: none;
                     transition: all #{$transition-dur};
 
                     &:hover {
@@ -531,7 +529,6 @@ $transition-dur: '0.16s';
         .#{$prefix}-tabpane {
             flex: none;
             width: 100%;
-            outline: none;
 
             &-hidden {
                 display: none;
@@ -614,7 +611,6 @@ $transition-dur: '0.16s';
             text-align: left;
             list-style-type: none;
             background-color: var(--color-bg-default);
-            outline: none;
             border: 1px solid var(--color-control-bg-border-default);
             box-shadow: var(--shadow-layer);
             border-radius: var(--control-radius);

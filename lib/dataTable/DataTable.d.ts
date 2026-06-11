@@ -1,11 +1,9 @@
 import React from 'react';
-import { ColumnsType, TableLocale, TableProps, Key } from '../ui/Table/interfaces';
-import { PaginationLocale } from '../ui/Pagination/interfaces';
-import { ControlledSorter } from '../ui/Table/hooks/useSorter';
+import { ColumnsType, TableLocale, TableProps, Key } from '../ui/Table/interfaces.js';
+import { PaginationLocale } from '../ui/Pagination/interfaces.js';
 export type DataTableProps<RecordType> = {
     resource: string;
     columns: ColumnsType<RecordType>;
-    initialSorter?: ControlledSorter;
     locale?: Partial<{
         table: TableLocale;
         pagination: PaginationLocale & {

@@ -1,4 +1,4 @@
-import { Location } from '../../router/interfaces';
+import { Location } from '../../router/interfaces.js';
 export interface SavedNavigationState {
     pathname: string;
     search: string;

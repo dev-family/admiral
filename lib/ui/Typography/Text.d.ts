@@ -1,5 +1,5 @@
 import React from 'react';
-import type { BlockProps } from './interfaces';
+import type { BlockProps } from './interfaces.js';
 export interface TextProps extends BlockProps {
 }
 declare function Text({ ref, ...props }: TextProps & {

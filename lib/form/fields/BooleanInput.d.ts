@@ -1,7 +1,7 @@
 import React from 'react';
-import type { SwitchProps } from '../../ui/Switch/interfaces';
-import { FormItemProps } from '../Item';
-import { InputComponentWithName } from '../interfaces';
+import type { SwitchProps } from '../../ui/Switch/interfaces.js';
+import { FormItemProps } from '../Item.js';
+import { InputComponentWithName } from '../interfaces.js';
 export interface BooleanInputProps extends SwitchProps, FormItemProps {
     name: string;
     onChange?: (value: boolean) => void;

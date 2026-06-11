@@ -3,26 +3,50 @@ on:
     push:
         branches:
             - master
+    pull_request:
     workflow_dispatch:
 
-env:
-    DEPLOY_PATH: /root/app/other-projects/admiral/
-    BUILD_SCRIPT_OUTPUT: dist
-
 jobs:
-    build:
+    check:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v2
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
               with:
-                  node-version: '16'
+                  node-version: '22'
+                  cache: 'yarn'
             - name: Install Dependencies
-              run: yarn
-            - name: Build Appliction
+              run: yarn install --frozen-lockfile
+            - name: Lint
+              run: yarn lint
+            - name: Typecheck
+              run: yarn tsc
+            - name: Test
+              run: yarn test
+            - name: Build Library
+              run: yarn build:lib
+            - name: Ensure committed lib/ is fresh
+              run: git diff --exit-code -- lib || (echo "lib/ is stale — run 'yarn build:lib' and commit the result" && exit 1)
+
+    deploy:
+        needs: check
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        runs-on: ubuntu-latest
+        env:
+            DEPLOY_PATH: /root/app/other-projects/admiral/
+            BUILD_SCRIPT_OUTPUT: dist
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+                  cache: 'yarn'
+            - name: Install Dependencies
+              run: yarn install --frozen-lockfile
+            - name: Build Application
               run: yarn build
             - name: Deploy to Server
-              uses: appleboy/scp-action@master
+              uses: appleboy/scp-action@v0.1.7
               with:
                   host: ${{ secrets.DEPLOY_SERVER_HOST }}
                   port: ${{ secrets.DEPLOY_SERVER_PORT }}

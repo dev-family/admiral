@@ -1,3 +1,3 @@
-export * from './DraggableRow';
-export * from './DraggableWrapper';
-export { DragHandle } from '../../DragHandle';
+export * from './DraggableRow.js';
+export * from './DraggableWrapper.js';
+export { DragHandle } from '../../DragHandle/index.js';

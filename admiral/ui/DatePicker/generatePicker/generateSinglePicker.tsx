@@ -1,15 +1,5 @@
-import React, { useRef, useImperativeHandle } from 'react'
-import cn from 'classnames'
-import { Button } from '../../../ui'
-import {
-    FiCalendar,
-    FiClock,
-    FiChevronLeft,
-    FiChevronRight,
-    FiChevronsLeft,
-    FiChevronsRight,
-} from 'react-icons/fi'
-import { AiFillCloseCircle } from 'react-icons/ai'
+import React, { useRef } from 'react'
+import { FiCalendar, FiClock } from 'react-icons/fi'
 import RCPicker from 'rc-picker'
 import type { PickerMode, PickerRef as RCPickerRef } from 'rc-picker/es/interface'
 import type { GenerateConfig } from 'rc-picker/es/generate/index'
@@ -19,6 +9,14 @@ import { PickerProps, CommonPickerMethods } from './interfaces'
 import PickerButton from '../PickerButton'
 import { getTimeProps } from './getTimeProps'
 import { getPopupContainer } from '../../../utils/helpers'
+import {
+    getPickerClassName,
+    pickerAllowClear,
+    pickerDropdownTransitionName,
+    pickerNavigationIcons,
+    pickerPrefixCls,
+    usePickerImperativeHandle,
+} from './shared'
 
 const defaultLocale = enUS
 
@@ -36,15 +34,7 @@ export default function generatePicker<DateType extends object>(
             ...props
         }: InnerPickerProps & { ref?: React.Ref<CommonPickerMethods> }) {
             const pickerRef = useRef<RCPickerRef>(null)
-
-            useImperativeHandle(ref, () => ({
-                focus: () => {
-                    pickerRef.current?.focus()
-                },
-                blur: () => {
-                    pickerRef.current?.blur()
-                },
-            }))
+            usePickerImperativeHandle(ref, pickerRef)
 
             const {
                 getPopupContainer: customizeGetPopupContainer,
@@ -57,8 +47,7 @@ export default function generatePicker<DateType extends object>(
                 ...restProps
             } = props
             const pickerLocale = { ...defaultLocale, ...locale }
-            const { format, showTime } = props as any
-            const prefixCls = cn('admiral-picker')
+            const { format, showTime, showHour, showMinute, showSecond, use12Hours } = props
             const additionalProps = {
                 showNow: true,
             }
@@ -69,68 +58,38 @@ export default function generatePicker<DateType extends object>(
             }
             const mergedPicker = picker || props.picker
 
+            const showTimeConfig = typeof showTime === 'object' ? showTime : {}
             additionalOverrideProps = {
                 ...additionalOverrideProps,
-                ...(showTime ? getTimeProps({ format, picker: mergedPicker, ...showTime }) : {}),
+                ...(showTime
+                    ? getTimeProps({ format, picker: mergedPicker, ...showTimeConfig })
+                    : {}),
                 ...(mergedPicker === 'time'
-                    ? getTimeProps({ format, ...props, picker: mergedPicker } as any)
+                    ? getTimeProps({
+                          format,
+                          picker: mergedPicker,
+                          showHour,
+                          showMinute,
+                          showSecond,
+                          use12Hours,
+                      })
                     : {}),
             }
 
             return (
                 <RCPicker<DateType>
                     ref={pickerRef}
-                    placeholder={getPlaceholder(mergedPicker, pickerLocale, placeholder as string)}
+                    placeholder={getPlaceholder(mergedPicker, pickerLocale, placeholder)}
                     suffixIcon={mergedPicker === 'time' ? <FiClock /> : <FiCalendar />}
-                    prevIcon={
-                        <Button
-                            component="span"
-                            view="clear"
-                            size="S"
-                            iconLeft={<FiChevronLeft />}
-                        />
-                    }
-                    nextIcon={
-                        <Button
-                            component="span"
-                            view="clear"
-                            size="S"
-                            iconLeft={<FiChevronRight />}
-                        />
-                    }
-                    superPrevIcon={
-                        <Button
-                            component="span"
-                            view="clear"
-                            size="S"
-                            iconLeft={<FiChevronsLeft />}
-                        />
-                    }
-                    superNextIcon={
-                        <Button
-                            component="span"
-                            view="clear"
-                            size="S"
-                            iconLeft={<FiChevronsRight />}
-                        />
-                    }
-                    allowClear={{ clearIcon: <AiFillCloseCircle /> }}
-                    transitionName="admiral-picker-dropdown-slide-up"
+                    {...pickerNavigationIcons}
+                    allowClear={pickerAllowClear}
+                    transitionName={pickerDropdownTransitionName}
                     {...additionalProps}
                     {...restProps}
                     {...additionalOverrideProps}
                     locale={pickerLocale.lang}
-                    className={cn(
-                        {
-                            [`${prefixCls}__SizeL`]: size === 'L',
-                            [`${prefixCls}__SizeS`]: size === 'S',
-                            [`${prefixCls}__SizeXS`]: size === 'XS',
-                            [`${prefixCls}__Alert`]: alert,
-                            [`${prefixCls}__Borderless`]: borderless,
-                        },
-                        className,
-                    )}
-                    prefixCls={prefixCls}
+                    className={getPickerClassName({ size, alert, borderless, className })}
+                    prefixCls={pickerPrefixCls}
                     getPopupContainer={customizeGetPopupContainer || getPopupContainer}
                     generateConfig={generateConfig}
                     components={{ button: PickerButton }}

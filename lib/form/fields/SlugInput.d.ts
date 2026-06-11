@@ -1,7 +1,7 @@
 import React from 'react';
-import type { InputProps } from '../../ui/Input/interfaces';
-import { FormItemProps } from '../Item';
-import { InputComponentWithName } from '../interfaces';
+import type { InputProps } from '../../ui/Input/interfaces.js';
+import { FormItemProps } from '../Item.js';
+import { InputComponentWithName } from '../interfaces.js';
 export interface SlugInputProps extends InputProps, FormItemProps {
     name: string;
     from: string;

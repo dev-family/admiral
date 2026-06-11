@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { TablePaginationConfig } from '../interfaces'
+import { TablePaginationConfig, PaginationParam } from '../interfaces'
 import { PaginationProps } from '../../Pagination/interfaces'
 
 export const DEFAULT_PAGE_SIZE = 10
 const EMPTY_PAGINATION = {}
 const EMPTY_RESET_FN = () => {}
 
-export type PaginationParam = { current: number; pageSize: number; total: number }
+export type { PaginationParam }
 
 export function getPaginationParam(mergedPagination: TablePaginationConfig) {
     const param: Partial<PaginationParam> = {}

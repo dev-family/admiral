@@ -1,4 +1,4 @@
-import { AuthProvider } from 'admiral'
+import { AuthProvider } from '@devfamily/admiral'
 import _ from './request'
 
 export const tokenStorageKey = 'admiral_global_admin_session_token'

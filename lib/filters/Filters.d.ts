@@ -1,6 +1,6 @@
 import React from 'react';
-import { Locale } from './interfaces';
-import { GetFiltersFormDataResult } from '../dataProvider';
+import { Locale } from './interfaces.js';
+import { GetFiltersFormDataResult } from '../dataProvider/index.js';
 export type FiltersProps = {
     locale?: Locale;
     fetchInitialData?: (urlState: Record<string, any>) => Promise<GetFiltersFormDataResult>;

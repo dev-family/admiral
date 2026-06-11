@@ -1,4 +1,4 @@
-import { Locale as FormLocale } from '../form/interfaces';
+import { Locale as FormLocale } from '../form/interfaces.js';
 export type FiltersLocale = {
     title: string;
     clear: string;

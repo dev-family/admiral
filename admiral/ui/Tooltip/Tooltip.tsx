@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, cloneElement } from 'react'
+import React, { useRef, useState, cloneElement } from 'react'
 import { createPortal } from 'react-dom'
 import {
     useFloating,
@@ -8,6 +8,7 @@ import {
     useRole,
     useClick,
     useInteractions,
+    useMergeRefs,
     useTransitionStyles,
     FloatingArrow,
     offset,
@@ -19,6 +20,7 @@ import {
 } from '@floating-ui/react'
 import cn from 'classnames'
 import { useTheme } from '../../theme'
+import { getPopupContainer } from '../../utils/helpers'
 import styles from './Tooltip.module.scss'
 import type { TooltipProps } from './interfaces'
 
@@ -91,20 +93,10 @@ export const Tooltip = ({
         initial: { opacity: 0, transform: 'scale(0.85)' },
     })
 
-    // Merge child ref with floating-ui reference ref
-    const setRef = useCallback(
-        (node: HTMLElement | null) => {
-            refs.setReference(node)
-            // Forward ref to original child if it has one
-            // In React 19, ref is accessed via (children as any).ref, not children.props.ref
-            const childRef = (children as any).ref
-            if (typeof childRef === 'function') childRef(node)
-            else if (childRef && typeof childRef === 'object') childRef.current = node
-        },
-        [refs.setReference, children],
-    )
-
-    const childProps = children.props as Record<string, any>
+    const childProps = children.props
+    // React 19 exposes the child's ref as a regular prop — merge it with the
+    // floating-ui reference setter.
+    const mergedRef = useMergeRefs([refs.setReference, childProps.ref])
     const referenceProps = getReferenceProps({
         ...childProps,
         ...(hideOnClick === false && trigger === 'hover'
@@ -120,7 +112,7 @@ export const Tooltip = ({
     const getPortalTarget = (): HTMLElement => {
         if (typeof customRoot === 'function') return customRoot() || document.body
         if (customRoot) return customRoot
-        return (document.querySelector('#root > .Theme') as HTMLElement) || document.body
+        return getPopupContainer()
     }
 
     const floatingNode = (
@@ -160,7 +152,7 @@ export const Tooltip = ({
 
     return (
         <>
-            {cloneElement(children, { ...referenceProps, ref: setRef } as any)}
+            {cloneElement(children, { ...referenceProps, ref: mergedRef })}
             {isMounted && createPortal(floatingNode, getPortalTarget())}
         </>
     )

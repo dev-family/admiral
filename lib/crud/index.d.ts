@@ -1,4 +1,4 @@
-import { CRUDConfig } from './interfaces';
+import { CRUDConfig } from './interfaces.js';
 export declare function createCRUD<RecordType extends {
     id: number | string;
 } = any>(config: CRUDConfig<RecordType>): {

@@ -1,9 +1,9 @@
 import React from 'react';
-import type { TextareaProps } from '../../ui/Textarea/interfaces';
-import { FormItemProps } from '../Item';
-import { InputComponentWithName } from '../interfaces';
-export interface MultilineTextInputProps extends TextareaProps, FormItemProps {
+import type { TextareaProps } from '../../ui/Textarea/interfaces.js';
+import { FormItemProps } from '../Item.js';
+import { InputComponentWithName } from '../interfaces.js';
+export interface MultilineTextInputProps extends Omit<TextareaProps, 'onChange'>, FormItemProps {
     name: string;
-    onChange?: (value: any) => void;
+    onChange?: (value: string) => void;
 }
 export declare const MultilineTextInput: InputComponentWithName<(props: MultilineTextInputProps) => React.JSX.Element>;

@@ -1,2 +1,2 @@
-export { ErrorBoundary } from './ErrorBoundary';
-export type { ErrorBoundaryProps } from './ErrorBoundary';
+export { ErrorBoundary } from './ErrorBoundary.js';
+export type { ErrorBoundaryProps } from './ErrorBoundary.js';

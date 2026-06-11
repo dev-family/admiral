@@ -1,4 +1,4 @@
-import { ButtonProps } from '../ui/Button/interfaces';
+import { ButtonProps } from '../ui/Button/interfaces.js';
 export declare const CreateButton: ({ basePath, children }: CreateButtonProps) => import("react/jsx-runtime").JSX.Element;
 interface Props {
     basePath?: string;

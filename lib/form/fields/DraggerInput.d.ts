@@ -1,7 +1,7 @@
 import React from 'react';
-import { UploadProps } from '../../ui/Upload/interfaces';
-import { FormItemProps } from '../Item';
-import { InputComponentWithName } from '../interfaces';
+import { UploadProps } from '../../ui/Upload/interfaces.js';
+import { FormItemProps } from '../Item.js';
+import { InputComponentWithName } from '../interfaces.js';
 export type DraggerInputProps = FormItemProps & {
     name: string;
     onChange?: (value: any) => void;

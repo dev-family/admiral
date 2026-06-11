@@ -4,35 +4,22 @@ import { useMergeRefs } from '@floating-ui/react'
 import TextareaAutosize from 'react-textarea-autosize'
 import cn from 'classnames'
 import { TextareaProps } from './interfaces'
+import { useThrottledCallback } from '../../utils/hooks'
 import styles from './Textarea.module.scss'
 
 function Textarea({ ref, ...props }: TextareaProps & { ref?: React.Ref<HTMLTextAreaElement> }) {
     const [key, setKey] = useState(Math.random())
     const { size = 'M', alert = false, borderless = false, onChange, disabled = false } = props
 
+    // Re-key forces TextareaAutosize to re-measure its height on viewport resize.
+    const handleResize = useThrottledCallback(() => setKey(Math.random()), 300)
+
     useEffect(() => {
-        let timer: ReturnType<typeof setTimeout> | null = null
-        let lastCall = 0
-        const handleResize = () => {
-            const now = Date.now()
-            const remaining = 300 - (now - lastCall)
-            if (remaining <= 0) {
-                lastCall = now
-                setKey(Math.random())
-            } else if (!timer) {
-                timer = setTimeout(() => {
-                    lastCall = Date.now()
-                    timer = null
-                    setKey(Math.random())
-                }, remaining)
-            }
-        }
         window.addEventListener('resize', handleResize)
         return () => {
             window.removeEventListener('resize', handleResize)
-            if (timer) clearTimeout(timer)
         }
-    }, [])
+    }, [handleResize])
 
     const internalRef = useRef<HTMLTextAreaElement>(null)
     const mergedRef = useMergeRefs([internalRef, ref ?? null])

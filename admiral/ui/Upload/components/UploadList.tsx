@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 import {
     DndContext,
     closestCenter,
+    KeyboardSensor,
     PointerSensor,
     useSensor,
     useSensors,
@@ -9,6 +10,7 @@ import {
 } from '@dnd-kit/core'
 import {
     SortableContext,
+    sortableKeyboardCoordinates,
     useSortable,
     verticalListSortingStrategy,
     horizontalListSortingStrategy,
@@ -108,7 +110,7 @@ function SortableUploadItem({
     )
 
     if (springStyle) {
-        return React.createElement(animated.div as any, { style: springStyle }, itemContent)
+        return <animated.div style={springStyle}>{itemContent}</animated.div>
     }
 
     return itemContent
@@ -169,6 +171,11 @@ function UploadList({
         return onPreview(file)
     }
 
+    // Spring enter/leave is intentionally disabled for draggable lists (v5
+    // behaved the same way): the animated wrapper interferes with dnd-kit
+    // measurements and transforms. For non-`picture` list types height is
+    // 'auto', which react-spring cannot interpolate — removals collapse
+    // instantly there (also v5 parity); only `picture` animates via 68px.
     const transitions = useTransition(
         items,
         onDragEnd
@@ -201,7 +208,10 @@ function UploadList({
               },
     )
 
-    const sensors = useSensors(useSensor(PointerSensor))
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    )
 
     const sortableItems = useMemo(() => items.map((file) => file.uid), [items])
 

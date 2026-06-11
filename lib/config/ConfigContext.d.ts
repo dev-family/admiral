@@ -1,5 +1,5 @@
-import { LogoType } from '../ui/Layout/LayoutHeader';
-import { OAuthProvidersEnum } from '../auth/interfaces';
+import { LogoType } from '../ui/Layout/LayoutHeader/index.js';
+import { OAuthProvidersEnum } from '../auth/interfaces.js';
 import React, { ReactNode } from 'react';
 type ConfigContextValue = {
     logo?: LogoType;

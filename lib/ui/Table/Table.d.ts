@@ -1,5 +1,5 @@
 import React from 'react';
-import { ColumnType, TableProps } from './interfaces';
+import { ColumnType, TableProps } from './interfaces.js';
 declare function Column<RecordType>(_: ColumnType<RecordType>): null;
 declare function InternalTable<RecordType extends object = any>({ ref: wrapperRef, ...props }: TableProps<RecordType> & {
     ref?: React.Ref<HTMLDivElement>;

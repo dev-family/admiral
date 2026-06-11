@@ -70,14 +70,12 @@ export type DataProvider = {
         resource: string,
         params: DeleteParams,
     ) => Promise<DeleteResult<RecordType>>
-
-    [key: string]: any
 }
 
 export interface GetListParams {
     pagination: PaginationPayload
     sort: SortPayload
-    filter: any
+    filter: FilterPayload
 }
 export interface GetListResult<RecordType extends IRecord = IRecord> {
     items: RecordType[]

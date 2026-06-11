@@ -1,7 +1,7 @@
 import React from 'react';
-import type { EditorProps } from '../../ui/Editor/interfaces';
-import { FormItemProps } from '../Item';
-import { InputComponentWithName } from '../interfaces';
+import type { EditorProps } from '../../ui/Editor/interfaces.js';
+import { FormItemProps } from '../Item.js';
+import { InputComponentWithName } from '../interfaces.js';
 export interface EditorInputProps extends EditorProps, FormItemProps {
     name: string;
     onChange?: (value: any) => void;

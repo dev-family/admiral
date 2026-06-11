@@ -1,2 +1,2 @@
-export * from './DeleteAction';
-export * from './EditAction';
+export * from './DeleteAction.js';
+export * from './EditAction.js';

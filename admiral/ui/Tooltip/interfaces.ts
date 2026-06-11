@@ -3,7 +3,8 @@ import type { Placement } from '@floating-ui/react'
 export interface TooltipProps {
     // Content
     content?: React.ReactNode
-    children: React.ReactElement
+    // The single child gets the trigger props and a merged ref cloned onto it
+    children: React.ReactElement<Record<string, any>>
 
     // Positioning
     placement?: Placement

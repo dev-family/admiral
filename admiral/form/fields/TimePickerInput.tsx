@@ -56,7 +56,7 @@ export const TimePickerInput: InputComponentWithName<
                 format={format}
                 locale={locale}
                 value={value}
-                onChange={_onChange as any}
+                onChange={_onChange}
                 alert={!!error}
             />
         </Form.Item>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo, FormEvent, useImperativeHandle } from 'react'
+import React, { useState, useEffect, useMemo, SubmitEvent, useImperativeHandle } from 'react'
 import { GetFormDataResult } from '../dataProvider'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { FieldValues, FormContextValue, FormProvider, useForm } from './FormContext'
 import { Button, Notification } from '../ui'
 import styles from './Form.module.scss'
@@ -8,9 +8,10 @@ import Item from './Item'
 import Error from './Error'
 import cn from 'classnames'
 import { isObject } from '../utils/helpers'
+import { useLatestRequest } from '../utils/hooks'
 import { Locale } from './interfaces'
 import { enUS } from './locale'
-import { RouterLocationState } from '../router/interfaces'
+import useTypedLocation from '../router/useTypedLocation'
 import { getNavigationFrom, clearNavigationFrom } from '../utils/helpers/navigationState'
 
 export type FormProps = {
@@ -24,7 +25,8 @@ export type FormProps = {
 
 export type FormRef = {
     values: Record<string, any>
-    handleSubmit: (e?: FormEvent) => Promise<void>
+    setValues: React.Dispatch<React.SetStateAction<Record<string, any>>>
+    handleSubmit: (e?: SubmitEvent<HTMLFormElement>) => Promise<boolean>
 }
 
 function InternalForm({
@@ -42,38 +44,46 @@ function InternalForm({
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isFetching, setIsFetching] = useState(true)
     const navigate = useNavigate()
-    const location = useLocation()
+    const location = useTypedLocation()
 
-    async function _fetchInitialData() {
-        try {
-            const response = await fetchInitialData!()
-            if (isObject(response.data)) setValues({ ...response.data })
-            if (isObject(response.values)) setOptions({ ...response.values })
-        } catch {
-            setErrors((prev) => ({ ...prev, _global: ['Fetch initial data error'] }))
-        } finally {
-            setIsFetching(false)
-        }
-    }
+    useImperativeHandle(ref, () => ({
+        values,
+        setValues,
+        handleSubmit,
+    }))
 
-    useImperativeHandle(
-        ref,
-        () => ({
-            values,
-            handleSubmit,
-        }),
-        [values, handleSubmit],
-    )
+    // Out-of-order responses (fetchInitialData changed mid-flight) must not
+    // overwrite newer ones.
+    const beginRequest = useLatestRequest()
 
     useEffect(() => {
-        if (typeof fetchInitialData === 'function') {
-            _fetchInitialData()
-        } else {
+        if (typeof fetchInitialData !== 'function') {
             setIsFetching(false)
+            return
         }
-    }, [fetchInitialData])
 
-    async function handleSubmit(e?: FormEvent) {
+        const isCurrent = beginRequest()
+        const run = async () => {
+            setIsFetching(true)
+            try {
+                const response = await fetchInitialData()
+                if (!isCurrent()) return
+                if (isObject(response.data)) setValues({ ...response.data })
+                if (isObject(response.values)) setOptions({ ...response.values })
+            } catch {
+                if (isCurrent()) {
+                    setErrors((prev) => ({ ...prev, _global: ['Fetch initial data error'] }))
+                }
+            } finally {
+                if (isCurrent()) {
+                    setIsFetching(false)
+                }
+            }
+        }
+        run()
+    }, [fetchInitialData, beginRequest])
+
+    async function handleSubmit(e?: SubmitEvent<HTMLFormElement>): Promise<boolean> {
         e?.preventDefault()
 
         setIsSubmitting(true)
@@ -85,8 +95,7 @@ function InternalForm({
                 type: 'success',
             })
             if (redirect === true) {
-                const { state } = location as { state: RouterLocationState }
-                const fromLocation = getNavigationFrom(state?.from)
+                const fromLocation = getNavigationFrom(location.state?.from)
 
                 if (fromLocation) {
                     clearNavigationFrom()
@@ -105,17 +114,28 @@ function InternalForm({
                     // update table when drawer saved and closed
                     { state: { update: { dataTable: true } } },
                 )
-                return
+                return true
             }
 
             setErrors({})
-        } catch (e: any) {
-            setErrors(e.response?.status === 422 ? e.response.data.errors : {})
+            return true
+        } catch (e) {
+            const response = (
+                e as {
+                    response?: { status?: number; data?: { errors?: unknown; message?: string } }
+                }
+            )?.response
+            setErrors(
+                response?.status === 422
+                    ? ((response.data?.errors ?? {}) as Record<string, string[]>)
+                    : {},
+            )
 
             Notification({
-                message: e.response?.data?.message ?? locale.serverErrorMessage,
+                message: response?.data?.message ?? locale.serverErrorMessage,
                 type: 'error',
             })
+            return false
         } finally {
             setIsSubmitting(false)
         }

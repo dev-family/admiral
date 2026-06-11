@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { UploadFile } from '../../ui/Upload/interfaces'
-import { Notification } from '../../ui'
+import { Notification } from '../../ui/Notification'
 
 export default async function internalDownloadFile(file: UploadFile) {
     try {

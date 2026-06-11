@@ -1,7 +1,7 @@
-import OriginTypography from './Typography';
-import Text from './Text';
-import Title from './Title';
-import Paragraph from './Paragraph';
+import OriginTypography from './Typography.js';
+import Text from './Text.js';
+import Title from './Title.js';
+import Paragraph from './Paragraph.js';
 export type TypographyProps = typeof OriginTypography & {
     Text: typeof Text;
     Title: typeof Title;

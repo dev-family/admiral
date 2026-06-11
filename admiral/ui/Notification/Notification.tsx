@@ -1,20 +1,20 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import cn from 'classnames'
 import { useNotification } from 'rc-notification'
 import type { NotificationAPI } from 'rc-notification/es/hooks/useNotification'
 import { NotificationContentProps, NotificationPlacement, NotificationProps } from './interfaces'
-import { createRoot } from 'react-dom/client'
 
 import { FiCheckCircle, FiInfo, FiXCircle, FiAlertCircle, FiX } from 'react-icons/fi'
 
 import styles from './Notification.module.scss'
 import { getPlacementStyle, getMotion } from './util'
-import { ThemeProvider } from '../../theme'
+import { getPopupContainer } from '../../utils/helpers'
 
 const prefixCls = 'notification'
 const defaultPlacement: NotificationPlacement = 'topLeft'
 const defaultTop = 24
 const defaultBottom = 24
+const defaultDuration = 4.5
 
 const typeToIcon = {
     success: FiCheckCircle,
@@ -54,80 +54,89 @@ export function NotificationContent({
     )
 }
 
-// Imperative notification manager using rc-notification v5 hook API
+// Imperative notification manager using rc-notification v5 hook API. The API instance is
+// registered by <NotificationHost/>, mounted by <Admin> inside the app tree, so notices
+// follow the active theme and custom presets (and survive HMR via effect re-registration).
 let notificationApi: NotificationAPI | null = null
-let notificationRoot: ReturnType<typeof createRoot> | null = null
+let pendingArgs: NotificationProps[] = []
 let keyCounter = 0
+// Placement offsets are holder-level in rc-notification (style applies to the placement
+// container, not a single notice) and are re-read on every render: the latest call wins.
+let currentTop = defaultTop
+let currentBottom = defaultBottom
 
-function NotificationHolder() {
-    const [api, contextHolder] = useNotification({
-        prefixCls,
-        closable: true,
-        closeIcon: <FiX />,
-        style: (placement) => getPlacementStyle(placement, defaultTop, defaultBottom),
-        motion: getMotion(prefixCls),
-    })
-    const apiRef = useRef(api)
-    apiRef.current = api
-
-    useEffect(() => {
-        notificationApi = apiRef.current
-    }, [])
-
-    return contextHolder
-}
-
-function ensureNotificationHolder() {
-    if (notificationRoot) return
-    const container = document.createElement('div')
-    container.id = 'notification-holder'
-    document.body.appendChild(container)
-    notificationRoot = createRoot(container)
-    notificationRoot.render(
-        <ThemeProvider>
-            <NotificationHolder />
-        </ThemeProvider>,
-    )
-}
-
-export const Notification = (args: NotificationProps) => {
-    ensureNotificationHolder()
+function openNotification(api: NotificationAPI, args: NotificationProps) {
     const {
         icon,
         type,
         description,
         message,
-        duration,
+        duration = defaultDuration,
         closable = true,
         placement = defaultPlacement,
+        top = defaultTop,
+        bottom = defaultBottom,
     } = args
 
-    // Queue the notification to allow the holder to mount
-    const show = () => {
-        if (notificationApi) {
-            notificationApi.open({
-                key: `notification-${++keyCounter}`,
-                placement,
-                content: (
-                    <ThemeProvider>
-                        <NotificationContent
-                            icon={icon}
-                            type={type}
-                            message={message}
-                            description={description}
-                            closable={closable}
-                        />
-                    </ThemeProvider>
-                ),
-                duration: duration ?? 4.5,
-                closable,
-                closeIcon: <FiX />,
-            })
-        } else {
-            // If the API isn't ready yet, retry after a tick
-            requestAnimationFrame(show)
-        }
-    }
+    currentTop = top
+    currentBottom = bottom
 
-    show()
+    api.open({
+        key: `notification-${++keyCounter}`,
+        placement,
+        content: (
+            <NotificationContent
+                icon={icon}
+                type={type}
+                message={message}
+                description={description}
+                closable={closable}
+            />
+        ),
+        duration,
+        closable,
+        closeIcon: <FiX />,
+    })
+}
+
+/**
+ * Renders the rc-notification holder and registers the imperative API used by
+ * `Notification()`. Mounted automatically by `<Admin>`. When using `Notification`
+ * without `<Admin>`, mount it manually under your ThemeProvider.
+ */
+export function NotificationHost() {
+    const [api, contextHolder] = useNotification({
+        prefixCls,
+        closable: true,
+        closeIcon: <FiX />,
+        getContainer: getPopupContainer,
+        style: (placement) => getPlacementStyle(placement, currentTop, currentBottom),
+        motion: getMotion(prefixCls),
+    })
+
+    useEffect(() => {
+        notificationApi = api
+
+        const queued = pendingArgs
+        pendingArgs = []
+        queued.forEach((args) => openNotification(api, args))
+
+        return () => {
+            if (notificationApi === api) {
+                notificationApi = null
+            }
+        }
+    }, [api])
+
+    return contextHolder
+}
+
+export const Notification = (args: NotificationProps) => {
+    if (notificationApi) {
+        openNotification(notificationApi, args)
+    } else {
+        // Holder is not mounted yet (e.g. a call fired during the initial render) —
+        // queued args are flushed as soon as <NotificationHost> mounts.
+        pendingArgs.push(args)
+    }
 }

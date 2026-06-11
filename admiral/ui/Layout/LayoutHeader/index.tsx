@@ -35,19 +35,25 @@ function LayoutHeader({ logo = LogoDefault }: { logo?: LogoType }) {
             </NavLink>
 
             <button
+                type="button"
                 className={cn(styles.collapseToggle, styles.collapseToggle__Desktop, {
                     [styles.collapseToggle__Collapsed]: collapsed,
                 })}
+                aria-label="Toggle sidebar"
+                aria-expanded={!collapsed}
                 onClick={toggleCollapsed}
             >
-                <FiArrowLeft />
+                <FiArrowLeft aria-hidden />
             </button>
 
             <button
+                type="button"
                 className={cn(styles.collapseToggle, styles.collapseToggle__Mobile)}
+                aria-label="Toggle navigation"
+                aria-expanded={visible}
                 onClick={toggleNav}
             >
-                {visible ? <FiX /> : <FiMenu />}
+                {visible ? <FiX aria-hidden /> : <FiMenu aria-hidden />}
             </button>
         </header>
     )

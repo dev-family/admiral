@@ -28,13 +28,15 @@ export function DeleteAction({ resource, id, buttonProps, locale }: DeleteAction
         try {
             await deleteOne(resource, { id })
             refresh()
-        } catch (e: any) {
+        } catch (e) {
+            const message = (e as { response?: { data?: { message?: string } } })?.response?.data
+                ?.message
             Notification({
-                message: e.response.data.message,
+                message: message ?? (e instanceof Error ? e.message : String(e)),
                 type: 'error',
             })
         }
-    }, [])
+    }, [deleteOne, resource, id, refresh])
 
     return (
         <Popconfirm

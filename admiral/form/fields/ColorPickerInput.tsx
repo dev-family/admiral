@@ -39,8 +39,8 @@ export const ColorPickerInput: InputComponentWithName<
     )
 
     // prevent reopen when close picker by clicking on label
-    const onLabelClick = useCallback((e: any) => {
-        e?.preventDefault()
+    const onLabelClick = useCallback((e: React.MouseEvent<HTMLLabelElement>) => {
+        e.preventDefault()
     }, [])
 
     return (

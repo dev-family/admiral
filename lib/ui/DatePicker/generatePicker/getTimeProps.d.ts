@@ -1,7 +1,50 @@
-import type { PickerMode, SharedTimeProps } from 'rc-picker/es/interface';
+import type { PickerMode } from 'rc-picker/es/interface';
+import { TimeConfig } from './interfaces.js';
 export declare function getTimeProps<DateType extends object>(props: {
-    format?: string;
+    format?: string | string[];
     picker?: PickerMode;
-} & SharedTimeProps<DateType>): SharedTimeProps<DateType> | {
-    showTime: SharedTimeProps<DateType>;
+} & Omit<TimeConfig<DateType>, 'format'>): {
+    format?: string | string[];
+    picker?: PickerMode;
+    defaultValue?: DateType | undefined;
+    showNow?: boolean | undefined;
+    showHour?: boolean | undefined;
+    showMinute?: boolean | undefined;
+    showSecond?: boolean | undefined;
+    showMillisecond?: boolean | undefined;
+    use12Hours?: boolean | undefined;
+    hourStep?: import("rc-picker/es/interface").IntRange<1, 23> | undefined;
+    minuteStep?: import("rc-picker/es/interface").IntRange<1, 59> | undefined;
+    secondStep?: import("rc-picker/es/interface").IntRange<1, 59> | undefined;
+    millisecondStep?: import("rc-picker/es/interface").IntRange<1, 999> | undefined;
+    hideDisabledOptions?: boolean | undefined;
+    defaultOpenValue?: DateType | undefined;
+    disabledHours?: (() => number[]) | undefined;
+    disabledMinutes?: ((hour: number) => number[]) | undefined;
+    disabledSeconds?: ((hour: number, minute: number) => number[]) | undefined;
+    disabledTime?: ((date: DateType) => import("rc-picker/es/interface").DisabledTimes) | undefined;
+    changeOnScroll?: boolean | undefined;
+} | {
+    showTime: {
+        format?: string | string[];
+        picker?: PickerMode;
+        defaultValue?: DateType | undefined;
+        showNow?: boolean | undefined;
+        showHour?: boolean | undefined;
+        showMinute?: boolean | undefined;
+        showSecond?: boolean | undefined;
+        showMillisecond?: boolean | undefined;
+        use12Hours?: boolean | undefined;
+        hourStep?: import("rc-picker/es/interface").IntRange<1, 23> | undefined;
+        minuteStep?: import("rc-picker/es/interface").IntRange<1, 59> | undefined;
+        secondStep?: import("rc-picker/es/interface").IntRange<1, 59> | undefined;
+        millisecondStep?: import("rc-picker/es/interface").IntRange<1, 999> | undefined;
+        hideDisabledOptions?: boolean | undefined;
+        defaultOpenValue?: DateType | undefined;
+        disabledHours?: (() => number[]) | undefined;
+        disabledMinutes?: ((hour: number) => number[]) | undefined;
+        disabledSeconds?: ((hour: number, minute: number) => number[]) | undefined;
+        disabledTime?: ((date: DateType) => import("rc-picker/es/interface").DisabledTimes) | undefined;
+        changeOnScroll?: boolean | undefined;
+    };
 };

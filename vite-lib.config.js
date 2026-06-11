@@ -33,6 +33,8 @@ export default defineConfig({
                 'theme/index': path.resolve(__dirname, 'admiral/theme/index.ts'),
                 'crud/index': path.resolve(__dirname, 'admiral/crud/index.tsx'),
                 'form/index': path.resolve(__dirname, 'admiral/form/index.tsx'),
+                'admin/index': path.resolve(__dirname, 'admiral/admin/index.tsx'),
+                'router/index': path.resolve(__dirname, 'admiral/router/index.tsx'),
             },
             formats: ['es'],
         },
@@ -48,15 +50,5 @@ export default defineConfig({
                 assetFileNames: 'admiral.[ext]',
             },
         },
-    },
-    optimizeDeps: {
-        exclude: [
-            'examples',
-            '@editorjs/editorjs',
-            '@editorjs/header',
-            '@editorjs/image',
-            '@editorjs/paragraph',
-            '@editorjs/nested-list',
-        ],
     },
 })

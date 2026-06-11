@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { UserIdentity } from '../../../auth/interfaces';
+import { UserIdentity } from '../../../auth/interfaces.js';
 interface Props {
     user: UserIdentity | null;
     menuPopupExtraComponents?: ReactNode;

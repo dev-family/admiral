@@ -1,7 +1,7 @@
-import { SelectLocale } from '../ui/Select/interfaces';
-import { PickerLocale } from '../ui/DatePicker/generatePicker/interfaces';
-import { EditorLocaleType } from '../ui/Editor/interfaces';
-import { UploadLocale } from '../ui/Upload/interfaces';
+import { SelectLocale } from '../ui/Select/interfaces.js';
+import { PickerLocale } from '../ui/DatePicker/generatePicker/interfaces.js';
+import { EditorLocaleType } from '../ui/Editor/interfaces.js';
+import { UploadLocale } from '../ui/Upload/interfaces.js';
 export type Locale = {
     successMessage: string;
     serverErrorMessage: string;

@@ -1,7 +1,7 @@
 import React, { type ReactNode } from 'react';
-import { ColumnsType, ColumnType } from '../ui/Table/interfaces';
-import { DataTableConfig } from '../dataTable';
-import { DrawerProps } from '../ui/Drawer/interfaces';
+import { ColumnsType, ColumnType } from '../ui/Table/interfaces.js';
+import { DataTableConfig } from '../dataTable/index.js';
+import { DrawerProps } from '../ui/Drawer/interfaces.js';
 export type CRUDActionsLocale = {
     submit: string;
     back: string;

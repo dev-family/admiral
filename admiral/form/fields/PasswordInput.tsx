@@ -6,9 +6,9 @@ import type { InputProps } from '../../ui/Input/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
 
-export interface PasswordInputProps extends InputProps, FormItemProps {
+export interface PasswordInputProps extends Omit<InputProps, 'onChange'>, FormItemProps {
     name: string
-    onChange?: (value: any) => void
+    onChange?: (value: string) => void
 }
 
 export const PasswordInput: InputComponentWithName<
@@ -26,11 +26,11 @@ export const PasswordInput: InputComponentWithName<
     const error = errors[name]?.[0]
 
     const _onChange = useCallback(
-        (e: any) => {
-            setValues((values: any) => ({ ...values, [name]: e.target.value }))
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setValues((values: Record<string, any>) => ({ ...values, [name]: e.target.value }))
             onChange?.(e.target.value)
         },
-        [onChange],
+        [name, onChange, setValues],
     )
 
     return (

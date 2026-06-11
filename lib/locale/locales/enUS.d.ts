@@ -1,2 +1,2 @@
-import type { AdmiralLocale } from '../interfaces';
+import type { AdmiralLocale } from '../interfaces.js';
 export declare const enUS: AdmiralLocale;

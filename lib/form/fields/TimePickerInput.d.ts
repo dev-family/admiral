@@ -1,7 +1,7 @@
 import React from 'react';
-import { TimePickerProps as BaseTimePickerProps } from '../../ui';
-import { FormItemProps } from '../Item';
-import { InputComponentWithName } from '../interfaces';
+import { TimePickerProps as BaseTimePickerProps } from '../../ui/index.js';
+import { FormItemProps } from '../Item.js';
+import { InputComponentWithName } from '../interfaces.js';
 interface TimePickerProps extends Omit<BaseTimePickerProps, 'format'> {
 }
 export type TimePickerInputProps = FormItemProps & {

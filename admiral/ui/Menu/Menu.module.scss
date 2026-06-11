@@ -141,6 +141,14 @@
     }
 
     &__Toggle {
+        // The toggle is a real <button> — neutralize the native styles.
+        width: 100%;
+        background: none;
+        border: none;
+        font: inherit;
+        color: inherit;
+        text-align: left;
+
         &::after {
             content: none;
         }

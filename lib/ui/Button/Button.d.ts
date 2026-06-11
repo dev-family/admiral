@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonProps } from './interfaces';
+import { ButtonProps } from './interfaces.js';
 declare function Button({ ref, ...props }: ButtonProps & {
     ref?: React.Ref<HTMLElement>;
 }): import("react/jsx-runtime").JSX.Element;

@@ -6,9 +6,9 @@ import type { TextareaProps } from '../../ui/Textarea/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
 
-export interface MultilineTextInputProps extends TextareaProps, FormItemProps {
+export interface MultilineTextInputProps extends Omit<TextareaProps, 'onChange'>, FormItemProps {
     name: string
-    onChange?: (value: any) => void
+    onChange?: (value: string) => void
 }
 
 export const MultilineTextInput: InputComponentWithName<
@@ -26,11 +26,11 @@ export const MultilineTextInput: InputComponentWithName<
     const error = errors[name]?.[0]
 
     const _onChange = useCallback(
-        (e: any) => {
-            setValues((values: any) => ({ ...values, [name]: e.target.value }))
+        (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            setValues((values: Record<string, any>) => ({ ...values, [name]: e.target.value }))
             onChange?.(e.target.value)
         },
-        [onChange],
+        [name, onChange, setValues],
     )
 
     return (

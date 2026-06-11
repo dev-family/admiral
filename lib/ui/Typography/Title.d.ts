@@ -1,5 +1,5 @@
 import React from 'react';
-import { BlockProps } from './interfaces';
+import { BlockProps } from './interfaces.js';
 declare const TITLE_LEVELS: [1, 2, 3, 4, 5];
 type TitleLevelType = (typeof TITLE_LEVELS)[number];
 export type TitleProps = Omit<BlockProps & {

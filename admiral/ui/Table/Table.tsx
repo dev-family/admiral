@@ -26,12 +26,14 @@ import {
     closestCenter,
     DndContext,
     DragOverlay,
+    KeyboardSensor,
     PointerSensor,
     useSensor,
     useSensors,
     DragStartEvent,
     DragEndEvent,
 } from '@dnd-kit/core'
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { DraggableRow, DraggableWrapper, DragHandle } from './components'
 import { useMergeRefs } from '@floating-ui/react'
 import useTableSize from './hooks/useTableSize'
@@ -65,6 +67,7 @@ function InternalTable<RecordType extends object = any>({
         onChange,
         rowKey = 'key',
         rowSelection,
+        expandable,
         loading,
         dndRows = false,
         onDragEnd,
@@ -250,10 +253,13 @@ function InternalTable<RecordType extends object = any>({
                       ...transformedSelectionColumns,
                   ]
                 : transformedSelectionColumns,
-        [transformedSelectionColumns],
+        [transformedSelectionColumns, dndRows, size],
     )
 
-    const sensors = useSensors(useSensor(PointerSensor))
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    )
 
     const innerWrapperRef = useRef<HTMLDivElement>(null)
     const mergedWrapperRef = useMergeRefs([wrapperRef ?? null, innerWrapperRef])
@@ -287,7 +293,7 @@ function InternalTable<RecordType extends object = any>({
                         {...tableProps}
                         title={title}
                         footer={footer}
-                        expandable={{}}
+                        expandable={expandable ?? {}}
                         prefixCls="admiral-table"
                         columns={transformedDnDColumns}
                         data={pageData}

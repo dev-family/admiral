@@ -1,23 +1,21 @@
-import React, { useRef, useImperativeHandle } from 'react'
-import cn from 'classnames'
-import { Button } from '../..'
-import {
-    FiCalendar,
-    FiClock,
-    FiChevronLeft,
-    FiChevronRight,
-    FiChevronsLeft,
-    FiChevronsRight,
-} from 'react-icons/fi'
-import { AiFillCloseCircle } from 'react-icons/ai'
+import React, { useRef } from 'react'
+import { FiCalendar, FiClock } from 'react-icons/fi'
 import { RangePicker } from 'rc-picker'
 import type { PickerMode, RangePickerRef } from 'rc-picker/es/interface'
 import type { GenerateConfig } from 'rc-picker/es/generate/index'
 import { enUS } from '../locales'
-import { getRangeTimeProps } from './getRangeTimeProps'
+import { getTimeProps } from './getTimeProps'
 import PickerButton from '../PickerButton'
 import { CommonPickerMethods, PickerRangeProps } from './interfaces'
 import { getPopupContainer } from '../../../utils/helpers'
+import {
+    getPickerClassName,
+    pickerAllowClear,
+    pickerDropdownTransitionName,
+    pickerNavigationIcons,
+    pickerPrefixCls,
+    usePickerImperativeHandle,
+} from './shared'
 
 const defaultLocale = enUS
 
@@ -35,15 +33,7 @@ export default function generateSingleRangePicker<DateType extends object>(
             ...props
         }: InnerPickerProps & { ref?: React.Ref<CommonPickerMethods> }) {
             const pickerRef = useRef<RangePickerRef>(null)
-
-            useImperativeHandle(ref, () => ({
-                focus: () => {
-                    pickerRef.current?.focus()
-                },
-                blur: () => {
-                    pickerRef.current?.blur()
-                },
-            }))
+            usePickerImperativeHandle(ref, pickerRef)
 
             const {
                 getPopupContainer: customizeGetPopupContainer,
@@ -56,8 +46,7 @@ export default function generateSingleRangePicker<DateType extends object>(
                 ...restProps
             } = props
             const pickerLocale = { ...defaultLocale, ...locale }
-            const { format, showTime } = props as any
-            const prefixCls = cn('admiral-picker')
+            const { format, showTime, showHour, showMinute, showSecond, use12Hours } = props
             const additionalProps = {
                 showNow: true,
             }
@@ -70,11 +59,16 @@ export default function generateSingleRangePicker<DateType extends object>(
 
             additionalOverrideProps = {
                 ...additionalOverrideProps,
-                ...(showTime
-                    ? getRangeTimeProps({ format, picker: mergedPicker, ...showTime })
-                    : {}),
+                ...(showTime ? getTimeProps({ format, picker: mergedPicker }) : {}),
                 ...(mergedPicker === 'time'
-                    ? getRangeTimeProps({ format, ...props, picker: mergedPicker })
+                    ? getTimeProps({
+                          format,
+                          picker: mergedPicker,
+                          showHour,
+                          showMinute,
+                          showSecond,
+                          use12Hours,
+                      })
                     : {}),
             }
 
@@ -84,54 +78,15 @@ export default function generateSingleRangePicker<DateType extends object>(
                     placeholder={props.placeholder || ['from', 'to']}
                     suffixIcon={mergedPicker === 'time' ? <FiClock /> : <FiCalendar />}
                     separator={separator}
-                    prevIcon={
-                        <Button
-                            component="span"
-                            view="clear"
-                            size="S"
-                            iconLeft={<FiChevronLeft />}
-                        />
-                    }
-                    nextIcon={
-                        <Button
-                            component="span"
-                            view="clear"
-                            size="S"
-                            iconLeft={<FiChevronRight />}
-                        />
-                    }
-                    superPrevIcon={
-                        <Button
-                            component="span"
-                            view="clear"
-                            size="S"
-                            iconLeft={<FiChevronsLeft />}
-                        />
-                    }
-                    superNextIcon={
-                        <Button
-                            component="span"
-                            view="clear"
-                            size="S"
-                            iconLeft={<FiChevronsRight />}
-                        />
-                    }
-                    allowClear={{ clearIcon: <AiFillCloseCircle /> }}
+                    {...pickerNavigationIcons}
+                    allowClear={pickerAllowClear}
+                    transitionName={pickerDropdownTransitionName}
                     {...additionalProps}
                     {...restProps}
                     {...additionalOverrideProps}
                     locale={pickerLocale.lang}
-                    className={cn(
-                        {
-                            [`${prefixCls}__SizeL`]: size === 'L',
-                            [`${prefixCls}__SizeS`]: size === 'S',
-                            [`${prefixCls}__SizeXS`]: size === 'XS',
-                            [`${prefixCls}__Alert`]: alert,
-                            [`${prefixCls}__Borderless`]: borderless,
-                        },
-                        className,
-                    )}
-                    prefixCls={prefixCls}
+                    className={getPickerClassName({ size, alert, borderless, className })}
+                    prefixCls={pickerPrefixCls}
                     getPopupContainer={customizeGetPopupContainer || getPopupContainer}
                     generateConfig={generateConfig}
                     components={{ button: PickerButton }}

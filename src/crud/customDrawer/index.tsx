@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { FiEye } from 'react-icons/fi'
 import { IUser } from '../../mocks/data/users'
 import { createCRUD, Button, Typography, Drawer, Tabs, EditAction } from '../../../admiral'
@@ -33,14 +33,18 @@ function RowActions({ record }: { record: IUser }) {
                 title={`View user with id #${record.id}`}
                 width={760}
             >
-                <Tabs defaultActiveKey="1" type="card">
-                    <Tabs.TabPane tab="Info" key="1">
-                        <InfoTab name={record.name} avatar={record.avatar} />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="Reviews" key="2">
-                        <Table />
-                    </Tabs.TabPane>
-                </Tabs>
+                <Tabs
+                    defaultActiveKey="1"
+                    type="card"
+                    items={[
+                        {
+                            key: '1',
+                            label: 'Info',
+                            children: <InfoTab name={record.name} avatar={record.avatar} />,
+                        },
+                        { key: '2', label: 'Reviews', children: <Table /> },
+                    ]}
+                />
             </Drawer>
 
             <EditAction

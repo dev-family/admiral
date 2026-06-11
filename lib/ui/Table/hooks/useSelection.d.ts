@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableRowSelection, Key, GetRowKey, TransformColumns } from '../interfaces';
+import { TableRowSelection, Key, GetRowKey, TransformColumns } from '../interfaces.js';
 export type GetCheckDisabled<RecordType> = (record: RecordType) => boolean;
 export declare function arrDel(list: Key[], value: Key): React.Key[];
 export declare function arrAdd(list: Key[], value: Key): React.Key[];

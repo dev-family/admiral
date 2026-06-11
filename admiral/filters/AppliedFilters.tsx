@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { Button } from '../ui'
 import { FiX } from 'react-icons/fi'
@@ -17,12 +17,11 @@ export function AppliedFilters() {
         urlState: { filter },
         filter: { fields: filterFields, options: filterOptions },
     } = useCrudIndex()
-    const isFiltersVisible = Object.keys(filterOptions)?.length
 
     const renderName = useCallback(
         (
             name: string,
-            type: FormInputType,
+            type: FormInputType | undefined,
             value: any,
             label: string | undefined,
             extra: FilterField['extra'],
@@ -79,8 +78,14 @@ export function AppliedFilters() {
                     return label ? `${label}: ${date[0]} - ${date[1]}` : `${date[0]} - ${date[1]}`
                 }
 
-                default:
-                    return null
+                default: {
+                    // Custom inputs: best-effort chip for primitive values, so an
+                    // applied custom filter never shows up as an empty tag
+                    if (typeof value === 'string' || typeof value === 'number') {
+                        return label ? `${label}: ${value}` : value
+                    }
+                    return label ?? name
+                }
             }
         },
         [filterOptions],
@@ -88,6 +93,7 @@ export function AppliedFilters() {
 
     const filters = Object.entries(filter)
         .filter(([name]) => filterFields.some((field) => field.name === name))
+        .filter(([, value]) => value !== null && value !== undefined && value !== '')
         .map(([name, value]) => {
             const field = filterFields.find((field) => field.name === name)
             return {
@@ -112,13 +118,13 @@ export function AppliedFilters() {
                 filter: { ...filter, [name]: undefined },
             }))
         },
-        [setUrlState],
+        [setUrlState, filter],
     )
 
-    return isFiltersVisible ? (
+    return filters.length ? (
         <div className={styles.appliedFilters}>
             {filters.map(({ name, label, type, value, extra }) => {
-                return value !== null && value !== undefined && value !== '' ? (
+                return (
                     <Button
                         key={name}
                         type="button"
@@ -133,8 +139,6 @@ export function AppliedFilters() {
                     >
                         {renderName(name, type, value, label, extra)}
                     </Button>
-                ) : (
-                    <React.Fragment key={name}></React.Fragment>
                 )
             })}
         </div>

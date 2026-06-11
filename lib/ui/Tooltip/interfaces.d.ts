@@ -1,7 +1,7 @@
 import type { Placement } from '@floating-ui/react';
 export interface TooltipProps {
     content?: React.ReactNode;
-    children: React.ReactElement;
+    children: React.ReactElement<Record<string, any>>;
     placement?: Placement;
     offset?: number | [number, number];
     trigger?: 'hover' | 'click';

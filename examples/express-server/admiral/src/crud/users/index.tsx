@@ -1,4 +1,4 @@
-import { createCRUD, TextInput, PasswordInput, SelectInput } from 'admiral'
+import { createCRUD, TextInput, PasswordInput, SelectInput } from '@devfamily/admiral'
 import React from 'react'
 
 export const CRUD = createCRUD({

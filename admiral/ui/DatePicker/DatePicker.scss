@@ -256,8 +256,6 @@ $font-size-xs: var(--control-text-size-xs);
         border: 1px solid var(--color-control-bg-border-default);
         box-shadow: var(--shadow-layer);
         border-radius: var(--control-radius);
-        outline: none;
-        box-shadow: var(--shadow-layer);
         margin: 0 !important;
 
         .#{$prefix-class}-panel {
@@ -279,7 +277,6 @@ $font-size-xs: var(--control-text-size-xs);
         text-align: center;
         border-radius: var(--control-radius);
         font-size: var(--size-text-s);
-        outline: none;
 
         --picker-panel-cell-width: 36px;
         --picker-panel-cell-height: 28px;

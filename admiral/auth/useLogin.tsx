@@ -1,11 +1,11 @@
 import { useCallback } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuthProvider, defaultAuthParams } from './AuthContext'
-import { RouterLocationState } from '../router/interfaces'
+import useTypedLocation from '../router/useTypedLocation'
 
 const useLogin = (): Login => {
     const authProvider = useAuthProvider()
-    const { state: locationState } = useLocation() as { state: RouterLocationState }
+    const { state: locationState } = useTypedLocation()
     const navigate = useNavigate()
 
     const nextPathName = locationState && locationState.nextPathname

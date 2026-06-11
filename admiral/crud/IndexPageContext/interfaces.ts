@@ -24,7 +24,9 @@ export type CrudIndexPageValueType = {
 export type FilterField = {
     label?: string
     name: string
-    type: FormInputType
+    /** Set for admiral inputs (static `inputName`); undefined for custom components */
+    type?: FormInputType
+    component: React.ElementType
     props: Record<string, unknown>
     extra: {
         timePicker?: TimePickerExtra

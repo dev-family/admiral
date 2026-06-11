@@ -7,9 +7,30 @@
 
     &__View {
         &Filled {
-            --badge-color: var(--color-typo-primary);
+            // White text needs deeper fills than the raw status colors (white
+            // on #fe4444 is ~3.3:1, on #43c758 ~2.1:1; WCAG AA needs 4.5:1).
+            // Scoped to the filled view only: dots and stroked badges keep the
+            // brighter theme status colors.
+            --badge-color: var(--badge-filled-typo-color, #fff);
 
+            &.badge__StatusError {
+                --badge-bg-color: var(--badge-filled-bg-alert, #d32f2f);
+            }
+            &.badge__StatusSuccess {
+                --badge-bg-color: var(--badge-filled-bg-success, #2e7d32);
+            }
+            &.badge__StatusNormal {
+                --badge-bg-color: var(--badge-filled-bg-normal, #1976d2);
+            }
+            &.badge__StatusWarning {
+                // Orange cannot carry white text without turning brown — the
+                // universal warning pattern is dark-on-orange (7.2:1).
+                --badge-color: #171a22;
+            }
             &.badge__StatusSystem {
+                // The muted system gray follows the theme surface — there the
+                // theme text color is the readable one (white in dark theme).
+                --badge-color: var(--color-typo-primary);
                 color: var(--color-typo-secondary);
             }
         }

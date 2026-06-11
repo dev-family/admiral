@@ -1,6 +1,6 @@
-import { RecordOptions } from '../../dataProvider/interfaces';
-import { FormInputType } from '../../form/interfaces';
-import { SortOrder } from '../../ui/Table/interfaces';
+import { RecordOptions } from '../../dataProvider/interfaces.js';
+import { FormInputType } from '../../form/interfaces.js';
+import { SortOrder } from '../../ui/Table/interfaces.js';
 export type CrudIndexUrlState = {
     page: string;
     page_size: string;
@@ -23,7 +23,9 @@ export type CrudIndexPageValueType = {
 export type FilterField = {
     label?: string;
     name: string;
-    type: FormInputType;
+    /** Set for admiral inputs (static `inputName`); undefined for custom components */
+    type?: FormInputType;
+    component: React.ElementType;
     props: Record<string, unknown>;
     extra: {
         timePicker?: TimePickerExtra;

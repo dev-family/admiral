@@ -1,4 +1,4 @@
-import { TooltipProps } from '../Tooltip/interfaces';
+import { TooltipProps } from '../Tooltip/interfaces.js';
 export type PopconfirmLocaleType = {
     cancelTitle: string;
     confirmTitle: string;

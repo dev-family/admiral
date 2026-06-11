@@ -1,2 +1,2 @@
-export { ThemeProvider, useTheme } from './ThemeContext';
-export { default as useThemeVars } from './useThemeVars';
+export { ThemeProvider, useTheme } from './ThemeContext.js';
+export { default as useThemeVars } from './useThemeVars.js';

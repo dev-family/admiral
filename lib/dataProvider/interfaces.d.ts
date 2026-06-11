@@ -36,12 +36,11 @@ export type DataProvider = {
     update: <RecordType extends IRecord = IRecord>(resource: string, params: UpdateParams) => Promise<UpdateResult<RecordType>>;
     create: <RecordType extends IRecord = IRecord>(resource: string, params: CreateParams) => Promise<CreateResult<RecordType>>;
     deleteOne: <RecordType extends IRecord = IRecord>(resource: string, params: DeleteParams) => Promise<DeleteResult<RecordType>>;
-    [key: string]: any;
 };
 export interface GetListParams {
     pagination: PaginationPayload;
     sort: SortPayload;
-    filter: any;
+    filter: FilterPayload;
 }
 export interface GetListResult<RecordType extends IRecord = IRecord> {
     items: RecordType[];

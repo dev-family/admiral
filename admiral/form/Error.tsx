@@ -13,9 +13,8 @@ function AnimatePresence({ show, children }: { show: boolean; children?: React.R
         reverse: show,
         config: { tension: 90, friction: 10, precision: 0.1, duration: 160 },
     })
-    const AnimatedDiv = animated.div as any
     return transitions(
-        (styles, item) => item && <AnimatedDiv style={styles}>{children}</AnimatedDiv>,
+        (style, item) => item && <animated.div style={style}>{children}</animated.div>,
     )
 }
 

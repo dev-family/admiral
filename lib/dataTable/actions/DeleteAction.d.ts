@@ -1,5 +1,5 @@
-import { ButtonProps } from '../../ui/Button/interfaces';
-import { PopconfirmLocale } from '../../ui/Popconfirm/interfaces';
+import { ButtonProps } from '../../ui/Button/interfaces.js';
+import { PopconfirmLocale } from '../../ui/Popconfirm/interfaces.js';
 export interface DeleteActionLocale extends PopconfirmLocale {
     title: string;
 }

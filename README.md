@@ -11,7 +11,8 @@
 
 <p align="center">
   <a href="https://admiral.dev.family" target="_blank">Live Demo</a> &nbsp;&bull;&nbsp;
-  <a href="https://dev.family/blog/categories/admiral-open-source-solution-in-react" target="_blank">Blog & Use Cases</a>
+  <a href="https://dev.family/blog/categories/admiral-open-source-solution-in-react" target="_blank">Blog & Use Cases</a> &nbsp;&bull;&nbsp;
+  <a href="./MIGRATION.md">Migrating from v5</a>
 </p>
 
 <p align="center">
@@ -30,7 +31,7 @@
 
 ## Features
 
-- **CRUD generation** &mdash; define resource config, get index/create/update pages with tables, forms, filters, and pagination
+- **CRUD generation** &mdash; define a resource config, get index/create/update pages with tables, forms, filters, and pagination
 - **30+ UI components** &mdash; Table, Form inputs, Select, DatePicker, Drawer, Tabs, Upload, Notification, and more
 - **File-based routing** &mdash; pages directory maps to routes automatically (like Next.js)
 - **Authentication** &mdash; login, logout, OAuth (Google, GitHub, Jira), session checks
@@ -42,14 +43,9 @@
 
 React 19 &bull; React Router 7 &bull; Vite 6 &bull; TypeScript 5.7 &bull; @dnd-kit &bull; @floating-ui &bull; rc-\* components &bull; date-fns 4
 
-## Requirements
-
-- Node.js >= 20.19.0
-- React >= 19.0.0
-
 ## Quick Start
 
-### With npx (recommended)
+### Option 1 — scaffold a new project (recommended)
 
 ```bash
 npx create-admiral-app@latest
@@ -57,46 +53,114 @@ npx create-admiral-app@latest
 
 You'll be prompted to choose:
 
-- **With Express.js backend** &mdash; fully configured template with API server
+- **With Express.js backend** &mdash; fully configured template with an API server
 - **Frontend only** &mdash; just the admin panel, bring your own API
 
-### From this repo
+Then `cd` into the project, `npm install`, `npm run dev` &mdash; and you have a working admin panel.
+
+### Option 2 — add to an existing app
+
+Requires **Node.js >= 20** and a bundler (the examples below use Vite).
+
+**1. Install the package and its peer dependencies:**
 
 ```bash
-git clone https://github.com/dev-family/admiral.git
-cd admiral
-npm install --legacy-peer-deps
-npm run dev
+npm install @devfamily/admiral react@^19 react-dom@^19 react-router-dom@^7 axios@^1
 ```
 
-Open http://localhost:3000 &mdash; you'll see Admiral with mock data.
-
-## Usage
-
-### Entry Point
+**2. Create the app entry.** Import the styles once, wrap everything in `<Admin>`:
 
 ```tsx
 // src/App.tsx
 import { Admin, createRoutesFrom } from '@devfamily/admiral'
-import Menu from './config/menu'
+import '@devfamily/admiral/style.css'
+import Menu from './menu'
 import dataProvider from './dataProvider'
-import authProvider from './authProvider'
 
-const apiUrl = '/api'
+// createRoutesFrom takes a map of page modules; with Vite use import.meta.glob
 const Routes = createRoutesFrom(import.meta.glob('../pages/**/*', { eager: true }))
 
-function App() {
+export default function App() {
     return (
-        <Admin dataProvider={dataProvider(apiUrl)} authProvider={authProvider(apiUrl)} menu={Menu}>
+        <Admin dataProvider={dataProvider('/api')} menu={Menu}>
             <Routes />
         </Admin>
     )
 }
-
-export default App
 ```
 
-### CRUD Example
+**3. Add a menu:**
+
+```tsx
+// src/menu.tsx
+import { Menu, MenuItemLink } from '@devfamily/admiral'
+
+export default function AppMenu() {
+    return (
+        <Menu>
+            <MenuItemLink icon="FiUsers" name="Users" to="/users" />
+        </Menu>
+    )
+}
+```
+
+**4. Add a data provider** &mdash; the object that tells Admiral how to talk to your API. Copy
+[src/dataProvider.ts](src/dataProvider.ts) as a starting point; the contract it implements is
+described in [Data Provider](#data-provider) below.
+
+**5. Create your first page** &mdash; see the [CRUD example](#crud-pages). Done: `/users` now renders
+a table with forms, filters, and pagination.
+
+### Option 3 — run this repo
+
+```bash
+git clone https://github.com/dev-family/admiral.git
+cd admiral
+yarn
+yarn dev
+```
+
+Open http://localhost:3000 &mdash; you'll see Admiral running on mock data, with the source for
+every page in [pages/](pages) and [src/](src).
+
+## Core Concepts
+
+Admiral apps are built from a handful of pieces: an `<Admin>` root, file-based **routing**,
+**CRUD pages** generated from a config, a **data provider** (and optionally an **auth provider**)
+that connect Admiral to your API, plus **forms**, **filters**, **themes**, and **locales**.
+Each piece is described below.
+
+### `<Admin>`
+
+The root component. It wires up routing, theming, data fetching, auth, localization, and
+notifications &mdash; every other Admiral feature expects to live inside it.
+
+```tsx
+<Admin
+    dataProvider={dataProvider(apiUrl)} // required: how to fetch data
+    menu={Menu} // required: sidebar menu component
+    authProvider={authProvider(apiUrl)} // optional: enables the login flow
+    themePresets={{ light, dark }} // optional: custom theme
+    locale={admiralLocales.ruRU} // optional: translations
+    logo={Logo} // optional: sidebar logo
+    oauthProviders={[OAuthProvidersEnum.Google]} // optional: OAuth buttons
+>
+    <Routes />
+</Admin>
+```
+
+### Routing
+
+Admiral uses **file-system based routing**. Files in the `pages/` directory map to routes:
+
+| File                     | Route           |
+| ------------------------ | --------------- |
+| `pages/index.tsx`        | `/`             |
+| `pages/users/index.tsx`  | `/users`        |
+| `pages/users/create.tsx` | `/users/create` |
+| `pages/users/[id].tsx`   | `/users/:id`    |
+
+### CRUD Pages
 
 Define a resource in one file &mdash; Admiral generates the index, create, and update pages:
 
@@ -141,30 +205,9 @@ export const { IndexPage, CreatePage, UpdatePage } = createCRUD({
 export default IndexPage
 ```
 
-### Module Imports
+The full demo configs live in [src/crud/](src/crud).
 
-Admiral supports granular imports to reduce bundle size:
-
-```tsx
-import { Admin, createCRUD, createRoutesFrom } from '@devfamily/admiral'
-import { Table, Button, Select, Drawer } from '@devfamily/admiral/ui'
-import { Form, TextInput, SelectInput } from '@devfamily/admiral/form'
-import { useTheme } from '@devfamily/admiral/theme'
-import '@devfamily/admiral/style.css'
-```
-
-## Routing
-
-Admiral uses **file-system based routing**. Files in the `pages/` directory map to routes:
-
-| File                     | Route           |
-| ------------------------ | --------------- |
-| `pages/index.tsx`        | `/`             |
-| `pages/users/index.tsx`  | `/users`        |
-| `pages/users/create.tsx` | `/users/create` |
-| `pages/users/[id].tsx`   | `/users/:id`    |
-
-## Data Provider
+### Data Provider
 
 The `DataProvider` interface defines how Admiral communicates with your API:
 
@@ -200,7 +243,10 @@ See [src/dataProvider.ts](src/dataProvider.ts) for a full implementation example
 }
 ```
 
-## Auth Provider
+### Auth Provider
+
+Pass an `authProvider` to `<Admin>` and Admiral renders a login page, guards all routes, and
+keeps the session checked:
 
 ```ts
 interface AuthProvider {
@@ -215,19 +261,81 @@ interface AuthProvider {
 
 See [src/authProvider.ts](src/authProvider.ts) for a full implementation example.
 
-## Menu
+### Forms & Inputs
+
+CRUD forms are composed from ready-made inputs &mdash; each binds to a form value by `name`:
+
+`TextInput`, `MultilineTextInput`, `PasswordInput`, `SlugInput`, `SelectInput`,
+`AjaxSelectInput`, `RadioInput`, `BooleanInput`, `DatePickerInput`, `DateRangePickerInput`,
+`TimePickerInput`, `ColorPickerInput`, `EditorInput`, `FilePictureInput`, `DraggerInput`,
+`ArrayInput`, `TranslatableInput`
+
+Inside any form (or a custom input) the `useForm()` hook gives access to values, errors, and
+setters. Standalone forms outside CRUD are available via the `Form` component from
+`@devfamily/admiral/form`.
+
+### Filters
+
+Add a filter drawer to a CRUD index page with the `filter` key, and promote any of the fields
+to always-visible quick filters with `quickFilters`:
 
 ```tsx
-import { Menu, SubMenu, MenuItemLink } from '@devfamily/admiral'
+createCRUD({
+    // ...
+    filter: {
+        topToolbarButtonText: 'Filter',
+        fields: (
+            <>
+                <TextInput label="Name" name="name" />
+                <BooleanInput label="Active" name="is_active" />
+            </>
+        ),
+        quickFilters: ['name', 'is_active'],
+    },
+})
+```
 
-const AppMenu = () => (
-    <Menu>
-        <MenuItemLink icon="FiUsers" name="Users" to="/users" />
-        <SubMenu icon="FiSettings" name="Settings">
-            <MenuItemLink icon="FiSliders" name="General" to="/settings" />
-        </SubMenu>
-    </Menu>
-)
+Applied filters are reflected in the URL, so filtered views are shareable and bookmarkable.
+A complete example: [src/crud/quickFilters.tsx](src/crud/quickFilters.tsx).
+
+### Theming
+
+Light and dark modes work out of the box (with a switcher in the header). To customize colors,
+pass your own presets to `<Admin>`:
+
+```tsx
+import themeLight from './theme/presets/themeLight'
+import themeDark from './theme/presets/themeDark'
+;<Admin themePresets={{ light: themeLight, dark: themeDark }}>
+    <Routes />
+</Admin>
+```
+
+Presets use [@consta/uikit Theme](https://github.com/consta-design-system/uikit) under the hood.
+See [admiral/theme/presets](admiral/theme/presets) for the preset structure and CSS variables.
+
+### Localization
+
+English is the default; a Russian pack ships in the box. Pass a ready-made pack to `<Admin>`,
+or a partial object &mdash; any top-level section you provide replaces the default one:
+
+```tsx
+import { Admin, admiralLocales } from '@devfamily/admiral'
+;<Admin locale={admiralLocales.ruRU}>
+    <Routes />
+</Admin>
+```
+
+## Module Imports
+
+Admiral supports granular imports to reduce bundle size:
+
+```tsx
+import { Admin, createCRUD, createRoutesFrom } from '@devfamily/admiral'
+import { Table, Button, Select, Drawer } from '@devfamily/admiral/ui'
+import { Form, TextInput, SelectInput } from '@devfamily/admiral/form'
+import { useTheme } from '@devfamily/admiral/theme'
+import '@devfamily/admiral/style.css'
 ```
 
 ## Hooks
@@ -239,24 +347,22 @@ const AppMenu = () => (
 | `useNav()`            | Control sidebar collapse state and mobile burger menu              |
 | `useGetIdentity()`    | Get the authenticated user's identity                              |
 | `useLocaleProvider()` | Access the current locale configuration                            |
-
-## Custom Theme
-
-Pass CSS presets to `Admin`:
-
-```tsx
-import themeLight from './theme/presets/themeLight'
-import themeDark from './theme/presets/themeDark'
-;<Admin themePresets={{ light: themeLight, dark: themeDark }}>
-    <Routes />
-</Admin>
-```
-
-Presets use [@consta/uikit Theme](https://github.com/consta-design-system/uikit) under the hood. See [admiral/theme/presets](admiral/theme/presets) for the preset structure and CSS variables.
+| `useUrlState()`       | Read/write state synced to the URL query string                    |
 
 ## Icons
 
-Admiral uses [React Icons](https://react-icons.github.io/react-icons/) (v5). Pass any icon name as a string or use JSX components directly.
+Admiral uses [React Icons](https://react-icons.github.io/react-icons/) (v5). Pass any icon name
+as a string or use JSX components directly.
+
+## Examples
+
+- [examples/express-server](examples/express-server) &mdash; Admiral + Express + Prisma, end to end
+- [Live demo](https://admiral.dev.family) &mdash; this repo's `pages/` + `src/` running on mock data
+
+## Migrating from v5
+
+v6 is a breaking release: React 19, React Router 7, ESM-only package, stricter types.
+The full checklist lives in [MIGRATION.md](./MIGRATION.md).
 
 ## Contributing
 

@@ -51,7 +51,7 @@ export const DatePickerInput: InputComponentWithName<
                 locale={locale}
                 {...pickerProps}
                 value={value}
-                onChange={_onChange as any}
+                onChange={_onChange}
                 alert={!!error}
             />
         </Form.Item>

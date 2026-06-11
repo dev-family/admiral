@@ -18,31 +18,29 @@ import styles from './Upload.module.scss'
 
 import { FiPlus } from 'react-icons/fi'
 
-function InternalUpload({
-    ref: _ref,
-    fileList,
-    showUploadList = true,
-    listType,
-    onChange,
-    onPreview,
-    onDownload,
-    showDownloadIcon = true,
-    onDrop,
-    disabled = false,
-    locale = enUS,
-    isImageUrl,
-    className,
-    children,
-    style,
-    type = 'select',
-    itemRender,
-    maxCount,
-    isDraggable,
-    multiple = false,
-    data = {},
-    accept = '',
-    ...restProps
-}: UploadProps & { ref?: React.Ref<unknown>; children?: React.ReactNode }) {
+function InternalUpload(
+    props: UploadProps & { ref?: React.Ref<unknown>; children?: React.ReactNode },
+) {
+    const {
+        fileList,
+        showUploadList = true,
+        listType,
+        onChange,
+        onPreview,
+        onDownload,
+        showDownloadIcon = true,
+        onDrop,
+        disabled = false,
+        locale = enUS,
+        isImageUrl,
+        className,
+        children,
+        style,
+        type = 'select',
+        itemRender,
+        maxCount,
+        isDraggable,
+    } = props
     const [dragState, setDragState] = useState<string>('drop')
     const [mergedFileList, setMergedFileList] = useMergedState([], {
         value: fileList,
@@ -117,30 +115,9 @@ function InternalUpload({
     const prefixCls = cn('upload')
 
     const rcUploadProps = {
-        ...({
-            fileList,
-            showUploadList,
-            listType,
-            onChange,
-            onPreview,
-            onDownload,
-            showDownloadIcon,
-            onDrop,
-            disabled,
-            locale,
-            isImageUrl,
-            className,
-            children,
-            style,
-            type,
-            itemRender,
-            maxCount,
-            isDraggable,
-            multiple,
-            data,
-            accept,
-            ...restProps,
-        } as RcUploadProps),
+        // Spread the original props so new upload options reach rc-upload
+        // without having to be re-listed here.
+        ...(props as RcUploadProps),
         prefixCls,
         beforeUpload: mergedBeforeUpload,
         onChange: undefined,

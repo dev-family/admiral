@@ -1,14 +1,27 @@
 import { TableProps as RcTableProps } from 'rc-table/es/Table';
 import { ColumnType as RcColumnType, GetRowKey } from 'rc-table/es/interface';
-import { SorterResult, SortOrder, ControlledSorter } from './hooks/useSorter';
-import { CheckboxProps } from '../Checkbox/interfaces';
-import { PaginationParam } from './hooks/usePagination';
-import { PaginationProps } from '../Pagination/interfaces';
-import { SpinProps } from '../Spin/interfaces';
+import { CheckboxProps } from '../Checkbox/interfaces.js';
+import { PaginationProps } from '../Pagination/interfaces.js';
+import { SpinProps } from '../Spin/interfaces.js';
 import { DragEndEvent } from '@dnd-kit/core';
-import type { TooltipProps } from '../Tooltip/interfaces';
+import type { TooltipProps } from '../Tooltip/interfaces.js';
 export type { GetRowKey };
-export type { SortOrder, SorterResult, ControlledSorter };
+export type SortOrder = 'desc' | 'asc' | null;
+export interface ControlledSorter {
+    columnKey: Key;
+    order: SortOrder;
+}
+export interface SorterResult<RecordType> {
+    column?: ColumnType<RecordType>;
+    order?: SortOrder;
+    field?: Key | readonly Key[];
+    columnKey?: Key;
+}
+export type PaginationParam = {
+    current: number;
+    pageSize: number;
+    total: number;
+};
 export type Key = React.Key;
 export type CompareFn<T> = (a: T, b: T, sortOrder?: SortOrder) => number;
 export interface ColumnType<RecordType> extends RcColumnType<RecordType> {

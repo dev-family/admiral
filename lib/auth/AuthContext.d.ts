@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthProvider } from './interfaces';
+import { AuthProvider } from './interfaces.js';
 export declare const defaultAuthParams: {
     loginUrl: string;
     afterLoginUrl: string;

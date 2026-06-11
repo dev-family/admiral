@@ -6,7 +6,7 @@ import useLogout from '../useLogout'
 import styles from './Logout.module.scss'
 
 export function Logout() {
-    const { toggle } = useNav()
+    const { close } = useNav()
     const logout = useLogout()
     const [loading, setLoading] = useState(false)
     const { auth: locale } = useLocaleProvider()
@@ -15,7 +15,7 @@ export function Logout() {
         setLoading(true)
         return logout().finally(() => {
             setLoading(false)
-            toggle()
+            close()
         })
     }
 

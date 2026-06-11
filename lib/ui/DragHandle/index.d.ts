@@ -1,1 +1,1 @@
-export { DragHandle } from './DragHandle';
+export { DragHandle } from './DragHandle.js';

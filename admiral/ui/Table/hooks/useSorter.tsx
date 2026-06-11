@@ -1,27 +1,26 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import { ColumnsType, ColumnType, Key, CompareFn, TableLocale } from '../interfaces'
+import {
+    ColumnsType,
+    ColumnType,
+    Key,
+    CompareFn,
+    TableLocale,
+    SortOrder,
+    SorterResult,
+    ControlledSorter,
+} from '../interfaces'
 import type { TooltipProps } from '../../Tooltip/interfaces'
-import { Tooltip } from '../../'
+import { Tooltip } from '../../Tooltip'
 import { getColumnKey, getColumnPos } from '../util'
 import classNames from 'classnames'
 import styles from '../Table.module.scss'
 
-export type SortOrder = 'desc' | 'asc' | null
+export type { SortOrder, SorterResult, ControlledSorter }
 
-export interface ControlledSorter {
-    columnKey: Key
-    order: SortOrder
-}
 export interface SortState<RecordType> {
     column: ColumnType<RecordType>
     key: Key
     sortOrder: SortOrder | null
-}
-export interface SorterResult<RecordType> {
-    column?: ColumnType<RecordType>
-    order?: SortOrder
-    field?: Key | readonly Key[]
-    columnKey?: Key
 }
 
 interface SorterConfig<RecordType> {
@@ -116,10 +115,10 @@ function nextSortDirection(sortDirections: SortOrder[], current: SortOrder | nul
     return sortDirections[sortDirections.indexOf(current) + 1]
 }
 
-enum directions {
-    ascend = 'asc',
-    descend = 'desc',
-}
+const directions = {
+    ascend: 'asc',
+    descend: 'desc',
+} as const
 
 function injectSorter<RecordType>(
     columns: ColumnsType<RecordType>,
@@ -220,6 +219,11 @@ function injectSorter<RecordType>(
                     }
 
                     cell.className = classNames(cell.className, `column-has-sorters`)
+                    cell['aria-sort'] = sorterOrder
+                        ? sorterOrder === directions.ascend
+                            ? 'ascending'
+                            : 'descending'
+                        : undefined
 
                     return cell
                 },

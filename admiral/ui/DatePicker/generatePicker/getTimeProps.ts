@@ -1,15 +1,18 @@
-import type { PickerMode, SharedTimeProps } from 'rc-picker/es/interface'
-import { toArray } from './interfaces'
+import type { PickerMode } from 'rc-picker/es/interface'
+import { TimeConfig, toArray } from './interfaces'
 
 export function getTimeProps<DateType extends object>(
-    props: { format?: string; picker?: PickerMode } & SharedTimeProps<DateType>,
+    props: { format?: string | string[]; picker?: PickerMode } & Omit<
+        TimeConfig<DateType>,
+        'format'
+    >,
 ) {
     const { format, picker, showHour, showMinute, showSecond, use12Hours } = props
 
     const firstFormat = toArray(format)[0]
-    const showTimeObj: SharedTimeProps<DateType> = { ...props }
+    const showTimeObj = { ...props }
 
-    if (firstFormat && typeof firstFormat === 'string') {
+    if (firstFormat) {
         if (!firstFormat.includes('s') && showSecond === undefined) {
             showTimeObj.showSecond = false
         }
@@ -27,11 +30,6 @@ export function getTimeProps<DateType extends object>(
 
     if (picker === 'time') {
         return showTimeObj
-    }
-
-    if (typeof firstFormat === 'function') {
-        // format of showTime should use default when format is custom format function
-        delete showTimeObj.format
     }
 
     return {

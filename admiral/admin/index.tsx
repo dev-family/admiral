@@ -12,6 +12,8 @@ import { ConfigContextProvider } from '../config/ConfigContext'
 import { ThemePreset } from '../theme/interfaces'
 import { OAuthProvidersEnum } from '../auth/interfaces'
 import { AdmiralLocale, LocaleContextProvider } from '../locale'
+import { ErrorBoundary, ErrorBoundaryProps } from '../ui/ErrorBoundary/ErrorBoundary'
+import { NotificationHost } from '../ui/Notification'
 
 export type AdminProps = {
     menu: ComponentType
@@ -25,7 +27,15 @@ export type AdminProps = {
     locale?: Partial<AdmiralLocale>
     oauthProviders?: OAuthProvidersEnum[]
     baseAppUrl?: string
+    errorFallback?: ErrorBoundaryProps['fallback']
 }
+
+const defaultErrorFallback = (error: Error) => (
+    <div role="alert" style={{ padding: '24px' }}>
+        <h1>Something went wrong</h1>
+        <pre style={{ whiteSpace: 'pre-wrap' }}>{error.message}</pre>
+    </div>
+)
 
 export function Admin({
     logo,
@@ -40,6 +50,7 @@ export function Admin({
     children,
     oauthProviders,
     baseAppUrl = '',
+    errorFallback = defaultErrorFallback,
 }: AdminProps & { children?: React.ReactNode }) {
     const configValue = useMemo(
         () => ({ logo, loginLogo, asideContent, oauthProviders, menuPopupExtraComponents }),
@@ -47,20 +58,23 @@ export function Admin({
     )
 
     return (
-        <AuthContextProvider value={authProvider}>
-            <DataProviderContextProvider value={dataProvider}>
-                <ConfigContextProvider value={configValue}>
-                    <LocaleContextProvider value={locale}>
-                        <UserContextProvider>
-                            <Router basename={baseAppUrl}>
-                                <ThemeProvider presets={themePresets}>
-                                    <NavProvider menu={menu}>{children}</NavProvider>
-                                </ThemeProvider>
-                            </Router>
-                        </UserContextProvider>
-                    </LocaleContextProvider>
-                </ConfigContextProvider>
-            </DataProviderContextProvider>
-        </AuthContextProvider>
+        <ErrorBoundary fallback={errorFallback}>
+            <AuthContextProvider value={authProvider}>
+                <DataProviderContextProvider value={dataProvider}>
+                    <ConfigContextProvider value={configValue}>
+                        <LocaleContextProvider value={locale}>
+                            <UserContextProvider>
+                                <Router basename={baseAppUrl}>
+                                    <ThemeProvider presets={themePresets}>
+                                        <NavProvider menu={menu}>{children}</NavProvider>
+                                        <NotificationHost />
+                                    </ThemeProvider>
+                                </Router>
+                            </UserContextProvider>
+                        </LocaleContextProvider>
+                    </ConfigContextProvider>
+                </DataProviderContextProvider>
+            </AuthContextProvider>
+        </ErrorBoundary>
     )
 }

@@ -66,6 +66,7 @@ export function CrudIndexPageContextProvider({
                     name: child.props.name,
                     label: child.props.label,
                     type,
+                    component: child.type,
                     props: child.props,
                     extra: {
                         timePicker:

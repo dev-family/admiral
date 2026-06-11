@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
-import { Editor } from '../../ui'
+import { Editor } from '../../ui/Editor'
 import type { EditorProps } from '../../ui/Editor/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'

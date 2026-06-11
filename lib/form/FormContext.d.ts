@@ -1,6 +1,6 @@
 import React from 'react';
-import { OptionType } from '../dataProvider';
-import { Locale } from './interfaces';
+import { OptionType } from '../dataProvider/index.js';
+import { Locale } from './interfaces.js';
 export type FormErrorsType = Record<string, string[]>;
 export type FieldValues = Record<string, any>;
 export type FormContextValue<TFieldValues extends FieldValues> = {

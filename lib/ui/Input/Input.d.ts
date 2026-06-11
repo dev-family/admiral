@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputProps } from './interfaces';
+import { InputProps } from './interfaces.js';
 declare function Input({ ref, ...props }: InputProps & {
     ref?: React.Ref<HTMLInputElement>;
 }): import("react/jsx-runtime").JSX.Element;

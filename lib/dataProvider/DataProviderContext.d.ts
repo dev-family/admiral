@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataProvider } from './interfaces';
+import { DataProvider } from './interfaces.js';
 export declare const DataProviderContext: React.Context<DataProvider>;
 export declare function DataProviderContextProvider({ value, children, }: {
     value: DataProvider;

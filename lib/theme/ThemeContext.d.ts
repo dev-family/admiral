@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContextState, ProviderProps } from './interfaces';
+import { ContextState, ProviderProps } from './interfaces.js';
 export declare const themeStorageKey = "df_admin_theme";
 export declare function ThemeProvider({ children, presetName, presets, }: ProviderProps & {
     children?: React.ReactNode;

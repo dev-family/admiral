@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Icons from 'react-icons/fi';
-import { BadgeProps } from '../Badge/interfaces';
+import { BadgeProps } from '../Badge/interfaces.js';
 export interface SubMenuProps {
     icon?: keyof typeof Icons;
     to?: string;

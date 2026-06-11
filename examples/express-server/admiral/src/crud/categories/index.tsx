@@ -1,4 +1,4 @@
-import { createCRUD, SlugInput, TextInput } from 'admiral'
+import { createCRUD, SlugInput, TextInput } from '@devfamily/admiral'
 import React from 'react'
 
 export const CRUD = createCRUD({

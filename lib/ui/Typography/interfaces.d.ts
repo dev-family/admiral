@@ -1,4 +1,4 @@
-import type { TypographyProps } from './Typography';
+import type { TypographyProps } from './Typography.js';
 export type BaseType = 'secondary' | 'success' | 'warning' | 'danger';
 export interface BlockProps extends TypographyProps {
     title?: string;

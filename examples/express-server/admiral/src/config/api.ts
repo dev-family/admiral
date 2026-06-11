@@ -1,6 +1,6 @@
 import _ from './request'
 
-import { OptionType } from 'admiral'
+import { OptionType } from '@devfamily/admiral'
 
 const apiUrl = import.meta.env.VITE_API_URL || '/api'
 

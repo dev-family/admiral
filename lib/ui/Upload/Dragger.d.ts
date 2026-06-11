@@ -1,5 +1,5 @@
 import React from 'react';
-import type { UploadProps } from './interfaces';
+import type { UploadProps } from './interfaces.js';
 export type DraggerProps = UploadProps & {
     height?: number;
 };

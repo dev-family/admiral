@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItemLinkProps, SubMenuProps } from './interfaces';
+import { MenuItemLinkProps, SubMenuProps } from './interfaces.js';
 export declare function Menu({ children }: {
     children?: React.ReactNode;
 }): import("react/jsx-runtime").JSX.Element;

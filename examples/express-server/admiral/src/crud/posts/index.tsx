@@ -5,7 +5,7 @@ import {
     MultilineTextInput,
     BooleanInput,
     AjaxSelectInput,
-} from 'admiral'
+} from '@devfamily/admiral'
 import React from 'react'
 import api from '../../config/api'
 

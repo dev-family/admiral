@@ -1,5 +1,5 @@
 import React from 'react';
-import { CrudIndexPageValueType } from './IndexPageContext/interfaces';
+import { CrudIndexPageValueType } from './IndexPageContext/interfaces.js';
 export declare const CrudIndexPageContext: React.Context<CrudIndexPageValueType>;
 export declare function CrudIndexPageContextProvider({ filterFields, children, }: {
     filterFields?: React.JSX.Element;

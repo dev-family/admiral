@@ -1,6 +1,6 @@
 import React, { useRef, memo } from 'react'
 import { useMergeRefs } from '@floating-ui/react'
-import { Spin } from '../../ui'
+import { Spin } from '../Spin'
 import { ButtonProps } from './interfaces'
 import styles from './Button.module.scss'
 import cn from 'classnames'

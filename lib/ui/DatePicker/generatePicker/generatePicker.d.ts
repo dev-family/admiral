@@ -1,14 +1,17 @@
 import type { GenerateConfig } from 'rc-picker/es/generate/index';
-import '../DatePicker.scss';
 declare function generatePicker<DateType>(generateConfig: GenerateConfig<DateType>): {
-    ({ ref, ...props }: Omit<import("rc-picker").PickerProps<any>, "locale" | "generateConfig" | "hideHeader" | "components" | "prefixCls"> & {
-        locale?: import("./interfaces").PickerLocale;
-        size?: "XS" | "S" | "M" | "L";
+    ({ ref, ...props }: Omit<Omit<import("rc-picker").PickerProps<any>, "onChange" | "multiple" | "format" | "showTime"> & {
+        onChange?: ((date: any, dateString: string) => void) | undefined;
+        format?: string | string[];
+        showTime?: boolean | Partial<Omit<import("rc-picker/es/interface").SharedTimeProps<any>, "hoverRangeValue" | "hoverValue" | "onHover">> | undefined;
+    }, "prefixCls" | "locale" | "generateConfig" | "hideHeader" | "components"> & {
+        locale?: import("./interfaces.js").PickerLocale;
+        size?: import("./interfaces.js").SizeType;
         borderless?: boolean;
         alert?: boolean;
-        dateOutputFormat?: import("./interfaces").DateOutputFormat;
+        dateOutputFormat?: import("./interfaces.js").DateOutputFormat;
     } & {
-        ref?: React.Ref<import("./interfaces").CommonPickerMethods>;
+        ref?: React.Ref<import("./interfaces.js").CommonPickerMethods>;
     }): import("react/jsx-runtime").JSX.Element;
     displayName: string;
 };

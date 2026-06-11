@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Select, Spin } from '../../ui'
@@ -8,6 +8,7 @@ import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
 import { OptionType } from '../../dataProvider'
 import { useCrudIndex } from '../../crud/CrudIndexPageContext'
+import { useDebouncedCallback, useLatestRequest } from '../../utils/hooks'
 
 export interface AjaxSelectInputProps
     extends
@@ -51,30 +52,36 @@ export const AjaxSelectInput: InputComponentWithName<
             setValues((values: any) => ({ ...values, [name]: value }))
             if (onChange) onChange(value)
         },
-        [name, onChange],
+        [name, onChange, setValues],
     )
 
-    const fetchResults = async (query = '') => {
-        setLoading(true)
-        const options = await fetchOptions(name, query)
+    // Out-of-order responses must not overwrite newer ones.
+    const beginRequest = useLatestRequest()
 
-        if (!fetched.current) {
-            fetched.current = true
-        }
-        setOptions(options)
-        filter.setFilterOptions((prev: any) => ({ ...prev, [name]: options }))
-        setLoading(false)
-    }
-
-    const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
-
-    const onSearch = useMemo(
-        () => (query: any) => {
-            clearTimeout(timeoutRef.current)
-            timeoutRef.current = setTimeout(() => fetchResults(query), fetchTimeout)
+    const fetchResults = useCallback(
+        async (query = '') => {
+            const isCurrent = beginRequest()
+            setLoading(true)
+            try {
+                const options = await fetchOptions(name, query)
+                if (!isCurrent()) return
+                fetched.current = true
+                setOptions(options)
+                filter.setFilterOptions((prev: any) => ({ ...prev, [name]: options }))
+            } catch (e) {
+                console.error(`[Admiral] Failed to fetch options for "${name}":`, e)
+            } finally {
+                if (isCurrent()) {
+                    setLoading(false)
+                }
+            }
         },
-        [fetchTimeout],
+        [fetchOptions, name, filter, beginRequest],
     )
+
+    // The debounced wrapper always calls the latest fetchResults, so a changed
+    // `fetchOptions` prop is never queried with stale arguments.
+    const onSearch = useDebouncedCallback(fetchResults, fetchTimeout)
 
     return (
         <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>

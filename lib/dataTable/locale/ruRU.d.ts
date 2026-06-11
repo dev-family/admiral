@@ -1,2 +1,2 @@
-import { DataTableType } from '../interfaces';
+import { DataTableType } from '../interfaces.js';
 export declare const ruRU: DataTableType;

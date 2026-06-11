@@ -2,7 +2,7 @@ import { DataTable } from '../dataTable'
 import { Form, FormProps } from '../form'
 import { Page, Button, Drawer } from '../ui'
 import { FiX, FiSave } from 'react-icons/fi'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { getPopupContainer } from '../utils/helpers'
 import { CreateButton, BackButton, FilterButton } from '../actions'
 import { TopToolbar } from '../layout'
@@ -10,7 +10,7 @@ import { useDataProvider } from '../dataProvider'
 import React, { useCallback, useState, useEffect, useRef, useMemo, type RefCallback } from 'react'
 import { CrudIndexPageContextProvider } from './CrudIndexPageContext'
 import { AppliedFilters, Filters } from '../filters'
-import { RouterLocationState } from '../router/interfaces'
+import useTypedLocation from '../router/useTypedLocation'
 import { CRUDConfig } from './interfaces'
 import styles from './Crud.module.scss'
 import { PopupContainerContextProvider } from './PopupContainerContext'
@@ -31,9 +31,12 @@ function makeIndexPage<RecordType extends { id: number | string } = any>(
     return () => {
         const { getFiltersFormData } = useDataProvider()
         const locale = useLocaleProvider()
-        const fetchInitialFiltersData = useCallback((urlState?: Record<string, any>) => {
-            return getFiltersFormData(config.resource, urlState)
-        }, [])
+        const fetchInitialFiltersData = useCallback(
+            (urlState?: Record<string, any>) => {
+                return getFiltersFormData(config.resource, urlState)
+            },
+            [getFiltersFormData],
+        )
         const { view, drawer } = config.update || {}
         const routePath = drawer?.routePath ?? ((path) => `${path}/:id`)
         const actionsLocale = locale.actions
@@ -139,27 +142,32 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
             },
         } = config
 
-        if (config.form.create.fields && config.form.create.children) {
-            console.error('Please provide "form.create.fields" or "form.create.children"')
-        }
-
-        if (!config.form.create.fields && !config.form.create.children) {
-            console.error('Please provide "form.create.fields" or "form.create.children"')
-        }
-
-        if (!config.form.create.fields && !config.create?.title) {
-            console.error('Please provide "create.title"')
-        }
+        useEffect(() => {
+            if (config.form.create.fields && config.form.create.children) {
+                console.error(
+                    '[Admiral] Provide either "form.create.fields" or "form.create.children", not both',
+                )
+            }
+            if (!config.form.create.fields && !config.form.create.children) {
+                console.error('[Admiral] Provide "form.create.fields" or "form.create.children"')
+            }
+            if (!config.form.create.fields && !config.create?.title) {
+                console.error('[Admiral] Please provide "create.title"')
+            }
+        }, [])
 
         const { getCreateFormData, create } = useDataProvider()
 
         const fetchInitialData = useCallback(() => {
             return getCreateFormData(config.resource)
-        }, [])
+        }, [getCreateFormData])
 
-        const submitData = useCallback((values: any) => {
-            return create(config.resource, { data: values })
-        }, [])
+        const submitData = useCallback(
+            (values: any) => {
+                return create(config.resource, { data: values })
+            },
+            [create],
+        )
 
         const pageFormChildren = useMemo(
             () =>
@@ -198,11 +206,14 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
 
         const fetchInitialData = useCallback(() => {
             return getUpdateFormData(config.resource, { id })
-        }, [])
+        }, [getUpdateFormData, id])
 
-        const submitData = useCallback((values: any) => {
-            return update(config.resource, { data: values, id })
-        }, [])
+        const submitData = useCallback(
+            (values: any) => {
+                return update(config.resource, { data: values, id })
+            },
+            [update, id],
+        )
 
         const actionsLocale = locale.actions
 
@@ -214,17 +225,19 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
         } = config
         const { title = (id: string) => `Update #${id}`, view = 'page' } = config.update || {}
 
-        if (config.form.edit.fields && config.form.edit.children) {
-            console.error('Please provide "form.edit.fields" or "form.edit.children"')
-        }
-
-        if (!config.form.edit.fields && !config.form.edit.children) {
-            console.error('Please provide "form.edit.fields" or "form.edit.children"')
-        }
-
-        if (!config.form.edit.fields && !config.update?.title) {
-            console.error('Please provide "update.title"')
-        }
+        useEffect(() => {
+            if (config.form.edit.fields && config.form.edit.children) {
+                console.error(
+                    '[Admiral] Provide either "form.edit.fields" or "form.edit.children", not both',
+                )
+            }
+            if (!config.form.edit.fields && !config.form.edit.children) {
+                console.error('[Admiral] Provide "form.edit.fields" or "form.edit.children"')
+            }
+            if (!config.form.edit.fields && !config.update?.title) {
+                console.error('[Admiral] Please provide "update.title"')
+            }
+        }, [])
 
         const pageFormChildren = useMemo(() => {
             return children ? (
@@ -241,7 +254,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
             )
         }, [children, fields, path, actionsLocale])
 
-        const { state } = useLocation() as { state: RouterLocationState }
+        const { state } = useTypedLocation()
         const background = state && state.background
 
         return view === 'drawer' && !!background ? (
@@ -278,10 +291,9 @@ function UpdateDrawer<RecordType>({
     submitData: FormProps['submitData']
 }) {
     const locale = useLocaleProvider()
-    const drawerRef = useRef<React.ElementRef<typeof Drawer>>(null)
     const [drawerBody, setDrawerBody] = useState<(() => HTMLElement) | null>(null)
     const [visible, setVisible] = useState(false)
-    const [submitInProgress, setSubmitInProgress] = useState(false)
+    const [submitSucceeded, setSubmitSucceeded] = useState(false)
 
     useEffect(() => {
         setVisible(true)
@@ -289,11 +301,9 @@ function UpdateDrawer<RecordType>({
     }, [])
 
     const navigate = useNavigate()
-    const location = useLocation() as { state: RouterLocationState } & ReturnType<
-        typeof useLocation
-    >
+    const location = useTypedLocation()
 
-    const formRef = useRef<React.ElementRef<typeof Form>>(null)
+    const formRef = useRef<React.ComponentRef<typeof Form>>(null)
     const actionsLocale = locale.actions
 
     const {
@@ -309,21 +319,19 @@ function UpdateDrawer<RecordType>({
     }, [])
 
     const onSubmit = useCallback(async () => {
-        await formRef.current
-            ?.handleSubmit()
-            .then(() => {
-                setVisible(false)
-            })
-            .finally(() => {
-                setSubmitInProgress(true)
-            })
-    }, [formRef])
-
-    const drawerRefCallback: RefCallback<React.ElementRef<typeof Drawer>> = useCallback((node) => {
-        ;(drawerRef as React.MutableRefObject<React.ElementRef<typeof Drawer> | null>).current =
-            node
-        setDrawerBody(() => (node ? node.bodyElement : null))
+        const succeeded = await formRef.current?.handleSubmit()
+        if (succeeded) {
+            setSubmitSucceeded(true)
+            setVisible(false)
+        }
     }, [])
+
+    const drawerRefCallback: RefCallback<React.ComponentRef<typeof Drawer>> = useCallback(
+        (node) => {
+            setDrawerBody(() => (node ? node.bodyElement : null))
+        },
+        [],
+    )
 
     const popupContainer = drawerBody ?? getPopupContainer
 
@@ -339,7 +347,7 @@ function UpdateDrawer<RecordType>({
                 </Button>
             </div>
         ) : null
-    }, [children, onSubmit, onBack, drawer?.footer])
+    }, [children, onSubmit, onBack, actionsLocale])
 
     const drawerFormChildren = useMemo(() => {
         return children ? children : <Form.Fields>{fields}</Form.Fields>
@@ -354,7 +362,7 @@ function UpdateDrawer<RecordType>({
                 setVisible(false)
             }}
             title={title}
-            footer={drawerFooter}
+            footer={drawer?.footer ?? drawerFooter}
             afterVisibleChange={(visible) => {
                 if (!visible) {
                     const backLocation = location?.state?.background
@@ -365,12 +373,12 @@ function UpdateDrawer<RecordType>({
                         },
                         {
                             state: {
-                                update: { dataTable: submitInProgress },
+                                update: { dataTable: submitSucceeded },
                                 scrollTop: false,
                             },
                         },
                     )
-                    setSubmitInProgress(false)
+                    setSubmitSucceeded(false)
                 }
             }}
             width={drawer?.width ?? 900}

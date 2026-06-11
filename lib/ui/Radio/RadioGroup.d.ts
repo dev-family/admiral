@@ -1,5 +1,5 @@
 import React from 'react';
-import { RadioGroupProps } from './interfaces';
+import { RadioGroupProps } from './interfaces.js';
 declare function InternalRadioGroup({ ref, ...props }: RadioGroupProps & {
     ref?: React.Ref<HTMLDivElement>;
 }): import("react/jsx-runtime").JSX.Element;

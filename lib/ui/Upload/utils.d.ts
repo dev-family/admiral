@@ -1,4 +1,4 @@
-import { RcFile, UploadFile } from './interfaces';
+import { RcFile, UploadFile } from './interfaces.js';
 /** Upload fileList. Replace file if exist or just push into it. */
 export declare function updateFileList(file: UploadFile, fileList: UploadFile[]): UploadFile[];
 export declare function getFileItem(file: RcFile, fileList: UploadFile[]): UploadFile;

@@ -25,3 +25,7 @@ export * from './ThemeSwitch'
 export * from './Tooltip'
 export * from './Typography'
 export * from './Upload'
+
+export * as PaginationLocales from './Pagination/locales'
+export * as TableLocales from './Table/locales'
+export * as UploadLocales from './Upload/locales'

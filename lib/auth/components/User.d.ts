@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserIdentity } from '../../auth/interfaces';
+import { UserIdentity } from '../../auth/interfaces.js';
 type UserCardProps = UserIdentity & {
     collapsed?: boolean;
 };

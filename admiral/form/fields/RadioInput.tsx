@@ -25,12 +25,12 @@ export const RadioInput: InputComponentWithName<(props: RadioInputProps) => Reac
         const error = errors[name]?.[0]
         const opts = options[name]
 
-        const _onChange = useCallback(
-            (e: any) => {
-                setValues((values: any) => ({ ...values, [name]: e.target.value }))
+        const _onChange = useCallback<NonNullable<RadioGroupProps['onChange']>>(
+            (e) => {
+                setValues((values: Record<string, any>) => ({ ...values, [name]: e.target.value }))
                 onChange?.(e.target.value)
             },
-            [name, onChange],
+            [name, onChange, setValues],
         )
 
         return (

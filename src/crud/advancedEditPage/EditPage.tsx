@@ -27,37 +27,76 @@ export default function EditPage({ id }: { id: string }) {
 
     const editFormTab = (
         <Form submitData={_onSubmit} fetchInitialData={fetchInitialData} redirect={path}>
-            <TextInput label="Name" name="name" placeholder="Name" />
-            <TextInput label="Email" name="email" placeholder="Email" required />
-            <TextInput
-                label="Password"
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
+            <Form.Tabs
+                defaultActiveKey="profile"
+                items={[
+                    {
+                        key: 'profile',
+                        label: 'Profile',
+                        children: (
+                            <Form.Fields>
+                                <TextInput label="Name" name="name" placeholder="Name" required />
+                                <SelectInput
+                                    label="Group (multiselect)"
+                                    name="group"
+                                    placeholder="Choose Group"
+                                    required
+                                    mode="multiple"
+                                >
+                                    <SelectInput.Option value="admin">
+                                        Administration
+                                    </SelectInput.Option>
+                                    <SelectInput.Option value="project_manager">
+                                        Project managers
+                                    </SelectInput.Option>
+                                </SelectInput>
+                                <SelectInput
+                                    label="Role"
+                                    name="role"
+                                    placeholder="Choose Role"
+                                    required
+                                >
+                                    <SelectInput.Option value="accountant">
+                                        Accountant
+                                    </SelectInput.Option>
+                                    <SelectInput.Option value="recruiter">
+                                        HR Officer
+                                    </SelectInput.Option>
+                                </SelectInput>
+                                <FilePictureInput
+                                    columnSpan={2}
+                                    label="Avatar"
+                                    name="avatar"
+                                    accept="image/*"
+                                    maxCount={1}
+                                />
+                                <BooleanInput label="Active?" name="active" />
+                            </Form.Fields>
+                        ),
+                    },
+                    {
+                        key: 'credentials',
+                        label: 'Credentials',
+                        children: (
+                            <Form.Fields>
+                                <TextInput
+                                    label="Email"
+                                    name="email"
+                                    placeholder="Email"
+                                    required
+                                />
+                                <TextInput
+                                    label="Password"
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    required
+                                />
+                            </Form.Fields>
+                        ),
+                    },
+                ]}
             />
-            <SelectInput
-                label="Group (multiselect)"
-                name="group"
-                placeholder="Choose Group"
-                required
-                mode="multiple"
-            >
-                <SelectInput.Option value="admin">Administration</SelectInput.Option>
-                <SelectInput.Option value="project_manager">Project managers</SelectInput.Option>
-            </SelectInput>
-            <SelectInput label="Role" name="role" placeholder="Choose Role" required>
-                <SelectInput.Option value="accountant">Accountant</SelectInput.Option>
-                <SelectInput.Option value="recruiter">HR Officer</SelectInput.Option>
-            </SelectInput>
-            <FilePictureInput
-                columnSpan={2}
-                label="Avatar"
-                name="avatar"
-                accept="image/*"
-                maxCount={1}
-            />
-            <BooleanInput label="Active?" name="active" />
 
             <Form.Footer>
                 <BackButton basePath={path}>Back</BackButton>

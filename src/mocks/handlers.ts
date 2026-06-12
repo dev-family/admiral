@@ -76,6 +76,21 @@ export const handlers = [
         const { id } = params
         const body = formDataToObj(await request.formData())
         const data = toObj(body)
+
+        // Laravel-style 422 so the demo forms can show server validation.
+        // Only keys present in the payload are checked — the demo resources
+        // sharing this endpoint submit different field sets.
+        const errors: Record<string, string[]> = {}
+        for (const field of ['name', 'email', 'password']) {
+            if (field in data && !data[field]) {
+                errors[field] = [`The ${field} field is required.`]
+            }
+        }
+        if (Object.keys(errors).length) {
+            await delay(160)
+            return HttpResponse.json({ errors, message: 'Validation failed' }, { status: 422 })
+        }
+
         userList.update(id as string, data as IUser)
 
         await delay(160)

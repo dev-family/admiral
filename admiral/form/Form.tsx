@@ -5,6 +5,7 @@ import { FieldValues, FormContextValue, FormProvider, useForm } from './FormCont
 import { Button, Notification } from '../ui'
 import styles from './Form.module.scss'
 import Item from './Item'
+import FormTabs from './FormTabs'
 import Error from './Error'
 import cn from 'classnames'
 import { isObject } from '../utils/helpers'
@@ -245,6 +246,7 @@ interface FormInterface extends FormType {
     Error: typeof Error
     Fields: typeof Fields
     Item: typeof Item
+    Tabs: typeof FormTabs
     Footer: typeof Footer
     Submit: typeof Submit
     ChildForm: typeof ChildForm
@@ -254,6 +256,7 @@ export const Form = InternalForm as FormInterface
 Form.Error = Error
 Form.Fields = Fields
 Form.Item = Item
+Form.Tabs = FormTabs
 Form.Footer = Footer
 Form.Submit = Submit
 Form.ChildForm = ChildForm

@@ -2,6 +2,7 @@ import React, { SubmitEvent } from 'react';
 import { GetFormDataResult } from '../dataProvider/index.js';
 import { FieldValues, FormContextValue } from './FormContext.js';
 import Item from './Item.js';
+import FormTabs from './FormTabs.js';
 import Error from './Error.js';
 import { Locale } from './interfaces.js';
 export type FormProps = {
@@ -44,6 +45,7 @@ interface FormInterface extends FormType {
     Error: typeof Error;
     Fields: typeof Fields;
     Item: typeof Item;
+    Tabs: typeof FormTabs;
     Footer: typeof Footer;
     Submit: typeof Submit;
     ChildForm: typeof ChildForm;

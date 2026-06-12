@@ -5,6 +5,8 @@ import { UploadLocale } from '../ui/Upload/interfaces.js';
 export type Locale = {
     successMessage: string;
     serverErrorMessage: string;
+    /** Accessible label for the Form.Tabs error badge, e.g. "2 errors" */
+    tabErrors?: (count: number) => string;
     fields: {
         array?: ArrayInputLocale;
         editor?: EditorLocaleType;

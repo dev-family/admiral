@@ -4,4 +4,5 @@ export * from './FormContext'
 export * from './fields'
 
 export type { FormItemProps } from './Item'
+export type { FormTabsProps, FormTabItem } from './FormTabs'
 export type { FormErrorProps } from './Error'

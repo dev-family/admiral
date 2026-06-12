@@ -86,6 +86,10 @@ gone as well):
 <Tabs defaultActiveKey="1" items={[{ key: '1', label: 'Profile', children: <ProfileForm /> }]} />
 ```
 
+If your tabs split **form fields** across panes, switch them to the new `Form.Tabs` while
+you are touching this code — it makes validation errors on inactive tabs visible. See
+section 4 below.
+
 ### Notifications mount inside `<Admin>`
 
 v5 rendered notifications into a separate React root, so custom theme presets never reached
@@ -115,7 +119,75 @@ yourself.
 - Internally rc-picker was upgraded 2.x → 4.x &mdash; if you passed exotic rc-picker props
   through, re-check them against rc-picker 4.
 
-## 4. Behavioral notes
+## 4. New in v6: `Form.Tabs` — validation-aware tabs
+
+When a form is split across tabs, a 422 validation error on a field inside an inactive tab
+used to be invisible: the submit failed with a notification, but nothing told you _which_
+tab to open. `Form.Tabs` is a drop-in replacement for `Tabs` inside `<Form>` that fixes
+this:
+
+- every tab containing invalid fields gets a red badge with the number of such fields, and
+  its label turns red (the count is announced to screen readers, localized via `formLocale`);
+- after a failed submit the form switches to the first tab with errors — unless the active
+  tab has errors of its own, in which case it stays put;
+- when all errors are fixed and the form re-submits, badges disappear.
+
+```tsx
+<Form submitData={submitData} fetchInitialData={fetchInitialData}>
+    <Form.Tabs
+        defaultActiveKey="profile"
+        items={[
+            {
+                key: 'profile',
+                label: 'Profile',
+                children: (
+                    <Form.Fields>
+                        <TextInput label="Name" name="name" required />
+                        <SelectInput label="Role" name="role" required>
+                            {/* ... */}
+                        </SelectInput>
+                    </Form.Fields>
+                ),
+            },
+            {
+                key: 'credentials',
+                label: 'Credentials',
+                children: (
+                    <Form.Fields>
+                        <TextInput label="Email" name="email" required />
+                        <TextInput label="Password" type="password" name="password" required />
+                    </Form.Fields>
+                ),
+            },
+        ]}
+    />
+    <Form.Footer>
+        <Form.Submit>Save</Form.Submit>
+    </Form.Footer>
+</Form>
+```
+
+How it knows which fields belong to which tab:
+
+- **Automatic discovery.** The element tree of each item's `children` is scanned for
+  admiral inputs and their `name` props are collected. This sees through fragments,
+  wrappers like `Form.Fields`, and conditional rendering, and does **not** require
+  inactive tabs to be mounted. Custom inputs join the discovery by declaring the same
+  static admiral inputs carry: `MyInput.inputName = 'MyInput'`.
+- **The `fields` escape hatch.** Discovery cannot see inputs rendered _inside the body_ of
+  another component (e.g. a `<UserSection />` that returns inputs from its own JSX). List
+  those in `fields`: `{ key: 'main', label: 'Main', fields: ['bio'], children: <UserSection /> }`.
+  It _extends_ discovery, so name only what the scan cannot see — discovered fields don't
+  have to be repeated. If a submit brings error keys that match no tab, `Form.Tabs` logs a
+  console warning naming them — that is the signal to add `fields`.
+
+An error key matches a field when it equals its `name` or is nested under it (`address`
+matches both `address` and `address.city`), so nested inputs like `TranslatableInput` are
+covered; the `_global` key is ignored. All regular `Tabs` props (`type`, `size`,
+`centered`, ...) are accepted. In controlled mode (you pass `activeKey`) the auto-switch
+only calls your `onChange` and leaves the decision to you.
+
+## 5. Behavioral notes
 
 - **Drag & drop** internals moved from `react-beautiful-dnd` to `@dnd-kit` (Upload lists,
   `dndRows` tables). The public API is unchanged; custom CSS targeting the old library's
@@ -130,7 +202,7 @@ yourself.
   regenerate `mockServiceWorker.js` (`npx msw init public/`) and port handlers to the msw 2
   API (`rest.*` → `http.*`).
 
-## 5. Checklist
+## 6. Checklist
 
 - [ ] Node.js >= 20 locally and in CI
 - [ ] `npm install @devfamily/admiral@^6 react@^19 react-dom@^19 react-router-dom@^7 axios@^1`
@@ -139,5 +211,7 @@ yourself.
 - [ ] `handleSubmit()` callers updated to use the boolean result
 - [ ] Replaced removed hooks (`useMergedState`, `useSafeSetState`) if you imported them
 - [ ] `Tabs.TabPane` children migrated to the `items` prop
+- [ ] (Optional) form fields split across tabs moved to `Form.Tabs` for error badges and
+      auto-switching
 - [ ] Date picker `onChange` handlers accept `null`
 - [ ] `yarn tsc` / `npm run typecheck` passes

@@ -8,13 +8,15 @@ import { parseISO } from 'date-fns'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
 import type { NoUndefinedRangeValueType } from 'rc-picker/es/PickerInput/RangePicker'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export type DateRangePickerInputProps = FormItemProps & {
-    name: string
-    onChange?: (value: any) => void
-} & PickerRangeProps<Date>
+export type DateRangePickerInputProps = FormItemProps &
+    FieldRuleProps & {
+        name: string
+        onChange?: (value: any) => void
+    } & PickerRangeProps<Date>
 
-export const DateRangePickerInput: InputComponentWithName<
+const DateRangePickerInputBase: InputComponentWithName<
     (props: DateRangePickerInputProps) => React.JSX.Element
 > = function DateRangePickerInput({
     name,
@@ -59,4 +61,6 @@ export const DateRangePickerInput: InputComponentWithName<
     )
 }
 
-DateRangePickerInput.inputName = 'DateRangePickerInput'
+DateRangePickerInputBase.inputName = 'DateRangePickerInput'
+
+export const DateRangePickerInput = withFieldRules(DateRangePickerInputBase)

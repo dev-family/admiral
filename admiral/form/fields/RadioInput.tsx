@@ -5,13 +5,14 @@ import { RadioGroup } from '../../ui'
 import { FormItemProps } from '../Item'
 import type { RadioGroupProps } from '../../ui/Radio/interfaces'
 import { InputComponentWithName } from '../interfaces'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface RadioInputProps extends RadioGroupProps, FormItemProps {
+export interface RadioInputProps extends RadioGroupProps, FormItemProps, FieldRuleProps {
     name: string
     onChange?: (value: any) => void
 }
 
-export const RadioInput: InputComponentWithName<(props: RadioInputProps) => React.JSX.Element> =
+const RadioInputBase: InputComponentWithName<(props: RadioInputProps) => React.JSX.Element> =
     function RadioInput({
         name,
         label,
@@ -46,4 +47,6 @@ export const RadioInput: InputComponentWithName<(props: RadioInputProps) => Reac
         )
     }
 
-RadioInput.inputName = 'RadioInput'
+RadioInputBase.inputName = 'RadioInput'
+
+export const RadioInput = withFieldRules(RadioInputBase)

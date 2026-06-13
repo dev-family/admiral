@@ -8,13 +8,15 @@ import { parseISO } from 'date-fns'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
 import { getTransformedDate } from '../../utils/helpers/getTransformedDate'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export type DatePickerInputProps = FormItemProps & {
-    name: string
-    onChange?: (value: any) => void
-} & PickerProps<Date>
+export type DatePickerInputProps = FormItemProps &
+    FieldRuleProps & {
+        name: string
+        onChange?: (value: any) => void
+    } & PickerProps<Date>
 
-export const DatePickerInput: InputComponentWithName<
+const DatePickerInputBase: InputComponentWithName<
     (props: DatePickerInputProps) => React.JSX.Element
 > = function DatePickerInput({
     name,
@@ -58,4 +60,6 @@ export const DatePickerInput: InputComponentWithName<
     )
 }
 
-DatePickerInput.inputName = 'DatePickerInput'
+DatePickerInputBase.inputName = 'DatePickerInput'
+
+export const DatePickerInput = withFieldRules(DatePickerInputBase)

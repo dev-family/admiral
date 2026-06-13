@@ -9,18 +9,20 @@ import { usePopupContainer } from '../../crud/PopupContainerContext'
 import { OptionType } from '../../dataProvider'
 import { useCrudIndex } from '../../crud/CrudIndexPageContext'
 import { useDebouncedCallback, useLatestRequest } from '../../utils/hooks'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
 export interface AjaxSelectInputProps
     extends
         Omit<SelectProps, 'showSearch' | 'onSearch' | 'loading' | 'children' | 'filterOption'>,
-        FormItemProps {
+        FormItemProps,
+        FieldRuleProps {
     name: string
     fetchOptions: (field: string, query?: string) => Promise<OptionType[]>
     fetchTimeout?: number
     onChange?: (value: any) => void
 }
 
-export const AjaxSelectInput: InputComponentWithName<
+const AjaxSelectInputBase: InputComponentWithName<
     (props: AjaxSelectInputProps) => React.JSX.Element
 > = function AjaxSelectInput({
     name,
@@ -102,4 +104,6 @@ export const AjaxSelectInput: InputComponentWithName<
     )
 }
 
-AjaxSelectInput.inputName = 'AjaxSelectInput'
+AjaxSelectInputBase.inputName = 'AjaxSelectInput'
+
+export const AjaxSelectInput = withFieldRules(AjaxSelectInputBase)

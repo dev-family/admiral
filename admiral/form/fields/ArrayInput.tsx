@@ -9,8 +9,10 @@ import type { IRecord as DataProviderRecord } from '../../dataProvider'
 import { enUS } from '../locale'
 import styles from '../Form.module.scss'
 import { InputComponentWithName } from '../interfaces'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface ArrayInputProps extends Omit<FormItemProps, 'children'> {
+export interface ArrayInputProps
+    extends Omit<FormItemProps, 'children'>, Omit<FieldRuleProps, 'disabledWhen' | 'requiredWhen'> {
     name: string
     columnSpan?: 1 | 2
     disableOrder?: boolean
@@ -19,7 +21,7 @@ export interface ArrayInputProps extends Omit<FormItemProps, 'children'> {
     children: React.ReactNode | ((item: DataProviderRecord, idx: number) => React.ReactNode)
 }
 
-export const ArrayInput: InputComponentWithName<(props: ArrayInputProps) => React.JSX.Element> =
+const ArrayInputBase: InputComponentWithName<(props: ArrayInputProps) => React.JSX.Element> =
     function ArrayInput({
         name,
         label,
@@ -38,6 +40,7 @@ export const ArrayInput: InputComponentWithName<(props: ArrayInputProps) => Reac
             errors,
             setErrors,
             locale: formLocale,
+            scopePath: parentScopePath = '',
             ...formProps
         } = useForm()
         const locale = { ...enUS.fields.array, ...formLocale.fields.array }
@@ -193,6 +196,7 @@ export const ArrayInput: InputComponentWithName<(props: ArrayInputProps) => Reac
                                 setErrors={createSetErrorsFn(idx)}
                                 locale={formLocale}
                                 {...formProps}
+                                scopePath={joinPath(parentScopePath, `${name}.${idx}`)}
                             >
                                 <div
                                     className={cn(styles.arrayInput_Header, {
@@ -236,7 +240,15 @@ export const ArrayInput: InputComponentWithName<(props: ArrayInputProps) => Reac
         )
     }
 
-ArrayInput.inputName = 'ArrayInput'
+ArrayInputBase.inputName = 'ArrayInput'
+
+export const ArrayInput = withFieldRules(ArrayInputBase, {
+    supportsDisabled: false,
+    supportsRequiredWhen: false,
+    dispatchesChange: false,
+})
+
+const joinPath = (scope: string, name: string) => (scope ? `${scope}.${name}` : name)
 
 const getFormErrorsByIndex = (
     errors: Record<string, string[]>,

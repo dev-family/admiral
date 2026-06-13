@@ -9,8 +9,10 @@ import { InputComponentWithName } from '../interfaces'
 import { FiLock, FiUnlock } from 'react-icons/fi'
 import cn from 'classnames'
 import styles from '../Form.module.scss'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface SlugInputProps extends InputProps, FormItemProps {
+export interface SlugInputProps
+    extends InputProps, FormItemProps, Omit<FieldRuleProps, 'disabledWhen'> {
     name: string
     from: string
     slugLang?: string
@@ -44,7 +46,7 @@ const getFromFieldValue = (from: string, values: FieldValues, slugLang?: string)
     return value || ''
 }
 
-export const SlugInput: InputComponentWithName<(props: SlugInputProps) => React.JSX.Element> =
+const SlugInputBase: InputComponentWithName<(props: SlugInputProps) => React.JSX.Element> =
     function SlugInput({
         name,
         label,
@@ -139,4 +141,6 @@ export const SlugInput: InputComponentWithName<(props: SlugInputProps) => React.
         )
     }
 
-SlugInput.inputName = 'SlugInput'
+SlugInputBase.inputName = 'SlugInput'
+
+export const SlugInput = withFieldRules(SlugInputBase, { supportsDisabled: false })

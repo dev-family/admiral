@@ -5,13 +5,15 @@ import { Input } from '../../ui'
 import type { InputProps } from '../../ui/Input/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface TextInputProps extends Omit<InputProps, 'onChange'>, FormItemProps {
+export interface TextInputProps
+    extends Omit<InputProps, 'onChange'>, FormItemProps, FieldRuleProps {
     name: string
     onChange?: (value: string) => void
 }
 
-export const TextInput: InputComponentWithName<(props: TextInputProps) => React.JSX.Element> =
+const TextInputBase: InputComponentWithName<(props: TextInputProps) => React.JSX.Element> =
     function TextInput({
         name,
         label,
@@ -45,4 +47,6 @@ export const TextInput: InputComponentWithName<(props: TextInputProps) => React.
         )
     }
 
-TextInput.inputName = 'TextInput'
+TextInputBase.inputName = 'TextInput'
+
+export const TextInput = withFieldRules(TextInputBase)

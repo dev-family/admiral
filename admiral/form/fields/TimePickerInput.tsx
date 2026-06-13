@@ -7,16 +7,18 @@ import { parse, isValid, parseISO } from 'date-fns'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
 import { getTransformedDate } from '../../utils/helpers/getTransformedDate'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
 interface TimePickerProps extends Omit<BaseTimePickerProps, 'format'> {}
 
-export type TimePickerInputProps = FormItemProps & {
-    name: string
-    format: string
-    onChange?: (value: any) => void
-} & TimePickerProps
+export type TimePickerInputProps = FormItemProps &
+    FieldRuleProps & {
+        name: string
+        format: string
+        onChange?: (value: any) => void
+    } & TimePickerProps
 
-export const TimePickerInput: InputComponentWithName<
+const TimePickerInputBase: InputComponentWithName<
     (props: TimePickerInputProps) => React.JSX.Element
 > = function TimePickerInput({
     name,
@@ -63,7 +65,9 @@ export const TimePickerInput: InputComponentWithName<
     )
 }
 
-TimePickerInput.inputName = 'TimePickerInput'
+TimePickerInputBase.inputName = 'TimePickerInput'
+
+export const TimePickerInput = withFieldRules(TimePickerInputBase)
 
 export const parseValue = (value: string, format: string) => {
     const fullISO = parseISO(value)

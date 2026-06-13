@@ -9,6 +9,7 @@ import { TabsType } from '../../ui/Tabs/interfaces'
 import { TextInput, TextInputProps } from './TextInput'
 import { EditorInput, EditorInputProps } from './EditorInput'
 import { MultilineTextInput, MultilineTextInputProps } from './MultilineTextInput'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
 type FieldMap = {
     editor: EditorInputProps
@@ -20,6 +21,9 @@ type FieldProps<K extends keyof FieldMap> = {
     field: K
     props?: Omit<
         FieldMap[K],
+        // Inner fields are scoped to `{ [lang]: value }`, so per-field rule props
+        // are semantically empty (R9/KTD11); only the TranslatableInput itself
+        // takes rule props (hiding the whole field).
         | 'label'
         | 'error'
         | 'showError'
@@ -28,6 +32,7 @@ type FieldProps<K extends keyof FieldMap> = {
         | 'onLabelClick'
         | 'labelAs'
         | 'name'
+        | keyof FieldRuleProps
     >
 }
 
@@ -52,11 +57,21 @@ type TranslatableInputType = {
     tabType?: TabsType
 }
 
-export const TranslatableInput = <K extends keyof FieldMap>(
-    props: FieldProps<K> & TranslatableInputType & FormItemProps,
+const TranslatableInputBase = <K extends keyof FieldMap>(
+    props: FieldProps<K> &
+        TranslatableInputType &
+        FormItemProps &
+        Omit<FieldRuleProps, 'disabledWhen'>,
 ) => {
     const { name, label, required, languages, tabType = 'card', field, props: filedProps } = props
-    const { values, setValues, errors, setErrors, ...formProps } = useForm()
+    const {
+        values,
+        setValues,
+        errors,
+        setErrors,
+        scopePath: parentScopePath = '',
+        ...formProps
+    } = useForm()
     const [activeTabKey, setActiveTabKey] = useState<string>(languages[0]?.value)
 
     const Component = fields[field]
@@ -140,6 +155,7 @@ export const TranslatableInput = <K extends keyof FieldMap>(
                                 errors={formsErrors[value] ?? {}}
                                 setErrors={createSetErrorsFn}
                                 {...formProps}
+                                scopePath={joinPath(parentScopePath, name)}
                             >
                                 {React.createElement(Component, {
                                     ...filedProps,
@@ -154,7 +170,32 @@ export const TranslatableInput = <K extends keyof FieldMap>(
     )
 }
 
-TranslatableInput.inputName = 'TranslatableInput'
+TranslatableInputBase.inputName = 'TranslatableInput'
+
+const joinPath = (scope: string, name: string) => (scope ? `${scope}.${name}` : name)
+
+/**
+ * Public generic signature of TranslatableInput — preserved across the HOC wrap
+ * (which is itself non-generic at runtime). The runtime wrap is identical to
+ * every other field; only the type is cast back so `field` / `props` stay
+ * type-checked at call sites, and the `inputName` static survives the cast.
+ */
+type TranslatableInputComponent = (<K extends keyof FieldMap>(
+    props: FieldProps<K> &
+        TranslatableInputType &
+        FormItemProps &
+        Omit<FieldRuleProps, 'disabledWhen'>,
+) => React.JSX.Element | null) & { inputName: 'TranslatableInput' }
+
+export const TranslatableInput = withFieldRules(
+    TranslatableInputBase as React.ComponentType<
+        FieldProps<keyof FieldMap> &
+            TranslatableInputType &
+            FormItemProps &
+            Omit<FieldRuleProps, 'disabledWhen'> & { name: string }
+    >,
+    { supportsDisabled: false, dispatchesChange: false },
+) as unknown as TranslatableInputComponent
 
 const getFormErrors = (
     errors: Record<string, string[]>,

@@ -6,10 +6,11 @@ import type { SelectProps } from '../../ui/Select/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
 const { OptGroup, Option } = Select
 
-export interface SelectInputProps extends SelectProps, FormItemProps {
+export interface SelectInputProps extends SelectProps, FormItemProps, FieldRuleProps {
     name: string
     onChange?: (value: any) => void
 }
@@ -46,9 +47,9 @@ const InternalSelectInput: InputComponentWithName<(props: SelectInputProps) => R
                 return (
                     <>
                         {opts.map(({ value, label }) => (
-                            <SelectInput.Option key={value} value={value}>
+                            <Option key={value} value={value}>
                                 {label}
-                            </SelectInput.Option>
+                            </Option>
                         ))}
                     </>
                 )
@@ -89,7 +90,9 @@ const InternalSelectInput: InputComponentWithName<(props: SelectInputProps) => R
 
 InternalSelectInput.inputName = 'SelectInput'
 
-export const SelectInput = InternalSelectInput as typeof InternalSelectInput & {
+export const SelectInput = withFieldRules(InternalSelectInput) as InputComponentWithName<
+    (props: SelectInputProps) => React.JSX.Element | null
+> & {
     Option: typeof Option
     OptGroup: typeof OptGroup
 }

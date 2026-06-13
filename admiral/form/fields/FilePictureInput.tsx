@@ -6,14 +6,16 @@ import { FiUpload } from 'react-icons/fi'
 import { UploadChangeParam, UploadFile, UploadProps } from '../../ui/Upload/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export type FilePictureInputProps = FormItemProps & {
-    name: string
-} & UploadProps
+export type FilePictureInputProps = FormItemProps &
+    FieldRuleProps & {
+        name: string
+    } & UploadProps
 
 const VALUE_DEFAULT: any[] = []
 
-export const FilePictureInput: InputComponentWithName<
+const FilePictureInputBase: InputComponentWithName<
     (props: FilePictureInputProps) => React.JSX.Element
 > = function FilePictureInput({
     name,
@@ -66,4 +68,6 @@ export const FilePictureInput: InputComponentWithName<
     )
 }
 
-FilePictureInput.inputName = 'FilePictureInput'
+FilePictureInputBase.inputName = 'FilePictureInput'
+
+export const FilePictureInput = withFieldRules(FilePictureInputBase, { dispatchesChange: false })

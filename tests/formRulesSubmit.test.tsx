@@ -361,11 +361,16 @@ describe('CRUD config threads `form.create.rules` to the Form (AE2 via createCRU
         await act(async () => {})
 
         // The CreatePage owns its own <Form> (no ref injectable), so drive it
-        // through the DOM: type into the inputs, then click Submit.
+        // through the DOM. Since U5 the rules-map hides at render too: open the
+        // field first (type=legal → inn visible), fill it, then hide it
+        // (type=person → inn unmounts, value persists in form context), submit.
         const typeInput = document.querySelector<HTMLInputElement>('input[name="type"]')!
+        fireEvent.change(typeInput, { target: { value: 'legal' } })
         const innInput = document.querySelector<HTMLInputElement>('input[name="inn"]')!
-        fireEvent.change(typeInput, { target: { value: 'person' } })
         fireEvent.change(innInput, { target: { value: '7701234567' } })
+        fireEvent.change(typeInput, { target: { value: 'person' } })
+        // inn is now unmounted by the rules-map `visible` rule.
+        expect(document.querySelector('input[name="inn"]')).toBeNull()
 
         await act(async () => {
             fireEvent.click(screen.getByRole('button', { name: 'Submit' }))

@@ -5,13 +5,14 @@ import { Editor } from '../../ui/Editor'
 import type { EditorProps } from '../../ui/Editor/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface EditorInputProps extends EditorProps, FormItemProps {
+export interface EditorInputProps extends EditorProps, FormItemProps, FieldRuleProps {
     name: string
     onChange?: (value: any) => void
 }
 
-export const EditorInput: InputComponentWithName<(props: EditorInputProps) => React.JSX.Element> =
+const EditorInputBase: InputComponentWithName<(props: EditorInputProps) => React.JSX.Element> =
     function EditorInput({
         name,
         label,
@@ -47,4 +48,6 @@ export const EditorInput: InputComponentWithName<(props: EditorInputProps) => Re
         )
     }
 
-EditorInput.inputName = 'EditorInput'
+EditorInputBase.inputName = 'EditorInput'
+
+export const EditorInput = withFieldRules(EditorInputBase)

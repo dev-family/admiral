@@ -5,13 +5,15 @@ import { Textarea } from '../../ui'
 import type { TextareaProps } from '../../ui/Textarea/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface MultilineTextInputProps extends Omit<TextareaProps, 'onChange'>, FormItemProps {
+export interface MultilineTextInputProps
+    extends Omit<TextareaProps, 'onChange'>, FormItemProps, FieldRuleProps {
     name: string
     onChange?: (value: string) => void
 }
 
-export const MultilineTextInput: InputComponentWithName<
+const MultilineTextInputBase: InputComponentWithName<
     (props: MultilineTextInputProps) => React.JSX.Element
 > = function MultilineTextInput({
     name,
@@ -46,4 +48,6 @@ export const MultilineTextInput: InputComponentWithName<
     )
 }
 
-MultilineTextInput.inputName = 'MultilineTextInput'
+MultilineTextInputBase.inputName = 'MultilineTextInput'
+
+export const MultilineTextInput = withFieldRules(MultilineTextInputBase)

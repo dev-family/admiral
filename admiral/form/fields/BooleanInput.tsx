@@ -5,13 +5,14 @@ import { Switch } from '../../ui'
 import type { SwitchProps } from '../../ui/Switch/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface BooleanInputProps extends SwitchProps, FormItemProps {
+export interface BooleanInputProps extends SwitchProps, FormItemProps, FieldRuleProps {
     name: string
     onChange?: (value: boolean) => void
 }
 
-export const BooleanInput: InputComponentWithName<(props: BooleanInputProps) => React.JSX.Element> =
+const BooleanInputBase: InputComponentWithName<(props: BooleanInputProps) => React.JSX.Element> =
     function BooleanInput({
         name,
         label,
@@ -39,4 +40,6 @@ export const BooleanInput: InputComponentWithName<(props: BooleanInputProps) => 
         )
     }
 
-BooleanInput.inputName = 'BooleanInput'
+BooleanInputBase.inputName = 'BooleanInput'
+
+export const BooleanInput = withFieldRules(BooleanInputBase)

@@ -6,14 +6,15 @@ import type { ColorPickerProps, ColorPickerResult } from '../../ui/ColorPicker/i
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps {
+export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps, FieldRuleProps {
     name: string
     outputValue?: keyof ColorPickerResult
     onChange?: (value: any) => void
 }
 
-export const ColorPickerInput: InputComponentWithName<
+const ColorPickerInputBase: InputComponentWithName<
     (props: ColorPickerInputProps) => React.JSX.Element
 > = function ColorPickerInput({
     name,
@@ -63,4 +64,6 @@ export const ColorPickerInput: InputComponentWithName<
     )
 }
 
-ColorPickerInput.inputName = 'ColorPickerInput'
+ColorPickerInputBase.inputName = 'ColorPickerInput'
+
+export const ColorPickerInput = withFieldRules(ColorPickerInputBase)

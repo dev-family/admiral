@@ -5,13 +5,15 @@ import { Upload } from '../../ui'
 import { UploadProps } from '../../ui/Upload/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export type DraggerInputProps = FormItemProps & {
-    name: string
-    onChange?: (value: any) => void
-} & UploadProps
+export type DraggerInputProps = FormItemProps &
+    Omit<FieldRuleProps, 'disabledWhen'> & {
+        name: string
+        onChange?: (value: any) => void
+    } & UploadProps
 
-export const DraggerInput: InputComponentWithName<(props: DraggerInputProps) => React.JSX.Element> =
+const DraggerInputBase: InputComponentWithName<(props: DraggerInputProps) => React.JSX.Element> =
     function DraggerInput({
         name,
         label,
@@ -61,4 +63,6 @@ export const DraggerInput: InputComponentWithName<(props: DraggerInputProps) => 
         )
     }
 
-DraggerInput.inputName = 'DraggerInput'
+DraggerInputBase.inputName = 'DraggerInput'
+
+export const DraggerInput = withFieldRules(DraggerInputBase, { supportsDisabled: false })

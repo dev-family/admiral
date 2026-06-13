@@ -6,6 +6,7 @@ import { Button, Notification } from '../ui'
 import styles from './Form.module.scss'
 import Item from './Item'
 import FormTabs from './FormTabs'
+import When from './When'
 import Error from './Error'
 import cn from 'classnames'
 import { isObject } from '../utils/helpers'
@@ -247,6 +248,7 @@ interface FormInterface extends FormType {
     Fields: typeof Fields
     Item: typeof Item
     Tabs: typeof FormTabs
+    When: typeof When
     Footer: typeof Footer
     Submit: typeof Submit
     ChildForm: typeof ChildForm
@@ -257,6 +259,7 @@ Form.Error = Error
 Form.Fields = Fields
 Form.Item = Item
 Form.Tabs = FormTabs
+Form.When = When
 Form.Footer = Footer
 Form.Submit = Submit
 Form.ChildForm = ChildForm

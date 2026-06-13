@@ -138,7 +138,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
         const {
             path,
             form: {
-                create: { fields, children },
+                create: { fields, children, rules },
             },
         } = config
 
@@ -191,6 +191,7 @@ function makeCreatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     redirect={config.path}
                     fetchInitialData={fetchInitialData}
                     locale={locale.form}
+                    rules={rules}
                 >
                     {pageFormChildren}
                 </Form>
@@ -220,7 +221,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
         const {
             path,
             form: {
-                edit: { fields, children },
+                edit: { fields, children, rules },
             },
         } = config
         const { title = (id: string) => `Update #${id}`, view = 'page' } = config.update || {}
@@ -271,6 +272,7 @@ function makeUpdatePage<RecordType>(config: CRUDConfig<RecordType>) {
                     submitData={submitData}
                     fetchInitialData={fetchInitialData}
                     locale={locale.form}
+                    rules={rules}
                 >
                     {pageFormChildren}
                 </Form>
@@ -309,7 +311,7 @@ function UpdateDrawer<RecordType>({
     const {
         path,
         form: {
-            edit: { fields, children },
+            edit: { fields, children, rules },
         },
     } = config
     const { drawer } = config.update || {}
@@ -389,6 +391,7 @@ function UpdateDrawer<RecordType>({
                     submitData={submitData}
                     fetchInitialData={fetchInitialData}
                     locale={locale.form}
+                    rules={rules}
                 >
                     {drawerFormChildren}
                 </Form>

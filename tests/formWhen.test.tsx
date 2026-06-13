@@ -172,6 +172,13 @@ describe('Form.When', () => {
             </MemoryRouter>,
         )
 
+        // Open the When so `inn` is genuinely visible: a hidden field's 422
+        // error is moved to _global by U4's partition (R12), which would defeat
+        // the badge — this test exercises When *discovery*, so the field must
+        // be visible for its error to stay inline and badge the tab.
+        await act(async () => {
+            ref.current?.setValues({ type: 'legal' })
+        })
         await act(async () => {
             await ref.current?.handleSubmit()
         })

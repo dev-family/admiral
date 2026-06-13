@@ -2,6 +2,7 @@ import React, { type ReactNode } from 'react'
 import { ColumnsType, ColumnType } from '../ui/Table/interfaces'
 import { DataTableConfig } from '../dataTable'
 import { DrawerProps } from '../ui/Drawer/interfaces'
+import { FormRulesMap } from '../form'
 
 export type CRUDActionsLocale = {
     submit: string
@@ -10,7 +11,7 @@ export type CRUDActionsLocale = {
     paginationTotal: (total: number) => string
 }
 
-type CRUDForm =
+type CRUDForm = (
     | {
           fields: React.ReactNode
           children?: never
@@ -19,6 +20,10 @@ type CRUDForm =
           fields?: never
           children: React.ReactNode
       }
+) & {
+    /** Escape-hatch rules map forwarded to the `<Form rules>` prop. */
+    rules?: FormRulesMap
+}
 
 export type CRUDFormCreate = CRUDForm
 export type CRUDFormEdit = CRUDForm

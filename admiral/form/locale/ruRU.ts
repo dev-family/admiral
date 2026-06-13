@@ -22,4 +22,5 @@ export const ruRU: Locale = {
         if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return `${count} ошибки`
         return `${count} ошибок`
     },
+    hiddenFieldError: (field, message) => `${message} (скрытое поле «${field}»)`,
 }

@@ -129,7 +129,53 @@ export const UsersCRUD = createCRUD({
                             Project managers
                         </SelectInput.Option>
                     </SelectInput>
-                    <RadioInput label="Role" name="role" required />
+                    {/* Conditional fields driven by a SELECT: choosing "Phone"
+                        reveals (and requires) the phone number; the other options
+                        hide it and drop its value from the payload. */}
+                    <SelectInput
+                        label="Preferred contact"
+                        name="contact_method"
+                        placeholder="How should we reach out?"
+                    >
+                        <SelectInput.Option value="email">Email</SelectInput.Option>
+                        <SelectInput.Option value="phone">Phone</SelectInput.Option>
+                        <SelectInput.Option value="none">Do not contact</SelectInput.Option>
+                    </SelectInput>
+                    <TextInput
+                        label="Phone number"
+                        name="phone_number"
+                        placeholder="+1 (___) ___-____"
+                        visibleWhen={{ field: 'contact_method', is: 'phone' }}
+                        requiredWhen={{ field: 'contact_method', is: 'phone' }}
+                    />
+                    {/* Cascade pair — City sits directly after Country. Changing
+                        Country resets City to null and refetches its options for
+                        the new country (the 3rd fetchOptions arg carries the scope
+                        values, R6/R7). Full-width keeps the pair together. */}
+                    <AjaxSelectInput
+                        columnSpan={2}
+                        label="Country"
+                        name="country"
+                        placeholder="Choose Country"
+                        allowClear
+                        fetchOptions={(field, query) =>
+                            api.getAjaxSelectOptions(resource, field, query)
+                        }
+                    />
+                    <AjaxSelectInput
+                        columnSpan={2}
+                        label="City"
+                        name="city"
+                        placeholder="Choose City"
+                        allowClear
+                        resetOnChangeOf={['country']}
+                        fetchOptions={(field, query, values) =>
+                            api.getAjaxSelectOptions(resource, field, query, {
+                                country: values?.country,
+                            })
+                        }
+                    />
+                    <RadioInput label="Role" name="role" required columnSpan={2} />
                     <FilePictureInput
                         columnSpan={2}
                         label="Avatar"
@@ -157,6 +203,10 @@ export const UsersCRUD = createCRUD({
                             placeholder="Day of the week"
                             required
                         />
+                        {/* The toggle sits ABOVE the times: revealing/hiding them
+                            grows or collapses the row below the toggle instead of
+                            shoving the toggle around — no layout jump. */}
+                        <BooleanInput label="Day off?" name="day_off" />
                         {/* Row-local rule (function form): the row scope is this
                             schedule row, so toggling its own "Day off?" hides the
                             two time pickers for that row only. */}
@@ -175,10 +225,9 @@ export const UsersCRUD = createCRUD({
                             format="HH:mm"
                             visibleWhen={{ field: 'day_off', not: true }}
                         />
-                        <BooleanInput label="Day off?" name="day_off" />
                     </ArrayInput>
 
-                    <BooleanInput label="Active?" name="active" />
+                    <BooleanInput label="Active?" name="active" columnSpan={2} />
                 </>
             ),
         },
@@ -207,7 +256,53 @@ export const UsersCRUD = createCRUD({
                             Project managers
                         </SelectInput.Option>
                     </SelectInput>
+                    {/* Conditional fields driven by a SELECT (same demo as create):
+                        "Phone" reveals + requires the number; others hide it. */}
+                    <SelectInput
+                        label="Preferred contact"
+                        name="contact_method"
+                        placeholder="How should we reach out?"
+                    >
+                        <SelectInput.Option value="email">Email</SelectInput.Option>
+                        <SelectInput.Option value="phone">Phone</SelectInput.Option>
+                        <SelectInput.Option value="none">Do not contact</SelectInput.Option>
+                    </SelectInput>
+                    <TextInput
+                        label="Phone number"
+                        name="phone_number"
+                        placeholder="+1 (___) ___-____"
+                        visibleWhen={{ field: 'contact_method', is: 'phone' }}
+                        requiredWhen={{ field: 'contact_method', is: 'phone' }}
+                    />
+                    {/* Cascade pair — City sits directly after Country. Changing
+                        Country resets City to null and refetches its options for
+                        the new country (the 3rd fetchOptions arg carries the scope
+                        values, R6/R7). Full-width keeps the pair together. */}
                     <AjaxSelectInput
+                        columnSpan={2}
+                        label="Country"
+                        name="country"
+                        placeholder="Choose Country"
+                        allowClear
+                        fetchOptions={(field, query) =>
+                            api.getAjaxSelectOptions(resource, field, query)
+                        }
+                    />
+                    <AjaxSelectInput
+                        columnSpan={2}
+                        label="City"
+                        name="city"
+                        placeholder="Choose City"
+                        allowClear
+                        resetOnChangeOf={['country']}
+                        fetchOptions={(field, query, values) =>
+                            api.getAjaxSelectOptions(resource, field, query, {
+                                country: values?.country,
+                            })
+                        }
+                    />
+                    <AjaxSelectInput
+                        columnSpan={2}
                         label="Role"
                         name="role"
                         placeholder="Choose Role"
@@ -235,37 +330,15 @@ export const UsersCRUD = createCRUD({
                         name="description"
                         onImageUpload={onImageUpload}
                     />
-                    <AjaxSelectInput
-                        label="Country"
-                        name="country"
-                        placeholder="Choose Country"
-                        allowClear
-                        fetchOptions={(field, query) =>
-                            api.getAjaxSelectOptions(resource, field, query)
-                        }
-                    />
-                    {/* Cascade child: changing Country resets City to null and
-                        refetches its options for the new country. The 3rd arg of
-                        fetchOptions carries the scope values, so we pass the
-                        selected country to the backend (R6/R7). */}
-                    <AjaxSelectInput
-                        label="City"
-                        name="city"
-                        placeholder="Choose City"
-                        allowClear
-                        resetOnChangeOf={['country']}
-                        fetchOptions={(field, query, values) =>
-                            api.getAjaxSelectOptions(resource, field, query, {
-                                country: values?.country,
-                            })
-                        }
-                    />
                     <ArrayInput label="Schedule" name="schedule" required>
                         <SelectInput
                             label="Day of the week"
                             name="day"
                             placeholder="Day of the week"
                         />
+                        {/* Toggle above the times so the row grows/collapses below
+                            it on reveal — no layout jump. */}
+                        <BooleanInput label="Day off?" name="day_off" />
                         {/* Row-local rule (function form): hides this row's time
                             pickers when its own "Day off?" is on. */}
                         <TimePickerInput
@@ -283,10 +356,9 @@ export const UsersCRUD = createCRUD({
                             format="HH:mm"
                             visibleWhen={{ field: 'day_off', not: true }}
                         />
-                        <BooleanInput label="Day off?" name="day_off" />
                     </ArrayInput>
 
-                    <BooleanInput label="Active?" name="active" />
+                    <BooleanInput label="Active?" name="active" columnSpan={2} />
                 </>
             ),
         },

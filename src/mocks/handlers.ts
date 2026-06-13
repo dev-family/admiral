@@ -59,7 +59,11 @@ export const handlers = [
     http.get('/api/users/filters', async ({ request }) => {
         const url = new URL(request.url)
         const urlState = qs.parse(url.searchParams.toString())
-        const options = userList.getOptions(urlState as any)
+        // Country/city are options for the cascade FORM fields; the filters form
+        // has no such fields, so keep them out of the filter options entirely.
+        const options = { ...userList.getOptions(urlState as any) } as Record<string, unknown>
+        delete options.country
+        delete options.city
 
         await delay(160)
         return HttpResponse.json({ options })

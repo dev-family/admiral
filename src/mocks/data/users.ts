@@ -48,8 +48,8 @@ export class UserList {
             // search keystroke (AjaxSelectInput renders `values[name]` options
             // until the operator searches or a parent change refetches).
             country: [
-                { label: 'Russia', value: 'ru' },
                 { label: 'United States', value: 'us' },
+                { label: 'Canada', value: 'ca' },
             ],
             city: [],
         }
@@ -330,15 +330,15 @@ export class UserList {
 // Cities keyed by country — the cascade demo: picking a country resets the
 // city and refetches this list for the selected country (R6/R7, KTD9).
 const citiesByCountry: Record<string, OptionType[]> = {
-    ru: [
-        { label: 'Moscow', value: 'moscow' },
-        { label: 'Kazan', value: 'kazan' },
-        { label: 'Saint Petersburg', value: 'spb' },
-    ],
     us: [
         { label: 'New York', value: 'new_york' },
         { label: 'Boston', value: 'boston' },
         { label: 'San Francisco', value: 'san_francisco' },
+    ],
+    ca: [
+        { label: 'Toronto', value: 'toronto' },
+        { label: 'Vancouver', value: 'vancouver' },
+        { label: 'Montreal', value: 'montreal' },
     ],
 }
 

@@ -7,6 +7,12 @@ export type Locale = {
     serverErrorMessage: string;
     /** Accessible label for the Form.Tabs error badge, e.g. "2 errors" */
     tabErrors?: (count: number) => string;
+    /**
+     * Message used when a 422 error targets a hidden field: such errors are
+     * moved out of inline `errors` into `_global`. Receives the field key and
+     * the server message.
+     */
+    hiddenFieldError?: (field: string, message: string) => string;
     fields: {
         array?: ArrayInputLocale;
         editor?: EditorLocaleType;

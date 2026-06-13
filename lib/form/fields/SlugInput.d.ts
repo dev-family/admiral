@@ -1,8 +1,8 @@
 import React from 'react';
 import type { InputProps } from '../../ui/Input/interfaces.js';
 import { FormItemProps } from '../Item.js';
-import { InputComponentWithName } from '../interfaces.js';
-export interface SlugInputProps extends InputProps, FormItemProps {
+import { FieldRuleProps } from '../fieldRules.js';
+export interface SlugInputProps extends InputProps, FormItemProps, Omit<FieldRuleProps, 'disabledWhen'> {
     name: string;
     from: string;
     slugLang?: string;
@@ -17,4 +17,4 @@ export type SlygifyOptions = {
     locale?: string;
     trim?: boolean;
 };
-export declare const SlugInput: InputComponentWithName<(props: SlugInputProps) => React.JSX.Element>;
+export declare const SlugInput: (props: SlugInputProps) => React.JSX.Element | null;

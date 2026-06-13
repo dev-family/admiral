@@ -16,9 +16,26 @@
     }
 }
 
+@keyframes formItemReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .item {
     display: flex;
     flex-direction: column;
+    // Every field eases in on mount, so a rule-revealed field (or a freshly
+    // loaded form / a new ArrayInput row) appears smoothly instead of popping.
+    // Opacity + transform only — no layout reflow. Tunable via
+    // --form-item-reveal-duration; fully off under prefers-reduced-motion.
+    animation: formItemReveal var(--form-item-reveal-duration, 160ms) ease-out;
 
     &:not(:last-child) {
         margin-bottom: var(--form-item-mb, var(--space-l));
@@ -26,6 +43,12 @@
 
     &__ColumnSpanTwo {
         grid-column: 1 / -1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .item {
+        animation: none;
     }
 }
 

@@ -411,6 +411,19 @@ fields **immediately after** the control that triggers them, and **avoid autofoc
 `aria-live` churn on reveal — moving focus or announcing on every keystroke is more disorienting
 than helpful.
 
+### Reveal animation
+
+Every form field eases in on mount (~160 ms, opacity + a slight slide), so a rule-revealed
+field — and equally a freshly loaded form or a new `ArrayInput` row — appears smoothly instead
+of popping. This is **library-wide**: it applies to all `Form.Item`-based fields, not only
+conditional ones. It's opacity + transform only, so there is no layout reflow. Hiding stays
+instant — a hidden field unmounts (so its value can be stripped from the payload), leaving no
+element to animate out.
+
+- It is **off automatically** under `prefers-reduced-motion: reduce`.
+- Tune or disable it globally with the `--form-item-reveal-duration` CSS variable (e.g. set it
+  to `0ms` to turn the motion off).
+
 ### Performance
 
 Rules are cheap pure functions over the current values (microseconds for a normal form). The

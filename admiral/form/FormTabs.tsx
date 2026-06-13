@@ -141,4 +141,7 @@ function collectFieldNames(node: React.ReactNode, acc: string[] = []): string[] 
     return acc
 }
 
+// Static string marker for the form's structural scan (mirrors When.formNodeType).
+;(FormTabs as typeof FormTabs & { formNodeType: 'tabs' }).formNodeType = 'tabs'
+
 export default FormTabs

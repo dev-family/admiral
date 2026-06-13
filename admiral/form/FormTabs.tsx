@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useForm } from './FormContext'
+import { matchesField } from './rules'
 import { Badge, Tabs } from '../ui'
 import type { TabsProps } from '../ui/Tabs/interfaces'
 import styles from './FormTabs.module.scss'
@@ -121,9 +122,6 @@ function FormTabs({ items, activeKey, defaultActiveKey, onChange, ...tabsProps }
         />
     )
 }
-
-const matchesField = (errorKey: string, field: string) =>
-    errorKey === field || errorKey.startsWith(`${field}.`)
 
 function collectFieldNames(node: React.ReactNode, acc: string[] = []): string[] {
     React.Children.forEach(node, (child) => {

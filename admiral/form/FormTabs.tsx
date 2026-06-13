@@ -25,7 +25,7 @@ export type FormTabsProps = Omit<TabsProps, 'items'> & {
  * the `inputName` static that all admiral inputs carry.
  */
 function FormTabs({ items, activeKey, defaultActiveKey, onChange, ...tabsProps }: FormTabsProps) {
-    const { errors, locale } = useForm()
+    const { errors, locale, hiddenFields } = useForm()
 
     const [innerActiveKey, setInnerActiveKey] = useState<string | undefined>(
         () => activeKey ?? defaultActiveKey ?? items[0]?.key,
@@ -40,9 +40,16 @@ function FormTabs({ items, activeKey, defaultActiveKey, onChange, ...tabsProps }
             }),
         [items],
     )
+    // A hidden field's error never counts toward a badge or auto-switch (R11).
+    // The main 422 path is already partitioned in Form (U4); this filter also
+    // covers post-submit visibility flips and errors set directly by user code.
     const errorKeys = useMemo(
-        () => Object.keys(errors).filter((key) => key !== '_global' && errors[key]?.length),
-        [errors],
+        () =>
+            Object.keys(errors).filter(
+                (key) =>
+                    key !== '_global' && errors[key]?.length && !isFieldHidden(key, hiddenFields),
+            ),
+        [errors, hiddenFields],
     )
     const errorCounts = useMemo(
         () =>
@@ -122,6 +129,14 @@ function FormTabs({ items, activeKey, defaultActiveKey, onChange, ...tabsProps }
         />
     )
 }
+
+/**
+ * True when an error key belongs to a field hidden by a rule. Prefix-aware via
+ * `matchesField` (a hidden `items` also hides `items.0.title`), mirroring the
+ * Form 422 partition (U4/KTD8).
+ */
+const isFieldHidden = (errorKey: string, hiddenFields: Set<string> | undefined): boolean =>
+    hiddenFields ? Array.from(hiddenFields).some((path) => matchesField(errorKey, path)) : false
 
 function collectFieldNames(node: React.ReactNode, acc: string[] = []): string[] {
     React.Children.forEach(node, (child) => {

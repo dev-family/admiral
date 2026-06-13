@@ -274,6 +274,11 @@ Inside any form (or a custom input) the `useForm()` hook gives access to values,
 setters. Standalone forms outside CRUD are available via the `Form` component from
 `@devfamily/admiral/form`.
 
+**Conditional & dependent fields.** Every input takes `visibleWhen` / `disabledWhen` /
+`requiredWhen` (a `(values) => boolean` or a JSON rule), `<Form.When>` reveals a group by one
+rule, and `AjaxSelectInput` supports `resetOnChangeOf` cascades (e.g. country → city). See
+[Conditional & dependent fields](./MIGRATION.md#5-new-in-v6-conditional--dependent-fields).
+
 ### Filters
 
 Add a filter drawer to a CRUD index page with the `filter` key, and promote any of the fields

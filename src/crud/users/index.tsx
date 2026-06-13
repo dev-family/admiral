@@ -157,17 +157,23 @@ export const UsersCRUD = createCRUD({
                             placeholder="Day of the week"
                             required
                         />
+                        {/* Row-local rule (function form): the row scope is this
+                            schedule row, so toggling its own "Day off?" hides the
+                            two time pickers for that row only. */}
                         <TimePickerInput
                             label="Opening time"
                             name="start_time"
                             placeholder="Opening time"
                             format="HH:mm"
+                            visibleWhen={(row) => !row.day_off}
                         />
+                        {/* Same rule as the JSON DSL, to demonstrate both forms. */}
                         <TimePickerInput
                             label="Closing time"
                             name="end_time"
                             placeholder="Closing time"
                             format="HH:mm"
+                            visibleWhen={{ field: 'day_off', not: true }}
                         />
                         <BooleanInput label="Day off?" name="day_off" />
                     </ArrayInput>
@@ -229,23 +235,53 @@ export const UsersCRUD = createCRUD({
                         name="description"
                         onImageUpload={onImageUpload}
                     />
+                    <AjaxSelectInput
+                        label="Country"
+                        name="country"
+                        placeholder="Choose Country"
+                        allowClear
+                        fetchOptions={(field, query) =>
+                            api.getAjaxSelectOptions(resource, field, query)
+                        }
+                    />
+                    {/* Cascade child: changing Country resets City to null and
+                        refetches its options for the new country. The 3rd arg of
+                        fetchOptions carries the scope values, so we pass the
+                        selected country to the backend (R6/R7). */}
+                    <AjaxSelectInput
+                        label="City"
+                        name="city"
+                        placeholder="Choose City"
+                        allowClear
+                        resetOnChangeOf={['country']}
+                        fetchOptions={(field, query, values) =>
+                            api.getAjaxSelectOptions(resource, field, query, {
+                                country: values?.country,
+                            })
+                        }
+                    />
                     <ArrayInput label="Schedule" name="schedule" required>
                         <SelectInput
                             label="Day of the week"
                             name="day"
                             placeholder="Day of the week"
                         />
+                        {/* Row-local rule (function form): hides this row's time
+                            pickers when its own "Day off?" is on. */}
                         <TimePickerInput
                             label="Opening time"
                             name="start_time"
                             placeholder="Opening time"
                             format="HH:mm"
+                            visibleWhen={(row) => !row.day_off}
                         />
+                        {/* Same rule expressed as the JSON DSL. */}
                         <TimePickerInput
                             label="Closing time"
                             name="end_time"
                             placeholder="Closing time"
                             format="HH:mm"
+                            visibleWhen={{ field: 'day_off', not: true }}
                         />
                         <BooleanInput label="Day off?" name="day_off" />
                     </ArrayInput>

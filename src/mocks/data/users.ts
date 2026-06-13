@@ -44,6 +44,14 @@ export class UserList {
                 { label: 'Accountant', value: 'accountant' },
                 { label: 'HR Officer', value: 'recruiter' },
             ],
+            // Seed options so the cascade demo selects show choices without a
+            // search keystroke (AjaxSelectInput renders `values[name]` options
+            // until the operator searches or a parent change refetches).
+            country: [
+                { label: 'Russia', value: 'ru' },
+                { label: 'United States', value: 'us' },
+            ],
+            city: [],
         }
     }
 
@@ -297,10 +305,19 @@ export class UserList {
         return []
     }
 
-    searchOptions(field: keyof IUser, query: string): OptionType[] {
+    searchOptions(field: string, query: string, country?: string): OptionType[] {
         if (field === 'role') {
-            const allOptions = this.getAllOptions(field)
+            const allOptions = this.getAllOptions(field as keyof IUser)
             return allOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()))
+        }
+        if (field === 'country') {
+            return this.options.country ?? []
+        }
+        if (field === 'city') {
+            const cities = country ? (citiesByCountry[country] ?? []) : []
+            return query
+                ? cities.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()))
+                : cities
         }
         return this.options[field] ?? []
     }
@@ -308,6 +325,21 @@ export class UserList {
     get length() {
         return this.users.length
     }
+}
+
+// Cities keyed by country — the cascade demo: picking a country resets the
+// city and refetches this list for the selected country (R6/R7, KTD9).
+const citiesByCountry: Record<string, OptionType[]> = {
+    ru: [
+        { label: 'Moscow', value: 'moscow' },
+        { label: 'Kazan', value: 'kazan' },
+        { label: 'Saint Petersburg', value: 'spb' },
+    ],
+    us: [
+        { label: 'New York', value: 'new_york' },
+        { label: 'Boston', value: 'boston' },
+        { label: 'San Francisco', value: 'san_francisco' },
+    ],
 }
 
 function randomFromValues<T>(values: T[]) {

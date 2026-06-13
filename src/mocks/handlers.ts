@@ -86,6 +86,15 @@ export const handlers = [
                 errors[field] = [`The ${field} field is required.`]
             }
         }
+        // Conditional-fields demo: when the client is a person, the legal-only
+        // `inn` field is hidden, so its value is stripped from the payload. The
+        // server still complains about it — the form moves that error into
+        // `_global` and logs a console.warn instead of pinning it to the hidden
+        // field (R12). Keyed off `type` so this only fires for the demo that
+        // sends it, not the plain Users CRUD.
+        if (data.type === 'person') {
+            errors.inn = ['The inn field is required.']
+        }
         if (Object.keys(errors).length) {
             await delay(160)
             return HttpResponse.json({ errors, message: 'Validation failed' }, { status: 422 })
@@ -100,9 +109,15 @@ export const handlers = [
         const { field } = params
         const url = new URL(request.url)
         const query = url.searchParams.get('query')
-        const options: OptionType[] = !query
-            ? []
-            : userList.searchOptions(field as keyof IUser, query)
+        // The cascade child (`city`) sends its parent value as `country` (R6) so
+        // the backend returns cities of the selected country. `country` itself
+        // and `city` return their list eagerly (no search keystroke required).
+        const country = url.searchParams.get('country') ?? undefined
+        const isCascade = field === 'country' || field === 'city'
+        const options: OptionType[] =
+            !query && !isCascade
+                ? []
+                : userList.searchOptions(field as string, query ?? '', country)
 
         await delay(160)
         return HttpResponse.json(options)

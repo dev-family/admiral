@@ -6,7 +6,12 @@ const apiUrl = '/api'
 
 type apiType = {
     editorImageUpload: (uploadUrl: string, data: any) => Promise<string>
-    getAjaxSelectOptions: (resource: string, field: string, query?: string) => Promise<OptionType[]>
+    getAjaxSelectOptions: (
+        resource: string,
+        field: string,
+        query?: string,
+        params?: Record<string, any>,
+    ) => Promise<OptionType[]>
     getTheme: () => Promise<GetFormDataResult<ITheme>>
     updateTheme: (data: any) => Promise<UpdateResult>
 }
@@ -16,9 +21,9 @@ const api: apiType = {
         const url = `${apiUrl}/${uploadUrl}`
         return _.postFD(url)({ data }).then((data) => data.location)
     },
-    getAjaxSelectOptions: (resource, field, query) => {
+    getAjaxSelectOptions: (resource, field, query, params) => {
         const url = `${apiUrl}/${resource}/ajax-select/${field}`
-        return _.get(url)({ params: { query } })
+        return _.get(url)({ params: { query, ...params } })
     },
     getTheme: () => {
         const url = `${apiUrl}/theme`

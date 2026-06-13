@@ -63,6 +63,31 @@ export default function EditPage({ id }: { id: string }) {
                                         HR Officer
                                     </SelectInput.Option>
                                 </SelectInput>
+                                <SelectInput
+                                    label="Client type"
+                                    name="type"
+                                    placeholder="Choose type"
+                                    required
+                                >
+                                    <SelectInput.Option value="person">Person</SelectInput.Option>
+                                    <SelectInput.Option value="legal">
+                                        Legal entity
+                                    </SelectInput.Option>
+                                </SelectInput>
+                                {/* Group revealed by a single rule, living inside
+                                    Form.Tabs. Legal-only fields appear only when
+                                    the client type is a legal entity; otherwise
+                                    they unmount and their values are cut from the
+                                    submit payload. */}
+                                <Form.When rule={{ field: 'type', is: 'legal' }}>
+                                    <TextInput
+                                        label="INN"
+                                        name="inn"
+                                        placeholder="INN"
+                                        requiredWhen={{ field: 'type', is: 'legal' }}
+                                    />
+                                    <TextInput label="KPP" name="kpp" placeholder="KPP" />
+                                </Form.When>
                                 <FilePictureInput
                                     columnSpan={2}
                                     label="Avatar"

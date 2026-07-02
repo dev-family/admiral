@@ -67,6 +67,8 @@ const InternalSelectInput: InputComponentWithName<(props: SelectInputProps) => R
                 return !!children
             }
 
+            if (selectProps.options && selectProps.options.length > 0) return true
+
             return opts?.length > 0
         })()
 

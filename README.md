@@ -388,6 +388,9 @@ from `node_modules/@devfamily/admiral/`:
   inputs, conditional-field rules, and the mistakes AI tools commonly make.
 - [MIGRATION_AI.md](./MIGRATION_AI.md) &mdash; an executable v5 &rarr; v6 migration playbook.
 
+The demo site also serves an index of these docs at
+[admiral.dev.family/llms.txt](https://admiral.dev.family/llms.txt).
+
 Example prompt: _"Read node_modules/@devfamily/admiral/AI_GUIDE.md, then add a CRUD page for
 the `orders` resource with a status filter and a conditional `refund_reason` field."_
 

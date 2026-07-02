@@ -143,7 +143,9 @@
     ],
     "files": [
         "lib",
-        "MIGRATION.md"
+        "MIGRATION.md",
+        "MIGRATION_AI.md",
+        "AI_GUIDE.md"
     ],
     "main": "./lib/index.mjs",
     "module": "./lib/index.mjs",

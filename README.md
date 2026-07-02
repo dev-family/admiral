@@ -374,7 +374,22 @@ as a string or use JSX components directly.
 ## Migrating from v5
 
 v6 is a breaking release: React 19, React Router 7, ESM-only package, stricter types.
-The full checklist lives in [MIGRATION.md](./MIGRATION.md).
+The full checklist lives in [MIGRATION.md](./MIGRATION.md). Migrating with an AI coding
+agent? Point it at [MIGRATION_AI.md](./MIGRATION_AI.md) — the same guide as deterministic
+find &rarr; change &rarr; verify steps.
+
+## Using AI assistants
+
+Two machine-oriented docs ship inside the npm package, so your agent can read them straight
+from `node_modules/@devfamily/admiral/`:
+
+- [AI_GUIDE.md](./AI_GUIDE.md) &mdash; an exact reference for generating Admiral code: the
+  DataProvider contract and response shapes, where select/filter options come from, all 17
+  inputs, conditional-field rules, and the mistakes AI tools commonly make.
+- [MIGRATION_AI.md](./MIGRATION_AI.md) &mdash; an executable v5 &rarr; v6 migration playbook.
+
+Example prompt: _"Read node_modules/@devfamily/admiral/AI_GUIDE.md, then add a CRUD page for
+the `orders` resource with a status filter and a conditional `refund_reason` field."_
 
 ## Contributing
 

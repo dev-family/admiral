@@ -3,6 +3,10 @@
 v6 modernizes the whole stack: React 19, React Router 7, an ESM-only package, and stricter
 TypeScript types. Most apps migrate in under an hour &mdash; work through the sections in order.
 
+> Migrating with an AI coding agent? Point it at [MIGRATION_AI.md](./MIGRATION_AI.md) &mdash;
+> this guide expressed as deterministic find &rarr; change &rarr; verify steps for the agent
+> to follow.
+
 ## 1. Requirements
 
 |                  | v5      | v6                      |

@@ -6,3 +6,4 @@ lib
 *.local
 examples
 public/mockServiceWorker.js
+.claude

@@ -50,8 +50,20 @@ const FilePictureInputBase: InputComponentWithName<
         [maxCount, uploadProps.onChange],
     )
 
+    // prevent the implicit <label> from forwarding clicks on the empty
+    // form-item area to the hidden file input (opens the file dialog)
+    const onLabelClick = useCallback((e: React.MouseEvent<HTMLLabelElement>) => {
+        e.preventDefault()
+    }, [])
+
     return (
-        <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
+        <Form.Item
+            label={label}
+            onLabelClick={onLabelClick}
+            required={required}
+            error={error}
+            columnSpan={columnSpan}
+        >
             <Upload
                 {...uploadProps}
                 locale={locale}

@@ -28,7 +28,7 @@ jobs:
             - name: Build Library
               run: yarn build:lib
             - name: Check package types
-              run: npx attw --pack . --profile esm-only
+              run: npx attw --pack . --profile esm-only --exclude-entrypoints ./style.css
             - name: Publish to npm
               run: npm publish --provenance --access public
               env:

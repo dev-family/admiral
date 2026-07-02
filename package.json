@@ -142,7 +142,8 @@
         "*.module.scss.mjs"
     ],
     "files": [
-        "lib"
+        "lib",
+        "MIGRATION.md"
     ],
     "main": "./lib/index.mjs",
     "module": "./lib/index.mjs",

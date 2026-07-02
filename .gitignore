@@ -8,3 +8,4 @@ dist-ssr
 .serena/
 ANALYSIS.md
 package-lock.json
+docs

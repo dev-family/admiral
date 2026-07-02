@@ -33,6 +33,8 @@
 
 - **CRUD generation** &mdash; define a resource config, get index/create/update pages with tables, forms, filters, and pagination
 - **30+ UI components** &mdash; Table, Form inputs, Select, DatePicker, Drawer, Tabs, Upload, Notification, and more
+- **Conditional & dependent fields** &mdash; `visibleWhen` / `disabledWhen` / `requiredWhen` rules on any input, `Form.When` groups, cascading selects
+- **Validation-aware form tabs** &mdash; `Form.Tabs` shows per-tab error badges and switches to the first invalid tab on submit
 - **File-based routing** &mdash; pages directory maps to routes automatically (like Next.js)
 - **Authentication** &mdash; login, logout, OAuth (Google, GitHub, Jira), session checks
 - **Theming** &mdash; light/dark modes, fully customizable CSS presets
@@ -278,6 +280,11 @@ setters. Standalone forms outside CRUD are available via the `Form` component fr
 `requiredWhen` (a `(values) => boolean` or a JSON rule), `<Form.When>` reveals a group by one
 rule, and `AjaxSelectInput` supports `resetOnChangeOf` cascades (e.g. country → city). See
 [Conditional & dependent fields](./MIGRATION.md#5-new-in-v6-conditional--dependent-fields).
+
+**`Form.Tabs` — validation-aware tabs.** Long forms split into tabs that stay honest about
+errors: each tab shows a badge with its invalid-field count, and a failed submit switches to
+the first tab that needs attention (fields hidden by rules are skipped). See
+[`Form.Tabs`](./MIGRATION.md#4-new-in-v6-formtabs--validation-aware-tabs).
 
 ### Filters
 

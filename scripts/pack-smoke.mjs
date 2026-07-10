@@ -17,7 +17,9 @@ const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
 const dir = mkdtempSync(join(tmpdir(), 'admiral-pack-smoke-'))
 const run = (cmd, cwd) => execSync(cmd, { cwd, stdio: 'inherit' })
 
-run(`npm pack --pack-destination "${dir}"`, root)
+// --ignore-scripts: prepare (husky) needs devDependencies, which the CI job
+// deliberately skips; tarball contents come from `files` + committed lib/ either way
+run(`npm pack --ignore-scripts --pack-destination "${dir}"`, root)
 const tarball = `${pkg.name.replace(/^@/, '').replace('/', '-')}-${pkg.version}.tgz`
 
 // one import per exports-map entry: namespace import for JS, side-effect for CSS

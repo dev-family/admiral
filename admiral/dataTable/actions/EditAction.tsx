@@ -1,10 +1,8 @@
-import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FiEdit3 } from 'react-icons/fi'
 import { Button } from '../../ui'
 
 import { ButtonProps } from '../../ui/Button/interfaces'
-import { RouterLocationState } from '../../router/interfaces'
 import { saveNavigationFrom } from '../../utils/helpers/navigationState'
 
 export type EditActionProps = {
@@ -14,13 +12,13 @@ export type EditActionProps = {
     mainRoutePath?: string
 }
 
-export const EditAction: React.FC<EditActionProps> = ({
+export function EditAction({
     buttonProps,
     pathname,
-    behavior,
+    behavior = 'default',
     mainRoutePath,
-}) => {
-    let location = useLocation<RouterLocationState>()
+}: EditActionProps) {
+    const location = useLocation()
 
     if (behavior === 'backgroundRoute' && !mainRoutePath) {
         console.error('Please provide "mainRoutePath" for "backgroundRoute" behavior')
@@ -32,26 +30,21 @@ export const EditAction: React.FC<EditActionProps> = ({
 
     return (
         <Link
-            to={{
-                pathname,
-                state:
-                    behavior === 'backgroundRoute'
-                        ? {
-                              background: location,
-                              routeWithBackground: mainRoutePath,
-                              scrollTop: false,
-                          }
-                        : {
-                              from: location,
-                          },
-            }}
+            to={pathname}
+            state={
+                behavior === 'backgroundRoute'
+                    ? {
+                          background: location,
+                          routeWithBackground: mainRoutePath,
+                          scrollTop: false,
+                      }
+                    : {
+                          from: location,
+                      }
+            }
             onClick={handleClick}
         >
             <Button view="clear" size="S" iconRight={<FiEdit3 />} {...buttonProps} />
         </Link>
     )
-}
-
-EditAction.defaultProps = {
-    behavior: 'default',
 }

@@ -2,16 +2,7 @@ import React, { MouseEvent, useState } from 'react'
 import cn from 'classnames'
 import { Tooltip } from '../../Tooltip'
 import { Button } from '../../Button'
-import {
-    FiTrash,
-    FiFile,
-    FiVideo,
-    FiImage,
-    FiEye,
-    FiPaperclip,
-    FiDownload,
-    FiX,
-} from 'react-icons/fi'
+import { FiTrash, FiFile, FiVideo, FiImage, FiEye, FiPaperclip, FiDownload } from 'react-icons/fi'
 import { isVideoUrl } from '../utils'
 import { ListItemProps } from '../interfaces'
 import styles from '../Upload.module.scss'
@@ -19,171 +10,160 @@ import { useTheme } from '../../../theme'
 import { internalDownloadFile } from '../../../utils/helpers'
 import { UploadFile } from '../interfaces'
 import { Dialog } from '../../Dialog'
+import { DragHandle } from '../../DragHandle'
 
-const ListItem = React.forwardRef(
-    (
-        {
-            locale,
-            listType = 'picture',
-            file,
-            items,
-            itemRender,
-            isImgUrl,
-            showRemoveIcon,
-            showPreviewIcon = true,
-            showDownloadIcon,
-            onClose,
-            onPreview,
-            onDownload,
-        }: ListItemProps,
-        ref: React.Ref<HTMLDivElement>,
-    ) => {
-        const { themeName, themeClassNames } = useTheme()
-        const [visible, setVisible] = useState(false)
+function ListItem({
+    ref,
+    locale,
+    listType = 'picture',
+    file,
+    items,
+    itemRender,
+    isImgUrl,
+    showRemoveIcon,
+    showPreviewIcon = true,
+    showDownloadIcon,
+    onClose,
+    onPreview,
+    onDownload,
+    dragListeners,
+    showDragHandle,
+}: ListItemProps & { ref?: React.Ref<HTMLDivElement> }) {
+    const { themeName, themeClassNames } = useTheme()
+    const [visible, setVisible] = useState(false)
 
-        const removeFile = (file: UploadFile) => (e: MouseEvent<HTMLButtonElement>) => {
-            e.preventDefault()
-            onClose(file)
-        }
+    const removeFile = (file: UploadFile) => (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        onClose(file)
+    }
 
-        const showPreview = (e: MouseEvent<HTMLButtonElement>) => {
-            setVisible(true)
-            onPreview(e, file)
-        }
+    const showPreview = (e: MouseEvent<HTMLButtonElement>) => {
+        setVisible(true)
+        onPreview(e, file)
+    }
 
-        const removeIcon = showRemoveIcon ? (
-            <Button
-                view="clear"
-                size="S"
-                type="button"
-                iconLeft={<FiTrash />}
-                title={locale.removeFile}
-                onClick={removeFile(file)}
-                className={cn(styles.item_ActionButton, {
-                    [themeClassNames.color.invert]:
-                        listType === 'picture-card' && themeName === 'light',
-                })}
-            />
-        ) : null
+    const removeIcon = showRemoveIcon ? (
+        <Button
+            view="clear"
+            size="S"
+            type="button"
+            iconLeft={<FiTrash />}
+            title={locale.removeFile}
+            aria-label={locale.removeFile}
+            onClick={removeFile(file)}
+            className={cn(styles.item_ActionButton, {
+                [themeClassNames.color.invert]:
+                    listType === 'picture-card' && themeName === 'light',
+            })}
+        />
+    ) : null
 
-        const previewIcon = showPreviewIcon ? (
-            <Button
-                view="clear"
-                size="S"
-                type="button"
-                iconLeft={<FiEye />}
-                title={locale.previewFile}
-                disabled={file.url || file.thumbUrl ? false : true}
-                onClick={showPreview}
-                className={cn(styles.item_ActionButton, {
-                    [themeClassNames.color.invert]:
-                        listType === 'picture-card' && themeName === 'light',
-                })}
-            />
-        ) : null
+    const previewIcon = showPreviewIcon ? (
+        <Button
+            view="clear"
+            size="S"
+            type="button"
+            iconLeft={<FiEye />}
+            title={locale.previewFile}
+            aria-label={locale.previewFile}
+            disabled={file.url || file.thumbUrl ? false : true}
+            onClick={showPreview}
+            className={cn(styles.item_ActionButton, {
+                [themeClassNames.color.invert]:
+                    listType === 'picture-card' && themeName === 'light',
+            })}
+        />
+    ) : null
 
-        const downloadIcon = showDownloadIcon ? (
-            <Button
-                view="clear"
-                size="S"
-                type="button"
-                iconLeft={<FiDownload />}
-                title={locale.downloadFile}
-                onClick={() => (!!onDownload ? onDownload(file) : internalDownloadFile(file))}
-                disabled={file?.url ? false : true}
-                className={cn(styles.item_ActionButton, {
-                    [themeClassNames.color.invert]:
-                        listType === 'picture-card' && themeName === 'light',
-                })}
-            />
-        ) : null
+    const downloadIcon = showDownloadIcon ? (
+        <Button
+            view="clear"
+            size="S"
+            type="button"
+            iconLeft={<FiDownload />}
+            title={locale.downloadFile}
+            aria-label={locale.downloadFile}
+            onClick={() => (onDownload ? onDownload(file) : internalDownloadFile(file))}
+            disabled={file?.url ? false : true}
+            className={cn(styles.item_ActionButton, {
+                [themeClassNames.color.invert]:
+                    listType === 'picture-card' && themeName === 'light',
+            })}
+        />
+    ) : null
 
-        const actions = (
-            <span
-                key="actions"
-                className={cn(styles.item_Actions, {
-                    [styles.item_Actions__PictureCard]: listType === 'picture-card',
-                    [styles.item_Actions__TextType]: listType === 'text',
-                })}
-            >
-                {downloadIcon}
-                {previewIcon}
-                {removeIcon}
+    const actions = (
+        <span
+            key="actions"
+            className={cn(styles.item_Actions, {
+                [styles.item_Actions__PictureCard]: listType === 'picture-card',
+                [styles.item_Actions__TextType]: listType === 'text',
+            })}
+        >
+            {downloadIcon}
+            {previewIcon}
+            {removeIcon}
+        </span>
+    )
+
+    const preview = [
+        listType !== 'picture-card' ? (
+            <span key="view" className={styles.item_Name} title={file.name}>
+                {file.name}
             </span>
-        )
+        ) : null,
+        actions,
+        listType == 'picture-card' ? (
+            <ListItemPreview file={file} visible={visible} onClose={() => setVisible(false)} />
+        ) : null,
+    ]
 
-        const preview = [
-            listType !== 'picture-card' ? (
-                <span key="view" className={styles.item_Name} title={file.name}>
-                    {file.name}
-                </span>
-            ) : null,
-            actions,
-            listType == 'picture-card' ? (
-                <ListItemPreview file={file} visible={visible} onClose={() => setVisible(false)} />
-            ) : null,
-        ]
-
-        const itemContent = (
+    const itemContent = (
+        <div
+            className={cn(styles.item, {
+                [styles.item__PictureCard]: listType === 'picture-card',
+                [styles.item__TextType]: listType === 'text',
+                [styles.item__Error]: file.status === 'error',
+            })}
+        >
             <div
-                className={cn(styles.item, {
-                    [styles.item__PictureCard]: listType === 'picture-card',
-                    [styles.item__TextType]: listType === 'text',
-                    [styles.item__Error]: file.status === 'error',
+                className={cn(styles.item_Content, {
+                    [styles.item_Content__PictureCard]: listType === 'picture-card',
                 })}
             >
-                <div
-                    className={cn(styles.item_Content, {
-                        [styles.item_Content__PictureCard]: listType === 'picture-card',
-                    })}
-                >
-                    <ListItemThumb isImgUrl={isImgUrl} listType={listType} file={file} />
-                    {preview}
-                </div>
+                {showDragHandle && <DragHandle listeners={dragListeners} />}
+                <ListItemThumb isImgUrl={isImgUrl} listType={listType} file={file} />
+                {preview}
             </div>
+        </div>
+    )
+
+    const message = file.error?.message || locale.uploadError
+    const item =
+        file.status === 'error' ? (
+            <Tooltip placement="top" content={message} offset={[0, 6]}>
+                {itemContent}
+            </Tooltip>
+        ) : (
+            itemContent
         )
 
-        let message = file.error?.message || locale.uploadError
-        const item =
-            file.status === 'error' ? (
-                <Tooltip
-                    trigger="mouseenter"
-                    placement="top"
-                    content={message}
-                    popperOptions={{
-                        modifiers: [
-                            {
-                                name: 'offset',
-                                options: {
-                                    offset: [0, 6],
-                                },
-                            },
-                        ],
-                    }}
-                >
-                    {itemContent}
-                </Tooltip>
-            ) : (
-                itemContent
-            )
+    return (
+        <div ref={ref} style={{ height: '100%' }}>
+            {itemRender
+                ? itemRender(item, file, items, {
+                      remove: onClose.bind(null, file),
+                  })
+                : item}
+        </div>
+    )
+}
 
-        return (
-            <div ref={ref} style={{ height: '100%' }}>
-                {itemRender
-                    ? itemRender(item, file, items, {
-                          remove: onClose.bind(null, file),
-                      })
-                    : item}
-            </div>
-        )
-    },
-)
-
-const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listType'>> = ({
+function ListItemThumb({
     isImgUrl,
     file,
     listType,
-}) => {
+}: Pick<ListItemProps, 'isImgUrl' | 'file' | 'listType'>) {
     const iconNode =
         listType === 'text' ? (
             <FiPaperclip />
@@ -250,12 +230,16 @@ const ListItemThumb: React.FC<Pick<ListItemProps, 'isImgUrl' | 'file' | 'listTyp
     return node
 }
 
-const ListItemPreview: React.FC<{ file: UploadFile; visible: boolean; onClose: () => void }> = ({
+function ListItemPreview({
     file,
     visible,
     onClose,
-}) => {
-    let node = (
+}: {
+    file: UploadFile
+    visible: boolean
+    onClose: () => void
+}) {
+    const node = (
         <div className={cn(styles.item_Preview, { [styles.item_PreviewError]: !file.url })}>
             {file.url ? (
                 <img src={file.url} alt={file.name} className={styles.item_Preview__Image} />

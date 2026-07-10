@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { Form } from '../form'
 import { QuickFilters } from './QuickFilters'
-import { GetFiltersFormDataResult } from '../dataProvider'
 
 interface Props {
     filters?: string[]

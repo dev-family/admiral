@@ -1,0 +1,58 @@
+import React, { SubmitEvent } from 'react';
+import { GetFormDataResult } from '../dataProvider/index.js';
+import { FieldValues, FormContextValue } from './FormContext.js';
+import Item from './Item.js';
+import FormTabs from './FormTabs.js';
+import When from './When.js';
+import Error from './Error.js';
+import { Locale } from './interfaces.js';
+import { FormRulesMap } from './rules.js';
+export type FormProps = {
+    locale?: Locale;
+    className?: string;
+    redirect?: string | boolean;
+    rules?: FormRulesMap;
+    fetchInitialData?: () => Promise<GetFormDataResult>;
+    submitData?: (values: any) => Promise<any>;
+    children: React.ReactNode;
+};
+export type FormRef = {
+    values: Record<string, any>;
+    setValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+    handleSubmit: (e?: SubmitEvent<HTMLFormElement>) => Promise<boolean>;
+};
+declare function InternalForm({ locale, className, fetchInitialData, submitData, redirect, rules, children, ref, }: FormProps & {
+    ref?: React.Ref<FormRef>;
+}): import("react/jsx-runtime").JSX.Element;
+export type ControlledChildFormProps = FormContextValue<FieldValues> & {
+    as?: string | React.JSXElementConstructor<any>;
+    className?: string;
+};
+declare function ChildForm({ as: Component, className, values, setValues, options, setOptions, errors, setErrors, isFetching, isSubmitting, locale, rules, hiddenFields, scannedFields, scopePath, fieldChange, children, }: ControlledChildFormProps & {
+    children?: React.ReactNode;
+}): import("react/jsx-runtime").JSX.Element;
+declare function Fields({ children, singleColumn, }: {
+    singleColumn?: boolean;
+    children?: React.ReactNode;
+}): import("react/jsx-runtime").JSX.Element;
+declare function Footer({ className, children }: {
+    className?: string;
+    children?: React.ReactNode;
+}): import("react/jsx-runtime").JSX.Element;
+declare function Submit({ className, children }: {
+    className?: string;
+    children?: React.ReactNode;
+}): import("react/jsx-runtime").JSX.Element;
+type FormType = typeof InternalForm;
+interface FormInterface extends FormType {
+    Error: typeof Error;
+    Fields: typeof Fields;
+    Item: typeof Item;
+    Tabs: typeof FormTabs;
+    When: typeof When;
+    Footer: typeof Footer;
+    Submit: typeof Submit;
+    ChildForm: typeof ChildForm;
+}
+export declare const Form: FormInterface;
+export {};

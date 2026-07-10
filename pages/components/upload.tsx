@@ -1,7 +1,7 @@
-import React, { useReducer, Reducer } from 'react'
+import React, { useReducer } from 'react'
 import { FiUpload, FiImage } from 'react-icons/fi'
 import { Page, Upload, Button } from '../../admiral'
-import { UploadProps, UploadFile } from '../../admiral/ui/Upload/interfaces'
+import { UploadFile } from '../../admiral/ui/Upload/interfaces'
 const { Dragger } = Upload
 
 const draggerCustomStyles: any = {
@@ -30,12 +30,10 @@ const draggerCustomStyles: any = {
 }
 
 export default function UploadPage() {
-    const [fileList, updateFileList] = useReducer<
-        Reducer<UploadFile[], { fileList: UploadProps['fileList']; file: UploadFile }>
-    >(
-        (_state, { file, fileList }) => {
-            console.log('CHANGE: ', file, fileList)
-            return fileList || []
+    const [fileList, updateFileList] = useReducer(
+        (_state: UploadFile[], action: { fileList?: UploadFile[]; file: UploadFile }) => {
+            console.log('CHANGE: ', action.file, action.fileList)
+            return action.fileList || []
         },
         [
             {
@@ -54,19 +52,21 @@ export default function UploadPage() {
         ],
     )
 
-    const [fileListMultiple, updateFileListMultiple] = useReducer<
-        Reducer<UploadFile[], { fileList: UploadProps['fileList']; file: UploadFile }>
-    >((_state, { file, fileList }) => {
-        console.log('CHANGE: ', file, fileList)
-        return fileList || []
-    }, [])
+    const [fileListMultiple, updateFileListMultiple] = useReducer(
+        (_state: UploadFile[], action: { fileList?: UploadFile[]; file: UploadFile }) => {
+            console.log('CHANGE: ', action.file, action.fileList)
+            return action.fileList || []
+        },
+        [] as UploadFile[],
+    )
 
-    const [fileListSingle, updateSingle] = useReducer<
-        Reducer<UploadFile[], { fileList: UploadProps['fileList']; file: UploadFile }>
-    >((_state, { file, fileList }) => {
-        console.log('CHANGE: ', file, fileList)
-        return fileList || []
-    }, [])
+    const [fileListSingle, updateSingle] = useReducer(
+        (_state: UploadFile[], action: { fileList?: UploadFile[]; file: UploadFile }) => {
+            console.log('CHANGE: ', action.file, action.fileList)
+            return action.fileList || []
+        },
+        [] as UploadFile[],
+    )
 
     const handlePreview = async (file: UploadFile) => {
         console.log('handlePreview file', file)

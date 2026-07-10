@@ -23,8 +23,12 @@
     line-height: var(--button-line-height, 1.2);
     user-select: none;
     cursor: pointer;
-    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease,
-        color 0.15s ease, fill 0.15s ease;
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        color 0.15s ease,
+        fill 0.15s ease;
 
     &:focus {
         box-shadow: 0px 0px 0px 2px var(--button-bg-focus, var(--color-control-bg-focus));

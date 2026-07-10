@@ -1,15 +1,17 @@
 import React, { createContext, useContext } from 'react'
+import { getPopupContainer } from '../utils/helpers'
 
 type PopupContainerValueType = () => HTMLElement
 
-export const PopupContainerContext = createContext<PopupContainerValueType>(
-    () => document.querySelector('#root > .Theme') as HTMLElement,
-)
+export const PopupContainerContext = createContext<PopupContainerValueType>(getPopupContainer)
 
-export const PopupContainerContextProvider: React.FC<{ value: PopupContainerValueType }> = ({
+export function PopupContainerContextProvider({
     value,
     children,
-}) => {
+}: {
+    value: PopupContainerValueType
+    children?: React.ReactNode
+}) {
     return <PopupContainerContext.Provider value={value}>{children}</PopupContainerContext.Provider>
 }
 

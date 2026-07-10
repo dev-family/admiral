@@ -1,6 +1,6 @@
 import { SelectProps as RcSelectProps, BaseSelectRef } from 'rc-select'
-import type { BaseOptionType, DefaultOptionType } from 'rc-select/lib/Select'
-import { OptionProps } from 'rc-select/lib/Option'
+import type { BaseOptionType, DefaultOptionType } from 'rc-select/es/Select'
+import { OptionProps } from 'rc-select/es/Option'
 
 type RawValue = string | number
 
@@ -19,17 +19,17 @@ export interface SelectProps<
     ValueType = any,
     OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType,
 > extends Omit<
-        RcSelectProps<ValueType, OptionType>,
-        | 'mode'
-        | 'getInputElement'
-        | 'getRawInputElement'
-        | 'backfill'
-        | 'inputIcon'
-        | 'clearIcon'
-        | 'removeIcon'
-        | 'menuItemSelectedIcon'
-        | 'prefixCls'
-    > {
+    RcSelectProps<ValueType, OptionType>,
+    | 'mode'
+    | 'getInputElement'
+    | 'getRawInputElement'
+    | 'backfill'
+    | 'inputIcon'
+    | 'clearIcon'
+    | 'removeIcon'
+    | 'menuItemSelectedIcon'
+    | 'prefixCls'
+> {
     size?: SelectSizeType
     mode?: 'multiple' | 'tags'
     borderless?: boolean

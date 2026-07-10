@@ -4,10 +4,13 @@ type DataTableValueType = { refresh: () => void }
 
 export const DataTableContext = createContext<DataTableValueType>({ refresh: () => {} })
 
-export const DataTableContextProvider: React.FC<{ value: DataTableValueType }> = ({
+export function DataTableContextProvider({
     value,
     children,
-}) => {
+}: {
+    value: DataTableValueType
+    children?: React.ReactNode
+}) {
     return <DataTableContext.Provider value={value}>{children}</DataTableContext.Provider>
 }
 

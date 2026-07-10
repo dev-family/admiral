@@ -1,6 +1,4 @@
-import type { TabsProps as RcTabsProps, TabPaneProps } from 'rc-tabs'
-
-export type { TabPaneProps }
+import type { TabsProps as RcTabsProps } from 'rc-tabs'
 
 export type TabsType = 'line' | 'card'
 export type TabsPosition = 'top' | 'right' | 'bottom' | 'left'

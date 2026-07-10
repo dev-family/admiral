@@ -1,5 +1,4 @@
 import React from 'react'
-import { FiGift, FiInfo } from 'react-icons/fi'
 import {
     createCRUD,
     TopToolbar,
@@ -10,7 +9,6 @@ import {
     FilePictureInput,
     FileField,
     BooleanInput,
-    Button,
     Typography,
     DatePickerInput,
 } from '../../admiral'

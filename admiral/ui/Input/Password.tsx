@@ -1,11 +1,11 @@
-import React, { useState, forwardRef, memo, useRef, useCallback } from 'react'
-import mergeRefs from 'react-merge-refs'
+import React, { useState, memo, useRef, useCallback } from 'react'
+import { useMergeRefs } from '@floating-ui/react'
 import styles from './Input.module.scss'
 import { InputProps } from './interfaces'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 import Input from './Input'
 
-const Password = forwardRef((props: InputProps, inputRef) => {
+function Password({ ref, ...props }: InputProps & { ref?: React.Ref<HTMLInputElement> }) {
     const [visible, setVisible] = useState(false)
     const disabled = props.disabled ?? false
 
@@ -17,11 +17,12 @@ const Password = forwardRef((props: InputProps, inputRef) => {
         setVisible((prev) => !prev)
     }, [disabled])
 
-    const ref = useRef<HTMLInputElement>(null)
+    const internalRef = useRef<HTMLInputElement>(null)
+    const mergedRef = useMergeRefs([internalRef, ref ?? null])
 
     return (
         <Input
-            ref={mergeRefs([ref, inputRef])}
+            ref={mergedRef}
             {...props}
             type={visible ? 'text' : 'password'}
             suffix={
@@ -31,6 +32,6 @@ const Password = forwardRef((props: InputProps, inputRef) => {
             }
         />
     )
-})
+}
 
 export default memo(Password) as typeof Password

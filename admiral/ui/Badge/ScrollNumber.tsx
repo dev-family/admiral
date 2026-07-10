@@ -1,5 +1,5 @@
 import React from 'react'
-import { animated } from 'react-spring'
+import { animated } from '@react-spring/web'
 import cn from 'classnames'
 import { cloneElement } from './utils'
 import SingleNumber from './SingleNumber'
@@ -8,7 +8,7 @@ import styles from './Badge.module.scss'
 export interface ScrollNumberProps {
     className?: string
     count?: string | number | null
-    children?: React.ReactElement<HTMLElement>
+    children?: React.ReactElement
     component?: string
     style?: any
     show: boolean
@@ -19,15 +19,15 @@ export interface ScrollNumberState {
     count?: string | number | null
 }
 
-const ScrollNumber: React.FC<ScrollNumberProps> = ({
+function ScrollNumber({
     count,
     className,
     style,
-    show,
-    component = 'sup',
+    show: _show,
+    component: _component = 'sup',
     children,
     ...restProps
-}) => {
+}: ScrollNumberProps) {
     const newProps = {
         ...restProps,
         style,

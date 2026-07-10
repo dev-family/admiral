@@ -1,0 +1,18 @@
+# Admiral
+
+> Admiral is a React frontend framework for building back-office (admin) interfaces — `@devfamily/admiral` on npm. This site (admiral.dev.family) is the framework's live demo running on mock data.
+
+Key facts for code generation: v6 is ESM-only, requires Node >= 20 and the peers `react@^19`, `react-dom@^19`, `react-router-dom@^7`, `axios@^1`. Admiral is **not** react-admin — it has a different DataProvider contract (9 methods, no `getMany`/`updateMany`) and different response shapes. Read AI_GUIDE.md before generating Admiral code. The same markdown files ship inside the npm package, so in a project you can read them from `node_modules/@devfamily/admiral/`.
+
+## Docs
+
+- [AI_GUIDE.md](https://raw.githubusercontent.com/dev-family/admiral/master/AI_GUIDE.md): exact reference for AI assistants — the DataProvider contract and response shapes, where select/filter options come from, all 17 form inputs, the conditional-field rules DSL, and common AI mistakes
+- [MIGRATION_AI.md](https://raw.githubusercontent.com/dev-family/admiral/master/MIGRATION_AI.md): the v5 → v6 migration as an executable find → change → verify playbook for AI coding agents
+- [MIGRATION.md](https://raw.githubusercontent.com/dev-family/admiral/master/MIGRATION.md): migrating from v5 to v6 — breaking changes and the new v6 features (Form.Tabs, conditional & dependent fields)
+- [README.md](https://raw.githubusercontent.com/dev-family/admiral/master/README.md): human-oriented overview — features, quick start, core concepts
+
+## Optional
+
+- [Source repository](https://github.com/dev-family/admiral): GitHub, dev-family/admiral
+- [npm package](https://www.npmjs.com/package/@devfamily/admiral): @devfamily/admiral
+- [Full-stack example](https://github.com/dev-family/admiral/tree/master/examples/express-server): Admiral + Express + Prisma, end to end

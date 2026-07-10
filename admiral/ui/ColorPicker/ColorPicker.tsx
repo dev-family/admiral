@@ -1,104 +1,111 @@
-import React, { memo, useCallback, useState, useEffect, forwardRef, useRef } from 'react'
-import { ChromePicker, ColorChangeHandler, Color } from 'react-color'
+import React, { memo, useCallback, useState, useEffect, useRef } from 'react'
+import { RgbaColorPicker, HexColorInput } from 'react-colorful'
 import tinycolor, { ColorInputWithoutInstance as ColorInputType } from 'tinycolor2'
 import { Tooltip } from '../Tooltip'
-import mergeRefs from 'react-merge-refs'
+import { useMergeRefs } from '@floating-ui/react'
 import cn from 'classnames'
 import type { RGBA, ColorPickerResult, ColorPickerProps } from './interfaces'
 import './ColorPicker.scss'
 
-const chromePickerStyles = {
-    default: {
-        body: {
-            padding: 'var(--space-m) var(--space-m) var(--space-s)',
+function ColorPicker({
+    initialOpen = false,
+    value,
+    size = 'M',
+    disabled = false,
+    alert = false,
+    onChange,
+    onChangeComplete,
+    appendTo,
+    ref: pickerRef,
+}: ColorPickerProps & { ref?: React.Ref<any> }) {
+    const ref = useRef<HTMLButtonElement>(null)
+    const mergedRef = useMergeRefs([pickerRef ?? null, ref])
+    const [open, setOpen] = useState(initialOpen)
+    const [color, setColor] = useState<RGBA>(formatColorToRgb(value))
+    const [isValid, setIsValid] = useState(tinycolor(value).isValid())
+
+    useEffect(() => {
+        const valueFromProps = value ? formatColorToRgb(value) : formatColorToRgb()
+        const equals = tinycolor.equals(valueFromProps, color)
+        if (!equals || !isValid) {
+            setColor(valueFromProps)
+            setIsValid(tinycolor(value).isValid())
+        }
+    }, [value])
+
+    const handleChange = useCallback(
+        (color: RGBA) => {
+            setColor(color)
+            setIsValid(tinycolor(color).isValid())
+            if (onChange) onChange(formatColorOutput(color))
         },
-    },
-}
+        [onChange],
+    )
 
-const ColorPicker = forwardRef(
-    (
-        {
-            initialOpen = false,
-            value,
-            size = 'M',
-            disabled = false,
-            alert = false,
-            onChange,
-            onChangeComplete,
-            appendTo,
-        }: ColorPickerProps,
-        pickerRef,
-    ) => {
-        const ref = useRef<HTMLButtonElement>(null)
-        const [open, setOpen] = useState(initialOpen)
-        const [color, setColor] = useState<Color>(formatColorToRgb(value))
-        const [isValid, setIsValid] = useState(tinycolor(value).isValid())
+    const handleChangeComplete = useCallback(
+        (color: RGBA) => {
+            if (onChangeComplete) onChangeComplete(formatColorOutput(color))
+        },
+        [onChangeComplete],
+    )
 
-        useEffect(() => {
-            const valueFromProps = value ? formatColorToRgb(value) : formatColorToRgb()
-            const equals = tinycolor.equals(valueFromProps, color)
-            if (!equals || !isValid) {
-                setColor(valueFromProps)
-                setIsValid(tinycolor(value).isValid())
-            }
-        }, [value])
+    const handleHexChange = useCallback(
+        (hex: string) => {
+            const color = formatColorToRgb(hex)
+            setColor(color)
+            setIsValid(tinycolor(color).isValid())
+            if (onChange) onChange(formatColorOutput(color))
+            if (onChangeComplete) onChangeComplete(formatColorOutput(color))
+        },
+        [onChange, onChangeComplete],
+    )
 
-        const handleChange: ColorChangeHandler = useCallback(
-            (color) => {
-                setColor(color.rgb)
-                setIsValid(tinycolor(color.rgb).isValid())
-                if (onChange) onChange(formatColorOutput(color.rgb as RGBA))
-            },
-            [onChange],
-        )
+    const hex = color.a < 1 ? tinycolor(color).toHex8String() : tinycolor(color).toHexString()
 
-        const handleChangeComplete: ColorChangeHandler = useCallback(
-            (color) => {
-                if (onChangeComplete) onChangeComplete(formatColorOutput(color.rgb as RGBA))
-            },
-            [onChangeComplete],
-        )
-
-        const onToggleOpen = useCallback(() => setOpen((prev) => !prev), [])
-
-        return (
-            <Tooltip
-                placement="bottom-start"
-                invertTheme={false}
-                visible={open}
-                onClickOutside={onToggleOpen}
-                content={
-                    <ChromePicker
-                        styles={chromePickerStyles}
-                        className="colorPicker"
+    return (
+        <Tooltip
+            placement="bottom-start"
+            invertTheme={false}
+            trigger="click"
+            open={open}
+            onOpenChange={setOpen}
+            content={
+                <div className="colorPicker">
+                    <RgbaColorPicker
                         color={color}
                         onChange={handleChange}
-                        onChangeComplete={handleChangeComplete}
+                        onChangeEnd={handleChangeComplete}
                     />
-                }
-                interactive
-                disabled={disabled}
-                mode="custom"
-                appendTo={appendTo}
+                    <HexColorInput
+                        aria-label="hex"
+                        color={hex}
+                        onChange={handleHexChange}
+                        prefixed
+                        alpha
+                    />
+                </div>
+            }
+            interactive
+            disabled={disabled}
+            mode="custom"
+            root={appendTo}
+        >
+            <button
+                ref={mergedRef}
+                className={cn('colorPickerToggle', {
+                    colorPickerToggle__SizeL: size === 'L',
+                    colorPickerToggle__SizeS: size === 'S',
+                    colorPickerToggle__SizeXS: size === 'XS',
+                    colorPickerToggle__Alert: alert,
+                    colorPickerToggle__Unset: !isValid,
+                })}
+                type="button"
             >
-                <button
-                    ref={mergeRefs([pickerRef, ref])}
-                    className={cn('colorPickerToggle', {
-                        colorPickerToggle__SizeL: size === 'L',
-                        colorPickerToggle__SizeS: size === 'S',
-                        colorPickerToggle__SizeXS: size === 'XS',
-                        colorPickerToggle__Alert: alert,
-                        colorPickerToggle__Unset: !isValid,
-                    })}
-                    type="button"
-                    onClick={onToggleOpen}
-                >
-                    <span style={{ backgroundColor: tinycolor(color).toRgbString() }} />
-                </button>
-            </Tooltip>
-        )
-    },
-)
+                <span style={{ backgroundColor: tinycolor(color).toRgbString() }} />
+            </button>
+        </Tooltip>
+    )
+}
 
 export default memo(ColorPicker) as typeof ColorPicker
 

@@ -2,11 +2,18 @@ import { SelectLocale } from '../ui/Select/interfaces'
 import { PickerLocale } from '../ui/DatePicker/generatePicker/interfaces'
 import { EditorLocaleType } from '../ui/Editor/interfaces'
 import { UploadLocale } from '../ui/Upload/interfaces'
-import { tuple } from '../utils/type'
 
 export type Locale = {
     successMessage: string
     serverErrorMessage: string
+    /** Accessible label for the Form.Tabs error badge, e.g. "2 errors" */
+    tabErrors?: (count: number) => string
+    /**
+     * Message used when a 422 error targets a hidden field: such errors are
+     * moved out of inline `errors` into `_global`. Receives the field key and
+     * the server message.
+     */
+    hiddenFieldError?: (field: string, message: string) => string
     fields: {
         array?: ArrayInputLocale
         editor?: EditorLocaleType
@@ -41,7 +48,6 @@ export const INPUT_NAMES = {
     radio: 'RadioInput',
 } as const
 
-const inputTypes = tuple(...Object.values(INPUT_NAMES))
-export type FormInputType = typeof inputTypes[number]
+export type FormInputType = (typeof INPUT_NAMES)[keyof typeof INPUT_NAMES]
 
 export type InputComponentWithName<T> = T & { inputName: FormInputType }

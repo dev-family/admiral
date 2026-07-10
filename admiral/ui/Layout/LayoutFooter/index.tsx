@@ -13,14 +13,13 @@ interface Props {
     menuPopupExtraComponents?: ReactNode
 }
 
-const LayoutFooter: React.FC<Props> = ({ user, menuPopupExtraComponents }) => {
+function LayoutFooter({ user, menuPopupExtraComponents }: Props) {
     const { collapsed } = useNav()
 
     return (
         <footer className={styles.panel_Footer}>
             <div className={cn(styles.user, { [styles.user__Collapsed]: collapsed })}>
                 <Tooltip
-                    trigger="mouseenter"
                     placement="right"
                     content={
                         <div className={styles.userTooltip}>
@@ -40,16 +39,7 @@ const LayoutFooter: React.FC<Props> = ({ user, menuPopupExtraComponents }) => {
                         </div>
                     }
                     interactive
-                    popperOptions={{
-                        modifiers: [
-                            {
-                                name: 'offset',
-                                options: {
-                                    offset: [0, 34],
-                                },
-                            },
-                        ],
-                    }}
+                    offset={[0, 34]}
                 >
                     {user ? (
                         <div className={styles.userCard}>

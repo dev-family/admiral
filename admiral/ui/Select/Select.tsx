@@ -1,44 +1,38 @@
 import React, { useCallback, useMemo } from 'react'
-import omit from 'rc-util/lib/omit'
+import omit from 'rc-util/es/omit'
 import cn from 'classnames'
 import RcSelect, { Option, OptGroup, BaseSelectRef } from 'rc-select'
-import type { BaseOptionType, DefaultOptionType } from 'rc-select/lib/Select'
+import type { BaseOptionType, DefaultOptionType } from 'rc-select/es/Select'
 import { SelectProps } from './interfaces'
 import getIcons from './utils/getIcons'
+import { getPopupContainer } from '../../utils/helpers'
 import './Select.scss'
 import { enUS } from './locales'
 
 const prefixCls = 'select'
 const defaultLocale = enUS
 
-const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(
-    {
-        mode,
-        borderless = false,
-        alert = false,
-        className,
-        dropdownClassName,
-        listHeight = 254,
-        size = 'M',
-        notFoundContent,
-        style,
-        virtual = true,
-        dropdownMatchSelectWidth = true,
-        maxTagCount,
-        getPopupContainer: customizeGetPopupContainer,
-        loading,
-        locale,
-        onChange,
-        ...props
-    }: SelectProps<OptionType>,
-    ref: React.Ref<BaseSelectRef>,
-) => {
+const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>({
+    mode,
+    borderless = false,
+    alert = false,
+    className,
+    dropdownClassName,
+    listHeight = 254,
+    size = 'M',
+    notFoundContent,
+    style,
+    virtual = true,
+    dropdownMatchSelectWidth = true,
+    maxTagCount,
+    getPopupContainer: customizeGetPopupContainer,
+    loading,
+    locale,
+    onChange,
+    ref,
+    ...props
+}: SelectProps<OptionType> & { ref?: React.Ref<BaseSelectRef> }) => {
     const selectLocale = { ...defaultLocale, ...locale }
-    const getPopupContainer = useCallback(
-        () => document.querySelector('#root > .Theme') as HTMLDivElement,
-        [],
-    )
-
     const isMultiple = mode === 'multiple' || mode === 'tags'
     const listItemHeight = (function calcListItemHeight() {
         if (size === 'L') return 48
@@ -48,7 +42,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
     })()
 
     // ===================== Empty =====================
-    let mergedNotFound: React.ReactNode = notFoundContent || selectLocale.notFound
+    const mergedNotFound: React.ReactNode = notFoundContent || selectLocale.notFound
 
     // ===================== Icons =====================
     const { suffixIcon, itemIcon, removeIcon, clearIcon } = getIcons({
@@ -90,9 +84,12 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
         [value],
     )
 
-    const _onChange = useCallback((value, option) => {
-        if (onChange) onChange(value ?? null, option)
-    }, [])
+    const _onChange = useCallback(
+        (value: any, option: any) => {
+            if (onChange) onChange(value ?? null, option)
+        },
+        [onChange],
+    )
 
     return (
         <RcSelect<any, any>
@@ -110,7 +107,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
             listItemHeight={listItemHeight}
             mode={mode}
             prefixCls={prefixCls}
-            inputIcon={suffixIcon}
+            suffixIcon={suffixIcon}
             menuItemSelectedIcon={itemIcon}
             removeIcon={removeIcon}
             clearIcon={clearIcon}
@@ -128,7 +125,7 @@ const InternalSelect = <OptionType extends BaseOptionType | DefaultOptionType = 
     )
 }
 
-export const Select = React.forwardRef(InternalSelect) as unknown as (<
+export const Select = InternalSelect as unknown as (<
     ValueType = any,
     OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType,
 >(

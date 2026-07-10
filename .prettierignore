@@ -4,3 +4,6 @@ dist
 dist-ssr
 lib
 *.local
+examples
+public/mockServiceWorker.js
+.claude

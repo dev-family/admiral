@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
-import { FixedType } from 'rc-table/lib/interface'
-import { useMergedState } from '../../../utils/hooks'
+import { FixedType } from 'rc-table/es/interface'
+import useMergedState from 'rc-util/es/hooks/useMergedState'
 import { Checkbox } from '../../Checkbox'
 import { CheckboxProps } from '../../Checkbox/interfaces'
 import { INTERNAL_COL_DEFINE } from 'rc-table'
@@ -172,8 +172,6 @@ export default function useSelection<RecordType>(
         [onSelect, getRecordByKey, setSelectedKeys],
     )
 
-    const mergedSelections = null
-
     // ======================= Columns ========================
     const transformColumns = useCallback(
         (columns: ColumnsType<RecordType>): ColumnsType<RecordType> => {
@@ -214,7 +212,6 @@ export default function useSelection<RecordType>(
 
             // ===================== Render =====================
             // Title Cell
-            let title: React.ReactNode
             const allDisabledData = flattedData
                 .map((record, index) => {
                     const key = getRowKey(record, index)
@@ -232,7 +229,7 @@ export default function useSelection<RecordType>(
                 allDisabled && allDisabledData.some(({ checked }) => checked)
             const titleCheckboxProps = getTitleCheckboxProps?.() ?? {}
 
-            title = !hideSelectAll && (
+            const title = !hideSelectAll && (
                 <div className={`${prefixCls}-selection`}>
                     <Checkbox
                         {...titleCheckboxProps}
@@ -253,17 +250,15 @@ export default function useSelection<RecordType>(
             )
 
             // Body Cell
-            let renderCell: (
+            const renderCell = (
                 _: RecordType,
                 record: RecordType,
                 index: number,
-            ) => { node: React.ReactNode; checked: boolean }
-
-            renderCell = (_, record, index) => {
+            ): { node: React.ReactNode; checked: boolean } => {
                 const key = getRowKey(record, index)
                 const checked = keySet.has(key)
                 const checkboxProps = checkboxPropsMap.get(key)
-                let mergedIndeterminate = checkboxProps?.indeterminate ?? false
+                const mergedIndeterminate = checkboxProps?.indeterminate ?? false
 
                 // Record checked
                 return {
@@ -369,7 +364,6 @@ export default function useSelection<RecordType>(
             mergedSelectedKeys,
             derivedSelectedKeySet,
             selectionColWidth,
-            mergedSelections,
             lastSelectedKey,
             checkboxPropsMap,
             onSelectMultiple,

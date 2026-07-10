@@ -1,4 +1,4 @@
-import CalendarLocale from 'rc-picker/lib/locale/ru_RU'
+import CalendarLocale from 'rc-picker/es/locale/ru_RU'
 import { PickerLocale } from '../generatePicker/interfaces'
 
 export const ruRU: PickerLocale = {

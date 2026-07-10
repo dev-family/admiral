@@ -1,7 +1,6 @@
-import fileDownload from 'js-file-download'
 import axios from 'axios'
 import { UploadFile } from '../../ui/Upload/interfaces'
-import { Notification } from '../../ui'
+import { Notification } from '../../ui/Notification'
 
 export default async function internalDownloadFile(file: UploadFile) {
     try {
@@ -9,19 +8,27 @@ export default async function internalDownloadFile(file: UploadFile) {
         const fileNameHasExtension = (fileName && fileName.split('.')[1]) || null
         let fileType = getFileType(file?.type)
         const fileBlob = await axios.get(file?.url || '', { responseType: 'blob' })
-        !fileType && (fileType = getFileType(fileBlob?.data?.type))
-        return fileDownload(
-            fileBlob.data,
-            fileNameHasExtension ? fileName : `download_file.${fileType}`,
-        )
+        if (!fileType) fileType = getFileType(fileBlob?.data?.type)
+        const downloadName = fileNameHasExtension ? fileName : `download_file.${fileType}`
+        saveBlob(fileBlob.data, downloadName)
     } catch (error: any) {
-        const { statusText, status } = error?.response
+        const { statusText, status } = error?.response ?? {}
         Notification({
             message: `error status: ${status}, message: ${statusText || 'unknown'}`,
             type: 'error',
         })
-        console.log('file download error', error.response)
     }
+}
+
+function saveBlob(blob: Blob, filename?: string) {
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename || 'download'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
 }
 
 function getFileType(fileType?: string) {

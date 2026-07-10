@@ -1,5 +1,5 @@
 import React from 'react'
-import { FilePictureInput, TextInput, Typography, Spin, useForm } from '../../../admiral'
+import { FilePictureInput, Typography, Spin, useForm } from '../../../admiral'
 import { BaseImage, HeaderImage, ModalImage } from './images'
 import Color from './Color'
 import useImageUrl from './useImageUrl'

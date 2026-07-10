@@ -29,7 +29,10 @@
     flex-shrink: 0;
     height: 100%;
     margin-bottom: var(--space-l);
-    transition: opacity 0.2s, width 0.2s, height 0.2s;
+    transition:
+        opacity 0.2s,
+        width 0.2s,
+        height 0.2s;
 
     img,
     svg {

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { Button } from '../ui'
 import { FiX } from 'react-icons/fi'
@@ -11,18 +11,17 @@ import { FilterField } from '../crud/IndexPageContext/interfaces'
 
 export type AppliedFiltersProps = {}
 
-export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
+export function AppliedFilters() {
     const {
         setUrlState,
         urlState: { filter },
         filter: { fields: filterFields, options: filterOptions },
     } = useCrudIndex()
-    const isFiltersVisible = Object.keys(filterOptions)?.length
 
     const renderName = useCallback(
         (
             name: string,
-            type: FormInputType,
+            type: FormInputType | undefined,
             value: any,
             label: string | undefined,
             extra: FilterField['extra'],
@@ -54,7 +53,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     }
 
                     const optionName = options
-                        ? options.find((n) => n.value == value)?.label ?? value
+                        ? (options.find((n) => n.value == value)?.label ?? value)
                         : value
                     return label ? `${label}: ${optionName}` : optionName
                 }
@@ -79,8 +78,14 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     return label ? `${label}: ${date[0]} - ${date[1]}` : `${date[0]} - ${date[1]}`
                 }
 
-                default:
-                    return null
+                default: {
+                    // Custom inputs: best-effort chip for primitive values, so an
+                    // applied custom filter never shows up as an empty tag
+                    if (typeof value === 'string' || typeof value === 'number') {
+                        return label ? `${label}: ${value}` : value
+                    }
+                    return label ?? name
+                }
             }
         },
         [filterOptions],
@@ -88,6 +93,7 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
 
     const filters = Object.entries(filter)
         .filter(([name]) => filterFields.some((field) => field.name === name))
+        .filter(([, value]) => value !== null && value !== undefined && value !== '')
         .map(([name, value]) => {
             const field = filterFields.find((field) => field.name === name)
             return {
@@ -112,15 +118,15 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                 filter: { ...filter, [name]: undefined },
             }))
         },
-        [setUrlState],
+        [setUrlState, filter],
     )
 
-    return isFiltersVisible ? (
+    return filters.length ? (
         <div className={styles.appliedFilters}>
-            {filters.map(({ name, label, type, value, extra }, idx) => {
-                return value !== null && value !== undefined && value !== '' ? (
+            {filters.map(({ name, label, type, value, extra }) => {
+                return (
                     <Button
-                        key={type + idx}
+                        key={name}
                         type="button"
                         iconRight={
                             <FiX
@@ -133,8 +139,6 @@ export const AppliedFilters: React.FC<AppliedFiltersProps> = () => {
                     >
                         {renderName(name, type, value, label, extra)}
                     </Button>
-                ) : (
-                    <React.Fragment key={type + idx}></React.Fragment>
                 )
             })}
         </div>

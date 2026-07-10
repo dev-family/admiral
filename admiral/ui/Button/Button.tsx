@@ -1,11 +1,11 @@
-import React, { forwardRef, useRef, memo } from 'react'
-import { Spin } from '../../ui'
+import React, { useRef, memo } from 'react'
+import { useMergeRefs } from '@floating-ui/react'
+import { Spin } from '../Spin'
 import { ButtonProps } from './interfaces'
 import styles from './Button.module.scss'
-import mergeRefs from 'react-merge-refs'
 import cn from 'classnames'
 
-const Button = forwardRef((props: ButtonProps, buttonRef) => {
+function Button({ ref, ...props }: ButtonProps & { ref?: React.Ref<HTMLElement> }) {
     const {
         component: Component = 'button',
         className,
@@ -19,7 +19,8 @@ const Button = forwardRef((props: ButtonProps, buttonRef) => {
         ...rest
     } = props
     const withLoader = typeof loading === 'boolean'
-    const ref = useRef<typeof Component>(null)
+    const internalRef = useRef<HTMLElement>(null)
+    const mergedRef = useMergeRefs([internalRef, ref ?? null])
 
     const onlyIcon =
         (!!iconLeft && !iconRight && !children) || (!!iconRight && !iconLeft && !children)
@@ -34,7 +35,7 @@ const Button = forwardRef((props: ButtonProps, buttonRef) => {
 
     return (
         <Component
-            ref={mergeRefs([ref, buttonRef])}
+            ref={mergedRef}
             className={cn(
                 styles.button,
                 {
@@ -63,6 +64,6 @@ const Button = forwardRef((props: ButtonProps, buttonRef) => {
             )}
         </Component>
     )
-})
+}
 
 export default memo(Button) as typeof Button

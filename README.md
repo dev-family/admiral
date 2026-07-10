@@ -1,692 +1,407 @@
 <p align="center">
-  <a target='_blank' href="https://admiral.dev.family">
+  <a href="https://admiral.dev.family" target="_blank">
     <img src="https://admiral.dev.family/images/admiral-logo-npm.svg" width="318px" alt="Admiral logo" />
   </a>
 </p>
-<h3 align="center">Revolutionize Your Workflow with Admiral: A Powerful Solution for Tailored Admin Panels and Business Applications</h3>
 
 <p align="center">
-  <a href="https://admiral.dev.family" target="_blank">🌐 Try Live Demo</a> &nbsp;|&nbsp;
-  <a href="https://dev.family/blog/categories/admiral-open-source-solution-in-react" target="_blank">📖 Real-World Use Cases</a>
+  A React framework for building admin panels and back-office applications.<br/>
+  Provides CRUD generation, authentication, theming, routing, and 30+ UI components out of the box.
 </p>
 
-<br>
+<p align="center">
+  <a href="https://admiral.dev.family" target="_blank">Live Demo</a> &nbsp;&bull;&nbsp;
+  <a href="https://dev.family/blog/categories/admiral-open-source-solution-in-react" target="_blank">Blog & Use Cases</a> &nbsp;&bull;&nbsp;
+  <a href="./MIGRATION.md">Migrating from v5</a>
+</p>
 
 <p align="center">
-  <a href="https://twitter.com/admiral_family">
-    <img src="https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40admiral_family" alt="Twitter" />
+  <a href="https://www.npmjs.com/package/@devfamily/admiral">
+    <img src="https://img.shields.io/npm/v/@devfamily/admiral.svg?color=643add&labelColor=86ce2c" alt="Version" />
   </a>
   <a href="https://www.npmjs.com/package/@devfamily/admiral">
     <img src="https://img.shields.io/npm/dt/@devfamily/admiral.svg?color=643add&labelColor=86ce2c" alt="Downloads" />
-  </a>
-  <a href="https://www.npmjs.com/package/@devfamily/admiral">
-    <img src="https://img.shields.io/npm/v/@devfamily/admiral.svg?color=643add&labelColor=86ce2c" alt="Version" />
   </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/npm/l/@devfamily/admiral.svg?color=643add&labelColor=86ce2c" alt="License" />
   </a>
 </p>
 
-<br>
+---
 
-<p align="center">
-  <a target='_blank' href="https://admiral.dev.family">
-    <img src="https://admiral.dev.family/images/github-original.png" alt="Admiral Administration panel" />
-  </a>
-</p>
+## Features
 
-Admiral is a frontend framework for creating back office in React. It provides out-of-the-box components and tools that make developing an admin interface easy and fast.
+- **CRUD generation** &mdash; define a resource config, get index/create/update pages with tables, forms, filters, and pagination
+- **30+ UI components** &mdash; Table, Form inputs, Select, DatePicker, Drawer, Tabs, Upload, Notification, and more
+- **Conditional & dependent fields** &mdash; `visibleWhen` / `disabledWhen` / `requiredWhen` rules on any input, `Form.When` groups, cascading selects
+- **Validation-aware form tabs** &mdash; `Form.Tabs` shows per-tab error badges and switches to the first invalid tab on submit
+- **File-based routing** &mdash; pages directory maps to routes automatically (like Next.js)
+- **Authentication** &mdash; login, logout, OAuth (Google, GitHub, Jira), session checks
+- **Theming** &mdash; light/dark modes, fully customizable CSS presets
+- **Localization** &mdash; built-in i18n with swappable locale packs
+- **TypeScript** &mdash; full type coverage across all components and hooks
 
-Made with :purple_heart: by [dev.family](https://dev.family/?utm_source=github&utm_medium=admiral&utm_campaign=readme)
+## Tech Stack
 
-## 📖 Table of Contents
+React 19 &bull; React Router 7 &bull; Vite 6 &bull; TypeScript 5.7 &bull; @dnd-kit &bull; @floating-ui &bull; rc-\* components &bull; date-fns 4
 
--   [✨ Features](#-features)
--   [🚨 What problems do we solve](#what-problems-do-we-solve)
--   [🔨 Installation](#-installation)
-    -   [NPX](#-npx)
-    -   [Use one of our examples](#-use-one-of-our-examples)
-    -   [git clone](#-git-clone)
--   [📦 Usage](#-usage)
-    -   [📦 Interaction with API](#interaction-with-api)
-    -   [📦 Menu](#menu)
-    -   [📦 Hooks](#hooks)
-    -   [📦 Icons](#icons)
-    -   [📦 Custom Theme](#custom-theme)
--   [🗺️ Roadmap](#%EF%B8%8F-roadmap)
--   [📚 More Resources & Real-World Use Cases](#-more-resources--real-world-use-cases)
--   [🏆How can I support the developers?](#-how-can-i-support-the-developers)
--   [🤝 Contributing](#-contributing)
--   [© License](#%EF%B8%8F-license)
--   [📚 Contact](#-contact)
+## Quick Start
 
-## ✨ Features
-
--   📀 Out-of-the-box React components used.
--   🛡 It is written in TypeScript and has built-in typing.
--   👨‍💻 Adaptive design: The library interface scales to any screen size. This is convenient when used on mobile devices.
--   🌍 Localization: we support different languages.
--   👨‍🎨 An interface that is intuitively easy to work with.
--   🎨 Different design themes: you can change the color scheme of the interface to suit your needs.
-
-## 🚨What problems do we solve
-
--   **Development complexity.** Development complexity. We have collected ready-made components and tools to simplify and speed up development. Especially for those who are new to React.
--   **Inconsistent design.** We created a unified design and style for all components so that you don't have any trouble generating new ones.
--   **Support complexity.** We gathered all the necessary components and tools in one library, so that you don't waste your time looking for them.
--   **Low performance.** We use modern technologies such as React Hooks, Redux, and GraphQL to achieve high performance and fast responsiveness of the interface. Your admin area will no longer be slowed down by the large number of requests to the server and complex operations on the client.
--   **CRUD.** We have prepared tools to quickly create CRUD (Create, Read, Update, Delete) interfaces. Generate tables with data, forms for creating and editing objects, and components for deleting objects - in 5 minutes.
-
-## 🔨 Installation
-
-**Requirements:**
-
-- The recommended Node.js versions are between 14.21.3 and 20.3.0. However, any version above 14.21.3 can be used. If any version incompatibilities are found, please create an [issue](https://github.com/dev-family/admiral/issues) describing the problem.
-
-There are several options for installing Admiral:
-
-### 📦 NPX
-
-_To use npx, make sure you have **Node.js**_
+### Option 1 — scaffold a new project (recommended)
 
 ```bash
 npx create-admiral-app@latest
 ```
 
-When you enter this command into the console, you will see 2 installation options:
+You'll be prompted to choose:
 
--   Install the template with backend on Express.js.
--   Install the template without backend.
+- **With Express.js backend** &mdash; fully configured template with an API server
+- **Frontend only** &mdash; just the admin panel, bring your own API
 
-If you choose "**Install the template with the backend setting on Express.js**", you will install the fully customized template with backend on Express.js.
+Then `cd` into the project, `npm install`, `npm run dev` &mdash; and you have a working admin panel.
 
-[Detailed installation and startup instructions](examples/express-server/README.md)
+### Option 2 — add to an existing app
 
-All environment variables will be set automatically. If you want to configure them manually, go to the project folder and open the **.env.**
-You will have 1 CRUDs from the start - **Users**. To find them pass the way - `admiral/src/crud/users/index.tsx`
+Requires **Node.js >= 20** and a bundler (the examples below use Vite).
 
-If you choose "**Install the template without backend setting**", you get just the frontend shell of Admiral in the admiral folder with CRUD - **Users**. To find it pass the way - `admiral/src/crud/users/index.tsx`. To use your backend, read the [Documentation](#interaction-with-api)
-
-Admiral is available at http://localhost:3000. If port 3000 is busy, any other free port will be selected.
-
-In the console you will see something like this
+**1. Install the package and its peer dependencies:**
 
 ```bash
-Port 3000 is in use, trying another one...
-
-vite v2.9.15 dev server running at:
-
-> Local:    http://localhost:3001/
-> Network:  http://192.168.100.82:3001/
-
-ready in 459ms.
+npm install @devfamily/admiral react@^19 react-dom@^19 react-router-dom@^7 axios@^1
 ```
 
-### 📦 Use one of our examples
+**2. Create the app entry.** Import the styles once, wrap everything in `<Admin>`:
 
-Detailed installation and startup instructions are in each of the examples.
+```tsx
+// src/App.tsx
+import { Admin, createRoutesFrom } from '@devfamily/admiral'
+import '@devfamily/admiral/style.css'
+import Menu from './menu'
+import dataProvider from './dataProvider'
 
--   [Express Server](examples/express-server/README.md)
+// createRoutesFrom takes a map of page modules; with Vite use import.meta.glob
+const Routes = createRoutesFrom(import.meta.glob('../pages/**/*', { eager: true }))
 
-Open your browser and go to http://localhost:3000.
+export default function App() {
+    return (
+        <Admin dataProvider={dataProvider('/api')} menu={Menu}>
+            <Routes />
+        </Admin>
+    )
+}
+```
 
-### 📦 Git Clone
+**3. Add a menu:**
 
-Yes, that's right. You can just clone this repository and enter the following commands:
+```tsx
+// src/menu.tsx
+import { Menu, MenuItemLink } from '@devfamily/admiral'
+
+export default function AppMenu() {
+    return (
+        <Menu>
+            <MenuItemLink icon="FiUsers" name="Users" to="/users" />
+        </Menu>
+    )
+}
+```
+
+**4. Add a data provider** &mdash; the object that tells Admiral how to talk to your API. Copy
+[src/dataProvider.ts](src/dataProvider.ts) as a starting point; the contract it implements is
+described in [Data Provider](#data-provider) below.
+
+**5. Create your first page** &mdash; see the [CRUD example](#crud-pages). Done: `/users` now renders
+a table with forms, filters, and pagination.
+
+### Option 3 — run this repo
 
 ```bash
+git clone https://github.com/dev-family/admiral.git
+cd admiral
 yarn
 yarn dev
 ```
 
-Then go to http://localhost:3000. The Admiral with mock data is now available to you.
+Open http://localhost:3000 &mdash; you'll see Admiral running on mock data, with the source for
+every page in [pages/](pages) and [src/](src).
 
-## 📦 Usage
+## Core Concepts
 
-The App.tsx file is the entry point into the application. It is where the library is initialized and where the components are rendered `Admin`.
+Admiral apps are built from a handful of pieces: an `<Admin>` root, file-based **routing**,
+**CRUD pages** generated from a config, a **data provider** (and optionally an **auth provider**)
+that connect Admiral to your API, plus **forms**, **filters**, **themes**, and **locales**.
+Each piece is described below.
+
+### `<Admin>`
+
+The root component. It wires up routing, theming, data fetching, auth, localization, and
+notifications &mdash; every other Admiral feature expects to live inside it.
 
 ```tsx
-import React from 'react'
-import { Admin, createRoutesFrom, OAuthProvidersEnum } from '../admiral'
-import Menu from './config/menu'
-import dataProvider from './dataProvider'
-import authProvider from './authProvider'
-
-const apiUrl = '/api'
-// import all pages from pages folder and create routes
-const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
-
-function App() {
-    return (
-        <Admin
-            dataProvider={dataProvider(apiUrl)}
-            authProvider={authProvider(apiUrl)}
-            menu={Menu}
-            oauthProviders={[
-                OAuthProvidersEnum.Google,
-                OAuthProvidersEnum.Github,
-                OAuthProvidersEnum.Jira,
-            ]}
-        >
-            <Routes />
-        </Admin>
-    )
-}
-
-export default App
+<Admin
+    dataProvider={dataProvider(apiUrl)} // required: how to fetch data
+    menu={Menu} // required: sidebar menu component
+    authProvider={authProvider(apiUrl)} // optional: enables the login flow
+    themePresets={{ light, dark }} // optional: custom theme
+    locale={admiralLocales.ruRU} // optional: translations
+    logo={Logo} // optional: sidebar logo
+    oauthProviders={[OAuthProvidersEnum.Google]} // optional: OAuth buttons
+>
+    <Routes />
+</Admin>
 ```
 
-<br>
+### Routing
 
-### Interaction with API
+Admiral uses **file-system based routing**. Files in the `pages/` directory map to routes:
 
-#### Auth - [AuthProvider](src/authProvider.ts)
+| File                     | Route           |
+| ------------------------ | --------------- |
+| `pages/index.tsx`        | `/`             |
+| `pages/users/index.tsx`  | `/users`        |
+| `pages/users/create.tsx` | `/users/create` |
+| `pages/users/[id].tsx`   | `/users/:id`    |
 
-The main contract for authorization in the system is the interface `AuthProvider`.
+### CRUD Pages
+
+Define a resource in one file &mdash; Admiral generates the index, create, and update pages:
+
+```tsx
+// pages/users/index.tsx
+import { createCRUD, TextInput, SelectInput } from '@devfamily/admiral'
+
+export const { IndexPage, CreatePage, UpdatePage } = createCRUD({
+    resource: 'users',
+    path: '/users',
+    index: {
+        title: 'Users',
+        newButtonText: 'Create User',
+        tableColumns: [
+            { title: 'ID', dataIndex: 'id', key: 'id' },
+            { title: 'Name', dataIndex: 'name', key: 'name' },
+            { title: 'Email', dataIndex: 'email', key: 'email' },
+        ],
+    },
+    form: {
+        create: {
+            fields: (
+                <>
+                    <TextInput label="Name" name="name" required />
+                    <TextInput label="Email" name="email" required />
+                    <SelectInput label="Role" name="role_id" />
+                </>
+            ),
+        },
+        edit: {
+            fields: (
+                <>
+                    <TextInput label="Name" name="name" required />
+                    <TextInput label="Email" name="email" required />
+                    <SelectInput label="Role" name="role_id" />
+                </>
+            ),
+        },
+    },
+})
+
+export default IndexPage
+```
+
+The full demo configs live in [src/crud/](src/crud).
+
+### Data Provider
+
+The `DataProvider` interface defines how Admiral communicates with your API:
 
 ```ts
-export interface AuthProvider {
-    login: (params: any) => Promise<any>
-    logout: (params: any) => Promise<void | false | string>
-    checkAuth: (params: any) => Promise<void>
-    getIdentity: () => Promise<UserIdentity>
-    oauthLogin?: (provider: OAuthProvidersEnum) => Promise<{ redirect: string }>
-    oauthCallback?: (provider: OAuthProvidersEnum, data: string) => Promise<any>
-
-    [key: string]: any
+interface DataProvider {
+    getList: (resource, params) => Promise<{ items: any[]; meta: PaginationMeta }>
+    getOne: (resource, params) => Promise<{ data: any; values?: any }>
+    create: (resource, params) => Promise<{ data: any }>
+    update: (resource, params) => Promise<{ data: any }>
+    deleteOne: (resource, params) => Promise<{ data: any }>
+    getCreateFormData: (resource) => Promise<{ data?: any; values?: any }>
+    getUpdateFormData: (resource, params) => Promise<{ data: any; values?: any }>
+    getFiltersFormData: (resource, urlState?) => Promise<{ values?: any }>
+    reorderList: (resource, params) => Promise<void>
 }
 ```
 
-[Example of implementation](src/authProvider.ts)
-The interface itself can be customized to your liking, but it is important to respect the contract it provides.
-[Detailed contract description](admiral/auth/interfaces.ts)
+See [src/dataProvider.ts](src/dataProvider.ts) for a full implementation example.
 
-Let's look at the basic methods of implementation:
+**API response format:**
 
-| Method        | Name                             | Description                                                                                                                                           | Parameters                                                                                             | Return value                                                                      |
-| ------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| login         | User Authentication              | Makes a POST request to `/api/login` and stores the `token` field in localStorage, which is used in further requests                                  | `params` - object with the fields `username` and `password`                                            | An object with a `token` field and a `user` object with `email` and `name` fields |
-| logout        | User Logout                      | Makes a POST request to `/api/logout` and removes the `token` field from localStorage                                                                 |                                                                                                        | `void`                                                                            |
-| checkAuth     | User authorization check         | Makes a GET request to `/api/checkAuth` and checks token validity, expects a status code - 200. Used every time the API is used                       | Bearer `token`                                                                                         | Status code 200                                                                   |
-| getIdentity   | Receiving user data              | Makes a GET request to `/api/getIdentity` and returns an object with user data                                                                        | Bearer `token`                                                                                         | Object `user` with the fields `email` and `name`                                  |
-| oauthLogin    | Authorization via OAuth          | Makes a GET request to `/api/auth/social-login/${provider}` and returns an object with the `redirect` field, which is used for the redirect           | `provider` - OAuth provider                                                                            | Object with the field `redirect`                                                  |
-| oauthCallback | Callback authorization via OAuth | Makes a POST request to `/api/auth/social-login/${provider}/callback` and stores the `token` field in localStorage, which is used in further requests | `provider` - OAuth provider, `data` - data received from OAuth provider where the `token` field exists | Object with the field `token`                                                     |
-
-#### CRUD [DataProvider](src/dataProvider.ts)
-
-The main contract for working with data represents the interface `DataProvider`.
-
-```ts
-export interface DataProvider {
-    getList: (
-        resource: string,
-        params: Partial<GetListParams>,
-    ) => Promise<GetListResult<RecordType>>
-    reorderList: (resource: string, params: ReorderParams) => Promise<void>
-    getOne: (resource: string, params: GetOneParams) => Promise<GetOneResult<RecordType>>
-    getCreateFormData: (resource: string) => Promise<GetFormDataResult<RecordType>>
-    getFiltersFormData: (
-        resource: string,
-        urlState?: Record<string, any>,
-    ) => Promise<GetFiltersFormDataResult>
-    create: (resource: string, params: CreateParams) => Promise<CreateResult<RecordType>>
-    getUpdateFormData: (
-        resource: string,
-        params: GetOneParams,
-    ) => Promise<GetFormDataResult<RecordType>>
-    update: (resource: string, params: UpdateParams) => Promise<UpdateResult<RecordType>>
-    deleteOne: (resource: string, params: DeleteParams) => Promise<DeleteResult<RecordType>>
-
-    [key: string]: any
-}
-```
-
-[Example of implementation](src/dataProvider.ts)
-[Detailed contract description](admiral/dataProvider/interfaces.ts)
-
-Let's look at the basic methods of implementation:
-
-| Method             | Name                                                          | Description                                                                                                                        | Parameters                                                                                                         |
-| ------------------ | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| getList            | Getting a list of entities                                    | Makes a GET request to `/api/${resource}` and returns an object with data to be used in the `List` component                       | `resource` - resource name, `params` - object with query parameters                                                |
-| reorderList        | Changing the order of entities                                | Makes a POST request to `/api/${resource}/reorder` and returns an object with data to be used in the `List` component              | `resource` - resource name, `params` - object with query parameters                                                |
-| getOne             | Obtaining an entity                                           | Makes a GET request to `/api/${resource}/${id}` and returns an object with data to be used in the `Show` component                 | `resource` - resource name, `id` - entity identifier                                                               |
-| getCreateFormData  | Getting data for an entity creation form (Select, AjaxSelect) | Makes a GET request to `/api/${resource}/create` and returns an object with data to be used in the `Create` component              | `resource` - resource name                                                                                         |
-| getFiltersFormData | Receiving data for filters                                    | Makes a GET request to `/api/${resource}/filters` and returns an object with data to be used in the `Filters` component            | `resource` - resource name, `urlState` - object with parameters from the url to be used in the component `Filters` |
-| create             | Creating an Entity                                            | Makes a POST request to `/api/${resource}` and returns an object with data to be used in the component `Create`                    | `resource` - resource name, `params` - entity data object                                                          |
-| getUpdateFormData  | Getting data for an entity edit form (Select, AjaxSelect)     | Makes a GET request to `/api/${resource}/${id}/update` and returns an object with data to be used in the component `Edit`          | `resource` - resource name, `id` - entity identifier                                                               |
-| update             | Updating an entity                                            | Makes a POST request to `/api/${resource}/${id}` and returns an object with the data to be used in the component `Edit`            | `resource` - resource name, `id` - entity identifier, `params` - entity data object                                |
-| delete             | Deleting an Entity                                            | Makes DELETE request to `/api/${resource}/${id}` and returns an object with data to be used in the component `Delete`              | `resource` - resource name, `id` - entity identifier                                                               |
-
-##### getList Query Example [Receive 10 Users per page with filter by id=1]
-
-Query:
-
-```http request
-http://localhost/admin/users?page=1&perPage=10&filter%5Bid%5D=1
-```
-
-Result:
-
-```json
+```jsonc
+// GET /api/users?page=1&page_size=10
 {
-    "items": [
-        {
-            "id": 1,
-            "name": "Dev family",
-            "email": "info@dev.family",
-            "role": "Administrator",
-            "created_at": "2023-05-05 14:17:51"
-        }
-    ],
-    "meta": {
-        "current_page": 1,
-        "from": 1,
-        "last_page": 1,
-        "per_page": 10,
-        "to": 1,
-        "total": 1
-    }
+    "items": [{ "id": 1, "name": "John", "email": "john@example.com" }],
+    "meta": { "current_page": 1, "last_page": 5, "per_page": 10, "total": 50 }
 }
-```
 
-##### getOne Query Example [Receive User where id=1]
-
-Query:
-
-```http request
-http://localhost/admin/users/1/update?id=1
-```
-
-Result:
-
-```json
+// Validation errors (HTTP 422)
 {
-    "data": {
-        "id": 1,
-        "name": "Dev family",
-        "email": "info@dev.family",
-        "role_id": 1
-    },
-    "values": {
-        "role_id": [
-            {
-                "label": "Administrator",
-                "value": 1
-            }
-        ]
-    }
-}
-```
-
-❗**Note**: We utilize the HTTP status code 422 Unprocessable Entity to handle validation errors.
-
-##### Example Validation Error
-
-```json
-{
-    "errors": {
-        "name": ["Field 'name' is invalid."],
-        "email": ["Field 'email' is invalid."]
-    },
+    "errors": { "email": ["Email is required"] },
     "message": "Validation failed"
 }
 ```
 
-#### Pagination
+### Auth Provider
 
-Pagination work with `getList` method. You can pass `page` and `perPage` params to `getList` method, and it will return `PaginationResult` object with `items` and `meta` fields.
+Pass an `authProvider` to `<Admin>` and Admiral renders a login page, guards all routes, and
+keeps the session checked:
 
-#### Filters
+```ts
+interface AuthProvider {
+    login: (params: { username: string; password: string }) => Promise<any>
+    logout: (params?: any) => Promise<void | false | string>
+    checkAuth: (params?: any) => Promise<void>
+    getIdentity: () => Promise<{ email: string; name: string }>
+    oauthLogin?: (provider: OAuthProvidersEnum) => Promise<{ redirect: string }>
+    oauthCallback?: (provider: OAuthProvidersEnum, data: string) => Promise<any>
+}
+```
 
-Filters work with `getList` method. You can pass `filter[$field]` param to `getList` method, and it will return `PaginationResult` object with `items` and `meta` fields.
+See [src/authProvider.ts](src/authProvider.ts) for a full implementation example.
 
-#### Sorting
+### Forms & Inputs
 
-Sorting work with `getList` method. You can pass `sort[$field]` param to `getList` method, and it will return `PaginationResult` object with `items` and `meta` fields.
+CRUD forms are composed from ready-made inputs &mdash; each binds to a form value by `name`:
 
-### Routing
+`TextInput`, `MultilineTextInput`, `PasswordInput`, `SlugInput`, `SelectInput`,
+`AjaxSelectInput`, `RadioInput`, `BooleanInput`, `DatePickerInput`, `DateRangePickerInput`,
+`TimePickerInput`, `ColorPickerInput`, `EditorInput`, `FilePictureInput`, `DraggerInput`,
+`ArrayInput`, `TranslatableInput`
 
-Admiral has a **file-system based** router.
+Inside any form (or a custom input) the `useForm()` hook gives access to values, errors, and
+setters. Standalone forms outside CRUD are available via the `Form` component from
+`@devfamily/admiral/form`.
 
-A page is a React Component exported from a .js, .jsx, .ts, or .tsx file in the pages' directory. When a file is added to the pages' directory, it's automatically available as a route.
-[react-router-dom](https://v5.reactrouter.com/web/guides/quick-start) is used under the hood.
+**Conditional & dependent fields.** Every input takes `visibleWhen` / `disabledWhen` /
+`requiredWhen` (a `(values) => boolean` or a JSON rule), `<Form.When>` reveals a group by one
+rule, and `AjaxSelectInput` supports `resetOnChangeOf` cascades (e.g. country → city). See
+[Conditional & dependent fields](./MIGRATION.md#5-new-in-v6-conditional--dependent-fields).
 
-#### Index routes
+**`Form.Tabs` — validation-aware tabs.** Long forms split into tabs that stay honest about
+errors: each tab shows a badge with its invalid-field count, and a failed submit switches to
+the first tab that needs attention (fields hidden by rules are skipped). See
+[`Form.Tabs`](./MIGRATION.md#4-new-in-v6-formtabs--validation-aware-tabs).
 
-The router will automatically route files named index to the root of the directory.
+### Filters
 
-`pages/index.ts → /`
-`pages/users/index.ts → /users`
-
-#### Nested routes
-
-The router supports nested files. If you create a nested folder structure, files will automatically be routed in the same way still.
-
-`pages/users/create.ts → /users/create`
-
-#### Dynamic route segments
-
-To match a dynamic segment, you can use the bracket syntax. This allows you to match named parameters.
-
-`pages/users/[id].ts → /users/:id (/users/42)`
-
-<br>
-
-
-
-### Admin component
-
-This component is the most important in your admin panel. With it, you can set the fundamental settings and configurations of your application, such as: navigation, logo, api for requests to a server, api authorization, localization, theme and other things.
-
-**Example of using:**
-
+Add a filter drawer to a CRUD index page with the `filter` key, and promote any of the fields
+to always-visible quick filters with `quickFilters`:
 
 ```tsx
- <Admin
-     dataProvider={dataProvider(apiUrl)}
-     authProvider={authProvider(apiUrl)}
-     menu={Menu}
-     oauthProviders={[
-     OAuthProvidersEnum.Google,
-     OAuthProvidersEnum.Github,
-     OAuthProvidersEnum.Jira,
-     ]}
->
-     <Routes />
+createCRUD({
+    // ...
+    filter: {
+        topToolbarButtonText: 'Filter',
+        fields: (
+            <>
+                <TextInput label="Name" name="name" />
+                <BooleanInput label="Active" name="is_active" />
+            </>
+        ),
+        quickFilters: ['name', 'is_active'],
+    },
+})
+```
+
+Applied filters are reflected in the URL, so filtered views are shareable and bookmarkable.
+A complete example: [src/crud/quickFilters.tsx](src/crud/quickFilters.tsx).
+
+### Theming
+
+Light and dark modes work out of the box (with a switcher in the header). To customize colors,
+pass your own presets to `<Admin>`:
+
+```tsx
+import themeLight from './theme/presets/themeLight'
+import themeDark from './theme/presets/themeDark'
+;<Admin themePresets={{ light: themeLight, dark: themeDark }}>
+    <Routes />
 </Admin>
 ```
 
-The component accepts the following propses:
+Presets use [@consta/uikit Theme](https://github.com/consta-design-system/uikit) under the hood.
+See [admiral/theme/presets](admiral/theme/presets) for the preset structure and CSS variables.
 
-**menu**
+### Localization
 
-Here you can customize your navigation.
-You should use special components from our package: Menu, MenuItemLink, SubMenu.
-You can find an example [here](https://github.com/dev-family/admiral/blob/master/src/config/menu.tsx).
-
-**logo**
-
-You can change the logo that is displayed in the aside navbar.
-The prop accepts a link to an svg, JSX component, or a file with the svg format.
-
-**loginLogo**
-
-You can change the logo that is displayed in the authorization form.
-The prop accepts a link to an svg, JSX component, or a file with the svg format.
-
-**asideContent**
-
-With this tool, you can add the necessary content to the aside navbar under the links. You have to pass ReactNode.
-
-**dataProvider**
-
-The main contract for working with data. You can get more info in our [documentation](https://github.com/dev-family/admiral?tab=readme-ov-file#crud-dataprovider).
-
-
-**authProvider**
-
-The main contract for authorization in the system. You can get more info in our [documentation](https://github.com/dev-family/admiral?tab=readme-ov-file#auth---authprovider).
-
-**themePresets**
-
-You can customize the color theme for your application. You can get more info in our [documentation](https://github.com/dev-family/admiral?tab=readme-ov-file#custom-theme).
-
-**locale**
-
-Localization can be imported from the admiral package and applied to the Admin component.
-The text data in all standard components will have the language selected using admiralLocales.
-
-Example:
-```tsx
-import { admiralLocales} from '@devfamily/admiral'
-
-<Admin locale={admiralLocales.enUS} />
-```
-  
-  
-The localization scheme of your admin panel, which you can get using the useLocaleProvider hook. You can find an example of the scheme [here](https://github.com/dev-family/admiral/blob/master/admiral/crud/locale/LocaleContext.tsx).
-
-
-**oauthProviders**
-
-Use OAuth authorization using this props. Pass the name of the required provider in the array using OAuthProvidersEnum enum from the admiral.
-
-**baseAppUrl**
-
-Add the props to change the base path of the app.
-
-<br>
-
-### Menu component
-
-A menu is an array of objects that have the following structure:
+English is the default; a Russian pack ships in the box. Pass a ready-made pack to `<Admin>`,
+or a partial object &mdash; any top-level section you provide replaces the default one:
 
 ```tsx
-import { Menu, SubMenu, MenuItemLink } from '../../admiral'
-
-const CustomMenu = () => {
-    return (
-        <Menu>
-            <MenuItemLink icon="FiCircle" name="First Menu Item" to="/first" />
-            <SubMenu icon="FiCircle" name="Second Menu Item">
-                <MenuItemLink icon="FiCircle" name="Sub Menu Item" to="/second" />
-            </SubMenu>
-        </Menu>
-    )
-}
-
-export default CustomMenu
+import { Admin, admiralLocales } from '@devfamily/admiral'
+;<Admin locale={admiralLocales.ruRU}>
+    <Routes />
+</Admin>
 ```
 
-<br>
+## Module Imports
 
-### Hooks
-
-Our application uses React hooks. You can use them from anywhere in the application inside the React components.
-These are the hooks you can use:
-
-#### useNav
-
-This hook allows you to receive and manage the status of the navigation bar
+Admiral supports granular imports to reduce bundle size:
 
 ```tsx
-import { useNav } from '@devfamily/admiral'
-const { collapsed, toggleCollapsed, visible, toggle, open, close } = useNav()
+import { Admin, createCRUD, createRoutesFrom } from '@devfamily/admiral'
+import { Table, Button, Select, Drawer } from '@devfamily/admiral/ui'
+import { Form, TextInput, SelectInput } from '@devfamily/admiral/form'
+import { useTheme } from '@devfamily/admiral/theme'
+import '@devfamily/admiral/style.css'
 ```
 
--   collapsed - a variable containing the state of the navigation panel (collapsed or not)
--   toggleCollapsed - a method that allows you to control the state of the navigation panel.
--   visible - a variable containing the state of the burger menu (open-closed).
--   toggle - a method that allows you to manage the state of the burger menu (opening-closing).
--   open - a method that allows you to open the burger menu.
--   close - a method that allows you to close the burger menu.
+## Hooks
 
-#### useForm
+| Hook                  | Description                                                        |
+| --------------------- | ------------------------------------------------------------------ |
+| `useForm()`           | Access form values, errors, options, and setters inside CRUD forms |
+| `useTheme()`          | Get and set the active theme (`light` / `dark`)                    |
+| `useNav()`            | Control sidebar collapse state and mobile burger menu              |
+| `useGetIdentity()`    | Get the authenticated user's identity                              |
+| `useLocaleProvider()` | Access the current locale configuration                            |
+| `useUrlState()`       | Read/write state synced to the URL query string                    |
 
-This hook allows you to get form values and manage the state of the form. The hook can be used in components used in "form" inside the configuration of the createCRUD function.
+## Icons
 
-```tsx
-import { useForm } from '@devfamily/admiral'
-const {
-    values,
-    options,
-    errors,
-    setErrors,
-    setValues,
-    setOptions,
-    isSubmitting,
-    isFetching,
-    locale,
-} = useForm()
-```
+Admiral uses [React Icons](https://react-icons.github.io/react-icons/) (v5). Pass any icon name
+as a string or use JSX components directly.
 
--   options - options, which are returned from the server for this form.
--   errors - errors, which are returned from the server when initializing the form, or when submitting the form.
--   setErrors - a method for recording the errors.
--   setValues - a method for recording the values.
--   setOptions - a method for recording the options.
--   isSubmitting - form submitting status.
--   isFetching - form initialization status.
--   locale - localization configuration for the form.
+## Examples
 
-#### useTheme
+- [examples/express-server](examples/express-server) &mdash; Admiral + Express + Prisma, end to end
+- [Live demo](https://admiral.dev.family) &mdash; this repo's `pages/` + `src/` running on mock data
 
-This hook allows you to receive and manage the state of theme.
+## Migrating from v5
 
-```tsx
-import { useTheme } from '@devfamily/admiral'
-const { themeName, setTheme } = useTheme()
-```
+v6 is a breaking release: React 19, React Router 7, ESM-only package, stricter types.
+The full checklist lives in [MIGRATION.md](./MIGRATION.md). Migrating with an AI coding
+agent? Point it at [MIGRATION_AI.md](./MIGRATION_AI.md) — the same guide as deterministic
+find &rarr; change &rarr; verify steps.
 
--   themeName - name of the active theme.
--   setTheme - a method to change the theme, you need to pass argument name as 'dark' or 'light.
+## Using AI assistants
 
-#### useGetIdentty
+Two machine-oriented docs ship inside the npm package, so your agent can read them straight
+from `node_modules/@devfamily/admiral/`:
 
-A hook that allows you to get the state obtained by calling AuthProvider.getIdentity()
+- [AI_GUIDE.md](./AI_GUIDE.md) &mdash; an exact reference for generating Admiral code: the
+  DataProvider contract and response shapes, where select/filter options come from, all 17
+  inputs, conditional-field rules, and the mistakes AI tools commonly make.
+- [MIGRATION_AI.md](./MIGRATION_AI.md) &mdash; an executable v5 &rarr; v6 migration playbook.
 
-```tsx
-import { useGetIdentty } from '@devfamily/admiral'
-const { identity, loading, loaded, error } = useGetIdentty()
-```
+The demo site also serves an index of these docs at
+[admiral.dev.family/llms.txt](https://admiral.dev.family/llms.txt).
 
--   identity - a variable containing the state.
--   loading - a state initialization status.
--   loaded - a variable that indicates that the state has been initialized.
--   error - a object of errors.
+Example prompt: _"Read node_modules/@devfamily/admiral/AI_GUIDE.md, then add a CRUD page for
+the `orders` resource with a status filter and a conditional `refund_reason` field."_
 
-<br>
+## Contributing
 
-### Icons
+Fork the repo, make your changes, and submit a pull request. We welcome contributions!
 
-Icons used in Admiral are from [React Icons](https://react-icons.github.io/react-icons/).
+## License
 
-### Custom theme
+MIT &copy; [dev.family](https://dev.family)
 
-ThemeProvider uses [@consta/uikit](https://github.com/consta-design-system/uikit) [Theme component](https://github.com/consta-design-system/uikit/tree/master/src/components/Theme) under the hood.
+## Contact
 
-You can pass your presets to `Admin` component with `themePresets` prop:
-
-```jsx
-import React from 'react'
-import { Admin, createRoutesFrom } from '../admiral'
-import Menu from './config/menu'
-import dataProvider from './dataProvider'
-import authProvider from './authProvider'
-import themeLight from './theme/presets/themeLight'
-import themeDark from './theme/presets/themeDark'
-
-const apiUrl = '/api'
-const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
-
-function App() {
-    return (
-        <Admin
-            dataProvider={dataProvider(apiUrl)}
-            authProvider={authProvider(apiUrl)}
-            menu={Menu}
-            themePresets={{ light: themeLight, dark: themeDark }}
-        >
-            <Routes />
-        </Admin>
-    )
-}
-```
-
-#### To create your own preset:
-
-1. Create a directory for presets. Inside make folders for each modifier - the same as in the [Theme component](https://github.com/dev-family/admiral/tree/master/admiral/theme/presets).
-2. Create CSS files. In the folders with the modifiers put the CSS files that will be responsible for those modifiers.  
-   You will get something similar:
-
-    ```
-    presets/
-      _color/
-        _Theme_color_themeDark.css
-        _Theme_color_themeLight.css
-      _control/
-        _Theme_control_themeLight.css
-      _font/
-        _Theme_font_themeLight.css
-      _size/
-        _Theme_size_themeLight.css
-      _space/
-        _Theme_space_themeLight.css
-      _shadow/
-        _Theme_shadow_themeLight.css
-      themeLight.ts
-      themeDark.ts
-    ```
-
-3. Configure the variables in CSS files.
-4. Create a preset files (themeLight, themeDark).  
-   Import the CSS files you are going to use.  
-   Create a preset object. Specify which values (i.e. CSS files) for which modifiers to use in the preset. You will get something similar:
-
-    ```js
-    // in presets/themeLight.ts
-    import './_color/_Theme_color_themeLight.css'
-    import './_color/_Theme_color_themeDark.css'
-    import './_control/_Theme_control_themeLight.css'
-    import './_font/_Theme_font_themeLight.css'
-    import './_size/_Theme_size_themeLight.css'
-    import './_space/_Theme_space_themeLight.css'
-    import './_shadow/_Theme_shadow_themeLight.css'
-
-    export default {
-        color: {
-            primary: 'themeLight',
-            accent: 'themeDark',
-            invert: 'themeDark',
-        },
-        control: 'themeLight',
-        font: 'themeLight',
-        size: 'themeLight',
-        space: 'themeLight',
-        shadow: 'themeLight',
-    }
-    ```
-
-5. Pass your presets to `Admin` component as in the example above.
-
-❗**Note**: postcss plugins are used for color transformation in admiral [presets example](https://github.com/dev-family/admiral/tree/master/admiral/theme/presets). If you want to reproduce, setup [postcss](https://github.com/postcss/postcss) and [postcss-color-mod-function plugin](https://github.com/csstools/postcss-color-mod-function).
-
-## 🗺️ Roadmap
-
--   [x] Routing
--   [x] Menu
--   [x] Icons
--   [x] Custom theme
--   [x] OAuth
--   [ ] Documentation
--   [ ] Custom login page
--   [ ] Laravel Example
--   [ ] Websockets
-
-## 📚 More Resources & Real-World Use Cases
-
-Want to see Admiral in action?  
-Check out our blog series with real use cases, implementation guides, and deep dives:  
-👉 [Admiral — Open Source Solution in React](https://dev.family/blog/categories/admiral-open-source-solution-in-react)
-
-## 🏆 How can I support the developers?
-
--   Star our GitHub repo ⭐
--   Create pull requests, submit bugs, suggest new features or documentation updates 🔧
--   Read us on [Medium](https://medium.com/@dev.family)
--   Follow us on [Twitter](https://twitter.com/dev___family) 🐾
--   Like our page on [LinkedIn](https://www.linkedin.com/company/dev-family) 👍
-
-## 🤝 Contributing
-
-If you want to participate in the development of Admiral, make a Fork of the repository, make the desired changes and send a pull request. We will be glad to consider your suggestions!
-
-## ©️ License
-
-This library is distributed under the MIT license.
-
-## 📚 Contact
-
-If you have any questions, please contact us at: <a href="mailto:admiral@dev.family">admiral@dev.family</a>
-We're always happy to receive your feedback!
+Questions or feedback: [admiral@dev.family](mailto:admiral@dev.family)

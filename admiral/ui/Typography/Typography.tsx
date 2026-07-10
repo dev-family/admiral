@@ -1,4 +1,4 @@
-import React, { forwardRef, memo } from 'react'
+import React, { memo } from 'react'
 import cn from 'classnames'
 import styles from './Typography.module.scss'
 
@@ -10,22 +10,23 @@ export interface TypographyProps {
 }
 
 interface InternalTypographyProps extends TypographyProps {
-    component?: string
+    component?: React.ElementType
 }
 
-const Typography = forwardRef(
-    (
-        { component = 'article', className, children, ...restProps }: InternalTypographyProps,
-        ref,
-    ) => {
-        const Component = component as any
+function Typography({
+    component = 'article',
+    className,
+    children,
+    ref,
+    ...restProps
+}: InternalTypographyProps & { ref?: React.Ref<HTMLElement> }) {
+    const Component = component
 
-        return (
-            <Component className={cn(styles.typography, className)} ref={ref} {...restProps}>
-                {children}
-            </Component>
-        )
-    },
-)
+    return (
+        <Component className={cn(styles.typography, className)} ref={ref} {...restProps}>
+            {children}
+        </Component>
+    )
+}
 
-export default memo(Typography) as typeof Typography
+export default memo(Typography)

@@ -3,7 +3,7 @@ import { Page, Textarea, Input } from '../../admiral'
 
 export default function CheckboxPage() {
     const [value, setValue] = useState('')
-    const ref = useRef<HTMLTextAreaElement>()
+    const ref = useRef<HTMLTextAreaElement>(null)
 
     useEffect(() => {
         ref.current?.focus()

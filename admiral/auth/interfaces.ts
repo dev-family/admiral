@@ -5,14 +5,12 @@ export enum OAuthProvidersEnum {
 }
 
 export interface AuthProvider {
-    login: (params: any) => Promise<any>
-    logout: (params: any) => Promise<void | false | string>
-    checkAuth: (params: any) => Promise<void>
+    login: (params: Record<string, any>) => Promise<unknown>
+    logout: (params: Record<string, any>) => Promise<void | false | string>
+    checkAuth: (params: Record<string, any>) => Promise<void>
     getIdentity: () => Promise<UserIdentity>
     oauthLogin?: (provider: OAuthProvidersEnum) => Promise<{ redirect: string }>
-    oauthCallback?: (provider: OAuthProvidersEnum, data: string) => Promise<any>
-
-    [key: string]: any
+    oauthCallback?: (provider: OAuthProvidersEnum, data: string) => Promise<unknown>
 }
 
 export interface UserIdentity {

@@ -1,11 +1,10 @@
-import React from 'react'
 import RcPagination, { PaginationProps as RcPaginationProps } from 'rc-pagination'
 import { enUS } from './locales'
 import styles from './Pagination.module.scss'
 import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
 import cn from 'classnames'
 import { PaginationProps } from './interfaces'
-import { MiniSelect, MiddleSelect } from './PaginationSelect'
+import { createSizeChangerRender } from './PaginationSelect'
 
 const itemRender: RcPaginationProps['itemRender'] = (current, type, element) => {
     const ellipsis = <span className={styles.control_Ellipsis}>•••</span>
@@ -80,7 +79,7 @@ export const Pagination = ({ size, className, locale, ...restProps }: Pagination
             className={extendedClassName}
             locale={paginationLocale}
             itemRender={itemRender}
-            selectComponentClass={isSmall ? MiniSelect : MiddleSelect}
+            sizeChangerRender={createSizeChangerRender(isSmall ? 'XS' : 'S')}
         />
     )
 }

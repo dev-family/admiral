@@ -167,7 +167,9 @@ $font-size-xs: var(--control-text-size-xs);
         cursor: pointer;
         opacity: 0;
         transform: translateY(-50%);
-        transition: color 0.16s ease, opacity 0.16s ease;
+        transition:
+            color 0.16s ease,
+            opacity 0.16s ease;
         text-rendering: auto;
 
         svg {
@@ -186,6 +188,9 @@ $font-size-xs: var(--control-text-size-xs);
         position: absolute;
         z-index: 1001;
         max-width: calc(100vw - var(--space-xl) * 2);
+        // rc-picker v4 sets inline min-width via stretch:"minWidth" to match
+        // trigger width. Panels have their own fixed width, so reset it.
+        min-width: auto !important;
 
         &-hidden {
             display: none;
@@ -251,8 +256,6 @@ $font-size-xs: var(--control-text-size-xs);
         border: 1px solid var(--color-control-bg-border-default);
         box-shadow: var(--shadow-layer);
         border-radius: var(--control-radius);
-        outline: none;
-        box-shadow: var(--shadow-layer);
         margin: 0 !important;
 
         .#{$prefix-class}-panel {
@@ -274,7 +277,6 @@ $font-size-xs: var(--control-text-size-xs);
         text-align: center;
         border-radius: var(--control-radius);
         font-size: var(--size-text-s);
-        outline: none;
 
         --picker-panel-cell-width: 36px;
         --picker-panel-cell-height: 28px;
@@ -412,8 +414,93 @@ $font-size-xs: var(--control-text-size-xs);
             border-radius: var(--control-radius);
             color: var(--item-text-color);
             background-color: var(--item-bg-color);
-            transition: background-color 0.16s, border-color 0.16s;
+            transition:
+                background-color 0.16s,
+                border-color 0.16s;
         }
+    }
+
+    // ====================== Range ======================
+    // Background band for cells inside the selected range
+    &-cell-in-range::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        background: var(--color-control-bg-ghost);
+        pointer-events: none;
+    }
+
+    // Shared base for range start/end pseudo-element
+    &-cell-range-start::before,
+    &-cell-range-end::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+        background: var(--color-control-bg-ghost);
+        pointer-events: none;
+    }
+
+    // Start cell: band covers right half only
+    &-cell-range-start:not(.#{$prefix-class}-cell-range-end)::before {
+        left: 50%;
+        right: 0;
+    }
+
+    // End cell: band covers left half only
+    &-cell-range-end:not(.#{$prefix-class}-cell-range-start)::before {
+        left: 0;
+        right: 50%;
+    }
+
+    // When start === end: no band (just the circle)
+    &-cell-range-start.#{$prefix-class}-cell-range-end::before {
+        display: none;
+    }
+
+    // Endpoint circles: primary color
+    &-cell-in-view.#{$prefix-class}-cell-range-start .#{$prefix-class}-cell-inner,
+    &-cell-in-view.#{$prefix-class}-cell-range-end .#{$prefix-class}-cell-inner {
+        --item-bg-color: var(--color-control-bg-primary);
+        --item-text-color: var(--color-control-typo-primary);
+    }
+
+    // Hover range preview (dashed border)
+    &-cell-range-hover::before,
+    &-cell-range-hover-start::before,
+    &-cell-range-hover-end::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        border-top: 1px dashed var(--color-control-bg-border-default-hover);
+        border-bottom: 1px dashed var(--color-control-bg-border-default-hover);
+        pointer-events: none;
+    }
+
+    &-cell-range-hover-start::before {
+        left: 50%;
+        border-left: 1px dashed var(--color-control-bg-border-default-hover);
+    }
+
+    &-cell-range-hover-end::before {
+        right: 50%;
+        border-right: 1px dashed var(--color-control-bg-border-default-hover);
+    }
+
+    // Inside existing range: override hover with solid background
+    &-cell-in-range.#{$prefix-class}-cell-range-hover::before {
+        border-top: none;
+        border-bottom: none;
+        background: var(--color-control-bg-ghost);
     }
 
     &-decade-panel,
@@ -632,18 +719,18 @@ $font-size-xs: var(--control-text-size-xs);
         min-width: 100%;
         padding: var(--space-xs);
         text-align: center;
-        border-top: var(--picker-border-width) solid var(--color-bg-border);
+        border-top: 1px solid var(--color-bg-border);
     }
 
     &-ranges {
         display: flex;
+        justify-content: center;
         gap: var(--space-xs);
         align-items: center;
     }
 
     &-now {
         color: var(--item-text-color);
-        text-align: left;
         transition: color 0.16s;
 
         &:hover {
@@ -659,7 +746,7 @@ $font-size-xs: var(--control-text-size-xs);
         margin-left: auto;
     }
 
-    &-today-btn {
+    &-now-btn {
         color: var(--color-control-typo-secondary);
         cursor: pointer;
 

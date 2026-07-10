@@ -9,9 +9,9 @@ import Icon from '../../../assets/icons'
 import cn from 'classnames'
 
 export type LogoType = string | LogoComponentType
-export type LogoComponentType = ({ themeName }: { themeName: ThemeName }) => JSX.Element
+export type LogoComponentType = ({ themeName }: { themeName: ThemeName }) => React.JSX.Element
 
-const LayoutHeader: React.FC<{ logo?: LogoType }> = ({ logo = LogoDefault }) => {
+function LayoutHeader({ logo = LogoDefault }: { logo?: LogoType }) {
     const { themeName } = useTheme()
     const { close: closeNav, collapsed, toggleCollapsed, toggle: toggleNav, visible } = useNav()
 
@@ -23,9 +23,8 @@ const LayoutHeader: React.FC<{ logo?: LogoType }> = ({ logo = LogoDefault }) => 
         >
             <NavLink
                 to="/"
-                activeClassName={styles.logo__Active}
-                className={styles.logo}
-                exact
+                className={({ isActive }) => cn(styles.logo, { [styles.logo__Active]: isActive })}
+                end
                 onClick={closeNav}
             >
                 {LogoComponent ? (
@@ -36,19 +35,25 @@ const LayoutHeader: React.FC<{ logo?: LogoType }> = ({ logo = LogoDefault }) => 
             </NavLink>
 
             <button
+                type="button"
                 className={cn(styles.collapseToggle, styles.collapseToggle__Desktop, {
                     [styles.collapseToggle__Collapsed]: collapsed,
                 })}
+                aria-label="Toggle sidebar"
+                aria-expanded={!collapsed}
                 onClick={toggleCollapsed}
             >
-                <FiArrowLeft />
+                <FiArrowLeft aria-hidden />
             </button>
 
             <button
+                type="button"
                 className={cn(styles.collapseToggle, styles.collapseToggle__Mobile)}
+                aria-label="Toggle navigation"
+                aria-expanded={visible}
                 onClick={toggleNav}
             >
-                {visible ? <FiX /> : <FiMenu />}
+                {visible ? <FiX aria-hidden /> : <FiMenu aria-hidden />}
             </button>
         </header>
     )

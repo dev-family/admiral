@@ -1,10 +1,10 @@
-import React, { forwardRef, useRef, memo } from 'react'
+import React, { useRef, memo } from 'react'
+import { useMergeRefs } from '@floating-ui/react'
 import { CardProps } from './interfaces'
 import styles from './Card.module.scss'
-import mergeRefs from 'react-merge-refs'
 import cn from 'classnames'
 
-const Card = forwardRef((props: CardProps, cardRef) => {
+function Card({ ref, ...props }: CardProps & { ref?: React.Ref<HTMLElement> }) {
     const {
         component: Component = 'div',
         className,
@@ -15,13 +15,14 @@ const Card = forwardRef((props: CardProps, cardRef) => {
         children,
         ...rest
     } = props
-    const ref = useRef<typeof Component>(null)
+    const internalRef = useRef<HTMLElement>(null)
+    const mergedRef = useMergeRefs([internalRef, ref ?? null])
 
     const content = <div className={styles.content}>{children}</div>
 
     return (
         <Component
-            ref={mergeRefs([ref, cardRef])}
+            ref={mergedRef}
             className={cn(
                 styles.card,
                 {
@@ -53,6 +54,6 @@ const Card = forwardRef((props: CardProps, cardRef) => {
             {content}
         </Component>
     )
-})
+}
 
 export default memo(Card) as typeof Card

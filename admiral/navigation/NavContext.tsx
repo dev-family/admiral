@@ -1,6 +1,13 @@
-import React, { useContext, useState, createContext, useCallback, ComponentType } from 'react'
-import { useLocalStorageState } from 'ahooks'
-import noScroll from 'no-scroll'
+import React, {
+    useContext,
+    useState,
+    useEffect,
+    createContext,
+    useCallback,
+    useMemo,
+    ComponentType,
+} from 'react'
+import useLocalStorageState from '../utils/hooks/useLocalStorageState'
 
 export interface ContextState {
     visible: boolean
@@ -27,7 +34,7 @@ export function NavProvider({ menu, children }: NavProviderProps) {
         defaultValue: false,
     })
 
-    // mobile nav visibiliy
+    // mobile nav visibility
     const [visible, setVisible] = useState(false)
 
     const toggleCollapsed = useCallback(() => {
@@ -36,34 +43,31 @@ export function NavProvider({ menu, children }: NavProviderProps) {
 
     const toggle = useCallback(() => {
         setVisible((prev) => !prev)
-        noScroll.toggle()
     }, [])
 
     const open = useCallback(() => {
         setVisible(true)
-        noScroll.on()
     }, [])
 
     const close = useCallback(() => {
         setVisible(false)
-        noScroll.off()
     }, [])
 
-    return (
-        <NavContext.Provider
-            value={{
-                visible,
-                toggle,
-                open,
-                close,
-                collapsed,
-                toggleCollapsed,
-                menu,
-            }}
-        >
-            {children}
-        </NavContext.Provider>
+    // Body scroll lock follows the mobile nav visibility and is always
+    // restored on unmount.
+    useEffect(() => {
+        document.body.style.overflow = visible ? 'hidden' : ''
+        return () => {
+            document.body.style.overflow = ''
+        }
+    }, [visible])
+
+    const value = useMemo(
+        () => ({ visible, toggle, open, close, collapsed, toggleCollapsed, menu }),
+        [visible, collapsed, menu],
     )
+
+    return <NavContext.Provider value={value}>{children}</NavContext.Provider>
 }
 
 export function useNav() {

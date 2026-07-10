@@ -5,30 +5,34 @@ import { Textarea } from '../../ui'
 import type { TextareaProps } from '../../ui/Textarea/interfaces'
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface MultilineTextInputProps extends TextareaProps, FormItemProps {
+export interface MultilineTextInputProps
+    extends Omit<TextareaProps, 'onChange'>, FormItemProps, FieldRuleProps {
     name: string
-    onChange?: (value: any) => void
+    onChange?: (value: string) => void
 }
 
-export const MultilineTextInput: InputComponentWithName<React.FC<MultilineTextInputProps>> = ({
+const MultilineTextInputBase: InputComponentWithName<
+    (props: MultilineTextInputProps) => React.JSX.Element
+> = function MultilineTextInput({
     name,
     label,
     required,
     columnSpan,
     onChange,
     ...textareaProps
-}) => {
+}: MultilineTextInputProps) {
     const { values, errors, setValues } = useForm()
     const value = values[name]
     const error = errors[name]?.[0]
 
     const _onChange = useCallback(
-        (e) => {
-            setValues((values: any) => ({ ...values, [name]: e.target.value }))
+        (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            setValues((values: Record<string, any>) => ({ ...values, [name]: e.target.value }))
             onChange?.(e.target.value)
         },
-        [onChange],
+        [name, onChange, setValues],
     )
 
     return (
@@ -44,4 +48,6 @@ export const MultilineTextInput: InputComponentWithName<React.FC<MultilineTextIn
     )
 }
 
-MultilineTextInput.inputName = 'MultilineTextInput'
+MultilineTextInputBase.inputName = 'MultilineTextInput'
+
+export const MultilineTextInput = withFieldRules(MultilineTextInputBase)

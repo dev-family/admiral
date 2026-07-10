@@ -1,5 +1,5 @@
 import '../assets/global.css'
-import React, { ComponentType, ReactNode } from 'react'
+import React, { ComponentType, ReactNode, useMemo } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from '../theme'
 import { NavProvider } from '../navigation/NavContext'
@@ -12,6 +12,8 @@ import { ConfigContextProvider } from '../config/ConfigContext'
 import { ThemePreset } from '../theme/interfaces'
 import { OAuthProvidersEnum } from '../auth/interfaces'
 import { AdmiralLocale, LocaleContextProvider } from '../locale'
+import { ErrorBoundary, ErrorBoundaryProps } from '../ui/ErrorBoundary/ErrorBoundary'
+import { NotificationHost } from '../ui/Notification'
 
 export type AdminProps = {
     menu: ComponentType
@@ -25,9 +27,17 @@ export type AdminProps = {
     locale?: Partial<AdmiralLocale>
     oauthProviders?: OAuthProvidersEnum[]
     baseAppUrl?: string
+    errorFallback?: ErrorBoundaryProps['fallback']
 }
 
-export const Admin: React.FC<AdminProps> = ({
+const defaultErrorFallback = (error: Error) => (
+    <div role="alert" style={{ padding: '24px' }}>
+        <h1>Something went wrong</h1>
+        <pre style={{ whiteSpace: 'pre-wrap' }}>{error.message}</pre>
+    </div>
+)
+
+export function Admin({
     logo,
     loginLogo,
     asideContent,
@@ -40,30 +50,31 @@ export const Admin: React.FC<AdminProps> = ({
     children,
     oauthProviders,
     baseAppUrl = '',
-}) => {
+    errorFallback = defaultErrorFallback,
+}: AdminProps & { children?: React.ReactNode }) {
+    const configValue = useMemo(
+        () => ({ logo, loginLogo, asideContent, oauthProviders, menuPopupExtraComponents }),
+        [logo, loginLogo, asideContent, oauthProviders, menuPopupExtraComponents],
+    )
+
     return (
-        <AuthContextProvider value={authProvider}>
-            <DataProviderContextProvider value={dataProvider}>
-                <ConfigContextProvider
-                    value={{
-                        logo,
-                        loginLogo,
-                        asideContent,
-                        oauthProviders,
-                        menuPopupExtraComponents,
-                    }}
-                >
-                    <LocaleContextProvider value={locale}>
-                        <UserContextProvider>
-                            <Router basename={baseAppUrl}>
-                                <ThemeProvider presets={themePresets}>
-                                    <NavProvider menu={menu}>{children}</NavProvider>
-                                </ThemeProvider>
-                            </Router>
-                        </UserContextProvider>
-                    </LocaleContextProvider>
-                </ConfigContextProvider>
-            </DataProviderContextProvider>
-        </AuthContextProvider>
+        <ErrorBoundary fallback={errorFallback}>
+            <AuthContextProvider value={authProvider}>
+                <DataProviderContextProvider value={dataProvider}>
+                    <ConfigContextProvider value={configValue}>
+                        <LocaleContextProvider value={locale}>
+                            <UserContextProvider>
+                                <Router basename={baseAppUrl}>
+                                    <ThemeProvider presets={themePresets}>
+                                        <NavProvider menu={menu}>{children}</NavProvider>
+                                        <NotificationHost />
+                                    </ThemeProvider>
+                                </Router>
+                            </UserContextProvider>
+                        </LocaleContextProvider>
+                    </ConfigContextProvider>
+                </DataProviderContextProvider>
+            </AuthContextProvider>
+        </ErrorBoundary>
     )
 }

@@ -4,12 +4,12 @@ import { useNav } from '../../navigation/NavContext'
 import { useTheme } from '../../theme'
 import * as Icons from 'react-icons/fi'
 import styles from './Menu.module.scss'
-import { Badge, Tooltip } from '../../ui'
+import { Badge } from '../Badge'
+import { Tooltip } from '../Tooltip'
 import cn from 'classnames'
-import { RouterLocationState } from '../../router/interfaces'
 import { MenuItemLinkProps, MenuItemContentProps, SubMenuProps } from './interfaces'
 
-export const Menu: React.FC = ({ children }) => {
+export function Menu({ children }: { children?: React.ReactNode }) {
     const { themeName } = useTheme()
 
     return (
@@ -23,7 +23,7 @@ export const Menu: React.FC = ({ children }) => {
     )
 }
 
-const TooltipMenu: React.FC = ({ children }) => {
+function TooltipMenu({ children }: { children?: React.ReactNode }) {
     const { themeName } = useTheme()
 
     return (
@@ -38,7 +38,7 @@ const TooltipMenu: React.FC = ({ children }) => {
 }
 
 export const SubMenu = ({ icon, name, to, badge, children }: SubMenuProps) => {
-    const { pathname } = useLocation<RouterLocationState>()
+    const { pathname } = useLocation()
     const params = useParams()
     const paramValues = Object.values(params)
 
@@ -62,7 +62,6 @@ export const SubMenu = ({ icon, name, to, badge, children }: SubMenuProps) => {
     return (
         <li className={cn(styles.item, { [styles.item__Active]: hasActiveChild || isActive })}>
             <Tooltip
-                trigger="mouseenter"
                 placement="right"
                 content={
                     <TooltipMenu>
@@ -75,12 +74,14 @@ export const SubMenu = ({ icon, name, to, badge, children }: SubMenuProps) => {
                 disabled={!collapsed || visible}
                 mode="custom"
             >
-                <div
+                <button
+                    type="button"
                     className={cn(styles.link, styles.link__Toggle, {
                         [styles.link__Collapsible]: true,
                         [styles.link__Collapsed]: collapsed && !visible,
                         [styles.link__ToggleOpen]: accordionOpened,
                     })}
+                    aria-expanded={accordionOpened}
                     onClick={() => {
                         setAccordionOpened((prev) => !prev)
                     }}
@@ -92,7 +93,7 @@ export const SubMenu = ({ icon, name, to, badge, children }: SubMenuProps) => {
                         badge={badge}
                         arrow
                     />
-                </div>
+                </button>
             </Tooltip>
 
             {(!collapsed || (collapsed && visible)) && accordionOpened && <Menu>{children}</Menu>}
@@ -105,21 +106,17 @@ export const MenuItemLink = ({ icon, name, to, exact = false, badge }: MenuItemL
 
     return (
         <li className={cn(styles.item)}>
-            <Tooltip
-                trigger="mouseenter"
-                placement="right"
-                content={name}
-                interactive={false}
-                disabled={!collapsed}
-            >
+            <Tooltip placement="right" content={name} interactive={false} disabled={!collapsed}>
                 <NavLink
                     to={to as string}
-                    activeClassName={styles.link__Active}
-                    className={cn(styles.link, {
-                        [styles.link__Collapsible]: true,
-                        [styles.link__Collapsed]: collapsed && !visible,
-                    })}
-                    exact={exact}
+                    className={({ isActive }) =>
+                        cn(styles.link, {
+                            [styles.link__Collapsible]: true,
+                            [styles.link__Collapsed]: collapsed && !visible,
+                            [styles.link__Active]: isActive,
+                        })
+                    }
+                    end={exact}
                     onClick={() => {
                         close()
                     }}
@@ -143,9 +140,12 @@ const TooltipMenuItemLink = ({ icon, name, to, exact = false, badge }: MenuItemL
         <li className={cn(styles.item)}>
             <NavLink
                 to={to as string}
-                activeClassName={styles.link__Active}
-                className={cn(styles.link)}
-                exact={exact}
+                className={({ isActive }) =>
+                    cn(styles.link, {
+                        [styles.link__Active]: isActive,
+                    })
+                }
+                end={exact}
                 onClick={() => {
                     close()
                 }}
@@ -168,7 +168,7 @@ const MenuItemContent = ({
     const Arrow = Icons['FiChevronDown']
 
     const title = <span className={styles.link_Title}>{name}</span>
-    const iconNode = <Icon name={icon} className={styles.link_Icon} />
+    const iconNode = <Icon aria-hidden className={styles.link_Icon} />
 
     return (
         <>
@@ -194,7 +194,7 @@ const MenuItemContent = ({
             </div>
 
             {arrow && (
-                <div className={styles.link_Arrow}>
+                <div className={styles.link_Arrow} aria-hidden>
                     <Arrow />
                 </div>
             )}

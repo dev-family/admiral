@@ -1,4 +1,4 @@
-import { format, formatISO } from 'date-fns'
+import { formatISO } from 'date-fns'
 import { DateOutputFormat } from '../../ui/DatePicker/generatePicker/interfaces'
 
 export const getTransformedDate = ({ type, date }: { type: DateOutputFormat; date: Date }) => {

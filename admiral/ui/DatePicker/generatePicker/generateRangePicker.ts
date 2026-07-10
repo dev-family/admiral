@@ -1,9 +1,9 @@
-import { GenerateConfig } from 'rc-picker/lib/generate/index'
+import type { GenerateConfig } from 'rc-picker/es/generate/index'
 import '../DatePicker.scss'
 import generateSingleRangePicker from './generateSingleRangePicker'
 
 function generateRangePicker<DateType>(generateConfig: GenerateConfig<DateType>) {
-    const { DateRangePicker } = generateSingleRangePicker(generateConfig)
+    const { DateRangePicker } = generateSingleRangePicker(generateConfig as GenerateConfig<any>)
     return DateRangePicker
 }
 

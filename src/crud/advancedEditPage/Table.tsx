@@ -2,8 +2,7 @@ import React, { useMemo } from 'react'
 import { FiEye } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Table, Button, TableColumnsType } from '../../../admiral'
-import parseISO from 'date-fns/parseISO'
-import format from 'date-fns/format'
+import { parseISO, format } from 'date-fns'
 
 export interface IOrder {
     id: number | string
@@ -70,7 +69,7 @@ const columns: TableColumnsType<IOrder> = [
 
 const EditPageTable = () => {
     const data = useMemo(() => {
-        let result: IOrder[] = []
+        const result: IOrder[] = []
         for (let i = 1; i < 6; i++) {
             result.push({
                 id: i,

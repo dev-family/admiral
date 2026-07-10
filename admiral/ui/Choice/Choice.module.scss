@@ -58,7 +58,9 @@
                 background: currentColor;
                 transform: scale(1);
                 opacity: 1;
-                transition: opacity 0s, transform 0.16s ease-out;
+                transition:
+                    opacity 0s,
+                    transform 0.16s ease-out;
             }
         }
     }
@@ -109,7 +111,9 @@
         background-color: var(--choice-frame-bg-color, transparent);
         border: 1px solid var(--choice-frame-border-color, var(--color-control-bg-border-default));
         border-radius: var(--control-radius);
-        transition: background-color 0.16s ease, border-color 0.16s ease;
+        transition:
+            background-color 0.16s ease,
+            border-color 0.16s ease;
     }
 
     &::after {
@@ -123,7 +127,9 @@
         will-change: transform;
         transform: scale(0.4) rotate(-50deg) translate(10%, -15%);
         transform-origin: center;
-        transition: opacity 0s 0.16s, transform 0.16s ease-in;
+        transition:
+            opacity 0s 0.16s,
+            transform 0.16s ease-in;
     }
 }
 
@@ -149,7 +155,9 @@
         &::after {
             transform: scale(1) rotate(-50deg) translate(10%, -15%);
             opacity: 1;
-            transition: opacity 0s, transform 0.16s ease-in;
+            transition:
+                opacity 0s,
+                transform 0.16s ease-in;
         }
     }
 
@@ -177,10 +185,14 @@
 
 @keyframes animFocus {
     from {
-        box-shadow: 0 0 0 0 var(--color-control-bg-focus), 0 0 0 0 var(--color-control-bg-active);
+        box-shadow:
+            0 0 0 0 var(--color-control-bg-focus),
+            0 0 0 0 var(--color-control-bg-active);
     }
 
     to {
-        box-shadow: 0 0 0 1px var(--color-control-bg-focus), 0 0 0 3px transparent;
+        box-shadow:
+            0 0 0 1px var(--color-control-bg-focus),
+            0 0 0 3px transparent;
     }
 }

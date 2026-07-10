@@ -9,6 +9,7 @@ import { TabsType } from '../../ui/Tabs/interfaces'
 import { TextInput, TextInputProps } from './TextInput'
 import { EditorInput, EditorInputProps } from './EditorInput'
 import { MultilineTextInput, MultilineTextInputProps } from './MultilineTextInput'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
 type FieldMap = {
     editor: EditorInputProps
@@ -20,6 +21,9 @@ type FieldProps<K extends keyof FieldMap> = {
     field: K
     props?: Omit<
         FieldMap[K],
+        // Inner fields are scoped to `{ [lang]: value }`, so per-field rule props
+        // are semantically empty (R9/KTD11); only the TranslatableInput itself
+        // takes rule props (hiding the whole field).
         | 'label'
         | 'error'
         | 'showError'
@@ -28,10 +32,11 @@ type FieldProps<K extends keyof FieldMap> = {
         | 'onLabelClick'
         | 'labelAs'
         | 'name'
+        | keyof FieldRuleProps
     >
 }
 
-type RenderFunc<K extends keyof FieldMap> = (props: FieldMap[K]) => ReturnType<React.FC>
+type RenderFunc<K extends keyof FieldMap> = (props: FieldMap[K]) => React.ReactNode
 type RenderFuncMap = { [K in keyof FieldMap]: RenderFunc<K> }
 
 const fields: RenderFuncMap = {
@@ -52,11 +57,21 @@ type TranslatableInputType = {
     tabType?: TabsType
 }
 
-export const TranslatableInput = <K extends keyof FieldMap>(
-    props: FieldProps<K> & TranslatableInputType & FormItemProps,
+const TranslatableInputBase = <K extends keyof FieldMap>(
+    props: FieldProps<K> &
+        TranslatableInputType &
+        FormItemProps &
+        Omit<FieldRuleProps, 'disabledWhen'>,
 ) => {
     const { name, label, required, languages, tabType = 'card', field, props: filedProps } = props
-    const { values, setValues, errors, setErrors, ...formProps } = useForm()
+    const {
+        values,
+        setValues,
+        errors,
+        setErrors,
+        scopePath: parentScopePath = '',
+        ...formProps
+    } = useForm()
     const [activeTabKey, setActiveTabKey] = useState<string>(languages[0]?.value)
 
     const Component = fields[field]
@@ -66,28 +81,23 @@ export const TranslatableInput = <K extends keyof FieldMap>(
 
     const createSetValuesFn = useCallback(
         (field: string) => (param: any) => {
-            setValues((values: any) => {
-                const form = forms[field]
-
-                let newState: any
-                if (typeof param === 'function') {
-                    newState = param(form)
-                } else {
-                    newState = param
-                }
+            setValues((prevValues: any) => {
+                const currentForms = (prevValues?.[name] ?? {}) as DataProviderRecord
+                // Child inputs see `{ [lang]: value }` as their values, so a
+                // functional updater must receive the same shape.
+                const newState =
+                    typeof param === 'function' ? param({ [field]: currentForms[field] }) : param
 
                 return {
-                    ...values,
+                    ...prevValues,
                     [name]: {
-                        ...(!values?.hasOwnProperty(name) || !values?.[name]
-                            ? forms
-                            : values[name]),
+                        ...currentForms,
                         ...newState,
                     },
                 }
             })
         },
-        [],
+        [name, setValues],
     )
 
     const createSetErrorsFn = useCallback(
@@ -102,10 +112,13 @@ export const TranslatableInput = <K extends keyof FieldMap>(
                     newState = value
                 }
 
-                const newStateErrors = Object.entries(newState).reduce((acc, [key, value]) => {
-                    acc[`${name}.${key}`] = value
-                    return acc
-                }, {} as Record<string, string[]>)
+                const newStateErrors = Object.entries(newState).reduce(
+                    (acc, [key, value]) => {
+                        acc[`${name}.${key}`] = value
+                        return acc
+                    },
+                    {} as Record<string, string[]>,
+                )
 
                 return {
                     ...errors,
@@ -128,33 +141,61 @@ export const TranslatableInput = <K extends keyof FieldMap>(
     return (
         <>
             <Form.Item label={label} columnSpan={2} labelAs="div" required={required}>
-                <Tabs type={tabType} activeKey={activeTabKey} onChange={onTabChange}>
-                    {languages.map(({ label, value }) => {
-                        const formErrors = formsErrors[value] ?? {}
-                        return (
-                            <Tabs.TabPane tab={label} key={value}>
-                                <Form.ChildForm
-                                    values={{ [value]: forms?.[value] }}
-                                    setValues={createSetValuesFn(value)}
-                                    errors={formErrors}
-                                    setErrors={createSetErrorsFn}
-                                    {...formProps}
-                                >
-                                    {React.createElement(Component, {
-                                        ...filedProps,
-                                        name: value,
-                                    } as React.Attributes & FieldMap[K] & { name: string })}
-                                </Form.ChildForm>
-                            </Tabs.TabPane>
-                        )
-                    })}
-                </Tabs>
+                <Tabs
+                    type={tabType}
+                    activeKey={activeTabKey}
+                    onChange={onTabChange}
+                    items={languages.map(({ label, value }) => ({
+                        key: value,
+                        label,
+                        children: (
+                            <Form.ChildForm
+                                values={{ [value]: forms?.[value] }}
+                                setValues={createSetValuesFn(value)}
+                                errors={formsErrors[value] ?? {}}
+                                setErrors={createSetErrorsFn}
+                                {...formProps}
+                                scopePath={joinPath(parentScopePath, name)}
+                            >
+                                {React.createElement(Component, {
+                                    ...filedProps,
+                                    name: value,
+                                } as React.Attributes & FieldMap[K] & { name: string })}
+                            </Form.ChildForm>
+                        ),
+                    }))}
+                />
             </Form.Item>
         </>
     )
 }
 
-TranslatableInput.inputName = 'TranslatableInput'
+TranslatableInputBase.inputName = 'TranslatableInput'
+
+const joinPath = (scope: string, name: string) => (scope ? `${scope}.${name}` : name)
+
+/**
+ * Public generic signature of TranslatableInput — preserved across the HOC wrap
+ * (which is itself non-generic at runtime). The runtime wrap is identical to
+ * every other field; only the type is cast back so `field` / `props` stay
+ * type-checked at call sites, and the `inputName` static survives the cast.
+ */
+type TranslatableInputComponent = (<K extends keyof FieldMap>(
+    props: FieldProps<K> &
+        TranslatableInputType &
+        FormItemProps &
+        Omit<FieldRuleProps, 'disabledWhen'>,
+) => React.JSX.Element | null) & { inputName: 'TranslatableInput' }
+
+export const TranslatableInput = withFieldRules(
+    TranslatableInputBase as React.ComponentType<
+        FieldProps<keyof FieldMap> &
+            TranslatableInputType &
+            FormItemProps &
+            Omit<FieldRuleProps, 'disabledWhen'> & { name: string }
+    >,
+    { supportsDisabled: false, dispatchesChange: false },
+) as unknown as TranslatableInputComponent
 
 const getFormErrors = (
     errors: Record<string, string[]>,
@@ -166,16 +207,19 @@ const getFormErrors = (
     //   childFilter: string[],
     // }
 
-    return Object.entries(errors).reduce((acc, [key, value]) => {
-        //filter.(childFilter)
-        const reg = new RegExp(`^${name}\\.\(.+\)`)
-        const match = key.match(reg)
+    return Object.entries(errors).reduce(
+        (acc, [key, value]) => {
+            //filter.(childFilter)
+            const reg = new RegExp(`^${name}\\.(.+)`)
+            const match = key.match(reg)
 
-        if (match) {
-            const [, childFilter] = match
-            acc[childFilter] = { [childFilter]: value }
-        }
+            if (match) {
+                const [, childFilter] = match
+                acc[childFilter] = { [childFilter]: value }
+            }
 
-        return acc
-    }, {} as Record<string, Record<string, string[]>>)
+            return acc
+        },
+        {} as Record<string, Record<string, string[]>>,
+    )
 }

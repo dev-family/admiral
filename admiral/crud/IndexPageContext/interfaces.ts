@@ -1,4 +1,4 @@
-import { OptionType, RecordOptions } from '../../dataProvider/interfaces'
+import { RecordOptions } from '../../dataProvider/interfaces'
 import { FormInputType } from '../../form/interfaces'
 import { SortOrder } from '../../ui/Table/interfaces'
 
@@ -24,7 +24,9 @@ export type CrudIndexPageValueType = {
 export type FilterField = {
     label?: string
     name: string
-    type: FormInputType
+    /** Set for admiral inputs (static `inputName`); undefined for custom components */
+    type?: FormInputType
+    component: React.ElementType
     props: Record<string, unknown>
     extra: {
         timePicker?: TimePickerExtra
@@ -33,8 +35,4 @@ export type FilterField = {
 
 export type TimePickerExtra = {
     format: string
-}
-
-export type SelectExtra = {
-    options: OptionType[]
 }

@@ -1,0 +1,37 @@
+name: Release
+on:
+    push:
+        tags:
+            - 'v*'
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            id-token: write
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+                  cache: 'yarn'
+                  registry-url: 'https://registry.npmjs.org'
+            - name: Install Dependencies
+              run: yarn install --frozen-lockfile
+            - name: Lint
+              run: yarn lint
+            - name: Typecheck
+              run: yarn tsc
+            - name: Test
+              run: yarn test
+            - name: Build Library
+              run: yarn build:lib
+            - name: Check package types
+              run: npx attw --pack . --profile esm-only --exclude-entrypoints ./style.css
+            - name: Consumer smoke test of packed tarball (no peer auto-install)
+              run: node scripts/pack-smoke.mjs
+            - name: Publish to npm
+              run: npm publish --provenance --access public
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

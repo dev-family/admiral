@@ -1,11 +1,12 @@
-import React, { forwardRef, memo } from 'react'
+import React, { memo } from 'react'
 import { Checkbox } from '../Checkbox/'
 import { RadioProps } from './interfaces'
 
-const InternalRadio: React.ForwardRefRenderFunction<HTMLInputElement, RadioProps> = (
-    { children, ...restProps },
+function InternalRadio({
+    children,
     ref,
-) => {
+    ...restProps
+}: RadioProps & { ref?: React.Ref<HTMLInputElement> }) {
     return (
         <Checkbox ref={ref} type="radio" {...restProps}>
             {children}
@@ -13,5 +14,5 @@ const InternalRadio: React.ForwardRefRenderFunction<HTMLInputElement, RadioProps
     )
 }
 
-const Radio = forwardRef<HTMLInputElement, RadioProps>(InternalRadio)
+const Radio = InternalRadio
 export default memo(Radio) as typeof Radio

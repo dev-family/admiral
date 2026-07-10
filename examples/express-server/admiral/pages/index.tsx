@@ -1,4 +1,4 @@
-import { Page, Card } from 'admiral'
+import { Page, Card } from '@devfamily/admiral'
 import React from 'react'
 
 const Home: React.FC = () => {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { IconProps } from './interfaces'
 
 const SVG = ({ fill = 'none', width, height, viewBox = '0 0 698 158' }: IconProps) => (

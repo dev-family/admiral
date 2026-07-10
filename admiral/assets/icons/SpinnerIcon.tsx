@@ -1,4 +1,3 @@
-import React from 'react'
 import { IconProps } from './interfaces'
 
 const duration = '360ms'

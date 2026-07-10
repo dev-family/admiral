@@ -2,16 +2,23 @@ import React from 'react'
 import cn from 'classnames'
 import Typography from './Typography'
 import { BlockProps } from './interfaces'
-import omit from 'rc-util/lib/omit'
+import omit from 'rc-util/es/omit'
 import styles from './Typography.module.scss'
 
 interface InternalBlockProps extends BlockProps {
-    component: string
+    component: React.ElementType
 }
 
-const Base = React.forwardRef((props: InternalBlockProps, ref: any) => {
-    const { className, style, type, children, component, title, ...restProps } = props
-
+function Base({
+    ref,
+    className,
+    style,
+    type,
+    children,
+    component,
+    title: _title,
+    ...restProps
+}: InternalBlockProps & { ref?: React.Ref<any> }) {
     const textProps = omit(restProps, ['mark', 'code', 'delete', 'underline', 'strong', 'italic'])
 
     const wrappedContext = wrapperDecorations(restProps, <>{children}</>)
@@ -35,7 +42,7 @@ const Base = React.forwardRef((props: InternalBlockProps, ref: any) => {
             {wrappedContext}
         </Typography>
     )
-})
+}
 
 export default Base
 

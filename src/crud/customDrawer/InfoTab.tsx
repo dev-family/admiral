@@ -5,7 +5,7 @@ import cn from 'classnames'
 
 import styles from './InfoTab.module.scss'
 
-export default function InfoTab({ name, avatar }: IUser) {
+export default function InfoTab({ name, avatar }: Pick<IUser, 'name' | 'avatar'>) {
     const node = useMemo(() => {
         const { thumbUrl, url } = avatar || {}
         const src = thumbUrl || url

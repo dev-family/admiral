@@ -6,14 +6,17 @@ import type { ColorPickerProps, ColorPickerResult } from '../../ui/ColorPicker/i
 import { FormItemProps } from '../Item'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps {
+export interface ColorPickerInputProps extends ColorPickerProps, FormItemProps, FieldRuleProps {
     name: string
     outputValue?: keyof ColorPickerResult
     onChange?: (value: any) => void
 }
 
-export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputProps>> = ({
+const ColorPickerInputBase: InputComponentWithName<
+    (props: ColorPickerInputProps) => React.JSX.Element
+> = function ColorPickerInput({
     name,
     label,
     required,
@@ -22,7 +25,7 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
     outputValue = 'rgbString',
     onChange,
     ...colorPickerProps
-}) => {
+}: ColorPickerInputProps) {
     const getPopupContainer = usePopupContainer()
     const { values, errors, setValues } = useForm()
     const value = values[name]
@@ -33,12 +36,12 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
             setValues((values: any) => ({ ...values, [name]: value[outputValue] }))
             onChange?.(value[outputValue])
         },
-        [onChange],
+        [name, outputValue, onChange],
     )
 
     // prevent reopen when close picker by clicking on label
-    const onLabelClick = useCallback((e) => {
-        e?.preventDefault()
+    const onLabelClick = useCallback((e: React.MouseEvent<HTMLLabelElement>) => {
+        e.preventDefault()
     }, [])
 
     return (
@@ -61,4 +64,6 @@ export const ColorPickerInput: InputComponentWithName<React.FC<ColorPickerInputP
     )
 }
 
-ColorPickerInput.inputName = 'ColorPickerInput'
+ColorPickerInputBase.inputName = 'ColorPickerInput'
+
+export const ColorPickerInput = withFieldRules(ColorPickerInputBase)

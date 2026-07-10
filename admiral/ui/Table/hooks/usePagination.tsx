@@ -1,35 +1,35 @@
-import React, { useState } from 'react'
-import { TablePaginationConfig } from '../interfaces'
+import { useState } from 'react'
+import { TablePaginationConfig, PaginationParam } from '../interfaces'
 import { PaginationProps } from '../../Pagination/interfaces'
 
 export const DEFAULT_PAGE_SIZE = 10
 const EMPTY_PAGINATION = {}
 const EMPTY_RESET_FN = () => {}
 
-export type PaginationParam = { current: number; pageSize: number; total: number }
+export type { PaginationParam }
 
 export function getPaginationParam(mergedPagination: TablePaginationConfig) {
     const param: Partial<PaginationParam> = {}
 
-    Object.keys(mergedPagination).forEach((pageProp) => {
-        if (['current', 'pageSize', 'total'].includes(pageProp)) {
-            const value = (mergedPagination as any)[pageProp]
-            param[pageProp as keyof PaginationParam] = value
+    const paginationRecord = mergedPagination as Record<string, unknown>
+    ;(['current', 'pageSize', 'total'] as const).forEach((key) => {
+        if (paginationRecord[key] !== undefined) {
+            param[key] = paginationRecord[key] as number
         }
     })
 
     return param
 }
 
-function extendsObject<T extends Object>(...list: T[]) {
-    const result: T = {} as T
+function extendsObject<T extends Record<string, unknown>>(...list: T[]): T {
+    const result = {} as T
 
     list.forEach((obj) => {
         if (obj) {
             Object.keys(obj).forEach((key) => {
-                const val = (obj as any)[key]
+                const val = obj[key]
                 if (val !== undefined) {
-                    ;(result as any)[key] = val
+                    ;(result as Record<string, unknown>)[key] = val
                 }
             })
         }
@@ -82,7 +82,7 @@ export default function usePagination(
             pagination.onChange?.(current, pageSize)
         }
         refreshPagination(current, pageSize)
-        onChange(current, pageSize || mergedPagination?.pageSize!)
+        onChange(current, pageSize || (mergedPagination?.pageSize ?? 10))
     }
 
     if (pagination === false) {

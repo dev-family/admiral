@@ -1,17 +1,29 @@
-import { TableProps as RcTableProps } from 'rc-table/lib/Table'
-import { ColumnType as RcColumnType, GetRowKey } from 'rc-table/lib/interface'
-import { SorterResult, SortOrder, ControlledSorter } from './hooks/useSorter'
+import { TableProps as RcTableProps } from 'rc-table/es/Table'
+import { ColumnType as RcColumnType, GetRowKey } from 'rc-table/es/interface'
 import { CheckboxProps } from '../Checkbox/interfaces'
-import { PaginationParam } from './hooks/usePagination'
 import { PaginationProps } from '../Pagination/interfaces'
 import { SpinProps } from '../Spin/interfaces'
-import { tuple } from '../../utils/type'
+
 import { DragEndEvent } from '@dnd-kit/core'
 import type { TooltipProps } from '../Tooltip/interfaces'
 
 export type { GetRowKey }
 
-export type { SortOrder, SorterResult, ControlledSorter }
+export type SortOrder = 'desc' | 'asc' | null
+
+export interface ControlledSorter {
+    columnKey: Key
+    order: SortOrder
+}
+
+export interface SorterResult<RecordType> {
+    column?: ColumnType<RecordType>
+    order?: SortOrder
+    field?: Key | readonly Key[]
+    columnKey?: Key
+}
+
+export type PaginationParam = { current: number; pageSize: number; total: number }
 
 export type Key = React.Key
 export type CompareFn<T> = (a: T, b: T, sortOrder?: SortOrder) => number
@@ -37,8 +49,7 @@ export interface ChangeEventInfo<RecordType> {
     resetPagination: Function
 }
 
-const TableActions = tuple('paginate', 'sort', 'filter')
-export type TableAction = typeof TableActions[number]
+export type TableAction = 'paginate' | 'sort' | 'filter'
 
 export interface TableExtra {
     action: TableAction
@@ -93,17 +104,16 @@ export interface TableLocale {
     autoRefreshButton?: string
 }
 
-export interface TableProps<RecordType>
-    extends Omit<
-        RcTableProps<RecordType>,
-        | 'transformColumns'
-        | 'internalHooks'
-        | 'internalRefs'
-        | 'data'
-        | 'columns'
-        | 'emptyText'
-        | 'components'
-    > {
+export interface TableProps<RecordType> extends Omit<
+    RcTableProps<RecordType>,
+    | 'transformColumns'
+    | 'internalHooks'
+    | 'internalRefs'
+    | 'data'
+    | 'columns'
+    | 'emptyText'
+    | 'components'
+> {
     dataSource?: RcTableProps<RecordType>['data']
     columns?: ColumnsType<RecordType>
     pagination?: false | TablePaginationConfig

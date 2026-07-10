@@ -9,11 +9,10 @@ export interface RadioOptionType {
     value: RadioValueType
 }
 
-export interface RadioGroupProps
-    extends Omit<
-        RadioProps,
-        'defaultChecked' | 'checked' | 'type' | 'autofocus' | 'children' | 'id'
-    > {
+export interface RadioGroupProps extends Omit<
+    RadioProps,
+    'defaultChecked' | 'checked' | 'type' | 'autofocus' | 'children' | 'id'
+> {
     options?: Array<RadioOptionType | string | number>
     defaultValue?: any
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>

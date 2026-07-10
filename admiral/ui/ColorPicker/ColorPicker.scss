@@ -68,7 +68,8 @@
 
     &__Unset {
         & > span {
-            background-image: linear-gradient(
+            background-image:
+                linear-gradient(
                     45deg,
                     var(--color-typo-primary) 25%,
                     rgba(238, 238, 238, 0) 25%,
@@ -84,8 +85,12 @@
                     var(--color-typo-primary) 75%,
                     var(--color-typo-primary) 100%
                 );
-            background-position: 0px 0px, 5px 5px;
-            background-size: 10px 10px, 10px 10px;
+            background-position:
+                0px 0px,
+                5px 5px;
+            background-size:
+                10px 10px,
+                10px 10px;
             background-repeat: repeat, repeat;
             opacity: 0.2;
         }
@@ -93,14 +98,53 @@
 }
 
 .colorPicker {
-    border-radius: var(--control-radius) !important;
-    box-shadow: var(--shadow-layer) !important;
-    touch-action: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    width: 225px;
+    padding: var(--space-s);
+
+    .react-colorful {
+        width: 100%;
+        height: auto;
+        gap: var(--space-s);
+    }
+
+    .react-colorful__saturation {
+        height: 130px;
+        border-bottom: none;
+        border-radius: var(--control-radius);
+    }
+
+    .react-colorful__hue,
+    .react-colorful__alpha {
+        height: 12px;
+        border-radius: 6px;
+    }
+
+    .react-colorful__pointer {
+        width: 16px;
+        height: 16px;
+    }
 
     input {
-        font-size: var(--control-text-size-xs) !important;
-        border-radius: var(--control-radius) !important;
-        box-shadow: var(--color-control-bg-primary) 0px 0px 0px 1px inset !important;
-        height: var(--control-height-s) !important;
+        height: var(--control-height-s);
+        padding: 0 var(--space-xs);
+        font-size: var(--control-text-size-xs);
+        text-align: center;
+        color: var(--color-control-typo-default);
+        background: var(--color-bg-default);
+        border: var(--control-border-width) solid var(--color-control-bg-border-default);
+        border-radius: var(--control-radius);
+        outline: none;
+        transition: border-color 0.2s ease;
+
+        &:hover {
+            border-color: var(--color-control-bg-border-default-hover);
+        }
+
+        &:focus {
+            border-color: var(--color-control-bg-border-focus);
+        }
     }
 }

@@ -1,14 +1,21 @@
-import React, { forwardRef, memo } from 'react'
+import React, { memo } from 'react'
 import { Choice } from '../Choice'
 import cn from 'classnames'
 import { ChoiceProps } from '../Choice/interfaces'
 import { CheckboxProps } from './interfaces'
 import styles from './Checkbox.module.scss'
 
-const InternalCheckbox: React.ForwardRefRenderFunction<HTMLInputElement, CheckboxProps> = (
-    { className, children, style, onMouseEnter, onMouseLeave, size, align = 'top', ...restProps },
+function Checkbox({
+    className,
+    children,
+    style,
+    onMouseEnter,
+    onMouseLeave,
+    size,
+    align = 'top',
     ref,
-) => {
+    ...restProps
+}: CheckboxProps & { ref?: React.Ref<HTMLInputElement> }) {
     const choiceProps: ChoiceProps = { ...restProps }
 
     return (
@@ -34,5 +41,4 @@ const InternalCheckbox: React.ForwardRefRenderFunction<HTMLInputElement, Checkbo
     )
 }
 
-const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(InternalCheckbox)
 export default memo(Checkbox) as typeof Checkbox

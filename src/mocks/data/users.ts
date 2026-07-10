@@ -1,5 +1,5 @@
 import { arrayMove } from '@dnd-kit/sortable'
-import { UploadFile } from 'admiral/ui/Upload/interfaces'
+import { UploadFile } from '../../../admiral/ui/Upload/interfaces'
 import { OptionType, RecordOptions, SortOrder } from '../../../admiral'
 
 export interface IUser {
@@ -44,6 +44,14 @@ export class UserList {
                 { label: 'Accountant', value: 'accountant' },
                 { label: 'HR Officer', value: 'recruiter' },
             ],
+            // Seed options so the cascade demo selects show choices without a
+            // search keystroke (AjaxSelectInput renders `values[name]` options
+            // until the operator searches or a parent change refetches).
+            country: [
+                { label: 'United States', value: 'us' },
+                { label: 'Canada', value: 'ca' },
+            ],
+            city: [],
         }
     }
 
@@ -134,8 +142,8 @@ export class UserList {
             ...data,
             id: newId,
             key: newId,
-            schedule: [],
-            active: false,
+            schedule: Array.isArray(data.schedule) ? data.schedule : [],
+            active: data.active ?? false,
         }
 
         this.users = [newUser, ...this.users]
@@ -257,7 +265,7 @@ export class UserList {
         const sortOrder = sort?.[1] ?? null
 
         const sortedUsers = this.sortBy(sortField, sortOrder)
-        const filteredUsers = !!filter ? this.filterBy(filter, sortedUsers) : sortedUsers
+        const filteredUsers = filter ? this.filterBy(filter, sortedUsers) : sortedUsers
         const searchedValue = filter?.search
         const searchedUsers = searchedValue
             ? filteredUsers.filter((user) => user.name.includes(searchedValue))
@@ -270,7 +278,7 @@ export class UserList {
     }
 
     getOptions(initialValues?: Record<keyof IUser, any>) {
-        let options = { ...this.options }
+        const options = { ...this.options }
         if (initialValues?.role) {
             const fieldOptions = options.role
             const value: string = initialValues.role
@@ -297,10 +305,19 @@ export class UserList {
         return []
     }
 
-    searchOptions(field: keyof IUser, query: string): OptionType[] {
+    searchOptions(field: string, query: string, country?: string): OptionType[] {
         if (field === 'role') {
-            const allOptions = this.getAllOptions(field)
+            const allOptions = this.getAllOptions(field as keyof IUser)
             return allOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()))
+        }
+        if (field === 'country') {
+            return this.options.country ?? []
+        }
+        if (field === 'city') {
+            const cities = country ? (citiesByCountry[country] ?? []) : []
+            return query
+                ? cities.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()))
+                : cities
         }
         return this.options[field] ?? []
     }
@@ -308,6 +325,21 @@ export class UserList {
     get length() {
         return this.users.length
     }
+}
+
+// Cities keyed by country — the cascade demo: picking a country resets the
+// city and refetches this list for the selected country (R6/R7, KTD9).
+const citiesByCountry: Record<string, OptionType[]> = {
+    us: [
+        { label: 'New York', value: 'new_york' },
+        { label: 'Boston', value: 'boston' },
+        { label: 'San Francisco', value: 'san_francisco' },
+    ],
+    ca: [
+        { label: 'Toronto', value: 'toronto' },
+        { label: 'Vancouver', value: 'vancouver' },
+        { label: 'Montreal', value: 'montreal' },
+    ],
 }
 
 function randomFromValues<T>(values: T[]) {

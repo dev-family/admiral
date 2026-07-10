@@ -6,7 +6,7 @@ import styles from './PageTopContent.module.scss'
 
 interface Props {
     title: string
-    descr?: string | JSX.Element
+    descr?: string | React.JSX.Element
     link?: {
         text: string
         href: string

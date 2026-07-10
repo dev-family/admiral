@@ -1,5 +1,4 @@
-import React from 'react'
-import { Admin, Button, createRoutesFrom, OAuthProvidersEnum, Switch } from '../admiral'
+import { Admin, createRoutesFrom, OAuthProvidersEnum } from '../admiral'
 import Menu from './config/menu'
 import dataProvider from './dataProvider'
 import authProvider from './authProvider'
@@ -8,7 +7,7 @@ import themeLight from './theme/themeLight'
 import themeDark from './theme/themeDark'
 
 const apiUrl = '/api'
-const Routes = createRoutesFrom(import.meta.globEager('../pages/**/*'))
+const Routes = createRoutesFrom(import.meta.glob('../pages/**/*', { eager: true }))
 
 function App() {
     return (

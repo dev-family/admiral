@@ -129,16 +129,16 @@ function drawImageWithCover(
     if (offsetX > 1) offsetX = 1
     if (offsetY > 1) offsetY = 1
 
-    var iw = img.width,
-        ih = img.height,
-        r = Math.min(w / iw, h / ih),
-        nw = iw * r, // new prop. width
-        nh = ih * r, // new prop. height
-        cx,
-        cy,
-        cw,
-        ch,
-        ar = 1
+    const iw = img.width
+    const ih = img.height
+    const r = Math.min(w / iw, h / ih)
+    let nw = iw * r // new prop. width
+    let nh = ih * r // new prop. height
+    let cx: number
+    let cy: number
+    let cw: number
+    let ch: number
+    let ar = 1
 
     // decide which gap to fill
     if (nw < w) ar = w / nw

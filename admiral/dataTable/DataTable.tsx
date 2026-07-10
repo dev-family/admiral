@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { FaPlay, FaPause } from 'react-icons/fa'
 import { Button, Table } from '../ui'
 import { ColumnsType, TableLocale, TableProps, Key } from '../ui/Table/interfaces'
@@ -9,12 +9,12 @@ import { DataTableContextProvider } from './DataTableContext'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useCrudIndex } from '../crud/CrudIndexPageContext'
 import { useTopLocation } from '../router'
+import { useLatest, useLatestRequest, useUpdateEffect } from '../utils/hooks'
 import styles from './DataTable.module.scss'
 
 export type DataTableProps<RecordType> = {
     resource: string
     columns: ColumnsType<RecordType>
-    initialSorter?: ControlledSorter
     locale?: Partial<{
         table: TableLocale
         pagination: PaginationLocale & { total: (total: number) => string }
@@ -23,11 +23,10 @@ export type DataTableProps<RecordType> = {
     autoupdateTime?: number
 }
 
-export interface DataTableConfig<RecordType>
-    extends Pick<
-        TableProps<RecordType>,
-        'dndRows' | 'showSorterTooltip' | 'bordered' | 'size' | 'title' | 'footer'
-    > {
+export interface DataTableConfig<RecordType> extends Pick<
+    TableProps<RecordType>,
+    'dndRows' | 'showSorterTooltip' | 'bordered' | 'size' | 'title' | 'footer'
+> {
     rowSelection?: DataTableRowSelectionConfig<RecordType>
     autoupdateTime?: number
 }
@@ -54,13 +53,13 @@ export function DataTable<RecordType extends { id: number | string }>({
 }: DataTableProps<RecordType>) {
     const { getList, reorderList } = useDataProvider()
     const [data, setData] = useState<RecordType[]>([])
-    const [isAutoupdateTurnOn, setIsAutoupdateTurnOn] = useState<boolean>(!!config?.autoupdateTime)
+    const autoupdateInterval = config?.autoupdateTime ?? autoupdateTime
+    const [isAutoupdateTurnOn, setIsAutoupdateTurnOn] = useState<boolean>(!!autoupdateInterval)
 
     const { rowSelection, title, ...tableConfig } = config || {}
 
     const [selectedKeys, setSelectedKeys] = useState<Key[]>([])
     const [selectedRows, setSelectedRows] = useState<RecordType[]>([])
-    const isFirstRender = useRef(true)
 
     const onSelectionChange = useCallback(
         (selectedRowKeys: Key[], selectedRows: RecordType[]) => {
@@ -78,9 +77,9 @@ export function DataTable<RecordType extends { id: number | string }>({
     const { urlState, setUrlState } = useCrudIndex()
     const shouldUpdate = useShouldUpdate()
 
-    const toggleTableAutoupdate = () => {
+    const toggleTableAutoupdate = useCallback(() => {
         setIsAutoupdateTurnOn((prev) => !prev)
-    }
+    }, [])
 
     const sorter = useMemo(() => {
         const entries = Object.entries(urlState.sort)
@@ -92,82 +91,95 @@ export function DataTable<RecordType extends { id: number | string }>({
             : null
     }, [urlState])
 
-    async function fetch(resource: string, state: typeof urlState) {
-        setLoading(true)
-        try {
-            const [sortField, sortOrder] = Object.entries(state.sort)[0] || []
-            const response = await getList(resource, {
-                pagination: { perPage: +state.page_size, page: +state.page },
-                ...(sortField && sortOrder && { sort: { field: sortField, order: sortOrder } }),
-                filter: state.filter,
-            })
+    // Out-of-order responses must not overwrite newer ones.
+    const beginRequest = useLatestRequest()
 
-            setData(response.items as any)
-            setTotal(response.meta.total)
-        } catch (error) {}
-        setLoading(false)
-    }
+    const fetch = useCallback(
+        async (resource: string, state: typeof urlState) => {
+            const isCurrent = beginRequest()
+            setLoading(true)
+            try {
+                const [sortField, sortOrder] = Object.entries(state.sort)[0] || []
+                const response = await getList(resource, {
+                    pagination: {
+                        perPage: Number(state.page_size) || 10,
+                        page: Number(state.page) || 1,
+                    },
+                    ...(sortField && sortOrder && { sort: { field: sortField, order: sortOrder } }),
+                    filter: state.filter,
+                })
 
-    async function reorder(
-        resource: string,
-        state: typeof urlState,
-        ids: Array<string | number>,
-        replaces: string[],
-    ) {
-        await reorderList(resource, {
-            data: {
-                pagination: {
-                    perPage: state.page_size,
-                    page: state.page,
+                if (isCurrent()) {
+                    setData(response.items as RecordType[])
+                    setTotal(response.meta.total)
+                }
+            } catch (error) {
+                console.error(`[Admiral] Failed to fetch "${resource}":`, error)
+            } finally {
+                if (isCurrent()) {
+                    setLoading(false)
+                }
+            }
+        },
+        [getList, beginRequest],
+    )
+
+    const reorder = useCallback(
+        async (
+            resource: string,
+            state: typeof urlState,
+            ids: Array<string | number>,
+            replaces: string[],
+        ) => {
+            await reorderList(resource, {
+                data: {
+                    pagination: {
+                        perPage: state.page_size,
+                        page: state.page,
+                    },
+                    ids,
+                    replaces,
                 },
-                ids,
-                replaces,
-            },
-        })
-    }
+            })
+        },
+        [reorderList],
+    )
 
-    const refresh = useCallback(() => {
+    // Stable identity so context consumers (row actions, bulk actions) always
+    // refetch with the current url state, not the one captured at their mount.
+    const refreshRef = useLatest(() => {
+        fetch(resource, urlState)
+    })
+    const refresh = useCallback(() => refreshRef.current(), [refreshRef])
+
+    useEffect(() => {
         fetch(resource, urlState)
     }, [resource, urlState, fetch])
 
-    useEffect(() => {
-        if (autoupdateTime && isAutoupdateTurnOn && isFirstRender.current) {
-            return
-        }
-
-        fetch(resource, urlState)
-    }, [resource, urlState])
-
-    useEffect(() => {
+    useUpdateEffect(() => {
         if (shouldUpdate) {
             refresh()
         }
-    }, [shouldUpdate])
-
-    const timerRef = useRef<NodeJS.Timeout | undefined>()
-
-    const clearTimer = () => {
-        if (timerRef.current) {
-            clearTimeout(timerRef.current)
-        }
-    }
-
-    const fetchData = useCallback(async () => {
-        await fetch(resource, urlState)
-        clearTimer()
-
-        timerRef.current = setTimeout(fetchData, autoupdateTime)
-    }, [resource, urlState, autoupdateTime])
+    }, [shouldUpdate, refresh])
 
     useEffect(() => {
-        if (autoupdateTime && isAutoupdateTurnOn) {
-            fetchData()
+        if (!autoupdateInterval || !isAutoupdateTurnOn) {
+            return
         }
-
+        let cancelled = false
+        let timer: ReturnType<typeof setTimeout>
+        const tick = async () => {
+            await fetch(resource, urlState)
+            if (!cancelled) {
+                timer = setTimeout(tick, autoupdateInterval)
+            }
+        }
+        timer = setTimeout(tick, autoupdateInterval)
         return () => {
-            clearTimer()
+            cancelled = true
+            clearTimeout(timer)
         }
-    }, [isAutoupdateTurnOn, fetchData])
+    }, [isAutoupdateTurnOn, autoupdateInterval, resource, urlState, fetch])
 
     const onTableChange: TableProps<RecordType>['onChange'] = (pagination, sorter, extra) => {
         if (extra.action === 'paginate') {
@@ -179,7 +191,7 @@ export function DataTable<RecordType extends { id: number | string }>({
         }
         if (extra.action === 'sort') {
             const { columnKey, order } = sorter
-            const sort = columnKey && order ? { sort: { [columnKey]: order } } : { sort: {} }
+            const sort = columnKey && order ? { [String(columnKey)]: order } : {}
             setUrlState((prev) => ({ ...prev, sort }))
         }
     }
@@ -192,10 +204,10 @@ export function DataTable<RecordType extends { id: number | string }>({
     }, [columns])
 
     const onDragEnd: TableProps<RecordType>['onDragEnd'] = useCallback(
-        ({ active, over }) => {
+        ({ active, over }: { active: any; over: any }) => {
             const prevId = active?.id
             const nextId = over?.id
-            let prevData = data
+            const prevData = data
             const getIndex = (id: number | string) => data.findIndex((item) => item.id == id)
             if (prevId && nextId && prevId != nextId) {
                 const prevIdx = getIndex(prevId)
@@ -214,6 +226,8 @@ export function DataTable<RecordType extends { id: number | string }>({
         [data, urlState, reorder, resource],
     )
 
+    const autoRefreshLabel = locale?.table?.autoRefreshButton
+
     const rowSelectionAndTitleConfig = useMemo(() => {
         const configuration: {
             title?: TableProps<RecordType>['title']
@@ -221,7 +235,7 @@ export function DataTable<RecordType extends { id: number | string }>({
         } = {}
         const hasRowSelectionConfig = typeof rowSelection === 'object'
         const hasTitle = !!title
-        const hasTableAutoupdate = !!config?.autoupdateTime
+        const hasTableAutoupdate = !!autoupdateInterval
         const AutoupdateIcon = hasTableAutoupdate ? (isAutoupdateTurnOn ? FaPause : FaPlay) : null
 
         if (hasRowSelectionConfig || hasTableAutoupdate) {
@@ -245,7 +259,7 @@ export function DataTable<RecordType extends { id: number | string }>({
                         </div>
                         {AutoupdateIcon ? (
                             <div className={styles.table__header_autoupdate}>
-                                <p>{locale?.table?.autoRefreshButton}</p>
+                                <p>{autoRefreshLabel}</p>
                                 <Button
                                     onClick={toggleTableAutoupdate}
                                     view="clear"
@@ -264,15 +278,28 @@ export function DataTable<RecordType extends { id: number | string }>({
         }
 
         return configuration
-    }, [rowSelection, title, selectedKeys, selectedRows, onSelectionChange, isAutoupdateTurnOn])
+    }, [
+        rowSelection,
+        title,
+        selectedKeys,
+        selectedRows,
+        onSelectionChange,
+        isAutoupdateTurnOn,
+        autoupdateInterval,
+        autoRefreshLabel,
+        refresh,
+        toggleTableAutoupdate,
+    ])
 
     const {
         total: paginationShowTotal = (total: number) => `Total ${total}`,
         ...paginationLocale
     } = locale?.pagination ?? {}
 
+    const dataTableContextValue = useMemo(() => ({ refresh }), [refresh])
+
     return (
-        <DataTableContextProvider value={{ refresh }}>
+        <DataTableContextProvider value={dataTableContextValue}>
             <Table
                 {...tableConfig}
                 {...rowSelectionAndTitleConfig}
@@ -286,9 +313,9 @@ export function DataTable<RecordType extends { id: number | string }>({
                 sticky
                 pagination={
                     !!total &&
-                    total > +urlState.page_size && {
-                        current: +urlState.page,
-                        pageSize: +urlState.page_size,
+                    total > (Number(urlState.page_size) || 10) && {
+                        current: Number(urlState.page) || 1,
+                        pageSize: Number(urlState.page_size) || 10,
                         total,
                         showTotal: paginationShowTotal,
                         showSizeChanger: !!total && total > 10,

@@ -2,7 +2,7 @@ import React from 'react'
 import { Page, TimePicker } from '../../admiral'
 
 export default function TimePickerPage() {
-    function onChange(date: Date | null, dateString: string) {
+    function onChange(date: any, dateString: any) {
         console.log(date, dateString)
     }
 

@@ -4,7 +4,7 @@
     --color-base-dark-essential: #22272b; /* The base color of surfaces */
     --color-base-dark-project: #86ce2c; /* Project color, from which accent states are built */
     --color-base-dark-phantom: #efecf9; /* Tinting color, from which borders, modal overlays, etc. are built */
-    --color-base-dark-path: #90db32; /* Link and control color, from which all their states are built */
+    --color-base-dark-path: #439748; /* Link and control color, from which all their states are built */
     --color-base-dark-system: #4b5963; /* System color */
 
     --color-base-dark-success: #43c758; /* Success color */

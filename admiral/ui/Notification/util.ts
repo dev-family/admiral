@@ -67,6 +67,11 @@ export function getMotion(prefixCls: string): CSSMotionProps {
         motionAppear: true,
         motionEnter: true,
         motionLeave: true,
+        // This handler makes rc-motion inject `transition: none` inline during STEP_START so the
+        // browser commits the invisible initial state before STEP_ACTIVE fires the CSS transition.
+        // NB: CSSMotionList does not forward onEnterPrepare (it is absent from its
+        // MOTION_PROP_NAMES) — passing it would leak the prop onto the DOM node.
+        onAppearPrepare: () => {},
         onLeaveStart: (ele) => {
             const { offsetHeight } = ele
             return { height: offsetHeight }

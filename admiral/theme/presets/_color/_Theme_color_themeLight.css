@@ -69,7 +69,8 @@
         var(--color-base-path) s(-35%) l(-10%)
     ); /* Цвет второстепенной ссылки */
     --color-typo-link-hover: color-mod(var(--color-base-path) l(+8%)); /* Цвет ховера ссылки */
-    --color-nums-shadow: 0, 0, 0; /* Значения RGB для указания теней в конструкции rgba(R,G,B, alpha) */
+    --color-nums-shadow:
+        0, 0, 0; /* Значения RGB для указания теней в конструкции rgba(R,G,B, alpha) */
 
     /* Цвета скроллбара */
     --color-scroll-bg: color-mod(var(--color-base-phantom) a(6%));

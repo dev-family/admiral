@@ -1,4 +1,3 @@
-import React from 'react'
 import { FiCameraOff, FiVideo, FiFile } from 'react-icons/fi'
 import { UploadFile } from '../../ui/Upload/interfaces'
 import { isImageUrl, isVideoUrl } from '../../ui/Upload/utils'

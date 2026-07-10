@@ -1,36 +1,28 @@
-import React, {
-    useState,
-    useEffect,
-    forwardRef,
-    useRef,
-    memo,
-    useCallback,
-    ChangeEventHandler,
-} from 'react'
-import omit from 'rc-util/lib/omit'
-import mergeRefs from 'react-merge-refs'
+import React, { useState, useEffect, useRef, memo, useCallback, ChangeEventHandler } from 'react'
+import omit from 'rc-util/es/omit'
+import { useMergeRefs } from '@floating-ui/react'
 import TextareaAutosize from 'react-textarea-autosize'
-import throttle from 'lodash.throttle'
 import cn from 'classnames'
 import { TextareaProps } from './interfaces'
+import { useThrottledCallback } from '../../utils/hooks'
 import styles from './Textarea.module.scss'
 
-const Textarea = forwardRef((props: TextareaProps, textareaRef) => {
+function Textarea({ ref, ...props }: TextareaProps & { ref?: React.Ref<HTMLTextAreaElement> }) {
     const [key, setKey] = useState(Math.random())
     const { size = 'M', alert = false, borderless = false, onChange, disabled = false } = props
 
-    useEffect(() => {
-        const handleResize = () => {
-            setKey(Math.random())
-        }
-        const throttled = throttle(handleResize, 300)
-        window.addEventListener('resize', throttled)
-        return () => {
-            window.removeEventListener('resize', throttled)
-        }
-    }, [])
+    // Re-key forces TextareaAutosize to re-measure its height on viewport resize.
+    const handleResize = useThrottledCallback(() => setKey(Math.random()), 300)
 
-    const ref = useRef<HTMLTextAreaElement>(null)
+    useEffect(() => {
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [handleResize])
+
+    const internalRef = useRef<HTMLTextAreaElement>(null)
+    const mergedRef = useMergeRefs([internalRef, ref ?? null])
 
     const [value, setValue] = useState(
         typeof props.value === 'undefined' ? props.defaultValue : props.value,
@@ -67,7 +59,7 @@ const Textarea = forwardRef((props: TextareaProps, textareaRef) => {
                 key={key}
                 cacheMeasurements
                 {...textareaProps}
-                ref={mergeRefs([ref, textareaRef])}
+                ref={mergedRef}
                 value={fixControlledValue(value)}
                 onChange={_onChange}
                 disabled={disabled}
@@ -75,7 +67,7 @@ const Textarea = forwardRef((props: TextareaProps, textareaRef) => {
             />
         </div>
     )
-})
+}
 
 export function fixControlledValue<T>(value: T) {
     if (typeof value === 'undefined' || value === null) {

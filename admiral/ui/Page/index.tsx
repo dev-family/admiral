@@ -11,7 +11,12 @@ export type PageProps = {
     topContent?: React.ReactNode
 }
 
-export const Page: React.FC<PageProps> = ({ children, title, actions, topContent }) => {
+export function Page({
+    children,
+    title,
+    actions,
+    topContent,
+}: PageProps & { children?: React.ReactNode }) {
     return (
         <div className={styles.page}>
             <Card className={styles.card}>

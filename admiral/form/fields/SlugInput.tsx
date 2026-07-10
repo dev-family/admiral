@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FieldValues, useForm } from '../FormContext'
 import { Form } from '../Form'
 import { Input } from '../../ui'
@@ -9,8 +9,10 @@ import { InputComponentWithName } from '../interfaces'
 import { FiLock, FiUnlock } from 'react-icons/fi'
 import cn from 'classnames'
 import styles from '../Form.module.scss'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export interface SlugInputProps extends InputProps, FormItemProps {
+export interface SlugInputProps
+    extends InputProps, FormItemProps, Omit<FieldRuleProps, 'disabledWhen'> {
     name: string
     from: string
     slugLang?: string
@@ -44,84 +46,101 @@ const getFromFieldValue = (from: string, values: FieldValues, slugLang?: string)
     return value || ''
 }
 
-export const SlugInput: InputComponentWithName<React.FC<SlugInputProps>> = ({
-    name,
-    label,
-    from,
-    required,
-    disabled,
-    columnSpan,
-    options,
-    size,
-    slugLang,
-    onChange,
-    ...inputProps
-}) => {
-    const { values, errors, setValues } = useForm()
-    const value = values[name]
-    const error = errors[name]?.[0]
-    const fromFieldValue = useMemo(() => getFromFieldValue(from, values, slugLang), [values])
-    const [isLocked, setIsLocked] = useState(disabled)
+const SlugInputBase: InputComponentWithName<(props: SlugInputProps) => React.JSX.Element> =
+    function SlugInput({
+        name,
+        label,
+        from,
+        required,
+        disabled,
+        columnSpan,
+        options,
+        size,
+        slugLang,
+        onChange,
+        ...inputProps
+    }: SlugInputProps) {
+        const { values, errors, setValues } = useForm()
+        const value = values[name]
+        const error = errors[name]?.[0]
+        const fromFieldValue = useMemo(
+            () => getFromFieldValue(from, values, slugLang),
+            [values, from, slugLang],
+        )
+        const [isLocked, setIsLocked] = useState(disabled)
 
-    useEffect(() => {
-        if (isLocked) {
-            return
-        }
-
-        if (fromFieldValue) {
-            _onChange({
-                target: {
-                    value: slugify(fromFieldValue, {
-                        lower: true,
-                        replacement: '-',
-                        ...options,
-                    }),
-                },
-            })
-            return
-        }
-        _onChange({
-            target: {
-                value: null,
+        const _onChange = useCallback(
+            (e: any) => {
+                setValues((values: any) => ({ ...values, [name]: e.target.value }))
+                onChange?.(e.target.value)
             },
-        })
-    }, [fromFieldValue])
+            [name, onChange, setValues],
+        )
 
-    const _onChange = useCallback(
-        (e) => {
-            setValues((values: any) => ({ ...values, [name]: e.target.value }))
-            onChange?.(e.target.value)
-        },
-        [onChange],
-    )
+        const makeSlug = useCallback(
+            (raw: string) => slugify(raw, { lower: true, replacement: '-', ...options }),
+            [options],
+        )
 
-    return (
-        <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
-            <Input
-                {...inputProps}
-                readOnly={isLocked}
-                name={name}
-                value={value}
-                onChange={_onChange}
-                alert={!!error}
-                size={size}
-                className={cn(styles.slugInput, {
-                    [styles.slugInput__sizeL]: size === 'L',
-                    [styles.slugInput__sizeS]: size === 'S',
-                    [styles.slugInput__sizeXS]: size === 'XS',
-                })}
-                suffix={
-                    <button type="button" className={styles.slugInput_Icon}>
-                        {isLocked ? (
-                            <FiLock onClick={() => setIsLocked(false)} />
-                        ) : (
-                            <FiUnlock onClick={() => setIsLocked(true)} />
-                        )}
-                    </button>
+        const prevFromValueRef = useRef<string | undefined>(undefined)
+
+        useEffect(() => {
+            const prevFromValue = prevFromValueRef.current
+            prevFromValueRef.current = fromFieldValue
+
+            if (isLocked) {
+                return
+            }
+
+            // Auto-generate only while the slug is empty or still tracks the
+            // source field — a pre-existing slug (e.g. loaded into an edit
+            // form) must not be silently rewritten.
+            const isTracking = !value || value === makeSlug(String(prevFromValue ?? ''))
+            if (!isTracking) {
+                return
+            }
+
+            if (fromFieldValue) {
+                const slug = makeSlug(String(fromFieldValue))
+                if (slug !== value) {
+                    _onChange({ target: { value: slug } })
                 }
-            />
-        </Form.Item>
-    )
-}
+                return
+            }
+            if (value) {
+                _onChange({ target: { value: null } })
+            }
+        }, [fromFieldValue, isLocked, value, _onChange, makeSlug])
 
-SlugInput.inputName = 'SlugInput'
+        return (
+            <Form.Item label={label} required={required} error={error} columnSpan={columnSpan}>
+                <Input
+                    {...inputProps}
+                    readOnly={isLocked}
+                    name={name}
+                    value={value}
+                    onChange={_onChange}
+                    alert={!!error}
+                    size={size}
+                    className={cn(styles.slugInput, {
+                        [styles.slugInput__sizeL]: size === 'L',
+                        [styles.slugInput__sizeS]: size === 'S',
+                        [styles.slugInput__sizeXS]: size === 'XS',
+                    })}
+                    suffix={
+                        <button type="button" className={styles.slugInput_Icon}>
+                            {isLocked ? (
+                                <FiLock onClick={() => setIsLocked(false)} />
+                            ) : (
+                                <FiUnlock onClick={() => setIsLocked(true)} />
+                            )}
+                        </button>
+                    }
+                />
+            </Form.Item>
+        )
+    }
+
+SlugInputBase.inputName = 'SlugInput'
+
+export const SlugInput = withFieldRules(SlugInputBase, { supportsDisabled: false })

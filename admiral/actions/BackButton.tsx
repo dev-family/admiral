@@ -1,12 +1,12 @@
 import React from 'react'
 import { Button } from '../ui'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ButtonProps } from '../ui/Button/interfaces'
-import { RouterLocationState } from '../router/interfaces'
+import useTypedLocation from '../router/useTypedLocation'
 import { getNavigationFrom, clearNavigationFrom } from '../utils/helpers/navigationState'
 
 export const BackButton = ({ basePath, children, ...buttonProps }: BackButtonProps) => {
-    const location = useLocation<RouterLocationState>()
+    const location = useTypedLocation()
     const fromLocation = getNavigationFrom(location.state?.from)
 
     const backPath = fromLocation

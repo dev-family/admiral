@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react'
-import { OnDragEndResponder } from 'react-beautiful-dnd'
+import type { DragEndEvent } from '@dnd-kit/core'
+import { arrayMove } from '@dnd-kit/sortable'
 import RcUpload, { UploadProps as RcUploadProps } from 'rc-upload'
-import useMergedState from 'rc-util/lib/hooks/useMergedState'
+import useMergedState from 'rc-util/es/hooks/useMergedState'
 import cn from 'classnames'
 import {
     RcFile,
@@ -17,7 +18,9 @@ import styles from './Upload.module.scss'
 
 import { FiPlus } from 'react-icons/fi'
 
-const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (props, ref) => {
+function InternalUpload(
+    props: UploadProps & { ref?: React.Ref<unknown>; children?: React.ReactNode },
+) {
     const {
         fileList,
         showUploadList = true,
@@ -33,7 +36,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         className,
         children,
         style,
-        type,
+        type = 'select',
         itemRender,
         maxCount,
         isDraggable,
@@ -43,7 +46,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
         value: fileList,
         postState: (list) => list ?? [],
     })
-    const upload = React.useRef<any>()
+    const upload = React.useRef<any>(null)
 
     // Control mode will auto fill file uid if not provided
     useMemo(() => {
@@ -78,7 +81,7 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     }
 
     const mergedBeforeUpload = async (file: RcFile, fileListArgs: RcFile[]) => {
-        !disabled && onInternalChange(file, fileListArgs)
+        if (!disabled) onInternalChange(file, fileListArgs)
         return false
     }
 
@@ -89,18 +92,20 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
             onInternalChange({ ...file, status: 'removed' }, removedFileList)
         }
     }
-    const onDragEnd: OnDragEndResponder = (data) => {
-        if (!data.destination) return
+    const onDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event
+        if (!over || active.id === over.id) return
 
-        const startIndex = data.source.index
-        const endIndex = data.destination.index
+        const oldIndex = mergedFileList.findIndex((file) => file.uid === active.id)
+        const newIndex = mergedFileList.findIndex((file) => file.uid === over.id)
 
-        const fileListCopy = [...mergedFileList]
-        const [movedFile] = fileListCopy.splice(startIndex, 1)
-        fileListCopy.splice(endIndex, 0, movedFile)
-        const result = fileListCopy.map((file, index) => Object.assign(file, { order: index }))
+        if (oldIndex === -1 || newIndex === -1) return
+
+        const result = arrayMove(mergedFileList, oldIndex, newIndex).map((file, index) =>
+            Object.assign(file, { order: index }),
+        )
         const changeInfo: UploadChangeParam<UploadFile> = {
-            file: mergedFileList[data.source.index] as UploadFile,
+            file: mergedFileList[oldIndex] as UploadFile,
             fileList: result,
         }
         setMergedFileList(result)
@@ -110,6 +115,8 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     const prefixCls = cn('upload')
 
     const rcUploadProps = {
+        // Spread the original props so new upload options reach rc-upload
+        // without having to be re-listed here.
         ...(props as RcUploadProps),
         prefixCls,
         beforeUpload: mergedBeforeUpload,
@@ -247,23 +254,10 @@ const InternalUpload: React.ForwardRefRenderFunction<unknown, UploadProps> = (pr
     )
 }
 
-export const Upload = React.forwardRef<unknown, UploadProps>(InternalUpload) as (<T>(
-    props: React.PropsWithChildren<UploadProps<T>> & React.RefAttributes<any>,
+export const Upload = InternalUpload as (<T>(
+    props: React.PropsWithChildren<UploadProps<T>> & { ref?: React.Ref<any> },
 ) => React.ReactElement) & {
-    defaultProps?: Partial<UploadProps>
     displayName?: string
 }
 
 Upload.displayName = 'Upload'
-
-Upload.defaultProps = {
-    type: 'select',
-    multiple: false,
-    fileList: [],
-    data: {},
-    accept: '',
-    showUploadList: true,
-    listType: 'picture',
-    className: '',
-    disabled: false,
-}

@@ -19,12 +19,7 @@ export type DeleteActionProps = {
     locale?: DeleteActionLocale
 }
 
-export const DeleteAction: React.FC<DeleteActionProps> = ({
-    resource,
-    id,
-    buttonProps,
-    locale,
-}) => {
+export function DeleteAction({ resource, id, buttonProps, locale }: DeleteActionProps) {
     const { title, ...popconfirmLocale } = locale ?? enUS
     const { deleteOne } = useDataProvider()
     const { refresh } = useDataTable()
@@ -33,13 +28,15 @@ export const DeleteAction: React.FC<DeleteActionProps> = ({
         try {
             await deleteOne(resource, { id })
             refresh()
-        } catch (e: any) {
+        } catch (e) {
+            const message = (e as { response?: { data?: { message?: string } } })?.response?.data
+                ?.message
             Notification({
-                message: e.response.data.message,
+                message: message ?? (e instanceof Error ? e.message : String(e)),
                 type: 'error',
             })
         }
-    }, [])
+    }, [deleteOne, resource, id, refresh])
 
     return (
         <Popconfirm

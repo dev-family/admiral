@@ -3,8 +3,8 @@ import {
     RcFile,
     UploadRequestOption as RcCustomRequestOptions,
     UploadProps as RcUploadProps,
-} from 'rc-upload/lib/interface'
-import { OnDragEndResponder } from 'react-beautiful-dnd'
+} from 'rc-upload/es/interface'
+import type { DragEndEvent } from '@dnd-kit/core'
 
 export type { RcFile }
 
@@ -48,7 +48,7 @@ export interface UploadLocale {
 export type UploadType = 'drag' | 'select'
 export type UploadListType = 'text' | 'picture' | 'picture-card'
 
-export type ItemRender<T = any> = (
+export type ItemRender<_T = any> = (
     originNode: React.ReactElement,
     file: UploadFile,
     fileList: Array<UploadFile>,
@@ -95,7 +95,7 @@ export interface UploadProps<T = any> extends Pick<RcUploadProps, 'capture'> {
     isDraggable?: boolean
 }
 
-export interface UploadState<T = any> {
+export interface UploadState<_T = any> {
     fileList: UploadFile[]
     dragState: string
 }
@@ -107,7 +107,7 @@ export interface UploadListProps<T = any> {
     onRemove?: (file: UploadFile) => void | boolean
     onPreview?: (file: UploadFile) => void | boolean
     onDownload?: (file: UploadFile) => void
-    onDragEnd?: OnDragEndResponder
+    onDragEnd?: (event: DragEndEvent) => void
     items?: Array<UploadFile>
     showRemoveIcon?: boolean
     showPreviewIcon?: boolean
@@ -133,4 +133,6 @@ export interface ListItemProps {
     onClose: (file: UploadFile) => void
     onPreview: (e: React.MouseEvent, file: UploadFile) => void
     onDownload?: (file: UploadFile) => void
+    dragListeners?: Record<string, unknown>
+    showDragHandle?: boolean
 }

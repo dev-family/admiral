@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Page, RangePicker, PickerLocale, PickerRangeValue } from '../../admiral'
-import parseISO from 'date-fns/parseISO'
-import isBefore from 'date-fns/isBefore'
-import endOfToday from 'date-fns/endOfToday'
+import { parseISO, isBefore, endOfToday } from 'date-fns'
 import CalendarLocale from 'rc-picker/lib/locale/es_ES'
 
 const locale: PickerLocale = {
@@ -35,11 +33,11 @@ export default function DateRangePickerPage() {
         parseISO('2022-02-10'),
     ])
 
-    function onChange(dates: PickerRangeValue<Date>, dateString: [string, string]) {
+    function onChange(dates: any, dateString: any) {
         console.log(dates, dateString)
     }
 
-    function onChangeControlled(dates: PickerRangeValue<Date>, dateString: [string, string]) {
+    function onChangeControlled(dates: any, dateString: any) {
         console.log(dates, dateString)
         setValue(dates)
     }
@@ -75,7 +73,7 @@ export default function DateRangePickerPage() {
                 <h2>Borderless</h2>
                 <RangePicker onChange={onChange} borderless />
                 <h2>Disabled</h2>
-                <RangePicker onChange={onChange} disabled />
+                <RangePicker onChange={onChange} disabled allowEmpty={[true, true]} />
                 <h2>Picker types</h2>
                 <h3>Week</h3>
                 <RangePicker onChange={onChange} picker="week" />

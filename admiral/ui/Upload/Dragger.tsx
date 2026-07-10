@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { enUS } from './locales'
 import type { UploadProps } from './interfaces'
 import { Upload } from './Upload'
@@ -15,19 +15,24 @@ const getDraggerLayoutExample = (locale: UploadProps['locale']) => (
         <p className={styles.uploadStyleExample_Text}>{locale?.clickToUpload}</p>
     </>
 )
-const InternalDragger: React.ForwardRefRenderFunction<unknown, DraggerProps> = (
-    { style, height, locale = enUS, ...restProps },
-    ref,
-) => (
-    <Upload
-        ref={ref}
-        children={getDraggerLayoutExample(locale)}
-        {...restProps}
-        type="drag"
-        style={{ ...style, height }}
-    />
-)
 
-export const Dragger = React.forwardRef(InternalDragger) as React.FC<DraggerProps>
+export function Dragger({
+    ref,
+    style,
+    height,
+    locale = enUS,
+    children,
+    ...restProps
+}: DraggerProps & { ref?: React.Ref<unknown>; children?: React.ReactNode }) {
+    return (
+        <Upload
+            ref={ref}
+            children={children || getDraggerLayoutExample(locale)}
+            {...restProps}
+            type="drag"
+            style={{ ...style, height }}
+        />
+    )
+}
 
 Dragger.displayName = 'Dragger'

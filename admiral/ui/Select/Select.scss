@@ -241,7 +241,9 @@ $dropdown-list-space-s: var(--space-2xs);
         pointer-events: none;
         color: var(--color-control-bg-border-default);
         transform-origin: 50% 50%;
-        transition: transform 0.16s, color 0.16s ease;
+        transition:
+            transform 0.16s,
+            color 0.16s ease;
 
         svg {
             width: var(--select-arrow-width);
@@ -273,7 +275,9 @@ $dropdown-list-space-s: var(--space-2xs);
         cursor: pointer;
         opacity: 0;
         transform: translateY(-50%);
-        transition: color 0.16s ease, opacity 0.16s ease;
+        transition:
+            color 0.16s ease,
+            opacity 0.16s ease;
         text-rendering: auto;
 
         svg {
@@ -443,19 +447,22 @@ $dropdown-list-space-s: var(--space-2xs);
             flex: none;
             max-width: 100%;
             height: calc(
-                var(--select-height) - var(--multiple-padding-vertical) * 2 -
-                    var(--select-border-width) * 2
+                var(--select-height) - var(--multiple-padding-vertical) *
+                    2 - var(--select-border-width) * 2
             );
             font-size: var(--select-selection-item-fz);
             line-height: calc(
-                var(--select-height) - var(--multiple-padding-vertical) * 2 -
-                    var(--select-border-width) * 2
+                var(--select-height) - var(--multiple-padding-vertical) *
+                    2 - var(--select-border-width) * 2
             );
             color: var(--color-control-typo-ghost);
             background: var(--color-control-bg-ghost);
             border-radius: var(--control-radius);
             cursor: default;
-            transition: font-size 0.3s, line-height 0.3s, height 0.3s;
+            transition:
+                font-size 0.3s,
+                line-height 0.3s,
+                height 0.3s;
             user-select: none;
             padding-left: var(--select-padding-horizontal);
             padding-right: var(--select-padding-horizontal);
@@ -502,13 +509,13 @@ $dropdown-list-space-s: var(--space-2xs);
             &-input,
             &-mirror {
                 height: calc(
-                    var(--select-height) - var(--multiple-padding-vertical) * 2 -
-                        var(--select-border-width) * 2
+                    var(--select-height) - var(--multiple-padding-vertical) *
+                        2 - var(--select-border-width) * 2
                 );
                 font-size: var(--select-selection-item-fz);
                 line-height: calc(
-                    var(--select-height) - var(--multiple-padding-vertical) * 2 -
-                        var(--select-border-width) * 2
+                    var(--select-height) - var(--multiple-padding-vertical) *
+                        2 - var(--select-border-width) * 2
                 );
                 transition: all 0.3s;
             }

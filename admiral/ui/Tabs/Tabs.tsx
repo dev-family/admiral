@@ -1,19 +1,13 @@
-import React, { useCallback } from 'react'
-import RcTabs, { TabPane } from 'rc-tabs'
+import RcTabs from 'rc-tabs'
 import { FiMoreHorizontal } from 'react-icons/fi'
 import cn from 'classnames'
 import { TabsProps } from './interfaces'
+import { getPopupContainer } from '../../utils/helpers'
 import styles from './Tabs.module.scss'
 
-function InternalTabs({ type, className, size, centered, columnSpan = 1, ...props }: TabsProps) {
-    const getPopupContainer = useCallback(
-        () => document.querySelector('#root > .Theme') as HTMLDivElement,
-        [],
-    )
-
+export function Tabs({ type, className, size, centered, columnSpan = 1, ...props }: TabsProps) {
     return (
         <RcTabs
-            moreTransitionName="tabs-dropdown-slide-up"
             {...props}
             className={cn(
                 styles.tabs,
@@ -26,15 +20,9 @@ function InternalTabs({ type, className, size, centered, columnSpan = 1, ...prop
                 },
                 className,
             )}
-            moreIcon={<FiMoreHorizontal />}
+            more={{ icon: <FiMoreHorizontal /> }}
             prefixCls="tabs"
             getPopupContainer={getPopupContainer}
         />
     )
 }
-
-export const Tabs = InternalTabs as typeof InternalTabs & {
-    TabPane: typeof TabPane
-}
-
-Tabs.TabPane = TabPane

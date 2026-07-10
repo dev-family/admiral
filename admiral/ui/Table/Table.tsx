@@ -1,7 +1,7 @@
-import React, { forwardRef, useMemo, useState, useCallback, useRef } from 'react'
+import React, { useMemo, useState, useCallback, useRef } from 'react'
 import RcTable from 'rc-table'
 import cn from 'classnames'
-import { convertChildrenToColumns } from 'rc-table/lib/hooks/useColumns'
+import { convertChildrenToColumns } from 'rc-table/es/hooks/useColumns'
 import {
     ColumnsType,
     ColumnType,
@@ -26,14 +26,16 @@ import {
     closestCenter,
     DndContext,
     DragOverlay,
+    KeyboardSensor,
     PointerSensor,
     useSensor,
     useSensors,
     DragStartEvent,
     DragEndEvent,
 } from '@dnd-kit/core'
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { DraggableRow, DraggableWrapper, DragHandle } from './components'
-import mergeRefs from 'react-merge-refs'
+import { useMergeRefs } from '@floating-ui/react'
 import useTableSize from './hooks/useTableSize'
 
 // TODO: docs: sortDirections/sorter (Table props), sortDirections/defaultSortOrder/sorter (Column props)
@@ -48,10 +50,10 @@ function Column<RecordType>(_: ColumnType<RecordType>) {
     return null
 }
 
-function InternalTable<RecordType extends object = any>(
-    props: TableProps<RecordType>,
-    wrapperRef: React.ForwardedRef<HTMLDivElement>,
-) {
+function InternalTable<RecordType extends object = any>({
+    ref: wrapperRef,
+    ...props
+}: TableProps<RecordType> & { ref?: React.Ref<HTMLDivElement> }) {
     const {
         className: wrapperClassName,
         style,
@@ -65,12 +67,15 @@ function InternalTable<RecordType extends object = any>(
         onChange,
         rowKey = 'key',
         rowSelection,
+        expandable,
         loading,
         dndRows = false,
         onDragEnd,
         children,
         locale,
         showSorterTooltip = true,
+        title,
+        footer,
         ...tableProps
     } = props
 
@@ -82,7 +87,7 @@ function InternalTable<RecordType extends object = any>(
             return rowKey
         }
 
-        return (record: RecordType) => (record as any)?.[rowKey as string]
+        return (record: RecordType) => (record as Record<string, React.Key>)?.[rowKey as string]
     }, [rowKey])
 
     const [getRecordByKey] = useLazyKVMap(data, getRowKey)
@@ -171,7 +176,7 @@ function InternalTable<RecordType extends object = any>(
     }, [!!pagination, sortedData, mergedPagination])
 
     // ========================== Selections ==========================
-    const [transformSelectionColumns, selectedKeySet] = useSelection<RecordType>(rowSelection, {
+    const [transformSelectionColumns] = useSelection<RecordType>(rowSelection, {
         prefixCls: 'admiral-table',
         pageData,
         getRowKey,
@@ -224,7 +229,7 @@ function InternalTable<RecordType extends object = any>(
     const [activeId, setActiveId] = useState<string | null>(null)
     const handleDragStart = useCallback((event: DragStartEvent) => {
         const { active } = event
-        setActiveId(active.id)
+        setActiveId(String(active.id))
     }, [])
 
     const handleDragEnd = useCallback(
@@ -248,12 +253,16 @@ function InternalTable<RecordType extends object = any>(
                       ...transformedSelectionColumns,
                   ]
                 : transformedSelectionColumns,
-        [transformedSelectionColumns],
+        [transformedSelectionColumns, dndRows, size],
     )
 
-    const sensors = useSensors(useSensor(PointerSensor))
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    )
 
-    const innerWrapperRef = useRef<HTMLDivElement>()
+    const innerWrapperRef = useRef<HTMLDivElement>(null)
+    const mergedWrapperRef = useMergeRefs([wrapperRef ?? null, innerWrapperRef])
     const overlayStyle = useTableSize(innerWrapperRef)
 
     const dragOverlayData = useMemo(() => {
@@ -265,8 +274,8 @@ function InternalTable<RecordType extends object = any>(
         [styles.wrapper__SizeMiddle]: size === 'middle',
         [styles.wrapper__SizeSmall]: size === 'small',
         [styles.wrapper__Bordered]: bordered,
-        [styles.wrapper__WithTitle]: !!tableProps.title,
-        [styles.wrapper__WithFooter]: !!tableProps.footer,
+        [styles.wrapper__WithTitle]: !!title,
+        [styles.wrapper__WithFooter]: !!footer,
     })
 
     return (
@@ -276,16 +285,15 @@ function InternalTable<RecordType extends object = any>(
             onDragEnd={handleDragEnd}
             onDragStart={handleDragStart}
         >
-            <div
-                ref={mergeRefs([wrapperRef, innerWrapperRef])}
-                className={tableWrapperClassName}
-                style={style}
-            >
+            <div ref={mergedWrapperRef} className={tableWrapperClassName} style={style}>
                 <Spin spinning={false} {...spinProps}>
                     {topPaginationNode}
 
                     <RcTable<RecordType>
                         {...tableProps}
+                        title={title}
+                        footer={footer}
+                        expandable={expandable ?? {}}
                         prefixCls="admiral-table"
                         columns={transformedDnDColumns}
                         data={pageData}
@@ -327,22 +335,19 @@ function InternalTable<RecordType extends object = any>(
 }
 
 function NoData({ emptyText }: TableLocale) {
+    const content = typeof emptyText === 'function' ? emptyText() : emptyText
     return (
         <div className={styles.empty}>
             <IoFileTrayOutline />
-            <div>{emptyText}</div>
+            <div>{content}</div>
         </div>
     )
 }
 
-const ForwardTable = forwardRef(InternalTable) as <T>(
-    props: TableProps<T> & { ref?: React.ForwardedRef<HTMLDivElement> },
-) => ReturnType<typeof InternalTable>
-
-type ForwardTableType = typeof ForwardTable
-interface TableInterface extends ForwardTableType {
+type InternalTableType = typeof InternalTable
+interface TableInterface extends InternalTableType {
     Column: typeof Column
 }
 
-export const Table = ForwardTable as TableInterface
+export const Table = InternalTable as TableInterface
 Table.Column = Column

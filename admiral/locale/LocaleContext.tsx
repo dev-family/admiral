@@ -6,10 +6,13 @@ export const defaultLocale: AdmiralLocale = enUS
 
 export const LocaleContext = createContext<AdmiralLocale>({ ...defaultLocale })
 
-export const LocaleContextProvider: React.FC<{ value?: Partial<AdmiralLocale> }> = ({
+export function LocaleContextProvider({
     value,
     children,
-}) => {
+}: {
+    value?: Partial<AdmiralLocale>
+    children?: React.ReactNode
+}) {
     const contextValue = useMemo(
         () => (value ? { ...defaultLocale, ...value } : { ...defaultLocale }),
         [value],

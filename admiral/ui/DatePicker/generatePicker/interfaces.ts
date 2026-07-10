@@ -1,14 +1,12 @@
-import type { ComponentClass, ForwardedRef, Component } from 'react'
-import { RangeValue, Locale as RcPickerLocale } from 'rc-picker/lib/interface'
+import { Locale as RcPickerLocale, SharedTimeProps } from 'rc-picker/es/interface'
+import type {
+    PickerProps as RCPickerProps,
+    RangePickerProps as RCRangePickerProps,
+    PickerRef as RCPickerRef,
+} from 'rc-picker'
+import type { NoUndefinedRangeValueType } from 'rc-picker/es/PickerInput/RangePicker'
 
-import {
-    PickerBaseProps as RCPickerBaseProps,
-    PickerDateProps as RCPickerDateProps,
-    PickerTimeProps as RCPickerTimeProps,
-} from 'rc-picker/lib/Picker'
-import { RangePickerProps } from 'rc-picker'
-
-type SizeType = 'L' | 'M' | 'S' | 'XS'
+export type SizeType = 'L' | 'M' | 'S' | 'XS'
 
 export type DateOutputFormat = 'iso' | 'utc'
 
@@ -58,30 +56,48 @@ export type AdditionalPickerLocaleLangProps = {
     rangePlaceholder?: [string, string]
 }
 
-// Picker Props
-export type PickerBaseProps<DateType> = InjectDefaultProps<RCPickerBaseProps<DateType>>
-export type PickerDateProps<DateType> = InjectDefaultProps<RCPickerDateProps<DateType>>
-export type PickerTimeProps<DateType> = InjectDefaultProps<RCPickerTimeProps<DateType>>
-export type PickerRangeProps<DateType> = InjectDefaultProps<
-    RangePickerProps<DateType> & { showTime?: boolean }
+/**
+ * Public showTime config: rc-picker's SharedTimeProps minus the required
+ * `@private` hover plumbing it leaks into the type.
+ */
+export type TimeConfig<DateType extends object> = Partial<
+    Omit<SharedTimeProps<DateType>, 'hoverRangeValue' | 'hoverValue' | 'onHover'>
 >
 
-export type PickerProps<DateType> =
-    | PickerBaseProps<DateType>
-    | PickerDateProps<DateType>
-    | PickerTimeProps<DateType>
+// Picker Props
+// rc-picker types `onChange` without `null` although clearing emits null, and
+// types `format` with function/mask configs admiral's pickers do not support.
+// `multiple` mode (the only source of array values) is not part of the public API.
+export type PickerProps<DateType extends object> = InjectDefaultProps<
+    Omit<RCPickerProps<DateType>, 'onChange' | 'format' | 'showTime' | 'multiple'> & {
+        onChange?: (date: DateType | null, dateString: string) => void
+        format?: string | string[]
+        showTime?: boolean | TimeConfig<DateType>
+    }
+>
 
-export type PickerRangeValue<DateType> = RangeValue<DateType>
+// Keep these as aliases for backward compatibility in consumers
+export type PickerDateProps<DateType extends object> = PickerProps<DateType>
+export type PickerTimeProps<DateType extends object> = PickerProps<DateType>
+
+export type PickerRangeProps<DateType extends object> = InjectDefaultProps<
+    Omit<RCRangePickerProps<DateType>, 'onChange' | 'format' | 'showTime'> & {
+        onChange?: (
+            values: NoUndefinedRangeValueType<DateType> | null,
+            dateStrings: [string, string],
+        ) => void
+        format?: string | string[]
+        showTime?: boolean
+    }
+>
+
+export type PickerRangeValue<DateType> = [DateType | null, DateType | null] | null
+
 export interface CommonPickerMethods {
     focus: () => void
     blur: () => void
 }
 
-export interface PickerComponentClass<P = {}, S = unknown> extends ComponentClass<P, S> {
-    new (...args: ConstructorParameters<ComponentClass<P, S>>): InstanceType<ComponentClass<P, S>> &
-        CommonPickerMethods
-}
+export type PickerRef<_P> = React.Ref<RCPickerRef & CommonPickerMethods>
 
-export type PickerRef<P> = ForwardedRef<Component<P> & CommonPickerMethods>
-
-export type DatePickRef<DateType> = PickerRef<PickerProps<DateType>>
+export type DatePickRef<DateType extends object> = PickerRef<PickerProps<DateType>>

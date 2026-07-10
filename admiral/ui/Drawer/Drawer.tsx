@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
+import React, { useImperativeHandle, useRef } from 'react'
 import { useTheme } from '../../../admiral/theme'
 import { FiX } from 'react-icons/fi'
 import RcDrawer from 'rc-drawer'
@@ -10,27 +10,29 @@ export type DrawerRef = {
     bodyElement: () => HTMLElement
 }
 
-export const Drawer = forwardRef<DrawerRef, DrawerProps>((props, ref) => {
-    const {
-        visible,
-        onClose,
-        resetScrollPositionOnClose,
-        getContainer: customizeGetContainer,
-        bodyWrapperStyle,
-        bodyStyle,
-        headerStyle,
-        footer,
-        footerStyle,
-        closable,
-        title,
-        width,
-        height,
-        placement,
-        showMask,
-        afterVisibleChange,
-        children,
-        ...restProps
-    } = props
+export function Drawer({
+    ref,
+    visible,
+    onClose,
+    resetScrollPositionOnClose = true,
+    getContainer: customizeGetContainer,
+    bodyWrapperStyle,
+    bodyStyle,
+    headerStyle,
+    footer,
+    footerStyle,
+    closable = true,
+    title,
+    width,
+    height,
+    placement = 'right',
+    showMask = true,
+    maskClosable = true,
+    keyboard = true,
+    afterVisibleChange,
+    children,
+    ...restProps
+}: DrawerProps & { ref?: React.Ref<DrawerRef> }) {
     const { themeClassNames } = useTheme()
     const bodyRef = useRef<HTMLDivElement>(null)
     const getContainer = () => document.querySelector('body') as HTMLBodyElement
@@ -40,33 +42,20 @@ export const Drawer = forwardRef<DrawerRef, DrawerProps>((props, ref) => {
         () => ({
             bodyElement: () => bodyRef.current as HTMLElement,
         }),
-        [bodyRef.current],
+        [],
     )
-
-    const getContentWrapperStyle = useCallback(() => {
-        const contentWrapperStyle: React.CSSProperties = {}
-        if (placement === 'left' || placement === 'right') {
-            const defaultWidth = 400
-            contentWrapperStyle.maxWidth = typeof width === 'undefined' ? defaultWidth : width
-        } else {
-            const defaultHeight = 400
-            contentWrapperStyle.maxHeight = typeof height === 'undefined' ? defaultHeight : height
-        }
-        return contentWrapperStyle
-    }, [placement, width, height])
 
     const withHeader = !!title || closable
     const withFooter = !!footer
 
     return (
         <RcDrawer
+            prefixCls="drawer"
             placement={placement}
-            handler={false}
             open={visible}
             onClose={onClose}
             getContainer={customizeGetContainer || getContainer}
-            level={null}
-            wrapperClassName={cn(
+            rootClassName={cn(
                 themeClassNames.color.primary,
                 themeClassNames.control,
                 themeClassNames.font,
@@ -76,13 +65,25 @@ export const Drawer = forwardRef<DrawerRef, DrawerProps>((props, ref) => {
                 styles.wrapper,
                 { [styles.wrapper__NoMask]: !showMask },
             )}
-            contentWrapperStyle={getContentWrapperStyle()}
-            afterVisibleChange={(open) => {
+            width={placement === 'left' || placement === 'right' ? (width ?? 400) : undefined}
+            height={placement === 'top' || placement === 'bottom' ? (height ?? 400) : undefined}
+            mask={showMask}
+            maskMotion={{
+                motionAppear: true,
+                motionName: 'drawer-mask',
+            }}
+            motion={(p) => ({
+                motionAppear: true,
+                motionName: `drawer-panel-${p}`,
+            })}
+            afterOpenChange={(open) => {
                 if (!open && resetScrollPositionOnClose) {
                     bodyRef.current?.scrollTo(0, 0)
                 }
                 afterVisibleChange?.(open)
             }}
+            keyboard={keyboard}
+            maskClosable={maskClosable}
             {...restProps}
         >
             <div className={styles.bodyWrapper} style={bodyWrapperStyle}>
@@ -114,13 +115,4 @@ export const Drawer = forwardRef<DrawerRef, DrawerProps>((props, ref) => {
             </div>
         </RcDrawer>
     )
-})
-
-Drawer.defaultProps = {
-    resetScrollPositionOnClose: true,
-    keyboard: true,
-    placement: 'right',
-    showMask: true,
-    maskClosable: true,
-    closable: true,
 }

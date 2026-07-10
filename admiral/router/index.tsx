@@ -1,21 +1,55 @@
 import React, { createContext, useContext, useEffect } from 'react'
-import { Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { useAuthProvider } from '../auth/AuthContext'
 import { useAuthState } from '../auth'
 import { Login, LoginLayout } from '../auth/components/Login'
 import { Layout } from '../ui'
 import { Location, RouterLocationState } from './interfaces'
+import useTypedLocation from './useTypedLocation'
 import { OAuthLoginCallback } from '../auth/components/OAuthLoginCallback'
+
+type PageComponent = React.ComponentType<any>
 
 type RouteType = {
     name: string
     path: string
-    Component: any
+    Component: PageComponent
 }
+
+export type PageModules = Record<string, { default: PageComponent }>
+
 interface CreateRoutesConfig {
     withAuth?: boolean
 }
-export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
+
+function RouteWrapper({ Component }: { Component: PageComponent }) {
+    const params = useParams()
+    return <Component {...params} />
+}
+
+function LayoutRouteWrapper({ Component }: { Component: PageComponent }) {
+    const params = useParams()
+    return (
+        <Layout key="layout">
+            <Component {...params} />
+        </Layout>
+    )
+}
+
+function PrivateRoute({ children }: { children: React.ReactNode }) {
+    const location = useLocation()
+    const { authenticated, loading } = useAuthState()
+    const { isDefault } = useAuthProvider()
+    const authRequired = !isDefault
+
+    if (loading && authRequired) return <div key="loading" />
+    if (!authenticated && authRequired) {
+        return <Navigate to="/login" state={{ nextPathname: location.pathname }} replace />
+    }
+    return <>{children}</>
+}
+
+export function createRoutesFrom(modules: PageModules, config?: CreateRoutesConfig) {
     const authRequired = config?.withAuth ?? true
     const loginRoute: RouteType = {
         name: 'login',
@@ -23,15 +57,18 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
         Component: Login,
     }
 
-    const oauthRoute: RouteType = {
-        name: 'oauth',
+    const oauthRoute = {
         path: '/oauth/:provider',
-        Component: <OAuthLoginCallback />,
+        element: <OAuthLoginCallback />,
     }
 
     const routes = Object.keys(modules)
         .reduce<RouteType[]>((acc, path: string) => {
-            const name = path.match(/\.\/pages\/(.*)\.tsx$/)![1]
+            const match = path.match(/\.\/pages\/(.*)\.tsx$/)
+            if (!match) {
+                return acc
+            }
+            const name = match[1]
             if (name === 'login') {
                 loginRoute.Component = modules[path].default
                 return acc
@@ -43,7 +80,7 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
                     .replace('index', '/')
                     .replace('//', '/')
                     // replaces [param] with :param
-                    .replace(/\[([^\/]+)\]/gi, ':$1'),
+                    .replace(/\[([^/]+)\]/gi, ':$1'),
                 Component: modules[path].default,
             })
             return acc
@@ -61,7 +98,7 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
     const { path: loginRoutePath, Component: LoginComponent } = loginRoute
 
     return () => {
-        const location = useLocation<RouterLocationState>()
+        const location = useTypedLocation()
         const { state: locationState } = location
         const background = locationState && locationState.background
         const routeWithBackgroundName = locationState && locationState.routeWithBackground
@@ -71,99 +108,64 @@ export function createRoutesFrom(modules: any, config?: CreateRoutesConfig) {
             <TopLocationContextProvider value={location}>
                 <RouteScrollTop />
 
-                <Switch location={background || location}>
+                <Routes location={background || location}>
                     <Route
                         key={oauthRoute.path}
                         path={oauthRoute.path}
-                        exact
-                        render={({ match }) => oauthRoute.Component}
+                        element={oauthRoute.element}
                     />
 
                     {authRequired && (
                         <Route
                             key={loginRoutePath}
                             path={loginRoutePath}
-                            exact
-                            render={({ match }) => (
+                            element={
                                 <LoginLayout key="login-layout">
-                                    <LoginComponent {...match.params} />
+                                    <LoginComponent />
                                 </LoginLayout>
-                            )}
+                            }
                         />
                     )}
 
                     {routes.map(({ path, Component }) =>
                         authRequired ? (
-                            <PrivateRoute
+                            <Route
                                 key={path}
                                 path={path}
-                                exact
-                                render={({ match }) => (
-                                    <Layout key="layout">
-                                        <Component {...match.params} />
-                                    </Layout>
-                                )}
+                                element={
+                                    <PrivateRoute>
+                                        <LayoutRouteWrapper Component={Component} />
+                                    </PrivateRoute>
+                                }
                             />
                         ) : (
                             <Route
                                 key={path}
                                 path={path}
-                                exact
-                                render={({ match }) => (
-                                    <Layout key="layout">
-                                        <Component {...match.params} />
-                                    </Layout>
-                                )}
+                                element={<LayoutRouteWrapper Component={Component} />}
                             />
                         ),
                     )}
 
-                    <Redirect to="/" />
-                </Switch>
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
 
                 {background && routeWithBackground && (
-                    <Route
-                        key="routeWithBackground"
-                        path={routeWithBackground.path}
-                        exact
-                        render={({ match }) => (
-                            <routeWithBackground.Component key="background" {...match.params} />
-                        )}
-                    />
+                    <Routes>
+                        <Route
+                            key="routeWithBackground"
+                            path={routeWithBackground.path}
+                            element={<RouteWrapper Component={routeWithBackground.Component} />}
+                        />
+                    </Routes>
                 )}
             </TopLocationContextProvider>
         )
     }
 }
 
-function PrivateRoute({ children, render, ...rest }: RouteProps) {
-    const { authenticated, loading } = useAuthState()
-    const { isDefault } = useAuthProvider()
-    const authRequired = !isDefault
-
-    return (
-        <Route
-            {...rest}
-            render={({ location, ...props }) =>
-                authenticated || !authRequired ? (
-                    render?.({ location, ...props }) ?? children
-                ) : loading && authRequired ? (
-                    <div key="loading" />
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: '/login',
-                            state: { nextPathname: location.pathname },
-                        }}
-                    />
-                )
-            }
-        />
-    )
-}
-
 function RouteScrollTop() {
-    const { pathname, state } = useLocation<RouterLocationState>()
+    const { pathname, state } = useTypedLocation()
     const shouldScroll = (state && state.scrollTop) ?? true
 
     useEffect(() => {
@@ -181,12 +183,17 @@ function RouteScrollTop() {
 
 type TopLocationContextValue = Location<RouterLocationState>
 
-export const TopLocationContext = createContext<TopLocationContextValue>({} as any)
+export const TopLocationContext = createContext<TopLocationContextValue>(
+    null as unknown as TopLocationContextValue,
+)
 
-export const TopLocationContextProvider: React.FC<{ value: TopLocationContextValue }> = ({
+export function TopLocationContextProvider({
     value,
     children,
-}) => {
+}: {
+    value: TopLocationContextValue
+    children?: React.ReactNode
+}) {
     return <TopLocationContext.Provider value={value}>{children}</TopLocationContext.Provider>
 }
 

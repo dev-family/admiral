@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { Button } from '../Button'
 import { Tooltip } from '../Tooltip'
 import { PopconfirmLocale, PopconfirmProps } from './interfaces'
@@ -19,16 +19,12 @@ export const Popconfirm = ({
     const popconfirmLocale = { ...defaultLocale, ...locale } as PopconfirmLocale
     const [open, setOpen] = useState(initialOpen)
 
-    const onToggleOpen = useCallback(() => {
-        setOpen((prev) => !prev)
-    }, [])
-
-    const _onConfirm = (e: React.MouseEvent<Element>) => {
+    const _onConfirm = (_e: React.MouseEvent<Element>) => {
         if (onConfirm) onConfirm()
         setOpen(false)
     }
 
-    const _onCancel = (e: React.MouseEvent<Element>) => {
+    const _onCancel = (_e: React.MouseEvent<Element>) => {
         setOpen(false)
         if (onCancel) onCancel()
     }
@@ -37,8 +33,9 @@ export const Popconfirm = ({
         <Tooltip
             arrow={true}
             interactive
-            visible={open}
-            onClickOutside={onToggleOpen}
+            trigger="click"
+            open={open}
+            onOpenChange={setOpen}
             content={
                 <div className={styles.content}>
                     <div className={styles.title}>{title}</div>
@@ -54,9 +51,7 @@ export const Popconfirm = ({
             }
             {...props}
         >
-            {React.cloneElement(children as React.ReactElement<any>, {
-                onClick: onToggleOpen,
-            })}
+            {children as React.ReactElement<any>}
         </Tooltip>
     )
 }

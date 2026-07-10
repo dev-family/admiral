@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, MenuItemLink } from 'admiral'
+import { Menu, MenuItemLink } from '@devfamily/admiral'
 
 const CustomMenu = () => {
     return (

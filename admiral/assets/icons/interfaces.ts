@@ -1,3 +1,5 @@
+import React from 'react'
+
 export interface IconProps {
     fill?: string
     width?: number
@@ -17,4 +19,4 @@ export type IconName =
     | 'logo-auth-inversion'
     | 'spinner'
 
-export type IconComponentType = ((props: IconProps) => JSX.Element) | null
+export type IconComponentType = ((props: IconProps) => React.JSX.Element) | null

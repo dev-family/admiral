@@ -1,4 +1,3 @@
-import React from 'react'
 import { IconComponentType, IconWrapperProps } from './interfaces'
 import Logo from './Logo'
 import LogoInversion from './LogoInversion'

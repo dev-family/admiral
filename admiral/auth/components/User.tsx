@@ -5,13 +5,13 @@ import styles from './User.module.scss'
 
 type UserCardProps = UserIdentity & { collapsed?: boolean }
 
-export const UserCard: React.FC<UserCardProps> = ({
+export function UserCard({
     fullName,
     email,
     avatar,
     collapsed = false,
     children,
-}) => {
+}: UserCardProps & { children?: React.ReactNode }) {
     const initials = fullName
         ?.split(' ')
         .map((l) => l.trim().charAt(0))

@@ -15,4 +15,6 @@ export const enUS: Locale = {
     },
     successMessage: 'Data saved successfully!',
     serverErrorMessage: 'An error occurred on the server.',
+    tabErrors: (count: number) => (count === 1 ? '1 error' : `${count} errors`),
+    hiddenFieldError: (field, message) => `${message} (hidden field "${field}")`,
 }

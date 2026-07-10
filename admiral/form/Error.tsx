@@ -1,12 +1,12 @@
 import React from 'react'
-import { useTransition, animated } from 'react-spring'
+import { useTransition, animated } from '@react-spring/web'
 import styles from './Form.module.scss'
 
 export interface FormErrorProps {
     error?: string
 }
 
-const AnimatePresence: React.FC<{ show: boolean }> = ({ show, children }) => {
+function AnimatePresence({ show, children }: { show: boolean; children?: React.ReactNode }) {
     const transitions = useTransition(show, {
         from: { opacity: 0, translateY: 4 },
         enter: { opacity: 1, translateY: 0 },
@@ -14,11 +14,11 @@ const AnimatePresence: React.FC<{ show: boolean }> = ({ show, children }) => {
         config: { tension: 90, friction: 10, precision: 0.1, duration: 160 },
     })
     return transitions(
-        (styles, item) => item && <animated.div style={styles}>{children}</animated.div>,
+        (style, item) => item && <animated.div style={style}>{children}</animated.div>,
     )
 }
 
-const Error: React.FC<FormErrorProps> = ({ error }) => {
+function Error({ error }: FormErrorProps) {
     return (
         <AnimatePresence show={!!error}>
             <div className={styles.item_Error}>{error}</div>

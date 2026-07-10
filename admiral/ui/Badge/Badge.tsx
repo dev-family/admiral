@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react'
-import { config, useTransition } from 'react-spring'
+import { config, useTransition } from '@react-spring/web'
 import cn from 'classnames'
 import ScrollNumber from './ScrollNumber'
 import { cloneElement } from './utils'
@@ -8,18 +8,18 @@ import { useTheme } from '../../theme'
 import { BadgeProps } from './interfaces'
 import styles from './Badge.module.scss'
 
-export const Badge: React.FC<BadgeProps> = ({
+export function Badge({
     children,
-    status,
+    status = 'normal',
     count = null,
     overflowCount = 99,
     dot = false,
-    size,
-    view,
+    size = 'M',
+    view = 'filled',
     className,
     showZero = false,
     ...restProps
-}) => {
+}: BadgeProps & { children?: React.ReactNode }) {
     const { themeClassNames, themeName } = useTheme()
 
     const numberedDisplayCount = (
@@ -139,10 +139,4 @@ export const Badge: React.FC<BadgeProps> = ({
             })}
         </div>
     )
-}
-
-Badge.defaultProps = {
-    size: 'M',
-    view: 'filled',
-    status: 'normal',
 }

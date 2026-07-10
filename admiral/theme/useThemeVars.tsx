@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useThemeVars, ThemeVars } from '@consta/uikit/useThemeVars'
 
-const _useThemeVars = (): { vars: ThemeVars; varsInline: string } => {
+const useAdmiralThemeVars = (): { vars: ThemeVars; varsInline: string } => {
     const vars = useThemeVars()
 
     const varsInline = useMemo(() => {
@@ -29,4 +29,4 @@ const _useThemeVars = (): { vars: ThemeVars; varsInline: string } => {
     return { vars, varsInline }
 }
 
-export default _useThemeVars
+export default useAdmiralThemeVars

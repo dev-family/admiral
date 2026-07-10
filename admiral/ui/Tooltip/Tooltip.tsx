@@ -1,80 +1,159 @@
-import React, { useCallback } from 'react'
-import Tippy, { TippyProps } from '@tippyjs/react/headless'
-import { useSpring, animated } from 'react-spring'
-import styles from './Tooltip.module.scss'
-import { useTheme } from '../../theme'
-import { TooltipProps } from './interfaces'
+import React, { useRef, useState, cloneElement } from 'react'
+import { createPortal } from 'react-dom'
+import {
+    useFloating,
+    useHover,
+    useFocus,
+    useDismiss,
+    useRole,
+    useClick,
+    useInteractions,
+    useMergeRefs,
+    useTransitionStyles,
+    FloatingArrow,
+    offset,
+    flip,
+    shift,
+    arrow,
+    autoUpdate,
+    safePolygon,
+} from '@floating-ui/react'
 import cn from 'classnames'
-
-const config = { tension: 90, friction: 10, precision: 0.1, duration: 160 }
-const initialStyles = { opacity: 0, transform: 'scale(0.6)' }
+import { useTheme } from '../../theme'
+import { getPopupContainer } from '../../utils/helpers'
+import styles from './Tooltip.module.scss'
+import type { TooltipProps } from './interfaces'
 
 export const Tooltip = ({
-    mode,
-    onMount,
-    onHide,
     content,
     children,
+    placement = 'top',
+    offset: offsetProp = 10,
+    trigger = 'hover',
+    interactive = false,
+    disabled = false,
+    hideOnClick,
+    open: controlledOpen,
+    onOpenChange,
+    arrow: showArrow = false,
+    mode,
     invertTheme = false,
-    appendTo: customizeAppendTo,
-    ...tippyProps
+    contentClassName,
+    root: customRoot,
 }: TooltipProps) => {
-    const appendTo = useCallback(
-        () => document.querySelector('#root > .Theme') as HTMLDivElement,
-        [],
-    )
+    const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
+    const isControlled = controlledOpen !== undefined
+    const isOpen = isControlled ? controlledOpen : uncontrolledOpen
+    const setOpen = isControlled ? (onOpenChange ?? (() => {})) : setUncontrolledOpen
 
-    const [props, setSpring] = useSpring(() => initialStyles)
+    const arrowRef = useRef<SVGSVGElement>(null)
     const { themeClassNames } = useTheme()
 
-    const _onMount: TippyProps['onMount'] = (instance) => {
-        setSpring({
-            opacity: 1,
-            transform: 'scale(1)',
-            onRest: () => {},
-            config,
-        })
-        if (onMount) onMount(instance)
+    const offsetValue = Array.isArray(offsetProp)
+        ? { mainAxis: offsetProp[1], crossAxis: offsetProp[0] }
+        : offsetProp
+
+    const { refs, floatingStyles, context } = useFloating({
+        open: isOpen && !disabled,
+        onOpenChange: setOpen,
+        placement,
+        strategy: 'fixed',
+        middleware: [
+            offset(offsetValue),
+            flip(),
+            shift({ padding: 5 }),
+            ...(showArrow ? [arrow({ element: arrowRef })] : []),
+        ],
+        whileElementsMounted: autoUpdate,
+    })
+
+    const hoverInteraction = useHover(context, {
+        enabled: trigger === 'hover' && !disabled,
+        handleClose: interactive ? safePolygon() : undefined,
+    })
+    const clickInteraction = useClick(context, {
+        enabled: trigger === 'click' && !disabled,
+    })
+    const focusInteraction = useFocus(context, {
+        enabled: trigger === 'hover' && !disabled,
+    })
+    const dismissInteraction = useDismiss(context)
+    const roleInteraction = useRole(context, { role: 'tooltip' })
+
+    const { getReferenceProps, getFloatingProps } = useInteractions([
+        hoverInteraction,
+        clickInteraction,
+        focusInteraction,
+        dismissInteraction,
+        roleInteraction,
+    ])
+
+    const { isMounted, styles: transitionStyles } = useTransitionStyles(context, {
+        duration: 160,
+        initial: { opacity: 0, transform: 'scale(0.85)' },
+    })
+
+    const childProps = children.props
+    // React 19 exposes the child's ref as a regular prop — merge it with the
+    // floating-ui reference setter.
+    const mergedRef = useMergeRefs([refs.setReference, childProps.ref])
+    const referenceProps = getReferenceProps({
+        ...childProps,
+        ...(hideOnClick === false && trigger === 'hover'
+            ? {
+                  onClick: (e: React.MouseEvent) => {
+                      childProps?.onClick?.(e)
+                  },
+              }
+            : {}),
+    })
+
+    // Portal target
+    const getPortalTarget = (): HTMLElement => {
+        if (typeof customRoot === 'function') return customRoot() || document.body
+        if (customRoot) return customRoot
+        return getPopupContainer()
     }
 
-    const _onHide: TippyProps['onHide'] = (instance) => {
-        const { unmount } = instance
-        setSpring({
-            ...initialStyles,
-            onRest: unmount,
-            config: { ...config, clamp: true },
-        })
-        if (onHide) onHide(instance)
-    }
+    const floatingNode = (
+        <div
+            ref={refs.setFloating}
+            style={{
+                ...floatingStyles,
+                ...transitionStyles,
+                transform:
+                    [floatingStyles.transform, transitionStyles.transform]
+                        .filter(Boolean)
+                        .join(' ') || undefined,
+                zIndex: 9999,
+            }}
+            {...getFloatingProps()}
+            className={cn(
+                styles.tooltip,
+                themeClassNames.color.primary,
+                themeClassNames.control,
+                themeClassNames.font,
+                themeClassNames.size,
+                themeClassNames.space,
+                themeClassNames.shadow,
+                {
+                    [themeClassNames.color.invert]: invertTheme,
+                    [styles.tooltip__Custom]: mode === 'custom',
+                },
+                contentClassName,
+            )}
+        >
+            {content}
+            {showArrow && (
+                <FloatingArrow ref={arrowRef} context={context} className={styles.arrow} />
+            )}
+        </div>
+    )
 
     return (
-        <Tippy
-            animation={true}
-            onMount={_onMount}
-            onHide={_onHide}
-            render={(attrs) => {
-                return (
-                    <animated.div
-                        style={props}
-                        {...attrs}
-                        className={cn(
-                            styles.tooltip,
-                            {
-                                [themeClassNames.color.invert]: invertTheme,
-                                [styles.tooltip__Custom]: mode === 'custom',
-                            },
-                            tippyProps?.contentClassName,
-                        )}
-                    >
-                        {content}
-                        <div data-popper-arrow="" />
-                    </animated.div>
-                )
-            }}
-            appendTo={customizeAppendTo || appendTo}
-            {...tippyProps}
-        >
-            {children}
-        </Tippy>
+        <>
+            {cloneElement(children, { ...referenceProps, ref: mergedRef })}
+            {isMounted && createPortal(floatingNode, getPortalTarget())}
+        </>
     )
 }

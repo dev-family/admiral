@@ -4,31 +4,34 @@ import { Form } from '../Form'
 import { RangePicker } from '../../ui'
 import { PickerRangeProps } from '../../ui/DatePicker/generatePicker/interfaces'
 import { FormItemProps } from '../Item'
-import parseISO from 'date-fns/parseISO'
+import { parseISO } from 'date-fns'
 import { InputComponentWithName } from '../interfaces'
 import { usePopupContainer } from '../../crud/PopupContainerContext'
-import { RangeValue } from 'rc-picker/lib/interface'
+import type { NoUndefinedRangeValueType } from 'rc-picker/es/PickerInput/RangePicker'
+import { FieldRuleProps, withFieldRules } from '../fieldRules'
 
-export type DateRangePickerInputProps = FormItemProps & {
-    name: string
-    onChange?: (value: any) => void
-    showTime?: boolean
-} & PickerRangeProps<Date>
+export type DateRangePickerInputProps = FormItemProps &
+    FieldRuleProps & {
+        name: string
+        onChange?: (value: any) => void
+    } & PickerRangeProps<Date>
 
-export const DateRangePickerInput: InputComponentWithName<React.FC<DateRangePickerInputProps>> = ({
+const DateRangePickerInputBase: InputComponentWithName<
+    (props: DateRangePickerInputProps) => React.JSX.Element
+> = function DateRangePickerInput({
     name,
     label,
     required,
     columnSpan,
     onChange,
     ...pickerProps
-}) => {
+}: DateRangePickerInputProps) {
     const getPopupContainer = usePopupContainer()
 
     const { values, errors, setValues, locale: formLocale } = useForm()
     const locale = formLocale.fields.datePicker
 
-    let value = values[name]
+    const value = values[name]
         ? values[name].map((rangeValue: string | Date) =>
               typeof rangeValue === 'string' ? parseISO(rangeValue) : rangeValue,
           )
@@ -37,7 +40,7 @@ export const DateRangePickerInput: InputComponentWithName<React.FC<DateRangePick
     const error = errors[name]?.[0]
 
     const _onChange = useCallback(
-        (changeValues: RangeValue<Date>, formatString: [string, string]) => {
+        (changeValues: NoUndefinedRangeValueType<Date> | null, _formatString: [string, string]) => {
             setValues((prevValues: any) => ({ ...prevValues, [name]: changeValues }))
             onChange?.(changeValues)
         },
@@ -58,4 +61,6 @@ export const DateRangePickerInput: InputComponentWithName<React.FC<DateRangePick
     )
 }
 
-DateRangePickerInput.inputName = 'DateRangePickerInput'
+DateRangePickerInputBase.inputName = 'DateRangePickerInput'
+
+export const DateRangePickerInput = withFieldRules(DateRangePickerInputBase)

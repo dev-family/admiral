@@ -33,6 +33,7 @@
         "build:lib": "vite build --config vite-lib.config.js && tsc --project tsconfig-lib.json && node scripts/strip-style-imports-dts.mjs && rm -rf lib/pages lib/src",
         "serve": "vite preview",
         "test": "vitest run",
+        "test:pack": "node scripts/pack-smoke.mjs",
         "prepare": "husky",
         "prettier:check": "prettier --check .",
         "prettier:write": "prettier --write .",

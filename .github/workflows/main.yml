@@ -28,6 +28,16 @@ jobs:
             - name: Ensure committed lib/ is fresh
               run: git diff --exit-code -- lib || (echo "lib/ is stale — run 'yarn build:lib' and commit the result" && exit 1)
 
+    pack-smoke:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+            - name: Consumer smoke test of packed tarball (no peer auto-install)
+              run: node scripts/pack-smoke.mjs
+
     deploy:
         needs: check
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'

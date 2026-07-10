@@ -29,6 +29,8 @@ jobs:
               run: yarn build:lib
             - name: Check package types
               run: npx attw --pack . --profile esm-only --exclude-entrypoints ./style.css
+            - name: Consumer smoke test of packed tarball (no peer auto-install)
+              run: node scripts/pack-smoke.mjs
             - name: Publish to npm
               run: npm publish --provenance --access public
               env:

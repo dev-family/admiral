@@ -16,7 +16,6 @@ jobs:
               with:
                   node-version: '22'
                   cache: 'yarn'
-                  registry-url: 'https://registry.npmjs.org'
             - name: Install Dependencies
               run: yarn install --frozen-lockfile
             - name: Lint
@@ -31,7 +30,7 @@ jobs:
               run: npx attw --pack . --profile esm-only --exclude-entrypoints ./style.css
             - name: Consumer smoke test of packed tarball (no peer auto-install)
               run: node scripts/pack-smoke.mjs
-            - name: Publish to npm
+            - name: Update npm (OIDC trusted publishing needs npm >= 11.5.1, Node 22 bundles 10.x)
+              run: npm install -g npm@latest
+            - name: Publish to npm (OIDC trusted publishing, no token)
               run: npm publish --provenance --access public
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

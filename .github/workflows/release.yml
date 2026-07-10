@@ -30,7 +30,7 @@ jobs:
               run: npx attw --pack . --profile esm-only --exclude-entrypoints ./style.css
             - name: Consumer smoke test of packed tarball (no peer auto-install)
               run: node scripts/pack-smoke.mjs
-            - name: Update npm (OIDC trusted publishing needs npm >= 11.5.1, Node 22 bundles 10.x)
-              run: npm install -g npm@latest
             - name: Publish to npm (OIDC trusted publishing, no token)
-              run: npm publish --provenance --access public
+              # npx runs npm 11 (OIDC needs >= 11.5.1) from its own cache — Node 22
+              # bundles npm 10, and self-updating npm in place corrupts the install
+              run: npx -y npm@11 publish --provenance --access public

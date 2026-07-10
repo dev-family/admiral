@@ -35,6 +35,9 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                   node-version: '22'
+                  cache: 'yarn'
+            - name: Install Dependencies
+              run: yarn install --frozen-lockfile
             - name: Consumer smoke test of packed tarball (no peer auto-install)
               run: node scripts/pack-smoke.mjs
 
